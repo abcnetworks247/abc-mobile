@@ -19,7 +19,7 @@ export default function DrawerNavigator() {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Home" component={Tabs} />
-      <Drawer.Screen name="Profile" component={ProfileStackNavigator} />
+      <Drawer.Screen name="Profiletab" component={ProfileStackNavigator} />
     </Drawer.Navigator>
   );
 }

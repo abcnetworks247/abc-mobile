@@ -1,93 +1,85 @@
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  ScrollView,
-  TextInput,
-  Image,
-} from "react-native";
-import React, { useState } from "react";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import img from "../assets/events-search.jpg";
+import React from "react";
+import { useState,useEffect } from "react";
+import { View, Text, FlatList, StyleSheet, Dimensions } from "react-native";
+import ProductCard from "../components/ProductCard";
+import axios from "axios";
 
-export default function Store() {
-  const [result, setResult] = useState(null);
-  const [title, setTitle] = useState("");
-  return (
-    <View className="bg-white">
-      <View className="px-4 py-8">
-        <View className="flex flex-row justify-between px-5 py-4 bg-white border rounded-lg shadow-sm gap-xlg">
-          <TextInput
-            value={title}
-            placeholder="Search events..."
-            onChangeText={(text) => setTitle(text)}
-            className="w-[80%] p-0 text-lg  border-none"
-          />
-          <Icon
-            name="search"
-            size={30}
-            className="text-gray-800 w-[20%] flex flex-row items-center"
-          />
-        </View>
+const { width } = Dimensions.get("window");
 
-        {result === null ? (
-          <View className="justify-center h-[80vh] tems-center ">
-            <View className="h-[40vh] bg-gray-500 rounded-t-lg ">
-              <Image className="object-cover w-full h-full" source={img} />
-            </View>
-          </View>
-        ) : (
-          <ScrollView className="mt-4 mb-24">
-            <View className="">
-              <View className="p-4 mb-4 bg-green-200 border-l-[6px] rounded-b-lg border-green">
-                <View>
-                  <Text className="text-base font-medium">
-                    International Mens Day
-                  </Text>
-                  <Text>Saturday 10AM</Text>
-                </View>
-                <View>
-                  <TouchableOpacity className="self-start px-4 py-2 mt-8 bg-blue-500 rounded-full">
-                    <Text className="text-base text-white">Todays Event</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
+const StoreScreen = () => {
+const [products, setProducts] = useState([]);
+const [loading, setLoading] = useState(true);
 
-            <View className="">
-              <View className="p-4 mb-4 bg-yellow-200 border-l-[6px] rounded-b-lg border-green">
-                <View>
-                  <Text className="text-base font-medium">
-                    International Mens Day
-                  </Text>
-                  <Text>Saturday 10AM</Text>
-                </View>
-                <View>
-                  <TouchableOpacity className="self-start px-4 py-2 mt-8 bg-blue-500 rounded-full">
-                    <Text className="text-base text-white">Upcoming Event</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-            <View className="">
-              <View className="p-4 mb-4 bg-red-200 border-l-[6px] rounded-b-lg border-green">
-                <View>
-                  <Text className="text-base font-medium">
-                    International Mens Day
-                  </Text>
-                  <Text>Saturday 10AM</Text>
-                </View>
-                <View>
-                  <TouchableOpacity className="self-start px-4 py-2 mt-8 bg-blue-500 rounded-full">
-                    <Text className="text-base text-white">Past Event</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </ScrollView>
-        )}
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products`
+        );
+        if (response.status !== 200) {
+          throw new Error("Failed to fetch products");
+        }
+        const fetchedProducts = response.data;
+        setProducts(fetchedProducts);
+      } catch (error) {
+        console.error(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  
+ const renderProductCard = ({ item }) => (
+   <ProductCard
+     title={item.title}
+     description={item.description}
+     thumbnail={item.thumbnail}
+     price={item.price}
+  
+   />
+   );
+
+  
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Loading...</Text>
       </View>
+    );
+  }
+
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={products}
+        renderItem={renderProductCard}
+        keyExtractor={(item) => item._id.toString()}
+        numColumns={2}
+        columnWrapperStyle={styles.columnWrapper}
+      />
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 4,
+  },
+
+  columnWrapper: {
+    justifyContent: "space-between",
+  },
+
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
+
+export default StoreScreen;
