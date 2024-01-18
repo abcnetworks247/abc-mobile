@@ -11,8 +11,8 @@ import React, { useState } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import img from "../assets/events-search.jpg"
 
-export default function Search() {
-  const [result, setResult] = useState(true);
+export default function News() {
+  const [result, setResult] = useState(null);
   const [title, setTitle] = useState("");
   return (
     <View className="bg-white">
@@ -52,7 +52,7 @@ export default function Search() {
                 </View>
                 <View>
                   <TouchableOpacity className="self-start px-4 py-2 mt-8 bg-blue-500 rounded-full">
-                    <Text className="text-base text-white">Today Event</Text>
+                    <Text className="text-base text-white">Todays Event</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -68,7 +68,7 @@ export default function Search() {
                 </View>
                 <View>
                   <TouchableOpacity className="self-start px-4 py-2 mt-8 bg-blue-500 rounded-full">
-                    <Text className="text-base text-white">Today Event</Text>
+                    <Text className="text-base text-white">Upcoming Event</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -83,7 +83,7 @@ export default function Search() {
                 </View>
                 <View>
                   <TouchableOpacity className="self-start px-4 py-2 mt-8 bg-blue-500 rounded-full">
-                    <Text className="text-base text-white">Today Event</Text>
+                    <Text className="text-base text-white">Past Event</Text>
                   </TouchableOpacity>
                 </View>
               </View>

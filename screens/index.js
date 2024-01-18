@@ -1,11 +1,8 @@
 import Home from "./Home";
+import News from "./News";
+import Store from "./Store";
+import Cart from "./Cart";
 import Profile from "./Profile";
-import CreateEvent from "./CreateEvent";
-import SearchEvent from "./SearchEvent"
 
-export {
-    Home,
-    Profile,
-    CreateEvent,
-    SearchEvent
-}
+
+export { Home, Profile, Store, News, Cart };

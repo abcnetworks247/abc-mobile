@@ -5,10 +5,11 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  DatePickerIOS,
 } from "react-native";
 import React, { useState } from "react";
 
-export default function EventDetails() {
+export default function Cart() {
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventDate, setEventDate] = useState("");
@@ -44,6 +45,7 @@ export default function EventDetails() {
             </View>
           </View>
 
+          <View></View>
         </View>
       </ScrollView>
     </View>
