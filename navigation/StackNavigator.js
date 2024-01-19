@@ -2,7 +2,7 @@ import React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { Home, News, Store, Cart, Profile, ProductDetails, NewsDetails  } from "../screens";
+import { Home, News, Store, Cart, Profile, ProductDetails, NewsDetails, TypeDetails  } from "../screens";
 
 import { IconButton } from "react-native-paper";
 
@@ -42,6 +42,8 @@ const NewStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="News" component={News} />
+      <Stack.Screen name="TypeDetails" component={TypeDetails} />
+      <Stack.Screen name="NewsDetails" component={NewsDetails} />
     </Stack.Navigator>
   );
 };
@@ -70,8 +72,26 @@ const HomeStackNavigator = () => {
     </Stack.Navigator>
   );
 };
+const TypeDetailsStackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="TypeDetails" component={TypeDetails} />
+      <Stack.Screen name="NewsDetails" component={NewsDetails} />
+    </Stack.Navigator>
+  );
+};
 
-
+// const StackNavigator = () => {
+//   return (
+//     <Stack.Navigator screenOptions={screenOptionStyle}>
+//       <Stack.Screen name="Home" component={HomeStackNavigator} />
+//       <Stack.Screen name="News" component={NewStackNavigator} />
+//       <Stack.Screen name="Store" component={StoreStackNavigator} />
+//       <Stack.Screen name="Cart" component={CartStackNavigator} />
+//       <Stack.Screen name="Profile" component={ProfileStackNavigator} />
+//     </Stack.Navigator>
+//   );
+// }
 
 
 export {
@@ -80,5 +100,5 @@ export {
   ProfileStackNavigator,
   HomeStackNavigator,
   CartStackNavigator,
-  
+  TypeDetailsStackNavigator
 };
