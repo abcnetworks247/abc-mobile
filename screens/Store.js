@@ -1,5 +1,5 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, FlatList, StyleSheet, Dimensions } from "react-native";
 import ProductCard from "../components/ProductCard";
 import axios from "axios";
@@ -7,8 +7,8 @@ import axios from "axios";
 const { width } = Dimensions.get("window");
 
 const StoreScreen = () => {
-const [products, setProducts] = useState([]);
-const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,18 +31,15 @@ const [loading, setLoading] = useState(true);
     fetchData();
   }, []);
 
-  
- const renderProductCard = ({ item }) => (
-   <ProductCard
-     title={item.title}
-     description={item.description}
-     thumbnail={item.thumbnail}
-     price={item.price}
-  
-   />
-   );
+  const renderProductCard = ({ item }) => (
+    <ProductCard
+      title={item.title}
+      description={item.description}
+      thumbnail={item.thumbnail}
+      price={item.price}
+    />
+  );
 
-  
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -50,7 +47,6 @@ const [loading, setLoading] = useState(true);
       </View>
     );
   }
-
 
   return (
     <View style={styles.container}>

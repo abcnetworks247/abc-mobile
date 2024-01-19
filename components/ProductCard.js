@@ -4,8 +4,6 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Pressable } from "reac
 import { useNavigation } from "@react-navigation/native";
 
 
-
-
 const ProductCard = ({ title, description, thumbnail, price }) => {
     const navigation = useNavigation();
 
