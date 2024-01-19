@@ -2,10 +2,9 @@ import React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { Home, News, Store, Cart, Profile, ProductDetails  } from "../screens";
+import { Home, News, Store, Cart, Profile, ProductDetails, NewsDetails  } from "../screens";
 
 import { IconButton } from "react-native-paper";
-import NewsDetails from "../screens/newsDetails";
 
 const Stack = createStackNavigator();
 

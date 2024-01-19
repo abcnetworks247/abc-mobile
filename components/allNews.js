@@ -62,11 +62,12 @@ const HomeNews = () => {
   const navigation = useNavigation();
   const handlePress = (item) => () => {
     navigation.navigate("NewsDetails", {
-      id: item.id,
+      id: item._id,
       title: item.title,
       category: item.category,
-      image: item.image,
+      image: item.blogimage,
       type: item.type,
+      desc: item.longdescription,
     });
   };
   if (loading === true) {
@@ -145,6 +146,9 @@ const HomeNews = () => {
                       <View className="flex flex-col flex-1 p-1">
                         <Text className="text-xs w-fit  uppercase hover:underline text-blue-600">
                           {item.category}
+                        </Text>
+                        <Text className="flex-1 py-2 text-lg font-semibold ">
+                          {item.title}
                         </Text>
                         <View className="flex flex-wrap justify-between pt-3 text-xs ">
                           {/* <Text className="w-full">{item.shortdescription}</Text> */}
