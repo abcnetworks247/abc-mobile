@@ -19,21 +19,14 @@ const ProductDetails = () => {
         <View className="flex flex-row items-start w-full gap-5 px-4 mt-6">
           <TouchableOpacity
             onPress={() => {}}
-            className="px-5 py-3 bg-blue-600 border-gray-100 rounded-md shadow-md border-1"
+            className="px-5 py-[8px] bg-blue-600 border-gray-100 rounded-md shadow-md border-1"
           >
             <Text className="text-lg font-semibold text-left text-white">
               Add to now
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {}}
-            className="px-5 py-3 bg-blue-600 border-gray-100 rounded-md shadow-md border-1"
-          >
-            <Text className="text-lg font-semibold text-left text-white">
-              View cart
-            </Text>
-          </TouchableOpacity>
+          
         </View>
         <View style={styles.info}>
           <Text style={styles.name}>{title}</Text>
