@@ -67,28 +67,28 @@ const ProductProvider = ({ children }) => {
 
   console.log("cart products from socket", cartProducts);
 
-  useEffect(() => {
-    const fetchWishlistFromServer = async () => {
-      try {
-        // Map through the wishlist IDs and fetch product details
-        const productsPromises = UserData.wishlist.map(async (productId) => {
-          const productResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
-          );
-          return productResponse.data; // Adjust to your server's response structure
-        });
+  // useEffect(() => {
+  //   const fetchWishlistFromServer = async () => {
+  //     try {
+  //       // Map through the wishlist IDs and fetch product details
+  //       const productsPromises = UserData.wishlist.map(async (productId) => {
+  //         const productResponse = await axios.get(
+  //           `${process.env.NEXT_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
+  //         );
+  //         return productResponse.data; // Adjust to your server's response structure
+  //       });
 
-        const products = await Promise.all(productsPromises);
+  //       const products = await Promise.all(productsPromises);
 
-        setWishlist(products);
-      } catch (error) {
-        console.error("Error fetching wishlist from the server:", error);
-      }
-    };
+  //       setWishlist(products);
+  //     } catch (error) {
+  //       console.error("Error fetching wishlist from the server:", error);
+  //     }
+  //   };
 
-    // Fetch wishlist from the server when the component mounts
-    fetchWishlistFromServer();
-  }, []);
+  //   // Fetch wishlist from the server when the component mounts
+  //   fetchWishlistFromServer();
+  // }, []);
 
  
 

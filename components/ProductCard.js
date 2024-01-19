@@ -18,42 +18,51 @@ const ProductCard = ({ title, description, thumbnail, price }) => {
        });
      };
   return (
-    <Pressable style={styles.card} onPress={handlePress}>
-      <View style={styles.cardHeader}>
+    <Pressable className="relative" style={styles.card} onPress={handlePress}>
+      <View>
+        <Image
+          className="flex-1 h-[150px]"
+          resizeMode="contain"
+          source={{ uri: thumbnail }}
+        />
+      </View>
+
+      <View className="px-2 mt-2">
+        <Text className="text-gray-800 text-semibold line-clamp-1">
+          {title}
+        </Text>
+      </View>
+      <View className="flex flex-row items-center justify-between px-2">
         <View>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.price}>{price}</Text>
+          <Text className="text-blue-500 font-bold">${price.toFixed(2)}</Text>
+        </View>
+        <View>
+          <Text className="text-gray-400 text-xs font-bold line-through">
+            ${price.toFixed(2)}
+          </Text>
         </View>
       </View>
 
-      <Image style={styles.cardImage} source={{ uri: thumbnail }} />
-
-      <View style={styles.cardFooter}>
-        <View style={styles.socialBarContainer}>
-          <View style={styles.socialBarSection}>
-            <TouchableOpacity style={styles.socialBarButton}>
-              <Image
-                style={styles.icon}
-                source={{
-                  uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
-                }}
-              />
-              <Text style={[styles.socialBarLabel, styles.buyNow]}>
-                Buy Now
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.socialBarSection}>
-            <TouchableOpacity style={styles.socialBarButton}>
-              <Image
-                style={styles.icon}
-                source={{
-                  uri: "https://img.icons8.com/color/50/000000/hearts.png",
-                }}
-              />
-              <Text style={styles.socialBarLabel}>25</Text>
-            </TouchableOpacity>
-          </View>
+      <View className="absolute flex flex-col gap-2 right-2">
+        <View style={styles.socialBarSection}>
+          <TouchableOpacity style={styles.socialBarButton}>
+            <Image
+              style={styles.icon}
+              source={{
+                uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.socialBarSection}>
+          <TouchableOpacity style={styles.socialBarButton}>
+            <Image
+              style={styles.icon}
+              source={{
+                uri: "https://img.icons8.com/color/50/000000/hearts.png",
+              }}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </Pressable>
@@ -88,6 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexBasis: "47%",
     marginHorizontal: 5,
+    
   },
   cardHeader: {
     paddingVertical: 17,
@@ -101,15 +111,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12.5,
     paddingHorizontal: 16,
   },
-  cardFooter: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingTop: 12.5,
-    paddingBottom: 25,
-    paddingHorizontal: 16,
-    borderBottomLeftRadius: 1,
-    borderBottomRightRadius: 1,
-  },
+  
   cardImage: {
     flex: 1,
     height: 150,
