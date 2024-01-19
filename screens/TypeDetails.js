@@ -47,7 +47,16 @@ const TypeDetails = () => {
   }, []);
 
   const navigation = useNavigation();
-
+  const handlePress = (item) => () => {
+    navigation.navigate("NewsDetails", {
+      id: item._id,
+      title: item.title,
+      category: item.category,
+      image: item.blogimage,
+      type: item.type,
+      desc: item.longdescription,
+    });
+  };
   if (loading === true) {
     return <Text>Loading...</Text>;
   }
@@ -56,23 +65,46 @@ const TypeDetails = () => {
     <>
       <StatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <SafeAreaView style={globalstyels.droidSafeArea}>
-        <ScrollView className="my-2 space-y-8 mx-3">
+        <ScrollView className="my-2 space-y-8 mx-3"
+            // remove scrollbar
+            showsVerticalScrollIndicator={false}
+        >
           {/* trending news */}
           <View className=" ">
-            <Text className="py-1 text-xl font-bold h-fit uppercase">{name}</Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("NewsDetails", {
-                  id: "60e8f5d3d4b5e40015a5d5d6",
-                });
-              }}
-            >
-              <View className="flex flex-col items-center justify-center border border-blue-200 p-4 space-y-2 bg-white rounded-lg ">
-                <Text>{name}</Text>
+            <Text className="py-1 text-xl font-bold h-fit uppercase">
+              {name}
+            </Text>
+            <TouchableOpacity onPress={handlePress}>
+              <View className=" ">
+                {posts &&
+                  posts.map((item, index) => (
+                    <TouchableHighlight key={index}>
+                      <View className="flex flex-col " key={index}>
+                        <Pressable onPress={handlePress(item)}>
+                          <Image
+                            alt=""
+                            className="object-cover w-full h-52 object-top rounded-t"
+                            source={{ uri: item.blogimage }}
+                            resizeMode="contain"
+                            resizeMethod="resize"
+                          />
+
+                          <View className="flex flex-col flex-1 p-1">
+                            <Text className="text-xs w-fit  uppercase hover:underline text-blue-600">
+                              {item.category}
+                            </Text>
+
+                            <Text className="flex-1 py-2 text-lg font-semibold ">
+                              {item.title}
+                            </Text>
+                          </View>
+                        </Pressable>
+                      </View>
+                    </TouchableHighlight>
+                  ))}
               </View>
             </TouchableOpacity>
           </View>
-          <View className="border-b-gray-300 border-b mt-5 mb-5" />
         </ScrollView>
       </SafeAreaView>
     </>

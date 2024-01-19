@@ -89,6 +89,7 @@ const HomeNews = () => {
               size={"large"}
             />
           }
+          showsVerticalScrollIndicator={false}
         >
           {/* trending news */}
           <View className=" ">

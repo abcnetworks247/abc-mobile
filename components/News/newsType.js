@@ -49,7 +49,10 @@ export default function NewsType() {
               </View>
             </View>
           ) : (
-            <ScrollView className="mt-4 mb-24">
+            <ScrollView
+              className="mt-4 mb-24"
+              showsVerticalScrollIndicator={false}
+            >
               <View className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2 lg:grid-cols-3">
                 {result.map((item, index) => (
                   <View key={index}>
