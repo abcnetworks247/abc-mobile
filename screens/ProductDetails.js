@@ -1,5 +1,12 @@
 import React from "react";
-import { View, ScrollView, Image, Text, Button, TouchableOpacity } from "react-native";
+import {
+  View,
+  ScrollView,
+  Image,
+  Text,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import { useRoute } from "@react-navigation/native";
 import HTML from "react-native-render-html";
 
@@ -16,7 +23,7 @@ const ProductDetails = () => {
             className="rounded-md"
           />
         </View>
-        <View className="flex flex-row items-start w-full gap-5 px-4 mt-6">
+        <View className="flex flex-row items-center justify-between w-full px-4 mt-10 mb-4">
           <TouchableOpacity
             onPress={() => {}}
             className="px-5 py-[8px] bg-blue-600 border-gray-100 rounded-md shadow-md border-1"
@@ -25,12 +32,13 @@ const ProductDetails = () => {
               Add to now
             </Text>
           </TouchableOpacity>
-
-          
+          <View className="flex flex-row rounded-md item-center">
+            <Text className="text-gray-700 text-[24px]">${price}</Text>
+          </View>
         </View>
         <View style={styles.info}>
           <Text style={styles.name}>{title}</Text>
-          <Text style={styles.price}>${price}</Text>
+
           <HTML source={{ html: description }} />
         </View>
       </View>
