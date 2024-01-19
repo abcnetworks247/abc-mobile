@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
   },
 
   columnWrapper: {
-    justifyContent: "space-between",
+    gap: 6,
+    padding:4
   },
 
   loadingContainer: {

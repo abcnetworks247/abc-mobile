@@ -34,18 +34,13 @@ export default function Cart() {
   return (
     <View>
       <ScrollView>
-        <View>
+        <View className="mt-4">
           {allProducts.map((product) => (
             <View
               key={product._id} // Add a unique key prop for each item in the array
-              style={{
-                backgroundColor: "white",
-                flexDirection: "row",
-                padding: 8,
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginBottom: 8,
-              }}
+             
+
+              className="bg-white flex flex-row px-[8px] py-2 justify-between items-center mb-2 mx-2 rounded-sm shadow-md"
             >
               <Image
                 style={{ height: 100, width: 100 }}

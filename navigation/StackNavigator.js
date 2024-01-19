@@ -19,19 +19,11 @@ const screenOptionStyle = {
 
 function StoreStackNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator>
       <Stack.Screen
         name="Store"
         component={Store}
-        options={{
-          headerLeft: () => (
-            <IconButton
-              icon="arrow-left" 
-              color="white"
-              onPress={() => navigation.goBack()}
-            />
-          ),
-        }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
     </Stack.Navigator>
