@@ -15,7 +15,7 @@ import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 // import {  TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import globalstyels from "../styles/globalstyels";
+import globalstyels from "../../styles/globalstyels";
 globalstyels;
 const HomeNews = () => {
   const [posts, setPosts] = useState([]);
