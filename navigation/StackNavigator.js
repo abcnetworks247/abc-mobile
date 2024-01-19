@@ -2,9 +2,10 @@ import React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { Home, News, Store, Cart, Profile, ProductDetails } from "../screens";
-import { IconButton } from "react-native-paper";
+import { Home, News, Store, Cart, Profile, ProductDetails  } from "../screens";
 
+import { IconButton } from "react-native-paper";
+import NewsDetails from "../screens/newsDetails";
 
 const Stack = createStackNavigator();
 
@@ -65,9 +66,12 @@ const HomeStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="NewsDetails" component={NewsDetails} />
+      <Stack.Screen name="News" component={News} />      
     </Stack.Navigator>
   );
 };
+
 
 
 
@@ -77,4 +81,5 @@ export {
   ProfileStackNavigator,
   HomeStackNavigator,
   CartStackNavigator,
+  
 };
