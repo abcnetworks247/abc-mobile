@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import ProductDetails from "./ProductDetails";
 import NewsDetails from "./NewsDetails";
 import TypeDetails from "./TypeDetails";
+import Wishlist from "./Wishlist";
 
 
-export { Home, Profile, Store, News, Cart, ProductDetails, NewsDetails, TypeDetails };
+export { Home, Profile, Store, News, Cart, ProductDetails, NewsDetails, TypeDetails, Wishlist };
