@@ -3,33 +3,20 @@ import { useState, useEffect } from "react";
 import { View, Text, FlatList, StyleSheet, Dimensions } from "react-native";
 import ProductCard from "../components/ProductCard";
 import axios from "axios";
+import { UseProductProvider } from "../context/ProductProvider";
+
 
 const { width } = Dimensions.get("window");
 
 const StoreScreen = () => {
+<<<<<<< HEAD
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+=======
+>>>>>>> f3afd73b6621b7665f52a8a2d453da4704702f36
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products`
-        );
-        if (response.status !== 200) {
-          throw new Error("Failed to fetch products");
-        }
-        const fetchedProducts = response.data;
-        setProducts(fetchedProducts);
-      } catch (error) {
-        console.error(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const {allProducts, loading} = UseProductProvider()
 
-    fetchData();
-  }, []);
 
   const renderProductCard = ({ item }) => (
     <ProductCard
@@ -51,7 +38,7 @@ const StoreScreen = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={products}
+        data={allProducts}
         renderItem={renderProductCard}
         keyExtractor={(item) => item._id.toString()}
         numColumns={2}
@@ -68,7 +55,8 @@ const styles = StyleSheet.create({
   },
 
   columnWrapper: {
-    justifyContent: "space-between",
+    gap: 6,
+    padding:4
   },
 
   loadingContainer: {

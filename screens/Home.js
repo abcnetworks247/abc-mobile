@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import React from "react";
-import HomeNews from "../components/allNews";
+import HomeNews from "../components/News/allNews";
 
 
 export default function Home() {
