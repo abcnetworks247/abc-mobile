@@ -109,7 +109,7 @@ export default function Cart() {
           <TouchableOpacity className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2">
             <View className="flex flex-row items-center">
               <EditIcon />
-              <Text className="mx-2">Edit Account Info</Text>
+              <Text className="mx-2">Edit Account </Text>
             </View>
             <AngleIcon />
           </TouchableOpacity>

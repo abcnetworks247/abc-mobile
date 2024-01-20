@@ -2,7 +2,7 @@ import React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { Home, News, Store, Cart, Profile, ProductDetails, NewsDetails, TypeDetails  } from "../screens";
+import { Home, News, Store, Cart, Profile, ProductDetails, NewsDetails, TypeDetails, Wishlist  } from "../screens";
 
 import { IconButton } from "react-native-paper";
 
@@ -23,7 +23,26 @@ function StoreStackNavigator() {
       <Stack.Screen
         name="Store"
         component={Store}
-        options={{ headerShown: false }}
+        options={{
+         
+          headerShown: false,
+        
+        }}
+      />
+      <Stack.Screen name="Details" component={ProductDetails} />
+    </Stack.Navigator>
+  );
+}
+const WishStackNavigator=()=> {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Wishlist"
+        component={Wishlist}
+        options={{
+          headerShown: false
+          
+        }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
     </Stack.Navigator>
@@ -50,7 +69,9 @@ const CartStackNavigator = () => {
 
 const ProfileStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{
+      headerShown: false
+    }}>
       <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
@@ -92,5 +113,6 @@ export {
   ProfileStackNavigator,
   HomeStackNavigator,
   CartStackNavigator,
-  TypeDetailsStackNavigator
+  TypeDetailsStackNavigator,
+  WishStackNavigator,
 };

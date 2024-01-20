@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { UseProductProvider } from "../context/ProductProvider";
 import { StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
-
+import { BinIcon } from "../components/svgs/Icons";
 
 export default function Cart() {
   const [eventName, setEventName] = useState("");
@@ -39,7 +39,7 @@ export default function Cart() {
         <View className="mt-4">
           {allProducts.map((product) => (
             <View
-              key={product._id} // Add a unique key prop for each item in the array
+              key={product._id}
               className="bg-white flex flex-row px-[8px] py-2 justify-between items-center mb-2 mx-2 rounded-sm shadow-md"
             >
               <View className="flex flex-row items-center ">
@@ -50,31 +50,19 @@ export default function Cart() {
                   }}
                 />
 
-                <View className="flex flex-col gap-4 w-[40%]  ">
+                <View className="flex flex-col ml-2 ">
                   <Text className="font-bold text-sm whitespace-nowrap line-clamp-1">
                     {product.title}
                   </Text>
 
-                  <Text className="font-bold text-sm whitespace-nowrap">
+                  <Text className="font-semibold text-sm my-2">
                     ${product.price.toFixed(2)}
                   </Text>
                 </View>
               </View>
               <View className="flex flex-col gap-4 ">
                 <Pressable>
-                  <Svg
-                    viewBox="-0.5 0 19 19"
-                    xmlns="http://www.w3.org/2000/svg"
-                   
-                  >
-                    <Path
-                      d="M4.917 14.889c0 .468.687 1.111 1.146 1.111h6.875c.458 0 1.145-.643 1.145-1.111V6H4.917v8.889zM15 3.465h-2.444L11.333 2H7.667L6.444 3.465H4V4.93h11V3.465z"
-                      fill="#000"
-                      stroke="none"
-                      strokeWidth={1}
-                      fillRule="evenodd"
-                    />
-                  </Svg>
+                    <BinIcon/>
                 </Pressable>
                 <View className="flex flex-row border border-gray-200 items-center justify-between h-10  rounded-sm px-2 ">
                   <TouchableOpacity className="text-[#333] h-full w-6 flex items-center justify-center">
