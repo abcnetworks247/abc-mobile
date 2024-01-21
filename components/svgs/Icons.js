@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-import Svg, { G, Path, Circle, Rect } from "react-native-svg";
+import Svg, { G, Path, Circle, Rect ,Defs, ClipPath} from "react-native-svg";
 
 export const AngleIcon =() =>{
   return (
@@ -265,6 +265,54 @@ export const NewsIcon = ({ color }) => {
         <Rect x={5} y={5} width={14} height={14} rx={3} />
         <Path d="M5 10h14" strokeLinecap="round" />
       </G>
+    </Svg>
+  );
+};
+export const SearchIcon = () => {
+  return (
+    <Svg
+      width="30px"
+      height="30px"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      strokeWidth={1.7}
+    >
+      <G clipPath="url(#a)">
+        <Path fill="#fff" d="M0 0H24V24H0z" />
+        <Circle
+          cx={10.5}
+          cy={10.5}
+          r={6.5}
+          stroke="#000"
+          strokeLinejoin="round"
+        />
+        <Path
+          d="M19.646 20.354a.5.5 0 00.708-.708l-.708.708zm.708-.708l-5-5-.708.708 5 5 .708-.708z"
+          fill="#000"
+        />
+      </G>
+      <Defs>
+        <ClipPath id="a">
+          <Path fill="#fff" d="M0 0H24V24H0z" />
+        </ClipPath>
+      </Defs>
+    </Svg>
+  );
+};
+export const HamburgerIcon= () => {
+  return (
+    <Svg
+      width="35px"
+      height="35px"
+      viewBox="0 -0.5 25 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <Path
+        d="M5.5 7.75a.75.75 0 000 1.5v-1.5zm14 1.5a.75.75 0 000-1.5v1.5zm-14 2.5a.75.75 0 000 1.5v-1.5zm12 1.5a.75.75 0 000-1.5v1.5zm-12 2.5a.75.75 0 000 1.5v-1.5zm7 1.5a.75.75 0 000-1.5v1.5zm-7-8h14v-1.5h-14v1.5zm0 4h12v-1.5h-12v1.5zm0 4h7v-1.5h-7v1.5z"
+        fill="#000"
+      />
     </Svg>
   );
 };

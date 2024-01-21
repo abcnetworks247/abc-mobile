@@ -70,6 +70,7 @@ const Tabs = () => {
         name="Storetab"
         component={StoreStackNavigator}
         options={{ headerShown: false, tabBarLabel: "Store" }}
+        
       />
       <Tab.Screen
         name="Carttab"
