@@ -98,6 +98,7 @@ const New = () => {
           <View className="w-full">
             <LayerOne/>
             <LayerTwo  data={highlight}/>
+            <LayerThree data={trending}/>
           </View>
         </ScrollView>
       </SafeAreaView>

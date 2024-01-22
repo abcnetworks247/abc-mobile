@@ -52,7 +52,7 @@ const LayerTwo = ({ data }) => {
           <View className="border-b-gray-300 border-b mt-2 mb-2" />
           {
             data.slice(1, 6).map((item) => (
-              <View className="flex flex-col flex-1  w-full  rounded gap-y-[0px]">
+              <View className="flex flex-col flex-1  w-full  rounded gap-y-[0px]" key={data._id}>
                 <View className="">
                   <TouchableOpacity activeOpacity={0.5} onPress={handlePress(item)} className="flex-row flex justify-between gap-2 w-fit p-1 ">
                   <Text className="text-base font-bold text-gray-700 w-2/3">
