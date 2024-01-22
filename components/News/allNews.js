@@ -88,6 +88,8 @@ const HomeNews = () => {
               colors={colors}
               size={"large"}
             />
+            //disable scrollbar
+            
           }
           showsVerticalScrollIndicator={false}
         >
