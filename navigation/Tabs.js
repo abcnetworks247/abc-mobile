@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { ShopIcon } from "../components/svgs/Icons";
+import { HomeIcon, AccountIcon, CartIcon, NewsIcon } from "../components/svgs/Icons";
 import {
   StoreStackNavigator,
   NewStackNavigator,
@@ -33,15 +34,15 @@ const Tabs = () => {
           let iconName;
 
           if (route.name === "Hometab") {
-            iconName = "home";
+            return <HomeIcon color={color} />;
           } else if (route.name === "Newstab") {
-            iconName = "newspaper";
+            return <NewsIcon color={color} />;
             } else if (route.name === "Storetab") {
             return <ShopIcon color={color} />
           } else if (route.name === "Carttab") {
-            iconName = "cart";
+             return <CartIcon color={color} />;
           } else if (route.name === "Profiletab") {
-            iconName = "person";
+             return <AccountIcon color={color} />;
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -69,6 +70,7 @@ const Tabs = () => {
         name="Storetab"
         component={StoreStackNavigator}
         options={{ headerShown: false, tabBarLabel: "Store" }}
+        
       />
       <Tab.Screen
         name="Carttab"

@@ -5,6 +5,15 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Home, News, Store, Cart, Profile, ProductDetails, NewsDetails, TypeDetails, Wishlist  } from "../screens";
 
 import { IconButton } from "react-native-paper";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { HamburgerIcon } from "../components/svgs/Icons";
+import { Pressable } from "react-native";
+import { SearchIcon } from "../components/svgs/Icons";
+
+
+
+
 
 const Stack = createStackNavigator();
 
@@ -18,15 +27,36 @@ const screenOptionStyle = {
 };
 
 function StoreStackNavigator() {
+
+  const navigation = useNavigation();
+
+  const handleDrawerOpen = () => {
+    navigation.openDrawer();
+  };
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Store"
         component={Store}
         options={{
-         
-          headerShown: false,
-        
+          headerLeft: () => (
+            <Pressable onPress={handleDrawerOpen} className="ml-10">
+              <HamburgerIcon />
+            </Pressable>
+          ),
+          headerTitle: "Store",
+          headerRight: () => (
+            <Pressable onPress={handleDrawerOpen}>
+              <SearchIcon />
+            </Pressable>
+          ),
+          headerStyle: {
+            backgroundColor: "white",
+      
+           
+          },
+          headerTintColor: "white",
+          headerBackTitle: "Back",
         }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
