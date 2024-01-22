@@ -1,8 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const ;
- = () => {
+const App = () => {
   return (
     <View>
       <Text>;
@@ -12,4 +11,4 @@ const ;
   )
 }
 
-export default ;
+export default App;
