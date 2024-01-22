@@ -10,8 +10,6 @@ import NewsDetails from "./NewsDetails";
 import Profile from "./Profile";
 import Closeaccount from "./Closeaccount";
 import Changepassword from "./Changepassword"; 
-
-
 import SignUp from "./SignUp";
 
 
@@ -23,7 +21,8 @@ export {
   ProductDetails,
   NewsDetails,
   TypeDetails,
-  Wishlist,SignUp,
+  Wishlist,
+  SignUp,
  Editprofile,
   Profile
 };
