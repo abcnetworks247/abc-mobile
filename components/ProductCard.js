@@ -1,23 +1,31 @@
-
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Pressable,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Svg, { Path } from "react-native-svg";
 
-
 const ProductCard = ({ title, description, thumbnail, price }) => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-     const handlePress = () => {
-       navigation.navigate("Details", {
-         title,
-         description,
-         thumbnail,
-         price,
-       });
-     };
+  const handlePress = () => {
+    navigation.navigate("Details", {
+      title,
+      description,
+      thumbnail,
+      price,
+    });
+  };
   return (
-    <Pressable className="relative basis-1/2 bg-white mb-2 pb-4 shadow-md"  onPress={handlePress}>
+    <Pressable
+      className="relative basis-1/2 bg-white mb-2 pb-4 shadow-md"
+      onPress={handlePress}
+    >
       <View>
         <Image
           className="flex-1 h-[150px]"
@@ -71,7 +79,6 @@ const ProductCard = ({ title, description, thumbnail, price }) => {
               height={30}
               fill="#00f"
               viewBox="0 0 16 16"
-             
             >
               <Path d="M0 2.5A.5.5 0 01.5 2H2a.5.5 0 01.485.379L2.89 4H14.5a.5.5 0 01.485.621l-1.5 6A.5.5 0 0113 11H4a.5.5 0 01-.485-.379L1.61 3H.5a.5.5 0 01-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 100 2 1 1 0 000-2zm-2 1a2 2 0 114 0 2 2 0 01-4 0zm9-1a1 1 0 100 2 1 1 0 000-2zm-2 1a2 2 0 114 0 2 2 0 01-4 0z" />
             </Svg>
@@ -81,7 +88,6 @@ const ProductCard = ({ title, description, thumbnail, price }) => {
     </Pressable>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -110,7 +116,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexBasis: "47%",
     marginHorizontal: 5,
-    
   },
   cardHeader: {
     paddingVertical: 17,
@@ -124,7 +129,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12.5,
     paddingHorizontal: 16,
   },
-  
+
   cardImage: {
     flex: 1,
     height: 150,

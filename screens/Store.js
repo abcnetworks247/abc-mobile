@@ -9,11 +9,6 @@ import { UseProductProvider } from "../context/ProductProvider";
 const { width } = Dimensions.get("window");
 
 const StoreScreen = () => {
-<<<<<<< HEAD
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-=======
->>>>>>> f3afd73b6621b7665f52a8a2d453da4704702f36
 
   const {allProducts, loading} = UseProductProvider()
 
