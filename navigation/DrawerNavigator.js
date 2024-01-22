@@ -21,16 +21,20 @@ const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator() {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator
+      drawerStyle={{
+        backgroundColor: "blue", // Set the background color to blue
+      }}
+    >
       <Drawer.Screen
         name="Home"
         component={Tabs}
         options={{
-          drawerLabel: "Home",
+          drawerLabel: "Hometablet",
           drawerIcon: ({ color, size }) => (
             <CloseAccountIcon width={size} height={size} fill={color} />
           ),
-          title: "Home",
+          headerShown: false,
         }}
       />
       <Drawer.Screen
