@@ -16,12 +16,13 @@ import { CloseAccountIcon } from "../components/svgs/Icons";
 import { AngleIcon } from "../components/svgs/Icons";
 import { LogOutIcon } from "../components/svgs/Icons";
 import { EditIcon } from "../components/svgs/Icons";
-export default function Cart() {
+import { useNavigation } from "@react-navigation/native";
+export default function Profile() {
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventDate, setEventDate] = useState("");
   const [eventTime, setEventTime] = useState("");
- 
+ const navigation= useNavigation()
 
 
   return (
@@ -106,10 +107,12 @@ export default function Cart() {
 
         {/* general settins container */}
         <View className="mx-4 mt-2">
-          <TouchableOpacity className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2">
+          <TouchableOpacity className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
+            onPress={()=>navigation.navigate("EditProfile")}
+          >
             <View className="flex flex-row items-center">
               <EditIcon />
-              <Text className="mx-2">Edit Account </Text>
+              <Text className="mx-2">Edit profile</Text>
             </View>
             <AngleIcon />
           </TouchableOpacity>
@@ -125,7 +128,7 @@ export default function Cart() {
           <TouchableOpacity className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2">
             <View className="flex flex-row items-center">
               <LogOutIcon />
-              <Text className="mx-2">Log out</Text>
+              <Text className="mx-2">Log out now</Text>
             </View>
             <AngleIcon />
           </TouchableOpacity>

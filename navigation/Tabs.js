@@ -12,6 +12,8 @@ import {
   HomeStackNavigator,
   CartStackNavigator,
 } from "./StackNavigator";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { Editprofile } from "../screens";
 
 
 
@@ -27,6 +29,11 @@ const Tab = createBottomTabNavigator();
 
 
 const Tabs = () => {
+   const getTabBarVisibility = (route) => {
+     const routeName = getFocusedRouteNameFromRoute(route);
+     const hideOnScreens = [Editprofile]; // put here name of screen where you want to hide tabBar
+     return hideOnScreens.indexOf(routeName) <= -1;
+   };
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -37,12 +44,12 @@ const Tabs = () => {
             return <HomeIcon color={color} />;
           } else if (route.name === "Newstab") {
             return <NewsIcon color={color} />;
-            } else if (route.name === "Storetab") {
-            return <ShopIcon color={color} />
+          } else if (route.name === "Storetab") {
+            return <ShopIcon color={color} />;
           } else if (route.name === "Carttab") {
-             return <CartIcon color={color} />;
+            return <CartIcon color={color} />;
           } else if (route.name === "Profiletab") {
-             return <AccountIcon color={color} />;
+            return <AccountIcon color={color} />;
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -70,7 +77,6 @@ const Tabs = () => {
         name="Storetab"
         component={StoreStackNavigator}
         options={{ headerShown: false, tabBarLabel: "Store" }}
-        
       />
       <Tab.Screen
         name="Carttab"
@@ -80,7 +86,11 @@ const Tabs = () => {
       <Tab.Screen
         name="Profiletab"
         component={ProfileStackNavigator}
-        options={{ headerShown: false, tabBarLabel: "Profile" }}
+        options={({ route }) => ({
+          headerShown: false,
+          tabBarLabel: "Profile",
+          tabBarVisible: getTabBarVisibility(route),
+        })}
       />
     </Tab.Navigator>
   );
