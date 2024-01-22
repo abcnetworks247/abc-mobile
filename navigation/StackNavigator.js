@@ -2,7 +2,7 @@ import React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { Home, News, Store, Cart, Profile, ProductDetails, NewsDetails, TypeDetails, Wishlist, Editprofile  } from "../screens";
+import { Home, News, Store, Cart, Profile, ProductDetails, NewsDetails, TypeDetails, Wishlist, Editprofile, SignUp  } from "../screens";
 
 import { IconButton } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
@@ -97,6 +97,15 @@ const CartStackNavigator = () => {
   );
 };
 
+
+const AuthStackNavigatior = function () {
+  return(
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="SignUp" component={SignUp} />
+    </Stack.Navigator>
+  )
+}
+
 const ProfileStackNavigator = () => {
   return (
     <Stack.Navigator
@@ -153,4 +162,5 @@ export {
   CartStackNavigator,
   TypeDetailsStackNavigator,
   WishStackNavigator,
+  AuthStackNavigatior,
 };

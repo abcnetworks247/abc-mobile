@@ -12,6 +12,7 @@ import Closeaccount from "./Closeaccount";
 import Changepassword from "./Changepassword"; 
 
 
+import SignUp from "./SignUp";
 
 
 export {
@@ -22,7 +23,7 @@ export {
   ProductDetails,
   NewsDetails,
   TypeDetails,
-  Wishlist,
+  Wishlist,SignUp,
  Editprofile,
   Profile
 };
