@@ -1,6 +1,8 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import HomeNews from "../components/News/allNews";
+import New from "../components/News/new";
+
 // import { Link } from "expo-router";
 import { useNavigation } from "expo-router";
 import { useRouter } from "expo-router";
