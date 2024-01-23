@@ -11,6 +11,7 @@ import Profile from "./Profile";
 import Closeaccount from "./Closeaccount";
 import Changepassword from "./Changepassword"; 
 import SignUp from "./SignUp";
+import Orders from "./Orders";
 
 
 export {
@@ -23,6 +24,9 @@ export {
   TypeDetails,
   Wishlist,
   SignUp,
- Editprofile,
-  Profile
+  Editprofile,
+  Profile,
+  Closeaccount,
+  Changepassword,
+  Orders,
 };
