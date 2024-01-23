@@ -33,12 +33,12 @@ const NewsDetails = () => {
                   resizeMethod="resize"
                 />
                 <View className="flex flex-col flex-1 p-1">
-                  <Text className="text-xs text-blue-600 uppercase tracki hover:underline">
+                  <Text className="text-xs text-blue-600 font-bold uppercase tracki hover:underline mb-2">
                     {category}
                   </Text>
 
                   <HTML source={{ html: desc }} />
-                  <View className="flex flex-wrap justify-between pt-3 text-xs ">
+                  <View className="flex flex-wrap justify-between pt-3 text-lg ">
                     <Text>June 1, 2020</Text>
                     <Text>2.1K views</Text>
                   </View>

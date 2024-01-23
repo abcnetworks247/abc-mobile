@@ -30,7 +30,8 @@ const ProductCard = ({ title, description, thumbnail, price }) => {
         <Image
           className="h-[150px]"
           resizeMode="contain"
-          source={{ uri: thumbnail }}
+          source={{ uri: thumbnail }
+        }
         />
       </View>
 
@@ -39,6 +40,7 @@ const ProductCard = ({ title, description, thumbnail, price }) => {
           {title}
         </Text>
       </View>
+
       <View className="flex flex-row items-center justify-between px-2">
         <View>
           <Text className="text-blue-500 font-bold">${price.toFixed(2)}</Text>
@@ -86,6 +88,7 @@ const ProductCard = ({ title, description, thumbnail, price }) => {
           </TouchableOpacity>
         </View>
       </View>
+      
     </Pressable>
   );
 };
