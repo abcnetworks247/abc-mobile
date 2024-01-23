@@ -133,13 +133,13 @@ const CartStackNavigator = () => {
 };
 
 
-const AuthStackNavigatior = function () {
-  return(
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="SignUp" component={SignUp} />
-    </Stack.Navigator>
-  )
-}
+// const AuthStackNavigatior = function () {
+//   return(
+//     <Stack.Navigator screenOptions={{headerShown: false}}>
+//       <Stack.Screen name="SignUp" component={SignUp} />
+//     </Stack.Navigator>
+//   )
+// }
 
 const ProfileStackNavigator = () => {
   const navigation = useNavigation();
@@ -231,5 +231,5 @@ export {
   CartStackNavigator,
   TypeDetailsStackNavigator,
   WishStackNavigator,
-  AuthStackNavigatior,
+
 };

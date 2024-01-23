@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, Pressable } from "react-native";
 import React from "react";
 import { Link } from "expo-router";
 import Logo from "../assets/AbcstudioNo.png";
@@ -52,7 +52,7 @@ export default function SignUp() {
       validationSchema={userSchema}
       onSubmit={handleSubmit}
     >
-      {({ handleBlur, handleChange, values, errors,handleSubmit }) => (
+      {({ handleBlur, handleChange, values, errors, handleSubmit }) => (
         <View className="flex items-center justify-center m-auto w-full px-6 bg-[#F2F2F2] h-full">
           <View className="gap-6 w-full">
             <View className=" flex items-center justify-center ">
@@ -135,9 +135,13 @@ export default function SignUp() {
             <View>
               <Text className="text-center text-gray-500">
                 Already have an account?{" "}
-                <Link href="/auth/signin" className="text-blue-900 font-semibold">
-                  Login
-                </Link>
+                <Pressable>
+                  <Text
+                    className="text-blue-900 font-semibold"
+                  >
+                     Login
+                  </Text>
+                </Pressable>
               </Text>
             </View>
           </View>

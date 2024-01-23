@@ -20,7 +20,9 @@ import { useNavigation } from "@react-navigation/native";
 import { ResetPasswordIcon } from "../components/svgs/Icons";
 import { StatusBar } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { UseProductProvider } from "../context/ProductProvider";
 export default function Profile() {
+  const { setIsSignUpVisible } = UseProductProvider();
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventDate, setEventDate] = useState("");
@@ -155,7 +157,10 @@ export default function Profile() {
             <AngleIcon />
           </TouchableOpacity>
 
-          <TouchableOpacity className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2">
+          <TouchableOpacity
+            className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
+            onPress={()=>setIsSignUpVisible(true)}
+          >
             <View className="flex flex-row items-center">
               <LogOutIcon />
               <Text className="mx-2">Log out</Text>

@@ -60,18 +60,7 @@ export default function DrawerNavigator() {
           title: "Wish List",
         }}
       />
-      {/* <Drawer.Screen
-        name="AuthTab"
-        component={AuthStackNavigatior}
-        options={{
-          drawerLabel: "Signup",
-          headerShown: false,
-          drawerIcon: ({ color, size }) => (
-            <HeartIcon width={size} height={size} fill={color} />
-          ),
-          title: "Sign up",
-        }}
-      /> */}
+      
     </Drawer.Navigator>
   );
 }
