@@ -60,7 +60,7 @@ export default function DrawerNavigator() {
           title: "Wish List",
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="AuthTab"
         component={AuthStackNavigatior}
         options={{
@@ -71,7 +71,7 @@ export default function DrawerNavigator() {
           ),
           title: "Sign up",
         }}
-      />
+      /> */}
     </Drawer.Navigator>
   );
 }

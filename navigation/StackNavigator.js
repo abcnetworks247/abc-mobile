@@ -223,7 +223,6 @@ const TypeDetailsStackNavigator = () => {
 //   );
 // }
 
-
 export {
   StoreStackNavigator,
   NewStackNavigator,

@@ -41,18 +41,15 @@ const dummyTexts = uniqueCategories.map((category, index) => ({
   
 
 
-  
- const renderProductCard = ({ item }) => (
-   <ProductCard
-     title={item.title}
-     description={item.description}
-     thumbnail={item.thumbnail}
-     price={item.price}
-  
-   />
-   );
+  const renderProductCard = ({ item }) => (
+    <ProductCard
+      title={item.title}
+      description={item.description}
+      thumbnail={item.thumbnail}
+      price={item.price}
+    />
+  );
 
-  
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -60,7 +57,6 @@ const dummyTexts = uniqueCategories.map((category, index) => ({
       </View>
     );
   }
-
 
   return (
     <View style={styles.container} className="bg-white">
