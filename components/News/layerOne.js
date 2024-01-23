@@ -11,15 +11,10 @@ import {
 } from "react-native";
 import React from "react";
 import { ScrollView, SafeAreaView } from "react-native";
-import axios from "axios";
-import { useEffect, useState, useCallback } from "react";
-// import {  TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import globalstyels from "../../styles/globalstyels";
 
-import { useFocusEffect } from "@react-navigation/native";
 
-const LayerOne = () => {
+const LayerOne = ({ data, loading }) => {
   const navigation = useNavigation();
   const handlePress = (item) => () => {
     navigation.navigate("NewsDetails", {
@@ -33,24 +28,48 @@ const LayerOne = () => {
   };
 
   return (
-    <View>
-      <Text>Layer One</Text>
-      <View className="flex-row w-full gap-2">
-        <View className="flex-1 border rounded ">
-          <Text className="text-xl font-bold text-gray-700 mb-2">
-            Trending
-          </Text>
-        </View>
-        <View className="flex-1 border rounded">
-          <Text className="text-right text-gray-700 mb-2">View All</Text>
-        </View>
-        <View className="flex-1 border rounded">
-          <Text className="text-right text-gray-700 mb-2">View All</Text>
-        </View>
-        <View className="flex-1 border rounded">
-          <Text className="text-right text-gray-700 mb-2">View All</Text>
-        </View>
-      </View>
+    <View >
+      {
+        loading ? (
+          
+          Array.from({ length: 1 }).map((_) => (
+            <View className=" flex flex-row gap-2">
+
+            <View className="flex rounded w-28 h-24 animate-pulse bg-gray-300">
+            </View>
+            <View className="flex rounded w-28 h-24 animate-pulse bg-gray-300">
+            </View>
+            <View className="flex rounded w-28 h-24 animate-pulse bg-gray-300">
+            </View>
+            </View>
+          ))
+        ) : (
+          <>
+            <Text className="text-xl font-bold">Here are the world {data[0].type} News you don't want to miss.. </Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-2">
+              <View className=" flex flex-row gap-2">
+                {/* Your individual View components */}
+                {
+                  data.slice(0, 5).map((item) => (
+                    <View className="flex rounded w-28 h-24">
+                      <TouchableOpacity activeOpacity={0.5} onPress={handlePress(item)} className="w-full">
+
+                        <Image
+                          alt=""
+                          className="object-cover w-full h-full object-top rounded"
+                          source={{ uri: item.blogimage }}
+                          resizeMode="cover"
+                          resizeMethod="resize"
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  ))
+                }
+              </View>
+            </ScrollView>
+          </>
+        )
+      }
     </View>
   );
 };

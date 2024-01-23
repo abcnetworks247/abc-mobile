@@ -73,10 +73,6 @@ const New = () => {
       desc: item.longdescription,
     });
   };
-  if (loading === true) {
-    return <Text>Loading...</Text>;
-  }
-
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#2c3e50" />
@@ -96,9 +92,10 @@ const New = () => {
         >
           {/* trending news */}
           <View className="w-full">
-            <LayerOne/>
-            <LayerTwo  data={highlight}/>
-            <LayerThree data={trending}/>
+            <LayerOne data={trending} loading={loading}/>
+            <LayerTwo  data={highlight} loading={loading}/>
+            <LayerThree data={trending} loading={loading}/>
+            <LayerFour data={topNews} loading={loading}/>
           </View>
         </ScrollView>
       </SafeAreaView>
