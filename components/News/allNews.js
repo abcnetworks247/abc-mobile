@@ -32,7 +32,7 @@ const HomeNews = () => {
 
   const colors = ["#00876c", "#f44336", "#ff9800", "#2196f3", "#9c27b0"];
 
-  //fetch data from api
+  //fetch data from news api
   const fetchPosts = async () => {
     try {
       const res = await axios.get(`${baseURL}admin/blog`);

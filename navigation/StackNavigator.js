@@ -2,7 +2,7 @@ import React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { Home, News, Store, Cart, Profile, ProductDetails, NewsDetails, TypeDetails, Wishlist  } from "../screens";
+import { Home, News, Store, Cart, Profile, ProductDetails, NewsDetails, TypeDetails, Wishlist, Editprofile, SignUp  } from "../screens";
 
 import { IconButton } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { HamburgerIcon } from "../components/svgs/Icons";
 import { Pressable } from "react-native";
 import { SearchIcon } from "../components/svgs/Icons";
-
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 
 
@@ -97,12 +97,29 @@ const CartStackNavigator = () => {
   );
 };
 
+
+const AuthStackNavigatior = function () {
+  return(
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="SignUp" component={SignUp} />
+    </Stack.Navigator>
+  )
+}
+
 const ProfileStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{
-      headerShown: false
-    }}>
-      <Stack.Screen name="Profile" component={Profile} />
+    <Stack.Navigator
+      screenOptions={{
+        tabBarHideOnKeyboard: true,
+      
+      }}
+    >
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="EditProfile" component={Editprofile} />
     </Stack.Navigator>
   );
 };
@@ -145,4 +162,5 @@ export {
   CartStackNavigator,
   TypeDetailsStackNavigator,
   WishStackNavigator,
+  AuthStackNavigatior,
 };

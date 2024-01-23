@@ -1,10 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import Tabs from "./navigation/Tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import DrawerNavigator from "./navigation/DrawerNavigator";
-import ProductProvider from "./context/ProductProvider";
+import { StyleSheet, Text, View } from "react-native";
 
+import { NavigationContainer } from "@react-navigation/native";
+import ProductProvider from "./context/ProductProvider";
+import DrawerNavigator from "./navigation/DrawerNavigator";
+import { NativeWindStyleSheet } from "nativewind";
+NativeWindStyleSheet.setOutput({
+  default: "native",
+});
 
 export default function App() {
   return (

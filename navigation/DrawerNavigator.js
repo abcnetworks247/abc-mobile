@@ -11,6 +11,7 @@ import {
   CartStackNavigator,
   WishStackNavigator,
 } from "./StackNavigator";
+import { AuthStackNavigatior } from "./StackNavigator";
 import Tabs from "./Tabs";
 import { CloseAccountIcon } from "../components/svgs/Icons";
 import { HeartIcon } from "../components/svgs/Icons";
@@ -59,6 +60,18 @@ export default function DrawerNavigator() {
           title: "Wish List",
         }}
       />
+      {/* <Drawer.Screen
+        name="AuthTab"
+        component={AuthStackNavigatior}
+        options={{
+          drawerLabel: "Signup",
+          headerShown: false,
+          drawerIcon: ({ color, size }) => (
+            <HeartIcon width={size} height={size} fill={color} />
+          ),
+          title: "Sign up",
+        }}
+      /> */}
     </Drawer.Navigator>
   );
 }
