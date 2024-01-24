@@ -20,14 +20,6 @@ import { Editprofile } from "../screens";
 const Tab = createBottomTabNavigator();
 
 
-
-
-
-
-
-
-
-
 const Tabs = () => {
    const getTabBarVisibility = (route) => {
      const routeName = getFocusedRouteNameFromRoute(route);

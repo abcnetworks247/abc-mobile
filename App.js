@@ -19,23 +19,29 @@ function AppContent() {
   return (
     <>
       {isSignUpVisible ? (
-        <TestSignUp/>
+        <TestSignUp />
       ) : (
-          isSignInVisible ?
-            <Login />
-            :
-         <NavigationContainer>
-          <DrawerNavigator />
-        </NavigationContainer>
+        isSignInVisible ?
+          <Login />
+          :
+          <NavigationContainer>
+            <DrawerNavigator />
+          </NavigationContainer>
       )}
     </>
   );
 }
 
 export default function App() {
+  const [loading, setLoading] = useState(false);
   return (
     <ProductProvider>
-      <AppContent />
+      {
+        loading ?
+          <Text>App</Text>
+          :
+          <AppContent />
+      }
     </ProductProvider>
   );
 }
