@@ -21,14 +21,6 @@ import { Editprofile } from "../screens";
 const Tab = createBottomTabNavigator();
 
 
-
-
-
-
-
-
-
-
 const Tabs = () => {
    const getTabBarVisibility = (route) => {
      const routeName = getFocusedRouteNameFromRoute(route);
@@ -87,7 +79,7 @@ const Tabs = () => {
         <Tab.Screen
         name="signup"
         component={AuthStackNavigatior}
-        options={{ headerShown: false, tabBarLabel: "Cart",  }}
+        options={{ headerShown: false, tabBarLabel: "signup",  }}
       />
       <Tab.Screen
         name="Profiletab"
