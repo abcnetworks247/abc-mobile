@@ -11,7 +11,7 @@ import Profile from "./Profile";
 import Closeaccount from "./Closeaccount";
 import Changepassword from "./Changepassword";
 import SignUp from "./SignUp";
-import SplashScreen from "./SplashScreen";
+import Orders from "./Orders";
 
 
 export {
@@ -26,5 +26,7 @@ export {
   SignUp,
   Editprofile,
   Profile,
-  SplashScreen,
+  Closeaccount,
+  Changepassword,
+  Orders,
 };

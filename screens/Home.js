@@ -8,6 +8,7 @@ import { useNavigation } from "expo-router";
 import { useRouter } from "expo-router";
 import { Link } from "@react-navigation/native";
 
+
 export default function Home() {
   const navigation = useRouter()
 
@@ -17,7 +18,7 @@ export default function Home() {
   return (
     <View>
       <ScrollView className="p-2" showsVerticalScrollIndicator={false}>
-        <New />
+       
        <HomeNews />
        <Link to={"/Home/signup"} >
        <TouchableOpacity>

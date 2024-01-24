@@ -6,6 +6,7 @@ import axios from "axios";
 import { UseProductProvider } from "../context/ProductProvider";
 import Carousel from "react-native-reanimated-carousel";
 import { TouchableOpacity } from "react-native";
+import { StatusBar } from "react-native";
 
 
 
@@ -59,31 +60,34 @@ const dummyTexts = uniqueCategories.map((category, index) => ({
 
   return (
     <View style={styles.container} className="bg-white">
-      
-        <FlatList
-          data={dummyTexts}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.key}
-          className=""
-          renderItem={({ item, index }) => {
-            return (
-              <TouchableOpacity
-              
-                className={`px-2 py-2 min-h-6 mx-1 flex flex-row items-center justify-center ${selectedCategory=== item.category ? 'bg-black':'bg-gray-200'}`}
-                onPress={() => setSelectedCategory(item.category)}
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
+      <FlatList
+        data={dummyTexts}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item) => item.key}
+        className=""
+        renderItem={({ item, index }) => {
+          return (
+            <TouchableOpacity
+              className={`px-2 py-2 h-10  mx-1 flex flex-row items-center justify-center ${
+                selectedCategory === item.category ? "bg-black" : "bg-gray-200"
+              }`}
+              onPress={() => setSelectedCategory(item.category)}
+            >
+              <Text
+                className={`${
+                  selectedCategory === item.category
+                    ? "text-white"
+                    : "text-black"
+                }`}
               >
-                <Text
-                  className={`${selectedCategory===item.category ? 'text-white':'text-black'}`}
-                 
-                >
-                  {item.category}
-                </Text>
-              </TouchableOpacity>
-            );
-          }}
-        />
-      
+                {item.category}
+              </Text>
+            </TouchableOpacity>
+          );
+        }}
+      />
 
       <FlatList
         data={filteredProducts}

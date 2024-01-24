@@ -17,17 +17,32 @@ import { AngleIcon } from "../components/svgs/Icons";
 import { LogOutIcon } from "../components/svgs/Icons";
 import { EditIcon } from "../components/svgs/Icons";
 import { useNavigation } from "@react-navigation/native";
+import { ResetPasswordIcon } from "../components/svgs/Icons";
+import { StatusBar } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { UseProductProvider } from "../context/ProductProvider";
 export default function Profile() {
+  const { setIsSignUpVisible } = UseProductProvider();
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventDate, setEventDate] = useState("");
   const [eventTime, setEventTime] = useState("");
- const navigation= useNavigation()
+  const navigation = useNavigation()
+   const insets = useSafeAreaInsets();
 
 
   return (
     <View>
-      <ScrollView>
+      <ScrollView
+        style={{
+          backgroundColor: "#ecf0f1",
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        }}
+      >
+        <StatusBar barStyle="dark-content" backgroundColor="white" />
         <View className="flex flex-row gap-2 items-center mx-2 mt-2">
           <Image
             className="rounded-full"
@@ -46,7 +61,10 @@ export default function Profile() {
 
         <View className="mx-2 mt-4">
           <View className="flex flex-row w-full mb-2 gap-2 ">
-            <Pressable className="bg-white flex-1 flex flex-row items-center px-2 py-2 shadow-md">
+            <TouchableOpacity
+              className="bg-white flex-1 flex flex-row items-center px-2 py-2 shadow-md"
+              onPress={() => navigation.navigate("Orders")}
+            >
               <Svg
                 width="30px"
                 height="30px"
@@ -65,7 +83,7 @@ export default function Profile() {
                 </G>
               </Svg>
               <Text className="mx-2">Orders</Text>
-            </Pressable>
+            </TouchableOpacity>
             <Pressable className="bg-white flex-1 flex flex-row items-center px-2  shadow-md ">
               <Svg
                 width="30px"
@@ -107,8 +125,9 @@ export default function Profile() {
 
         {/* general settins container */}
         <View className="mx-4 mt-2">
-          <TouchableOpacity className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
-            onPress={()=>navigation.navigate("EditProfile")}
+          <TouchableOpacity
+            className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
+            onPress={() => navigation.navigate("EditProfile")}
           >
             <View className="flex flex-row items-center">
               <EditIcon />
@@ -116,8 +135,21 @@ export default function Profile() {
             </View>
             <AngleIcon />
           </TouchableOpacity>
+          <TouchableOpacity
+            className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
+            onPress={() => navigation.navigate("Changepassword")}
+          >
+            <View className="flex flex-row items-center">
+              <ResetPasswordIcon />
+              <Text className="mx-2">Change Password</Text>
+            </View>
+            <AngleIcon />
+          </TouchableOpacity>
 
-          <TouchableOpacity className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2">
+          <TouchableOpacity
+            className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
+            onPress={() => navigation.navigate("Closeaccount")}
+          >
             <View className="flex flex-row items-center ">
               <CloseAccountIcon />
               <Text className="mx-2">Close Account</Text>
@@ -125,10 +157,13 @@ export default function Profile() {
             <AngleIcon />
           </TouchableOpacity>
 
-          <TouchableOpacity className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2">
+          <TouchableOpacity
+            className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
+            onPress={()=>setIsSignUpVisible(true)}
+          >
             <View className="flex flex-row items-center">
               <LogOutIcon />
-              <Text className="mx-2">Log out now</Text>
+              <Text className="mx-2">Log out</Text>
             </View>
             <AngleIcon />
           </TouchableOpacity>

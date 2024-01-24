@@ -15,7 +15,7 @@ const NewsDetails = () => {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#2c3e50" />
+     <StatusBar barStyle="light-content" backgroundColor="#2c3e50" />
 
       <SafeAreaView style={globalstyels.droidSafeArea}>
         <ScrollView className="py-2">

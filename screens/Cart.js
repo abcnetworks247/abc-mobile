@@ -13,6 +13,8 @@ import { UseProductProvider } from "../context/ProductProvider";
 import { StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { BinIcon } from "../components/svgs/Icons";
+import { PlusIcon } from "../components/svgs/Icons";
+import { MinusIcon } from "../components/svgs/Icons";
 
 export default function Cart() {
   const [eventName, setEventName] = useState("");
@@ -36,45 +38,51 @@ export default function Cart() {
   return (
     <View>
       <ScrollView>
-        <View className="mt-4">
+        <View className="mt-4 px-2">
           {allProducts.map((product) => (
-            <View
-              key={product._id}
-              className="bg-white flex flex-row px-[8px] py-2 justify-between items-center mb-2 mx-2 rounded-sm shadow-md"
-            >
-              <View className="flex flex-row items-center ">
-                <Image
-                  style={{ height: 100, width: 100 }}
-                  source={{
-                    uri: product.thumbnail,
-                  }}
-                />
-
-                <View className="flex flex-col ml-2 ">
-                  <Text className="font-bold text-sm whitespace-nowrap line-clamp-1">
-                    {product.title}
-                  </Text>
-
-                  <Text className="font-semibold text-sm my-2">
-                    ${product.price.toFixed(2)}
-                  </Text>
+            <View key={product._id} className="bg-white p-2 mb-2">
+              <View className="flex flex-row items-center gap-2">
+                <View className="basis-1/3">
+                  <Image
+                    source={{ uri: product.thumbnail }}
+                    style={{ width: "100%", aspectRatio: 1 }}
+                  />
                 </View>
-              </View>
-              <View className="flex flex-col gap-4 ">
-                <Pressable>
-                    <BinIcon/>
-                </Pressable>
-                <View className="flex flex-row border border-gray-200 items-center justify-between h-10  rounded-sm px-2 ">
-                  <TouchableOpacity className="text-[#333] h-full w-6 flex items-center justify-center">
-                    <Text className="text-[#333]">-</Text>
-                  </TouchableOpacity>
-                  <View className="w-6 bg-gray-100 h-full flex items-center justify-center">
-                    <Text>2</Text>
+                <View className="flex flex-col basis-2/3">
+                  <View className="flex flex-row items-center ">
+                    <View className="flex flex-col basis-2/3">
+                      <Text className="font-semibold">{product.title}</Text>
+                      <Text className="text-gray-500">{product.category}</Text>
+                    </View>
+
+                    <Pressable>
+                      <BinIcon />
+                    </Pressable>
                   </View>
 
-                  <TouchableOpacity className="text-[#333]   h-full w-6 flex items-center justify-center">
-                    <Text className="text-[#333]">+</Text>
-                  </TouchableOpacity>
+                  <View className="flex flex-row items-center gap-2">
+                    <View className="flex flex-row gap-1 items-center">
+                      <Text className="font-bold">
+                        {product.price.toFixed(1)}
+                      </Text>
+                      <Text className="text-gray-400 line-through">$170</Text>
+                    </View>
+
+                    {/* buttons */}
+                    <View className="flex flex-row items-center justify-evenly gap-2">
+                      <TouchableOpacity className="flex flex-row items-center justify-center p-2 border border-gray-200">
+                        <MinusIcon />
+                      </TouchableOpacity>
+                      <View className>
+                        <Text className="font-bold">1</Text>
+                      </View>
+
+                      <TouchableOpacity className="flex flex-row items-center justify-center p-2 border border-gray-200">
+                        <PlusIcon />
+                      </TouchableOpacity>
+                    </View>
+
+                  </View>
                 </View>
               </View>
             </View>
