@@ -2,6 +2,10 @@ import React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import Searchbar from "react-native-paper";
+import TestSignUp from "../auth/TestSignUp";
+import Updatepassword from "../auth/Updatepassword";
+import Recovery from "../auth/Recovery";
+import Login from "../auth/Login";
 
 import {
   Home,
@@ -228,6 +232,20 @@ const TypeDetailsStackNavigator = () => {
   );
 };
 
+
+const AuthStackNavigator = () => {
+  return (
+  
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="TestSignUp" component={TestSignUp} />
+        <Stack.Screen name="Recovery" component={Recovery} />
+        <Stack.Screen name="Updatepassword" component={Updatepassword} />
+      </Stack.Navigator>
+  
+  );
+};
+
 // const StackNavigator = () => {
 //   return (
 //     <Stack.Navigator screenOptions={screenOptionStyle}>
@@ -248,5 +266,5 @@ export {
   CartStackNavigator,
   TypeDetailsStackNavigator,
   WishStackNavigator,
-
+  AuthStackNavigator,
 };

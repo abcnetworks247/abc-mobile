@@ -6,9 +6,9 @@ import Svg, { Circle, Path } from "react-native-svg";
 import { UseProductProvider } from "../context/ProductProvider";
 import { useNavigation } from "@react-navigation/native";
 
-const Login = () => {
-  const navigation=useNavigation()
-     const { handleSignIn, setIsSignUpVisible, setRecoverVisible } = UseProductProvider();
+const Recovery = () => {
+  const navigation = useNavigation()
+  const { handleSubmit, setIsSignInVisible, setIsSignUpVisible, handleRecovery} = UseProductProvider();
   return (
     <View className="flex items-center justify-center m-auto w-full px-6">
       <View className="gap-4 w-full">
@@ -27,31 +27,21 @@ const Login = () => {
             <TextInput
               placeholder="Enter your email"
               className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white "
-              //   onChange={handleChange("email")}
-              //   onBlur={handleBlur("email")}
-              //   value={values.email}
+            //   onChange={handleChange("email")}
+            //   onBlur={handleBlur("email")}
+            //   value={values.email}
               keyboardType="email-address"
             />
-            <Text className="text-red-500 my-1 text-[13px]">Error here</Text>
-          </View>
-
-          <View>
-            <TextInput
-              placeholder="Enter password"
-              secureTextEntry={true}
-              className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white"
-              //   onChange={handleChange("password")}
-              //   onBlur={handleBlur("password")}
-              //   value={values.password}
-            />
-            <Text className="text-red-500 my-1 text-[13px]">Error</Text>
+            <Text className="text-red-500 my-1 text-[13px]">
+               errors
+            </Text>
           </View>
         </View>
         <View>
           <TouchableOpacity
             title=""
-            className=" items-center justify-center tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none"
-            onPress={() => handleSignIn()}
+            className="items-center justify-center tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none"
+            onPress={()=>navigation.navigate("Updatepassword")}
           >
             <View className="flex flex-row gap-2 items-center">
               <Svg
@@ -69,24 +59,16 @@ const Login = () => {
                 <Circle cx="8.5" cy="7" r="4" />
                 <Path d="M20 8v6M23 11h-6" />
               </Svg>
-              <Text className="text-white text-center">SignIn</Text>
+              <Text className="text-white text-center">Update</Text>
             </View>
           </TouchableOpacity>
         </View>
-        <View className="flex items-center justify-between flex-row">
-          <Text className="text-sm text-center text-gray-600">
-            New?
-            <TouchableOpacity
-              className="font-semibold text-blue-900"
-              onPress={() => navigation.navigate("TestSignUp")}
-            >
-              <Text>Register</Text>
-            </TouchableOpacity>
-          </Text>
-          <Text className="text-sm text-center text-gray-600">
-            <TouchableOpacity className="font-semibold text-blue-900" onPress={()=>navigation.navigate("Recovery")}>
-              <Text>Forgot Password?</Text>
-            </TouchableOpacity>
+        <View>
+          <Text className="text-center text-gray-500">
+             Remeber your password?{" "}
+            <Pressable className="text-blue-900 font-semibold" onPress={()=>navigation.navigate("Login")}>
+              <Text>Login</Text>
+            </Pressable>
           </Text>
         </View>
       </View>
@@ -94,4 +76,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Recovery;

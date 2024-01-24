@@ -32,12 +32,12 @@ const Productresult = () => {
       const clickedItem = allProducts.find((item) => item._id === itemId);
       setSelectedItem(clickedItem);
 
-      // Fetch similar items based on some criteria (e.g., category, tags)
+      // Fetch similar items based on some criteria 
       const similarItems = allProducts.filter(
         (item) => item.category === clickedItem.category
       );
 
-      // Use the callback form to ensure you're using the updated selectedItem
+    
       setSimilarItems(similarItems);
       setAllItems([selectedItem && selectedItem, ...similarItems]);
     }, [id, allProducts]);
