@@ -12,6 +12,8 @@ import Closeaccount from "./Closeaccount";
 import Changepassword from "./Changepassword"; 
 import SignUp from "./SignUp";
 import Orders from "./Orders";
+import Searchpage from "./Searchpage";
+import Productresult from "./Productresult";
 
 
 export {
@@ -29,4 +31,6 @@ export {
   Closeaccount,
   Changepassword,
   Orders,
+  Searchpage,
+  Productresult,
 };

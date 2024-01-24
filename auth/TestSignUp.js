@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
-import { UseProductProvider } from '../context/ProductProvider'
 import Logo from "../assets/AbcstudioNo.png";
 import { Pressable } from 'react-native';
 import Svg, { Circle, Path } from "react-native-svg";
+import { UseProductProvider } from '../context/ProductProvider';
 
 
 const TestSignUp = () => {
@@ -17,7 +17,7 @@ const TestSignUp = () => {
             Register
           </Text>
           <Text className="text-[14px] text-gray-500">
-            Hey enter your details to create your account
+               Hey enter your details to create your account
           </Text>
         </View>
 

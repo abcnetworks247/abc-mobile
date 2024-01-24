@@ -1,6 +1,7 @@
 import React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
+import Searchbar from "react-native-paper";
 
 import {
   Home,
@@ -17,6 +18,8 @@ import {
   Changepassword,
   Closeaccount,
   Orders,
+  Searchpage,
+  Productresult,
 } from "../screens";
 
 import { IconButton } from "react-native-paper";
@@ -70,13 +73,27 @@ function StoreStackNavigator() {
           title: "Store",
 
           headerRight: () => (
-            <Pressable>
+            <Pressable onPress={() => navigation.navigate("Searchpage")}>
               <SearchIcon />
             </Pressable>
           ),
         }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
+      <Stack.Screen
+        name="Searchpage"
+        component={Searchpage}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Productresult"
+        component={Productresult}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }

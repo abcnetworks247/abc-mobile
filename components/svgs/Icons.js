@@ -142,8 +142,8 @@ export const ShopIcon=({color}) =>{
   return (
      <Svg
     fill={color}
-    height="30px"
-    width="30px"
+    height="25px"
+    width="25px"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="-44.31 -44.31 580.93 580.93"
     xmlSpace="preserve"
@@ -399,6 +399,46 @@ export const MinusIcon= () => {
       <Path
         d="M2 12a1 1 0 011-1h18a1 1 0 110 2H3a1 1 0 01-1-1z"
         fill="#0F0F0F"
+      />
+    </Svg>
+  );
+};
+export const TrendIcon= () => {
+  return (
+    <Svg
+      width="30px"
+      height="30px"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+   
+    >
+      <Path
+        d="M3 17l6-6 4 4 8-8m0 0v5m0-5h-5"
+        stroke="#000"
+        strokeWidth={1.224}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+};
+export const DiagonalArrowcon= () => {
+  return (
+    <Svg
+      width="30px"
+      height="30px"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      
+    >
+      <Path
+        d="M6 6h9M6 6v9m0-9l6.5 6.5M18 18l-2.5-2.5"
+        stroke="#1C274C"
+        strokeWidth={1.2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </Svg>
   );
