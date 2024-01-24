@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <View>
       <ScrollView className="p-2" showsVerticalScrollIndicator={false}>
-       
+       <New /> 
        <HomeNews />
        <Link to={"/Home/signup"} >
        <TouchableOpacity>

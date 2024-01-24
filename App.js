@@ -8,6 +8,7 @@ import { NativeWindStyleSheet } from "nativewind";
 import { UseProductProvider } from "./context/ProductProvider";
 import TestSignUp from "./screens/TestSignUp";
 import Login from "./screens/Login";
+import { useState } from "react";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -19,23 +20,29 @@ function AppContent() {
   return (
     <>
       {isSignUpVisible ? (
-        <TestSignUp/>
+        <TestSignUp />
       ) : (
-          isSignInVisible ?
-            <Login />
-            :
-         <NavigationContainer>
-          <DrawerNavigator />
-        </NavigationContainer>
+        isSignInVisible ?
+          <Login />
+          :
+          <NavigationContainer>
+            <DrawerNavigator />
+          </NavigationContainer>
       )}
     </>
   );
 }
 
 export default function App() {
+  const [loading, setLoading] = useState(false);
   return (
     <ProductProvider>
-      <AppContent />
+      {
+        loading ?
+          <Text>App</Text>
+          :
+          <AppContent />
+      }
     </ProductProvider>
   );
 }
