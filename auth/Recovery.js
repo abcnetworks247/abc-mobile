@@ -13,7 +13,7 @@ const Recovery = () => {
     <View className="flex items-center justify-center m-auto w-full px-6">
       <View className="gap-4 w-full">
         <View className=" flex items-center justify-center ">
-          {/* <Image source={Logo} className="w-40 h-20" resizeMode="cover" /> */}
+          <Image source={Logo} className="w-40 h-20" resizeMode="cover" />
           <Text className="text-3xl font-extrabold text-blue-900 mb-2 text-center">
             Login
           </Text>

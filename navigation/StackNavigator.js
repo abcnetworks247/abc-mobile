@@ -235,14 +235,39 @@ const TypeDetailsStackNavigator = () => {
 
 const AuthStackNavigator = () => {
   return (
-  
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="TestSignUp" component={TestSignUp} />
-        <Stack.Screen name="Recovery" component={Recovery} />
-        <Stack.Screen name="Updatepassword" component={Updatepassword} />
-      </Stack.Navigator>
-  
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TestSignUp"
+        component={TestSignUp}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Recovery"
+        component={Recovery}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Updatepassword"
+        component={Updatepassword}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
   );
 };
 
