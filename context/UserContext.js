@@ -1,8 +1,10 @@
 
 import { createContext, useState, useContext, useEffect } from "react";
-import Cookies from "js-cookie";
 import React from "react";
 import Api from "../utils/Api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
 
 const UserContext = createContext();
 
@@ -21,59 +23,57 @@ export const UserContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [genLoading, setGenload] = useState(true);
 
-  // get user token from session
-  const Authtoken = Cookies.get("authToken");
+  
+
+  const authToken = AsyncStorage.getItem("authToken");
+
+   useEffect(() => {
+     const getUserData = async () => {
+       try {
+       
+         if (authToken) {
+           const response = await Api.get("client/auth/account", {
+             headers: {
+               Authorization: `Bearer ${authToken}`,
+             },
+           });
+           const dataValue = response.data.olduser;
+
+           if (response.status === 200) {
+             setUserData(dataValue);
+             setLoading(false);
+             setGenload(false);
+           }
+         } else {
+           setGenload(false);
+         }
+       } catch (error) {
+         console.error("Error fetching user data:", error);
+       }
+     };
+
+     getUserData();
+   }, []);
 
   /**
    * @function (fuction) getUserData - a fuction created to retrieve user info.
    */
 
-  const HandleGetUser = async () => {
+  const handleLogout = async () => {
     try {
-      const data = await Api.get("client/auth/account", {
-        headers: {
-          Authorization: "Bearer " + Authtoken,
-        },
-      });
-      const DataValue = data.data.olduser;
-      if (data.status === 200) {
-        setUserData(DataValue);
-        setLoading(false);
-        setGenload(false);
-      }
-      // setLoading(true);
-      console.log("data", data);
-    } catch (error) {}
-  };
-
-  /**
-   * @function (fuction) getUserData - a fuction created to retrieve user info.
-   */
-
-  const HandleLogout = async () => {
-    try {
-      const Authtoken = Cookies.remove("authToken");
-
+      await AsyncStorage.removeItem("authToken");
       await Api.delete("client/auth/signout", {
         headers: {
-          Authorization: "Bearer " + Authtoken,
+          Authorization: `Bearer ${authToken}`,
         },
       });
     } catch (error) {
-      console.log(error);
+      console.error("Error during logout:", error);
     }
   };
 
-  /**
-   * @function (fuction)  functiom for password recovery
-   */
 
-  useEffect(() => {
-    HandleGetUser();
-    if (!Authtoken) {
-      setGenload(false);
-    }
-  }, []);
+
 
   const [blogData, setBlogData] = useState(null);
 
@@ -101,17 +101,16 @@ export const UserContextProvider = ({ children }) => {
   // log out user
   console.log("UserData", UserData);
 
-  if (genLoading) {
-    return <Loading />;
-  }
+  // if (genLoading) {
+  //   return <Loading />;
+  // }
   return (
     <UserContext.Provider
       value={{
-        HandleLogout,
+        handleLogout,
         UserData,
         loading,
-        Authtoken,
-        HandleGetUser,
+        authToken  
       }}
     >
       {children} 

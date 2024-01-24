@@ -5,10 +5,150 @@ import { Pressable } from "react-native";
 import Svg, { Circle, Path } from "react-native-svg";
 import { UseProductProvider } from "../context/ProductProvider";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Api from "../utils/Api";
+import { EMAIL_REGEX, PASSWORD_REGEX } from "../utils/regex";
+import { useState, useEffect } from "react";
 
 const Login = () => {
-  const navigation=useNavigation()
-     const { handleSignIn, setIsSignUpVisible, setRecoverVisible } = UseProductProvider();
+  const navigation = useNavigation();
+  const { handleSignIn, setIsSignUpVisible, setRecoverVisible } =
+    UseProductProvider();
+  const [universalError, setUniversalError] = useState("");
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  // Define initial validation state
+  const [isValidData, setIsValidData] = useState(true);
+  // Define the initial loginform data
+
+  const [logInFormData, setlogInFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errorMessages, setErrorMessages] = useState({
+    email: "",
+    fullname: "",
+    password: "",
+  });
+
+ 
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible((prevVisible) => !prevVisible);
+  };
+
+  function signUpValidate(fieldName, regex, value, errorMessage) {
+    if (!regex.test(value)) {
+      setUniversalError("");
+      setErrorMessages((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: errorMessage,
+      }));
+      setIsValidData(false);
+    } else {
+      setErrorMessages((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "",
+      }));
+      setIsValidData(true);
+
+      setUniversalError("");
+    }
+  }
+
+
+   const handleInputChange = (name, value) => {
+     setlogInFormData({
+       ...logInFormData,
+       [name]: value,
+     });
+
+     if (name === "email") {
+       signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
+     } else if (name === "password") {
+       signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
+     }
+   };
+
+  // Define Variable for allfield valid
+
+  const allFieldsValid = Object.keys(errorMessages).every(
+    (field) => !errorMessages[field]
+  );
+
+  /**
+   * Handle change in form input
+   * @param {object} e - the event object
+   * @param {string} e.target.name - the name of the input field
+   * @param {string} e.target.value - the value entered in the input field
+   */
+
+  /**
+   * @param {object} e- the event object
+   * @param {Function} e.preventDefault - prevent default forms submission behaviour
+   */
+
+  const [data, setdata] = useState([]);
+  console.log("data", data);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log(logInFormData);
+    setIsValidData(allFieldsValid);
+
+    if (!allFieldsValid) {
+      toast.error("please fill in all the fields correctly", {
+        position: toast.POSITION.TOP_LEFT,
+      });
+      return;
+    }
+    const id = toast.loading("loging in..", {
+      position: toast.POSITION.TOP_LEFT,
+    });
+    try {
+      // perform an asyncronous request to sigin in the user
+      console.log(logInFormData, "response data");
+      const data = await Api.post("client/auth/signin", logInFormData, {
+        withCredentials: true,
+      });
+
+      const value = data.data;
+      // log the response data
+      console.log("errorr", value.error);
+      // check the staus of the request to see if the request was successful or not
+      if (data.status === 200) {
+        console.log(value?.message, "success message");
+        AsyncStorage.setItem("authToken", data.authToken);
+        navigation.navigate("Home");
+
+        setTimeout(() => {
+          toast.dismiss(id);
+        }, 1000);
+        toast.update(id, {
+          render: `${data.data.message}`,
+          type: "success",
+          isLoading: false,
+        });
+        router.push("/");
+
+        setdata(value);
+      }
+    } catch (error) {
+      const suberrormsg = toast.update(id, {
+        render: `${error.response.data.error}`,
+        type: "error",
+        isLoading: false,
+      });
+      setTimeout(() => {
+        toast.dismiss(suberrormsg);
+      }, 2000);
+
+      console.error(error);
+    }
+  };
   return (
     <View className="flex items-center justify-center m-auto w-full px-6">
       <View className="gap-4 w-full">
@@ -27,12 +167,18 @@ const Login = () => {
             <TextInput
               placeholder="Enter your email"
               className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white "
-              //   onChange={handleChange("email")}
-              //   onBlur={handleBlur("email")}
-              //   value={values.email}
               keyboardType="email-address"
+              value={logInFormData.email}
+              onChangeText={(value) => {
+                handleInputChange("email", value)
+              }}
             />
-            <Text className="text-red-500 my-1 text-[13px]">Error here</Text>
+
+            {errorMessages.email && (
+              <Text className="text-red-500 my-1 text-[13px]">
+                {errorMessages.email}
+              </Text>
+            )}
           </View>
 
           <View>
@@ -40,18 +186,21 @@ const Login = () => {
               placeholder="Enter password"
               secureTextEntry={true}
               className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white"
-              //   onChange={handleChange("password")}
-              //   onBlur={handleBlur("password")}
-              //   value={values.password}
+              value={logInFormData.password}
+              onChangeText={(value) => handleInputChange("password", value)}
             />
-            <Text className="text-red-500 my-1 text-[13px]">Error</Text>
+            {errorMessages.password && (
+              <Text className="text-red-500 my-1 text-[13px]">
+                {errorMessages.password}
+              </Text>
+            )}
           </View>
         </View>
         <View>
           <TouchableOpacity
             title=""
             className=" items-center justify-center tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none"
-            onPress={() => handleSignIn()}
+            onPress={() => handleSubmit()}
           >
             <View className="flex flex-row gap-2 items-center">
               <Svg
@@ -84,7 +233,10 @@ const Login = () => {
             </TouchableOpacity>
           </Text>
           <Text className="text-sm text-center text-gray-600">
-            <TouchableOpacity className="font-semibold text-blue-900" onPress={()=>navigation.navigate("Recovery")}>
+            <TouchableOpacity
+              className="font-semibold text-blue-900"
+              onPress={() => navigation.navigate("Recovery")}
+            >
               <Text>Forgot Password?</Text>
             </TouchableOpacity>
           </Text>

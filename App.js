@@ -12,7 +12,7 @@ import { useState } from "react"
 import Recovery from "./auth/Recovery"
 import Updatepassword from "./auth/Updatepassword";
 import { AuthStackNavigator } from "./navigation/StackNavigator";
-
+import { UserContextProvider } from "./context/UserContext";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -35,8 +35,10 @@ function AppContent() {
 export default function App() {
   
   return (
-    <ProductProvider>
-       <AppContent />
-    </ProductProvider>
+    <UserContextProvider>
+      <ProductProvider>
+        <AppContent />
+      </ProductProvider>
+    </UserContextProvider>
   );
 }
