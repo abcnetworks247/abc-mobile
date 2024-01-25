@@ -27,7 +27,7 @@ const CustomDrawer = (props) => {
           style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}
         >
           <TouchableOpacity style={{ paddingVertical: 15 }}>
-            <View className="flex flex-row gap-2 items-center mx-2 mt-2">
+            {/* <View className="flex flex-row gap-2 items-center mx-2 mt-2">
               <Image
                 className="rounded-full"
                 style={{ height: 70, width: 70 }}
@@ -41,10 +41,10 @@ const CustomDrawer = (props) => {
                 <Text className="font-bold">Mijan Richard</Text>
                 <Text className="text-gray-400">mijanigoni@gmail.com</Text>
               </View>
-            </View>
+            </View> */}
             <View className="flex flex-row items-center">
               <Ionicons name="exit-outline" size={22} />
-              <Text>log out</Text>
+              <Text className="ml-2">log out</Text>
             </View>
           </TouchableOpacity>
         </View>

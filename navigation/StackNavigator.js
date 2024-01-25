@@ -1,5 +1,5 @@
 import React from "react";
-import { View , TouchableOpacity} from "react-native";
+import { TouchableOpacity} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Searchbar from "react-native-paper";
 import TestSignUp from "../auth/TestSignUp";
@@ -29,13 +29,14 @@ import {
 import { IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { ChangePasswordIcon, HamburgerIcon } from "../components/svgs/Icons";
-import { Pressable } from "react-native";
+import { Pressable, TouchableHighlight, View } from "react-native";
 import { SearchIcon } from "../components/svgs/Icons";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { ChevronLeftIcon } from "../components/svgs/Icons";
 import { MenuIcon } from "../components/svgs/Icons";
 import Profileheader from "../components/Profileheader";
 import Productheader from "../components/products/Productheader";
+import Navbar from "../components/Navbar";
 
 
 
@@ -71,16 +72,22 @@ function StoreStackNavigator() {
         options={{
           headerLeft: () => (
             <Pressable onPress={() => navigation.goBack()}>
-              <HamburgerIcon />
+              <Ionicons name="menu-sharp" size={23} />
             </Pressable>
           ),
-          title: "Store",
 
           headerRight: () => (
-            <Pressable onPress={() => navigation.navigate("Searchpage")}>
-              <SearchIcon />
+            <Pressable
+              onPress={() => navigation.navigate("Searchpage")}
+              style={{ paddingLeft: 10 }}
+            >
+              <Ionicons name="search-sharp" size={23} />
             </Pressable>
           ),
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+          },
         }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
@@ -101,7 +108,7 @@ function StoreStackNavigator() {
     </Stack.Navigator>
   );
 }
-const WishStackNavigator=()=> {
+const WishStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -109,7 +116,7 @@ const WishStackNavigator=()=> {
         component={Wishlist}
         options={{
           headerShown: false
-          
+
         }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
@@ -119,8 +126,12 @@ const WishStackNavigator=()=> {
 
 const NewStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="News" component={News} />
+    <Stack.Navigator >
+      <Stack.Screen name="News" component={News}
+      options={{
+        header: () => <Navbar />
+      }}
+      />
       <Stack.Screen name="TypeDetails" component={TypeDetails} />
       <Stack.Screen name="NewsDetails" component={NewsDetails} />
     </Stack.Navigator>
@@ -128,7 +139,7 @@ const NewStackNavigator = () => {
 };
 
 const CartStackNavigator = () => {
-  const navigation= useNavigation()
+  const navigation = useNavigation()
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -173,7 +184,7 @@ const ProfileStackNavigator = () => {
             </Pressable>
           ),
           title: 'Profile',
-  
+
           headerRight: () => (
             <Pressable>
               <MenuIcon />
@@ -181,7 +192,7 @@ const ProfileStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen name="EditProfile" component={Editprofile}  />
+      <Stack.Screen name="EditProfile" component={Editprofile} />
       <Stack.Screen
         name="Changepassword"
         component={Changepassword}
@@ -197,39 +208,19 @@ const ProfileStackNavigator = () => {
 
 // home stack
 const HomeStackNavigator = () => {
+  const navigation = useNavigation();
   return (
     <Stack.Navigator >
       <Stack.Screen
         name="Home"
         component={Home}
         options={{
-          headerLeft: () => (
-            <Pressable >
-              <HamburgerIcon />
-            </Pressable>
-          ),
-
-          headerRight : ()=> (
-            <View style={{marginLeft:15}}>
-               <TouchableOpacity>
-                  <Ionicons name="heart-outline" size={22} color="#000"/>
-                </TouchableOpacity>
-            </View>
-          ),
-
-          headerStyle: {
-            height: 100,
-     
-            backgroundColor: 'blue',
-            shadowColor: '#000',
-            elevation:25
-          }
-        
-
-        
+          header: () => <Navbar />
+ 
         }}
       />
-      <Stack.Screen name="NewsDetails" component={NewsDetails} />
+      <Stack.Screen name="NewsDetails" component={NewsDetails}/>
+      
       <Stack.Screen name="News" component={News} />
     </Stack.Navigator>
   );

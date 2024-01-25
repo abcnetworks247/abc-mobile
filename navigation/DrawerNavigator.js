@@ -3,6 +3,8 @@ import { Button, View } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import { SvgXml } from "react-native-svg";
+//import stausbar
+import { StatusBar } from "expo-status-bar";
 import {
   StoreStackNavigator,
   NewStackNavigator,
@@ -25,14 +27,16 @@ const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator() {
   return (
+    <>
+
     <Drawer.Navigator
       screenOptions={{
         drawerStyle: {
           backgroundColor: "white",
         },
-        drawerLabelStyle: { marginLeft: -25, fontFamily: "Roboto-Medium" },
+        drawerLabelStyle: { marginLeft: -25, },
         drawerActiveBackgroundColor: "#D3D3D3",
-        drawerActiveTintColor: "blue",
+        drawerActiveTintColor: "black",
         headerShown: false,
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
@@ -99,5 +103,6 @@ export default function DrawerNavigator() {
         }}
       />
     </Drawer.Navigator>
+    </>
   );
 }
