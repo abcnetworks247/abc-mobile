@@ -48,6 +48,7 @@ const dummyTexts = uniqueCategories.map((category, index) => ({
       price={item.price}
     />
   );
+  
 
   if (loading) {
     return (
