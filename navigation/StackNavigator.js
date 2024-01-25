@@ -1,6 +1,11 @@
 import React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
+import Searchbar from "react-native-paper";
+import TestSignUp from "../auth/TestSignUp";
+import Updatepassword from "../auth/Updatepassword";
+import Recovery from "../auth/Recovery";
+import Login from "../auth/Login";
 
 import {
   Home,
@@ -17,6 +22,8 @@ import {
   Changepassword,
   Closeaccount,
   Orders,
+  Searchpage,
+  Productresult,
 } from "../screens";
 
 import { IconButton } from "react-native-paper";
@@ -71,13 +78,27 @@ function StoreStackNavigator() {
           title: "Store",
 
           headerRight: () => (
-            <Pressable>
+            <Pressable onPress={() => navigation.navigate("Searchpage")}>
               <SearchIcon />
             </Pressable>
           ),
         }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
+      <Stack.Screen
+        name="Searchpage"
+        component={Searchpage}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Productresult"
+        component={Productresult}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -208,6 +229,45 @@ const TypeDetailsStackNavigator = () => {
   );
 };
 
+
+const AuthStackNavigator = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TestSignUp"
+        component={TestSignUp}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Recovery"
+        component={Recovery}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Updatepassword"
+        component={Updatepassword}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 // const StackNavigator = () => {
 //   return (
 //     <Stack.Navigator screenOptions={screenOptionStyle}>
@@ -228,5 +288,5 @@ export {
   CartStackNavigator,
   TypeDetailsStackNavigator,
   WishStackNavigator,
-
+  AuthStackNavigator,
 };
