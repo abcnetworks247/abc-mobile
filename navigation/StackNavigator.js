@@ -1,12 +1,12 @@
 import React from "react";
-
+import { View , TouchableOpacity} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Searchbar from "react-native-paper";
 import TestSignUp from "../auth/TestSignUp";
 import Updatepassword from "../auth/Updatepassword";
 import Recovery from "../auth/Recovery";
 import Login from "../auth/Login";
-
+import { Ionicons } from "@expo/vector-icons";
 import {
   Home,
   News,
@@ -27,7 +27,6 @@ import {
 } from "../screens";
 
 import { IconButton } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { ChangePasswordIcon, HamburgerIcon } from "../components/svgs/Icons";
 import { Pressable } from "react-native";
@@ -37,6 +36,7 @@ import { ChevronLeftIcon } from "../components/svgs/Icons";
 import { MenuIcon } from "../components/svgs/Icons";
 import Profileheader from "../components/Profileheader";
 import Productheader from "../components/products/Productheader";
+
 
 
 
@@ -154,13 +154,6 @@ const CartStackNavigator = () => {
 };
 
 
-// const AuthStackNavigatior = function () {
-//   return(
-//     <Stack.Navigator screenOptions={{headerShown: false}}>
-//       <Stack.Screen name="SignUp" component={SignUp} />
-//     </Stack.Navigator>
-//   )
-// }
 
 const ProfileStackNavigator = () => {
   const navigation = useNavigation();
@@ -201,9 +194,11 @@ const ProfileStackNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+// home stack
 const HomeStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator >
       <Stack.Screen
         name="Home"
         component={Home}
@@ -213,6 +208,22 @@ const HomeStackNavigator = () => {
               <HamburgerIcon />
             </Pressable>
           ),
+
+          headerRight : ()=> (
+            <View style={{marginLeft:15}}>
+               <TouchableOpacity>
+                  <Ionicons name="heart-outline" size={22} color="#000"/>
+                </TouchableOpacity>
+            </View>
+          ),
+
+          headerStyle: {
+            height: 100,
+     
+            backgroundColor: 'blue',
+            shadowColor: '#000',
+            elevation:25
+          }
         
 
         
