@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Api from "../utils/Api";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../utils/regex";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -78,77 +79,71 @@ const Login = () => {
     (field) => !errorMessages[field]
   );
 
-  /**
-   * Handle change in form input
-   * @param {object} e - the event object
-   * @param {string} e.target.name - the name of the input field
-   * @param {string} e.target.value - the value entered in the input field
-   */
-
-  /**
-   * @param {object} e- the event object
-   * @param {Function} e.preventDefault - prevent default forms submission behaviour
-   */
+ 
 
   const [data, setdata] = useState([]);
   console.log("data", data);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
+    console.log("submitted")
+  }
 
-    console.log(logInFormData);
-    setIsValidData(allFieldsValid);
+  // const handleSubmit = async () => {
+    
 
-    if (!allFieldsValid) {
-      toast.error("please fill in all the fields correctly", {
-        position: toast.POSITION.TOP_LEFT,
-      });
-      return;
-    }
-    const id = toast.loading("loging in..", {
-      position: toast.POSITION.TOP_LEFT,
-    });
-    try {
-      // perform an asyncronous request to sigin in the user
-      console.log(logInFormData, "response data");
-      const data = await Api.post("client/auth/signin", logInFormData, {
-        withCredentials: true,
-      });
+  //   console.log(logInFormData);
+  //   setIsValidData(allFieldsValid);
 
-      const value = data.data;
-      // log the response data
-      console.log("errorr", value.error);
-      // check the staus of the request to see if the request was successful or not
-      if (data.status === 200) {
-        console.log(value?.message, "success message");
-        AsyncStorage.setItem("authToken", data.authToken);
-        navigation.navigate("Home");
+  //   if (!allFieldsValid) {
+  //     toast.error("please fill in all the fields correctly", {
+  //       position: toast.POSITION.TOP_LEFT,
+  //     });
+  //     return;
+  //   }
+  //   const id = toast.loading("loging in..", {
+  //     position: toast.POSITION.TOP_LEFT,
+  //   });
+  //   try {
+  //     // perform an asyncronous request to sigin in the user
+  //     console.log(logInFormData, "response data");
+  //     const data = await Api.post("client/auth/signin", logInFormData, {
+  //       withCredentials: true,
+  //     });
 
-        setTimeout(() => {
-          toast.dismiss(id);
-        }, 1000);
-        toast.update(id, {
-          render: `${data.data.message}`,
-          type: "success",
-          isLoading: false,
-        });
-        router.push("/");
+  //     const value = data.data;
+  //     // log the response data
+  //     console.log("errorr", value.error);
+  //     // check the staus of the request to see if the request was successful or not
+  //     if (data.status === 200) {
+  //       console.log(value?.message, "success message");
+  //       AsyncStorage.setItem("authToken", data.authToken);
+  //       navigation.navigate("Home");
 
-        setdata(value);
-      }
-    } catch (error) {
-      const suberrormsg = toast.update(id, {
-        render: `${error.response.data.error}`,
-        type: "error",
-        isLoading: false,
-      });
-      setTimeout(() => {
-        toast.dismiss(suberrormsg);
-      }, 2000);
+  //       setTimeout(() => {
+  //         toast.dismiss(id);
+  //       }, 1000);
+  //       toast.update(id, {
+  //         render: `${data.data.message}`,
+  //         type: "success",
+  //         isLoading: false,
+  //       });
+  //       router.push("/");
 
-      console.error(error);
-    }
-  };
+  //       setdata(value);
+  //     }
+  //   } catch (error) {
+  //     const suberrormsg = toast.update(id, {
+  //       render: `${error.response.data.error}`,
+  //       type: "error",
+  //       isLoading: false,
+  //     });
+  //     setTimeout(() => {
+  //       toast.dismiss(suberrormsg);
+  //     }, 2000);
+
+  //     console.error(error);
+  //   }
+  // };
   return (
     <View className="flex items-center justify-center m-auto w-full px-6">
       <View className="gap-4 w-full">

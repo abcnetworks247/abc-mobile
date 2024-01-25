@@ -17,9 +17,12 @@ import { AuthStackNavigatior } from "./StackNavigator";
 import Tabs from "./Tabs";
 import { CloseAccountIcon } from "../components/svgs/Icons";
 import { HeartIcon } from "../components/svgs/Icons";
+import CustomDrawer from "../screens/CustomDrawer";
+import { Ionicons } from "@expo/vector-icons";
 
 
 const Drawer = createDrawerNavigator();
+
 
 
 export default function DrawerNavigator() {
@@ -27,19 +30,65 @@ export default function DrawerNavigator() {
     <>
 
     <Drawer.Navigator
-      drawerStyle={{
-        backgroundColor: "blue", // Set the background color to blue
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: "white",
+        },
+        drawerLabelStyle: { marginLeft: -25, },
+        drawerActiveBackgroundColor: "#D3D3D3",
+        drawerActiveTintColor: "black",
+        headerShown: false,
       }}
+      drawerContent={(props) => <CustomDrawer {...props} />}
     >
       <Drawer.Screen
         name="Home"
         component={Tabs}
         options={{
-          drawerLabel: "Hometablet",
-          drawerIcon: ({ color, size }) => (
-            <CloseAccountIcon width={size} height={size} fill={color} />
+          drawerLabel: "Home",
+          drawerIcon: ({ color }) => (
+            <Ionicons name="home-outline" size={22} color={color} />
           ),
-          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
+        name="Membership"
+        component={Tabs}
+        options={{
+          drawerLabel: "Membership",
+          drawerIcon: ({ color }) => (
+            <Ionicons name="medal-outline" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="About"
+        component={Tabs}
+        options={{
+          drawerLabel: "About",
+          drawerIcon: ({ color }) => (
+            <Ionicons name="heart-outline" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Contact"
+        component={Tabs}
+        options={{
+          drawerLabel: "Contact",
+          drawerIcon: ({ color }) => (
+            <Ionicons name="call-outline" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Wishlist"
+        component={Tabs}
+        options={{
+          drawerLabel: "Wishlist",
+          drawerIcon: ({ color }) => (
+            <Ionicons name="heart-outline" size={22} color={color} />
+          ),
         }}
       />
       <Drawer.Screen
@@ -47,24 +96,12 @@ export default function DrawerNavigator() {
         component={ProfileStackNavigator}
         options={{
           drawerLabel: "Profile",
-          drawerIcon: ({ color, size }) => (
-            <CloseAccountIcon width={size} height={size} fill={color} />
+          drawerIcon: ({ color }) => (
+            <Ionicons name="person-outline" size={22} color={color} />
           ),
           title: "Profile",
         }}
       />
-      <Drawer.Screen
-        name="WishlistTab"
-        component={WishStackNavigator}
-        options={{
-          drawerLabel: "Wishlist",
-          drawerIcon: ({ color, size }) => (
-            <HeartIcon width={size} height={size} fill={color} />
-          ),
-          title: "Wish List",
-        }}
-      />
-      
     </Drawer.Navigator>
     </>
   );
