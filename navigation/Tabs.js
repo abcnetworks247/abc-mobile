@@ -10,7 +10,6 @@ import {
   NewStackNavigator,
   ProfileStackNavigator,
   HomeStackNavigator,
-  AuthStackNavigatior,
   CartStackNavigator,
 } from "./StackNavigator";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
@@ -19,14 +18,6 @@ import { Editprofile } from "../screens";
 
 
 const Tab = createBottomTabNavigator();
-
-
-
-
-
-
-
-
 
 
 const Tabs = () => {
@@ -84,11 +75,11 @@ const Tabs = () => {
         component={CartStackNavigator}
         options={{ headerShown: false, tabBarLabel: "Cart" }}
       />
-        <Tab.Screen
+        {/* <Tab.Screen
         name="signup"
         component={AuthStackNavigatior}
         options={{ headerShown: false, tabBarLabel: "Cart",  }}
-      />
+      /> */}
       <Tab.Screen
         name="Profiletab"
         component={ProfileStackNavigator}

@@ -48,7 +48,7 @@ const Closeaccount = () => {
                 <TextInput
                   name="password"
                   type="password"
-                  placeholder="Type your name"
+                  placeholder="Type your password"
                   className="w-full px-4 d py-2.5 text-base text-gray-900 font-normal border border-gray-200 bg-white"
                   data-gramm="false"
                   wt-ignore-input="true"

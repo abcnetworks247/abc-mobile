@@ -1,16 +1,47 @@
 import React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
+import Searchbar from "react-native-paper";
+import TestSignUp from "../auth/TestSignUp";
+import Updatepassword from "../auth/Updatepassword";
+import Recovery from "../auth/Recovery";
+import Login from "../auth/Login";
 
-import { Home, News, Store, Cart, Profile, ProductDetails, NewsDetails, TypeDetails, Wishlist, Editprofile, SignUp  } from "../screens";
+import {
+  Home,
+  News,
+  Store,
+  Cart,
+  Profile,
+  ProductDetails,
+  NewsDetails,
+  TypeDetails,
+  Wishlist,
+  Editprofile,
+  SignUp,
+  Changepassword,
+  Closeaccount,
+  Orders,
+  Searchpage,
+  Productresult,
+} from "../screens";
 
 import { IconButton } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { HamburgerIcon } from "../components/svgs/Icons";
-import { Pressable } from "react-native";
+import { ChangePasswordIcon, HamburgerIcon } from "../components/svgs/Icons";
+import { Pressable, TouchableHighlight, View } from "react-native";
 import { SearchIcon } from "../components/svgs/Icons";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { ChevronLeftIcon } from "../components/svgs/Icons";
+import { MenuIcon } from "../components/svgs/Icons";
+import Profileheader from "../components/Profileheader";
+import Productheader from "../components/products/Productheader";
+import Navbar from "../components/Navbar";
+
+
+
+
 
 
 
@@ -40,30 +71,38 @@ function StoreStackNavigator() {
         component={Store}
         options={{
           headerLeft: () => (
-            <Pressable onPress={handleDrawerOpen} className="ml-10">
+            <Pressable onPress={() => navigation.goBack()}>
               <HamburgerIcon />
             </Pressable>
           ),
-          headerTitle: "Store",
+          title: "Store",
+
           headerRight: () => (
-            <Pressable onPress={handleDrawerOpen}>
+            <Pressable onPress={() => navigation.navigate("Searchpage")}>
               <SearchIcon />
             </Pressable>
           ),
-          headerStyle: {
-            backgroundColor: "white",
-      
-           
-          },
-          headerTintColor: "white",
-          headerBackTitle: "Back",
         }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
+      <Stack.Screen
+        name="Searchpage"
+        component={Searchpage}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Productresult"
+        component={Productresult}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
-const WishStackNavigator=()=> {
+const WishStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -71,7 +110,7 @@ const WishStackNavigator=()=> {
         component={Wishlist}
         options={{
           headerShown: false
-          
+
         }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
@@ -81,8 +120,12 @@ const WishStackNavigator=()=> {
 
 const NewStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="News" component={News} />
+    <Stack.Navigator >
+      <Stack.Screen name="News" component={News}
+      options={{
+        header: () => <Navbar />
+      }}
+      />
       <Stack.Screen name="TypeDetails" component={TypeDetails} />
       <Stack.Screen name="NewsDetails" component={NewsDetails} />
     </Stack.Navigator>
@@ -90,45 +133,94 @@ const NewStackNavigator = () => {
 };
 
 const CartStackNavigator = () => {
+  const navigation = useNavigation()
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Cart" component={Cart} />
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          headerLeft: () => (
+            <Pressable onPress={() => navigation.goBack()}>
+              <ChevronLeftIcon />
+            </Pressable>
+          ),
+          title: "Cart",
+
+          // headerRight: () => (
+          //   <Pressable>
+          //     <MenuIcon />
+          //   </Pressable>
+          // ),
+        }}
+      />
     </Stack.Navigator>
   );
 };
 
 
-const AuthStackNavigatior = function () {
-  return(
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="SignUp" component={SignUp} />
-    </Stack.Navigator>
-  )
-}
+// const AuthStackNavigatior = function () {
+//   return(
+//     <Stack.Navigator screenOptions={{headerShown: false}}>
+//       <Stack.Screen name="SignUp" component={SignUp} />
+//     </Stack.Navigator>
+//   )
+// }
 
 const ProfileStackNavigator = () => {
+  const navigation = useNavigation();
   return (
     <Stack.Navigator
       screenOptions={{
         tabBarHideOnKeyboard: true,
-      
       }}
     >
       <Stack.Screen
         name="Profile"
         component={Profile}
-        options={{ headerShown: false }}
+        options={{
+          headerLeft: () => (
+            <Pressable onPress={() => navigation.goBack()}>
+              <ChevronLeftIcon />
+            </Pressable>
+          ),
+          title: 'Profile',
+
+          headerRight: () => (
+            <Pressable>
+              <MenuIcon />
+            </Pressable>
+          ),
+        }}
       />
       <Stack.Screen name="EditProfile" component={Editprofile} />
+      <Stack.Screen
+        name="Changepassword"
+        component={Changepassword}
+        options={{
+          headerTitle: "Reset password",
+        }}
+      />
+      <Stack.Screen name="Closeaccount" component={Closeaccount} />
+      <Stack.Screen name="Orders" component={Orders} />
     </Stack.Navigator>
   );
 };
 const HomeStackNavigator = () => {
+  const navigation = useNavigation();
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="NewsDetails" component={NewsDetails} />
-      <Stack.Screen name="News" component={News} />      
+    <Stack.Navigator >
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          header: () => <Navbar />
+
+        }}
+      />
+      <Stack.Screen name="NewsDetails" component={NewsDetails}/>
+      
+      <Stack.Screen name="News" component={News} />
     </Stack.Navigator>
   );
 };
@@ -137,6 +229,45 @@ const TypeDetailsStackNavigator = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="TypeDetails" component={TypeDetails} />
       <Stack.Screen name="NewsDetails" component={NewsDetails} />
+    </Stack.Navigator>
+  );
+};
+
+
+const AuthStackNavigator = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TestSignUp"
+        component={TestSignUp}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Recovery"
+        component={Recovery}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Updatepassword"
+        component={Updatepassword}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -161,5 +292,5 @@ export {
   CartStackNavigator,
   TypeDetailsStackNavigator,
   WishStackNavigator,
-  AuthStackNavigatior,
+  AuthStackNavigator,
 };

@@ -3,6 +3,8 @@ import { Button, View } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import { SvgXml } from "react-native-svg";
+//import stausbar
+import { StatusBar } from "expo-status-bar";
 import {
   StoreStackNavigator,
   NewStackNavigator,
@@ -22,6 +24,8 @@ const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator() {
   return (
+    <>
+
     <Drawer.Navigator
       drawerStyle={{
         backgroundColor: "blue", // Set the background color to blue
@@ -60,18 +64,8 @@ export default function DrawerNavigator() {
           title: "Wish List",
         }}
       />
-      {/* <Drawer.Screen
-        name="AuthTab"
-        component={AuthStackNavigatior}
-        options={{
-          drawerLabel: "Signup",
-          headerShown: false,
-          drawerIcon: ({ color, size }) => (
-            <HeartIcon width={size} height={size} fill={color} />
-          ),
-          title: "Sign up",
-        }}
-      /> */}
+      
     </Drawer.Navigator>
+    </>
   );
 }

@@ -9,8 +9,11 @@ import Editprofile from "./Editprofile";
 import NewsDetails from "./NewsDetails";
 import Profile from "./Profile";
 import Closeaccount from "./Closeaccount";
-import Changepassword from "./Changepassword"; 
+import Changepassword from "./Changepassword";
 import SignUp from "./SignUp";
+import Orders from "./Orders";
+import Searchpage from "./Searchpage";
+import Productresult from "./Productresult";
 
 
 export {
@@ -23,6 +26,11 @@ export {
   TypeDetails,
   Wishlist,
   SignUp,
- Editprofile,
-  Profile
+  Editprofile,
+  Profile,
+  Closeaccount,
+  Changepassword,
+  Orders,
+  Searchpage,
+  Productresult,
 };
