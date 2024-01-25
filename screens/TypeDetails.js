@@ -9,9 +9,10 @@ import {
   Linking,
   Pressable,
   Button,
+  SafeAreaView,
 } from "react-native";
 import React from "react";
-import { ScrollView, SafeAreaView } from "react-native";
+import { ScrollView } from "react-native";
 import axios from "axios";
 import { useEffect, useState } from "react";
 // import {  TouchableOpacity } from "react-native-gesture-handler";
@@ -63,11 +64,11 @@ const TypeDetails = () => {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#2c3e50" />
+      <StatusBar barStyle="light-content" backgroundColor="#111827" />
       <SafeAreaView style={globalstyels.droidSafeArea}>
         <ScrollView className="my-2 space-y-8 mx-3"
-            // remove scrollbar
-            showsVerticalScrollIndicator={false}
+          // remove scrollbar
+          showsVerticalScrollIndicator={false}
         >
           {/* trending news */}
           <View className=" ">

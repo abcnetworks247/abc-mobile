@@ -7,6 +7,7 @@ import {
   Image,
   DatePickerIOS,
   Pressable,
+  SafeAreaView,
 } from "react-native";
 import React, { useState } from "react";
 
@@ -21,6 +22,8 @@ import { ResetPasswordIcon } from "../components/svgs/Icons";
 import { StatusBar } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { UseProductProvider } from "../context/ProductProvider";
+import globalstyels from "../styles/globalstyels";
+
 export default function Profile() {
   const { setIsSignUpVisible } = UseProductProvider();
   const [eventName, setEventName] = useState("");
@@ -32,7 +35,9 @@ export default function Profile() {
 
 
   return (
-    <View>
+    <>
+    <StatusBar barStyle="light-content" backgroundColor="#111827" />
+    <SafeAreaView style={globalstyels.droidSafeArea}>
       <ScrollView
         style={{
           backgroundColor: "#ecf0f1",
@@ -42,7 +47,6 @@ export default function Profile() {
           paddingRight: insets.right,
         }}
       >
-        <StatusBar barStyle="dark-content" backgroundColor="white" />
         <View className="flex flex-row gap-2 items-center mx-2 mt-2">
           <Image
             className="rounded-full"
@@ -169,6 +173,7 @@ export default function Profile() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
+    </>
   );
 }

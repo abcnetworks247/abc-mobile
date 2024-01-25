@@ -7,12 +7,15 @@ import {
   Image,
   DatePickerIOS,
   Pressable,
+  SafeAreaView,
+  StatusBar
 } from "react-native";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { BinIcon } from "../components/svgs/Icons";
 import { UseProductProvider } from "../context/ProductProvider";
+import globalstyels from "../styles/globalstyels";
 
 export default function Orders() {
   const [eventName, setEventName] = useState("");
@@ -30,7 +33,7 @@ export default function Orders() {
   }
 
   return (
-    <View>
+    <SafeAreaView style={globalstyels.droidSafeArea}>
       <ScrollView>
         <View className="mt-4 mx-2">
           {allProducts.map((product) => (
@@ -71,6 +74,6 @@ export default function Orders() {
           ))}
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

@@ -23,13 +23,14 @@ import { IconButton } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { ChangePasswordIcon, HamburgerIcon } from "../components/svgs/Icons";
-import { Pressable } from "react-native";
+import { Pressable, TouchableHighlight, View } from "react-native";
 import { SearchIcon } from "../components/svgs/Icons";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { ChevronLeftIcon } from "../components/svgs/Icons";
 import { MenuIcon } from "../components/svgs/Icons";
 import Profileheader from "../components/Profileheader";
 import Productheader from "../components/products/Productheader";
+import Navbar from "../components/Navbar";
 
 
 
@@ -80,7 +81,7 @@ function StoreStackNavigator() {
     </Stack.Navigator>
   );
 }
-const WishStackNavigator=()=> {
+const WishStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -88,7 +89,7 @@ const WishStackNavigator=()=> {
         component={Wishlist}
         options={{
           headerShown: false
-          
+
         }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
@@ -107,7 +108,7 @@ const NewStackNavigator = () => {
 };
 
 const CartStackNavigator = () => {
-  const navigation= useNavigation()
+  const navigation = useNavigation()
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -159,7 +160,7 @@ const ProfileStackNavigator = () => {
             </Pressable>
           ),
           title: 'Profile',
-  
+
           headerRight: () => (
             <Pressable>
               <MenuIcon />
@@ -167,7 +168,7 @@ const ProfileStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen name="EditProfile" component={Editprofile}  />
+      <Stack.Screen name="EditProfile" component={Editprofile} />
       <Stack.Screen
         name="Changepassword"
         component={Changepassword}
@@ -181,23 +182,19 @@ const ProfileStackNavigator = () => {
   );
 };
 const HomeStackNavigator = () => {
+  const navigation = useNavigation();
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator >
       <Stack.Screen
         name="Home"
         component={Home}
         options={{
-          headerLeft: () => (
-            <Pressable >
-              <HamburgerIcon />
-            </Pressable>
-          ),
-        
+          header: () => <Navbar />
 
-        
         }}
       />
-      <Stack.Screen name="NewsDetails" component={NewsDetails} />
+      <Stack.Screen name="NewsDetails" component={NewsDetails}/>
+      
       <Stack.Screen name="News" component={News} />
     </Stack.Navigator>
   );
