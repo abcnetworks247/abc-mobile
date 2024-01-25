@@ -120,8 +120,12 @@ const WishStackNavigator = () => {
 
 const NewStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="News" component={News} />
+    <Stack.Navigator >
+      <Stack.Screen name="News" component={News}
+      options={{
+        header: () => <Navbar />
+      }}
+      />
       <Stack.Screen name="TypeDetails" component={TypeDetails} />
       <Stack.Screen name="NewsDetails" component={NewsDetails} />
     </Stack.Navigator>
