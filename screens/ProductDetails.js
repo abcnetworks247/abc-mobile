@@ -13,14 +13,18 @@ import { useRoute } from "@react-navigation/native";
 import HTML from "react-native-render-html";
 import Svg, { Path } from "react-native-svg";
 import globalstyels from "../styles/globalstyels";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 const ProductDetails = () => {
   const route = useRoute();
   const { title, price, description, thumbnail } = route.params;
   return (
-    <>
-      <StatusBar barStyle="light-content" backgroundColor="#111827" />
+  
       <SafeAreaView style={globalstyels.droidSafeArea}>
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#00308F"
+        />
         <ScrollView style={styles.container}>
           <View className="mt-10 mb-40">
             <View className="px-10">
@@ -33,7 +37,7 @@ const ProductDetails = () => {
             <View className="flex flex-row items-center justify-between w-full px-4 mt-10 mb-4">
               <View className="flex flex-row items-center gap-2">
                 <TouchableOpacity
-                  onPress={() => { }}
+                  onPress={() => {}}
                   className="px-5 py-[8px] bg-black border-gray-100  shadow-md border-1"
                 >
                   <Text className="text-sm font-semibold text-left text-white">
@@ -49,7 +53,6 @@ const ProductDetails = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     stroke="#000"
                     strokeWidth={0.00024000000000000003}
-
                   >
                     <Path
                       fillRule="evenodd"
@@ -75,7 +78,7 @@ const ProductDetails = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-    </>
+  
   );
 };
 

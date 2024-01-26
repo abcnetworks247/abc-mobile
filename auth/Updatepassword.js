@@ -75,16 +75,15 @@ const Updatepassword = () => {
             </View>
           </TouchableOpacity>
         </View>
-        <View>
-          <Text className="text-center text-gray-500">
-            Remeber your password?{" "}
+        <View className="flex flex-row items-center justify-between">
+          <Text  className="text-center text-gray-500">  Remeber your password?{" "}</Text>
             <Pressable
               className="text-blue-900 font-semibold"
               onPress={() => navigation.navigate("Login")}
             >
               <Text>Login</Text>
             </Pressable>
-          </Text>
+          
         </View>
       </View>
     </View>

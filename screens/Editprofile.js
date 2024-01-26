@@ -12,6 +12,7 @@ import React from "react";
 import Svg, { Path, G } from "react-native-svg";
 import * as ImagePicker from "expo-image-picker";
 import globalstyels from "../styles/globalstyels";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 
 const Editprofile = () => {
@@ -26,9 +27,13 @@ const Editprofile = () => {
   };
 
   return (
-    <>
-      <StatusBar barStyle="light-content" backgroundColor="#111827" />
+  
+     
       <SafeAreaView style={globalstyels.droidSafeArea}>
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#00308F"
+        />
         <ScrollView>
           <View>
             <View className="px-4 w-full">
@@ -128,14 +133,16 @@ const Editprofile = () => {
                   type="submit"
                   className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                  <Text className="text-white text-center text-lg">Save Details</Text>
+                  <Text className="text-white text-center text-lg">
+                    Save Details
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
         </ScrollView>
       </SafeAreaView>
-    </>
+    
   );
 };
 

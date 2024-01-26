@@ -17,6 +17,7 @@ import Carousel from "react-native-reanimated-carousel";
 import { TouchableOpacity } from "react-native";
 import { StatusBar } from "react-native";
 import { useRoute } from "@react-navigation/native";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 
 const Productresult = () => {
@@ -27,9 +28,10 @@ const Productresult = () => {
     const [similarItems, setSimilarItems] = useState([]);
     const [allItems, setAllItems]= useState([])
     
+  console.log("id")
     useEffect(() => {
-      const itemId = id;
-      const clickedItem = allProducts.find((item) => item._id === itemId);
+    
+      const clickedItem = allProducts.find((item) => item._id === id);
       setSelectedItem(clickedItem);
 
       // Fetch similar items based on some criteria 
@@ -39,8 +41,11 @@ const Productresult = () => {
 
     
       setSimilarItems(similarItems);
-      setAllItems([selectedItem && selectedItem, ...similarItems]);
-    }, [id, allProducts]);
+      setAllItems([
+        selectedItem && selectedItem,
+        ...(similarItems.length > 0 && similarItems ),
+      ]);
+    }, [id]);
 
      const renderProductCard = ({ item }) => (
        <ProductCard
@@ -52,15 +57,13 @@ const Productresult = () => {
      );
   return (
     <View style={styles.container} className="bg-white">
-        <StatusBar barStyle="dark-content" backgroundColor="white" />
-          
-     
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#00308F" />
 
-       {allItems.length > 0 && (
+      {allItems.length > 0 && (
         <FlatList
           data={allItems}
           renderItem={renderProductCard}
-          keyExtractor={(item) => item._id.toString()}
+          keyExtractor={(item) => item?._id?.toString()}
           numColumns={2}
           columnWrapperStyle={styles.columnWrapper}
           className="bg-gray-200 mt-2 pt-2"

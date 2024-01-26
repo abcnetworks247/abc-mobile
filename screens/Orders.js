@@ -16,6 +16,7 @@ import Svg, { Path } from "react-native-svg";
 import { BinIcon } from "../components/svgs/Icons";
 import { UseProductProvider } from "../context/ProductProvider";
 import globalstyels from "../styles/globalstyels";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 export default function Orders() {
   const [eventName, setEventName] = useState("");
@@ -34,6 +35,7 @@ export default function Orders() {
 
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#00308F" />
       <ScrollView>
         <View className="mt-4 mx-2">
           {allProducts.map((product) => (

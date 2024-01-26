@@ -10,6 +10,7 @@ import {
 import React from "react";
 import Svg, { Path, G } from "react-native-svg";
 import * as ImagePicker from "expo-image-picker";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 const Closeaccount = () => {
   const SelectImagePicker = async () => {
@@ -24,13 +25,14 @@ const Closeaccount = () => {
 
   return (
     <SafeAreaView>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#00308F" />
       <ScrollView>
         <View>
           <View className="px-4 w-full">
             <View className="mt-6">
               <View className="mb-6">
                 <Text className="block mb-2 text-sm font-medium dark:text-gray-400">
-                   Email
+                  Email
                 </Text>
                 <TextInput
                   name="email"
@@ -54,15 +56,12 @@ const Closeaccount = () => {
                   wt-ignore-input="true"
                 />
               </View>
-            
 
               <TouchableOpacity
                 type="submit"
                 className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                <Text className="text-white text-center text-lg">
-                    Proceed
-                </Text>
+                <Text className="text-white text-center text-lg">Proceed</Text>
               </TouchableOpacity>
             </View>
           </View>

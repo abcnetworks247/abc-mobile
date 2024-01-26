@@ -8,13 +8,30 @@ import {
 import List from "../components/search/List";
 import SearchBar from "../components/search/Searchbar";
 import { UseProductProvider } from "../context/ProductProvider";
+import { useLayoutEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const Searchpage = () => {
+  const navigation=useNavigation()
     const {allProducts} = UseProductProvider()
   const [searchPhrase, setSearchPhrase] = useState("");
-  const [clicked, setClicked] = useState(false);
+ 
     const [fakeData, setFakeData] = useState();
-    console.log("allProduct", allProducts)
+  console.log("allProduct", allProducts)
+  
+   useLayoutEffect(() => {
+     // Hide the bottom navigation when navigating to Searchpage
+     navigation.setOptions({
+       tabBarVisible: false,
+     });
+
+     // Cleanup function to show the bottom navigation when leaving Searchpage
+     return () => {
+       navigation.setOptions({
+         tabBarVisible: true,
+       });
+     };
+   }, [navigation]);
 
 
   return (
@@ -22,15 +39,13 @@ const Searchpage = () => {
       <SearchBar
         searchPhrase={searchPhrase}
         setSearchPhrase={setSearchPhrase}
-        clicked={clicked}
-        setClicked={setClicked}
       />
 
       {searchPhrase && (
         <List
           searchPhrase={searchPhrase}
           data={allProducts}
-          setClicked={setClicked}
+         
         />
       )}
     </SafeAreaView>

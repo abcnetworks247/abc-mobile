@@ -1,12 +1,12 @@
 import React from "react";
-
+import { TouchableOpacity} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Searchbar from "react-native-paper";
 import TestSignUp from "../auth/TestSignUp";
 import Updatepassword from "../auth/Updatepassword";
 import Recovery from "../auth/Recovery";
 import Login from "../auth/Login";
-
+import { Ionicons } from "@expo/vector-icons";
 import {
   Home,
   News,
@@ -24,10 +24,12 @@ import {
   Orders,
   Searchpage,
   Productresult,
+  Membership,
+  Contact,
+  About,
 } from "../screens";
 
 import { IconButton } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { ChangePasswordIcon, HamburgerIcon } from "../components/svgs/Icons";
 import { Pressable, TouchableHighlight, View } from "react-native";
@@ -38,6 +40,7 @@ import { MenuIcon } from "../components/svgs/Icons";
 import Profileheader from "../components/Profileheader";
 import Productheader from "../components/products/Productheader";
 import Navbar from "../components/Navbar";
+
 
 
 
@@ -70,18 +73,28 @@ function StoreStackNavigator() {
         name="Store"
         component={Store}
         options={{
+          title: '',
           headerLeft: () => (
-            <Pressable onPress={() => navigation.goBack()}>
-              <HamburgerIcon />
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="menu-sharp" size={23} />
             </Pressable>
           ),
-          title: "Store",
 
           headerRight: () => (
-            <Pressable onPress={() => navigation.navigate("Searchpage")}>
-              <SearchIcon />
+            <Pressable
+              onPress={() => navigation.navigate("Searchpage")}
+              style={{ marginRight: 10 }}
+            >
+              <Ionicons name="search-sharp" size={23} />
             </Pressable>
           ),
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+          },
         }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
@@ -103,14 +116,28 @@ function StoreStackNavigator() {
   );
 }
 const WishStackNavigator = () => {
+  const navigation=useNavigation()
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Wishlist"
         component={Wishlist}
         options={{
-          headerShown: false
+          title: "",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="menu-sharp" size={23} color={"white"} />
+            </Pressable>
+          ),
 
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#00308F",
+          },
         }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
@@ -159,13 +186,6 @@ const CartStackNavigator = () => {
 };
 
 
-// const AuthStackNavigatior = function () {
-//   return(
-//     <Stack.Navigator screenOptions={{headerShown: false}}>
-//       <Stack.Screen name="SignUp" component={SignUp} />
-//     </Stack.Navigator>
-//   )
-// }
 
 const ProfileStackNavigator = () => {
   const navigation = useNavigation();
@@ -179,21 +199,30 @@ const ProfileStackNavigator = () => {
         name="Profile"
         component={Profile}
         options={{
+          title: "",
           headerLeft: () => (
-            <Pressable onPress={() => navigation.goBack()}>
-              <ChevronLeftIcon />
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="menu-sharp" size={23} color={"white"} />
             </Pressable>
           ),
-          title: 'Profile',
 
-          headerRight: () => (
-            <Pressable>
-              <MenuIcon />
-            </Pressable>
-          ),
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#00308F",
+          },
         }}
       />
-      <Stack.Screen name="EditProfile" component={Editprofile} />
+      <Stack.Screen
+        name="EditProfile"
+        component={Editprofile}
+        options={{
+          headerTitle: "Edit profile",
+        }}
+      />
       <Stack.Screen
         name="Changepassword"
         component={Changepassword}
@@ -201,11 +230,19 @@ const ProfileStackNavigator = () => {
           headerTitle: "Reset password",
         }}
       />
-      <Stack.Screen name="Closeaccount" component={Closeaccount} />
+      <Stack.Screen
+        name="Closeaccount"
+        component={Closeaccount}
+        options={{
+          headerTitle: "Close account",
+        }}
+      />
       <Stack.Screen name="Orders" component={Orders} />
     </Stack.Navigator>
   );
 };
+
+// home stack
 const HomeStackNavigator = () => {
   const navigation = useNavigation();
   return (
@@ -215,7 +252,7 @@ const HomeStackNavigator = () => {
         component={Home}
         options={{
           header: () => <Navbar />
-
+ 
         }}
       />
       <Stack.Screen name="NewsDetails" component={NewsDetails}/>
@@ -272,6 +309,91 @@ const AuthStackNavigator = () => {
   );
 };
 
+const MembershipStackNavigator = () => {
+  const navigation=useNavigation()
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Membership"
+        component={Membership}
+        options={{
+          title: "",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="menu-sharp" size={23} color={"white"} />
+            </Pressable>
+          ),
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#00308F",
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+const ContactStackNavigator = () => {
+  const navigation=useNavigation()
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Contact"
+        component={Contact}
+        options={{
+          title: "",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="menu-sharp" size={23} color={"white"} />
+            </Pressable>
+          ),
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#00308F",
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+const AboutStackNavigator = () => {
+  const navigation=useNavigation()
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="About"
+        component={About}
+        options={{
+          title: "",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="menu-sharp" size={23} color={"white"} />
+            </Pressable>
+          ),
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#00308F",
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 // const StackNavigator = () => {
 //   return (
 //     <Stack.Navigator screenOptions={screenOptionStyle}>
@@ -293,4 +415,7 @@ export {
   TypeDetailsStackNavigator,
   WishStackNavigator,
   AuthStackNavigator,
+  MembershipStackNavigator,
+  ContactStackNavigator,
+  AboutStackNavigator,
 };
