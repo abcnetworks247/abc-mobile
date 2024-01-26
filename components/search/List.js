@@ -31,7 +31,7 @@ const Item = ({ title, description , id, thumbnail}) => {
 };
 
 // the filter
-const List = ({ searchPhrase, setClicked, data }) => {
+const List = ({ searchPhrase, data }) => {
 
   const renderItem = ({ item }) => {
     if (
@@ -50,9 +50,6 @@ const List = ({ searchPhrase, setClicked, data }) => {
   return (
     <SafeAreaView style={styles.list__container}>
       <View
-        onStartShouldSetResponder={() => {
-          setClicked(false);
-        }}
       >
         <FlatList
           data={data}

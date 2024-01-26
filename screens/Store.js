@@ -6,9 +6,9 @@ import axios from "axios";
 import { UseProductProvider } from "../context/ProductProvider";
 import Carousel from "react-native-reanimated-carousel";
 import { TouchableOpacity } from "react-native";
-import { StatusBar } from "react-native";
 import { SafeAreaView } from "react-native";
 import globalstyels from "../styles/globalstyels";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 
 
@@ -63,47 +63,49 @@ const StoreScreen = () => {
   }
 
   return (
-    <>
-      <StatusBar barStyle="light-content" backgroundColor="#111827" />
-      <SafeAreaView style={globalstyels.droidSafeArea}>
-        <View style={styles.container} className="bg-white">
-          <FlatList
-            data={dummyTexts}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.key}
-            className=""
-            renderItem={({ item, index }) => {
-              return (
-                <TouchableOpacity
-                  className={`px-2 py-2 h-10  mx-1 flex flex-row items-center justify-center ${selectedCategory === item.category ? "bg-black" : "bg-gray-200"
-                    }`}
-                  onPress={() => setSelectedCategory(item.category)}
+    <SafeAreaView style={globalstyels.droidSafeArea}>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#00308F" />
+      <View style={styles.container} className="bg-white">
+        <FlatList
+          data={dummyTexts}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.key}
+          className=""
+          renderItem={({ item, index }) => {
+            return (
+              <TouchableOpacity
+                className={`px-2 py-2 h-10  mx-1 flex flex-row items-center justify-center ${
+                  selectedCategory === item.category
+                    ? "bg-black"
+                    : "bg-gray-200"
+                }`}
+                onPress={() => setSelectedCategory(item.category)}
+              >
+                <Text
+                  className={`${
+                    selectedCategory === item.category
+                      ? "text-white"
+                      : "text-black"
+                  }`}
                 >
-                  <Text
-                    className={`${selectedCategory === item.category
-                        ? "text-white"
-                        : "text-black"
-                      }`}
-                  >
-                    {item.category}
-                  </Text>
-                </TouchableOpacity>
-              );
-            }}
-          />
+                  {item.category}
+                </Text>
+              </TouchableOpacity>
+            );
+          }}
+        />
 
-          <FlatList
-            data={filteredProducts}
-            renderItem={renderProductCard}
-            keyExtractor={(item) => item._id.toString()}
-            numColumns={2}
-            columnWrapperStyle={styles.columnWrapper}
-            className="bg-gray-200 mt-2 pt-2"
-          />
-        </View>
-      </SafeAreaView>
-    </>
+        <FlatList
+          data={filteredProducts}
+          renderItem={renderProductCard}
+          keyExtractor={(item) => item._id.toString()}
+          numColumns={2}
+          columnWrapperStyle={styles.columnWrapper}
+          className="bg-gray-200 mt-2 pt-2"
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
