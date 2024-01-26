@@ -43,7 +43,7 @@ const ProductCard = ({ title, description, thumbnail, price }) => {
 
       <View className="flex flex-row items-center justify-between px-2">
         <View>
-          <Text className="text-blue-500 font-bold">${price.toFixed(2)}</Text>
+          <Text className="text-[#00308F] font-bold">${price.toFixed(2)}</Text>
         </View>
         <View>
           <Text className="text-gray-400 text-xs font-bold line-through">

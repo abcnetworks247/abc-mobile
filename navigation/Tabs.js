@@ -48,7 +48,7 @@ const Tabs = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: "blue", // Change this to set the color of the active tab icon
+        activeTintColor: "#00308F", // Change this to set the color of the active tab icon
         inactiveTintColor: "gray", // Change this to set the color of inactive tab icons
         style: {
           backgroundColor: "white", // Change this to set the background color of the bottom tab bar
@@ -75,7 +75,7 @@ const Tabs = () => {
         component={CartStackNavigator}
         options={{ headerShown: false, tabBarLabel: "Cart" }}
       />
-        {/* <Tab.Screen
+      {/* <Tab.Screen
         name="signup"
         component={AuthStackNavigatior}
         options={{ headerShown: false, tabBarLabel: "Cart",  }}
