@@ -1,7 +1,8 @@
 import axios from "axios";
 
+import {APP_ENV} from '@env';
 export default axios.create({
-  baseURL: process.env.EXPO_PUBLIC_SERVER_URL,
+  baseURL: APP_ENV,
   withCredentials: true,
   headers: {
     Accept: "application/json",
