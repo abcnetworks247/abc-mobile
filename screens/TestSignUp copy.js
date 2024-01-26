@@ -16,23 +16,23 @@ const TestSignUp = () => {
       password: "",
     })
      
-    const HandleInputChange = async (e) => {
-      const { name, value } = e.target.id;
+    const HandleInputChange = (name, value) => {
       // Update form data state based on the input field name and value
       setForm({
         ...form,
         [name]: value,
       });
+    };
+    
 
-    } 
 
-
-    const HandleSubmit =()=>{
-   
+    const HandleSubmit =(e)=>{
+      // e.preventDefault();
       console.log(form)
-      handleSubmit(form)
+     
 
     } 
+
   return (
     <View className="flex items-center justify-center m-auto w-full px-6 bg-[#F2F2F2] h-full">
       <View className="gap-6 w-full">
@@ -50,7 +50,9 @@ const TestSignUp = () => {
           <View className="flex ">
             <TextInput
               placeholder="Enter your name"
-              onChange={(e)=>HandleInputChange(e)}
+              onChangeText={(text) => HandleInputChange('name', text)}
+
+              
               
               id='name'
               className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white"
@@ -64,7 +66,7 @@ const TestSignUp = () => {
               //   onChange={handleChange("email")}
               //   onBlur={handleBlur("email")}
               //   value={values.email}
-              onChange={(e)=>HandleInputChange(e)}
+              onChangeText={(text) => HandleInputChange('email', text)}
               id='email'
               keyboardType="email-address"
             />
@@ -75,7 +77,7 @@ const TestSignUp = () => {
             <TextInput
               placeholder="Enter password"
               secureTextEntry={true}
-              onChange={(e)=>HandleInputChange(e)}
+              onChangeText={(text) => HandleInputChange('password', text)}
               id='password'
               className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white"
             />
@@ -108,8 +110,6 @@ const TestSignUp = () => {
             </View>
           </TouchableOpacity>
         </View>
-        <View>
-
         <View className="flex flex-row items-center">
           <Text className="text-center text-gray-500">
             Already have an account?{" "}
@@ -117,13 +117,13 @@ const TestSignUp = () => {
           <Pressable
             className="text-center text-gray-500"
             onPress={() => {
-               setIsSignUpVisible(false)
-              setIsSignInVisible(true)
+              //  setIsSignUpVisible(false)
+              // setIsSignInVisible(true)
+              HandleSubmit()
             }}
           >
             <Text className="text-blue-900 font-semibold">Login</Text>
           </Pressable>
-        </View>
         </View>
       </View>
     </View>
