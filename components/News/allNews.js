@@ -17,11 +17,11 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
 import globalstyels from "../../styles/globalstyels";
 globalstyels;
+import Api from "../../utils/Api";
 const HomeNews = () => {
   const [popular, setPopular] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
-  const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -35,7 +35,7 @@ const HomeNews = () => {
   //fetch data from news api
   const fetchPosts = async () => {
     try {
-      const res = await axios.get(`${baseURL}admin/blog`);
+      const res = await Api.get(`admin/blog`);
 
       setPopular(res.data.popular);
       // console.log(res.data.popular);
