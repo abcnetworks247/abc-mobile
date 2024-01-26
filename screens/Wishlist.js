@@ -5,6 +5,7 @@ import ProductCard from "../components/ProductCard";
 import axios from "axios";
 import { UseProductProvider } from "../context/ProductProvider";
 import WishlistCard from "../components/products/WishlistCard";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 
 
@@ -33,6 +34,7 @@ const Wishlist = () => {
 
   return (
     <View style={styles.container}>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#00308F" />
       <FlatList
         data={allProducts}
         renderItem={renderProductCard}

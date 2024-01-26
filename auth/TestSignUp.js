@@ -222,7 +222,7 @@ const TestSignUp = () => {
             </View>
           </TouchableOpacity>
         </View>
-        <View className="flex flex-row items-center">
+        <View className="flex flex-row items-center justify-between">
           <Text className="text-center text-gray-500">
             Already have an account?{" "}
           </Text>

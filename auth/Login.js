@@ -157,15 +157,15 @@ const Login = () => {
           </Text>
         </View>
 
-        <View>
-          <View>
+        <View className="mb-2">
+          <View className="mb-2">
             <TextInput
               placeholder="Enter your email"
               className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white "
               keyboardType="email-address"
               value={logInFormData.email}
               onChangeText={(value) => {
-                handleInputChange("email", value)
+                handleInputChange("email", value);
               }}
             />
 
@@ -217,24 +217,28 @@ const Login = () => {
             </View>
           </TouchableOpacity>
         </View>
+
         <View className="flex items-center justify-between flex-row">
-          <Text className="text-sm text-center text-gray-600">
-            New?
-            <TouchableOpacity
-              className="font-semibold text-blue-900"
-              onPress={() => navigation.navigate("TestSignUp")}
-            >
-              <Text>Register</Text>
+
+          <View className="flex flex-row items-center">
+            <Text className="mr-2">
+              New?
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("TestSignUp")}>
+              <Text className="font-semibold text-blue-900">Register</Text>
             </TouchableOpacity>
-          </Text>
-          <Text className="text-sm text-center text-gray-600">
+          </View>
+
+         
             <TouchableOpacity
               className="font-semibold text-blue-900"
               onPress={() => navigation.navigate("Recovery")}
             >
-              <Text>Forgot Password?</Text>
+              <Text className="text-sm text-center text-gray-600">
+                Forgot Password?
+              </Text>
             </TouchableOpacity>
-          </Text>
+        
         </View>
       </View>
     </View>
