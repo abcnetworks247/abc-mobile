@@ -70,8 +70,12 @@ function StoreStackNavigator() {
         name="Store"
         component={Store}
         options={{
+          title: '',
           headerLeft: () => (
-            <Pressable onPress={() => navigation.goBack()}>
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
               <Ionicons name="menu-sharp" size={23} />
             </Pressable>
           ),
@@ -79,7 +83,7 @@ function StoreStackNavigator() {
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("Searchpage")}
-              style={{ paddingLeft: 10 }}
+              style={{ marginRight: 10 }}
             >
               <Ionicons name="search-sharp" size={23} />
             </Pressable>

@@ -12,7 +12,7 @@ import { UseProductProvider } from "../context/ProductProvider";
 const Searchpage = () => {
     const {allProducts} = UseProductProvider()
   const [searchPhrase, setSearchPhrase] = useState("");
-  const [clicked, setClicked] = useState(false);
+ 
     const [fakeData, setFakeData] = useState();
     console.log("allProduct", allProducts)
 
@@ -22,15 +22,13 @@ const Searchpage = () => {
       <SearchBar
         searchPhrase={searchPhrase}
         setSearchPhrase={setSearchPhrase}
-        clicked={clicked}
-        setClicked={setClicked}
       />
 
       {searchPhrase && (
         <List
           searchPhrase={searchPhrase}
           data={allProducts}
-          setClicked={setClicked}
+         
         />
       )}
     </SafeAreaView>
