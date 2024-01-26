@@ -9,7 +9,6 @@ import { useRouter } from "expo-router";
 import { Link } from "@react-navigation/native";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
-
 export default function Home() {
   const navigation = useRouter();
 
@@ -28,9 +27,9 @@ export default function Home() {
         <Link to={"/Home/signup"}>
           <TouchableOpacity>
             <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+              {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
               in quibusdam, eligendi error ab soluta velit aliquid quas
-              consectetur cum.
+              consectetur cum. */}
             </Text>
           </TouchableOpacity>
         </Link>
