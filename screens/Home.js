@@ -7,6 +7,7 @@ import New from "../components/News/new";
 import { useNavigation } from "expo-router";
 import { useRouter } from "expo-router";
 import { Link } from "@react-navigation/native";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 
 export default function Home() {
@@ -18,14 +19,21 @@ export default function Home() {
   return (
     <View>
       <ScrollView className="p-2" showsVerticalScrollIndicator={false}>
-       
-       <HomeNews />
-       <Link to={"/Home/signup"} >
-       <TouchableOpacity>
-        <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis in quibusdam, eligendi error ab soluta velit aliquid quas consectetur cum.</Text>
-       </TouchableOpacity>
-       
-       </Link>
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#00308F"
+        />
+        <New />
+        <HomeNews />
+        <Link to={"/Home/signup"}>
+          <TouchableOpacity>
+            <Text>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+              in quibusdam, eligendi error ab soluta velit aliquid quas
+              consectetur cum.
+            </Text>
+          </TouchableOpacity>
+        </Link>
       </ScrollView>
     </View>
   );

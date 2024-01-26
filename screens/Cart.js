@@ -7,6 +7,7 @@ import {
   Image,
   DatePickerIOS,
   Pressable,
+  SafeAreaView,
 } from "react-native";
 import React, { useState } from "react";
 import { UseProductProvider } from "../context/ProductProvider";
@@ -15,6 +16,11 @@ import Svg, { Path } from "react-native-svg";
 import { BinIcon } from "../components/svgs/Icons";
 import { PlusIcon } from "../components/svgs/Icons";
 import { MinusIcon } from "../components/svgs/Icons";
+// import statusbar
+import { StatusBar } from "react-native";
+import globalstyels from "../styles/globalstyels";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+
 
 export default function Cart() {
   const [eventName, setEventName] = useState("");
@@ -22,21 +28,24 @@ export default function Cart() {
   const [eventDate, setEventDate] = useState("");
   const [eventTime, setEventTime] = useState("");
   const { allProducts, loading } = UseProductProvider()
-  
 
-  
+
+
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Loading...</Text>
-      </View>
+      <>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <Text>Loading...</Text>
+        </View>
+      </>
     );
   }
 
 
 
   return (
-    <View>
+    <SafeAreaView style={globalstyels.droidSafeArea}>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#00308F" />
       <ScrollView>
         <View className="mt-4 px-2">
           {allProducts.map((product) => (
@@ -62,7 +71,7 @@ export default function Cart() {
 
                   <View className="flex flex-row items-center gap-2">
                     <View className="flex flex-row gap-1 items-center">
-                      <Text className="font-bold">
+                      <Text className="font-bold text-[#00308F]">
                         {product.price.toFixed(1)}
                       </Text>
                       <Text className="text-gray-400 line-through">$170</Text>
@@ -81,7 +90,6 @@ export default function Cart() {
                         <PlusIcon />
                       </TouchableOpacity>
                     </View>
-
                   </View>
                 </View>
               </View>
@@ -106,7 +114,7 @@ export default function Cart() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -23,6 +23,7 @@ const ProductProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState(null);
   const [isSignUpVisible, setIsSignUpVisible] = useState(false);
   const [isSignInVisible, setIsSignInVisible] = useState(false);
+  const [recoverVisible, setRecoverVisible]=useState(false)
 
 
   const handleSubmit = () => {
@@ -31,9 +32,12 @@ const ProductProvider = ({ children }) => {
   };
 
   const handleSignIn = () =>{
-    setIsSignInVisible(false)
+    setIsSignUpVisible(false);
   }
 
+  const handleRecovery = () => {
+    setRecoverVisible(false)
+  }
 
 
   // add to cart socket
@@ -187,6 +191,9 @@ const ProductProvider = ({ children }) => {
         handleSubmit,
         isSignInVisible,
         handleSignIn,
+        setRecoverVisible,
+        recoverVisible,
+        handleRecovery,
       }}
     >
       {children}

@@ -7,6 +7,7 @@ import { ScrollView, SafeAreaView } from "react-native";
 import globalstyels from "../styles/globalstyels";
 import { useRoute } from "@react-navigation/native";
 import HTML from "react-native-render-html";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 const NewsDetails = () => {
   const route = useRoute();
@@ -14,10 +15,12 @@ const NewsDetails = () => {
   const { id, category, type, image, title, desc } = route.params;
 
   return (
-    <>
-     <StatusBar barStyle="light-content" backgroundColor="#2c3e50" />
-
+     
       <SafeAreaView style={globalstyels.droidSafeArea}>
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#00308F"
+        />
         <ScrollView className="py-2">
           <View className="container p-3 space-y-8">
             <View className="space-y-2 text-center">
@@ -48,7 +51,7 @@ const NewsDetails = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-    </>
+  
   );
 };
 
