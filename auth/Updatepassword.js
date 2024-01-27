@@ -3,6 +3,7 @@ import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import Logo from "../assets/AbcstudioNo.png";
 import { Pressable } from "react-native";
 import Svg, { Circle, Path } from "react-native-svg";
+
 import { UseProductProvider } from "../context/ProductProvider";
 import { useNavigation } from "@react-navigation/native";
 
@@ -28,6 +29,8 @@ const Updatepassword = () => {
             <TextInput
               placeholder="Enter password"
               secureTextEntry={true}
+              onChange={(e)=>HandleInputChange(e)}
+              id='password'
               className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white"
               // onChange={handleChange("password")}
               // onBlur={handleBlur("password")}
@@ -75,19 +78,19 @@ const Updatepassword = () => {
             </View>
           </TouchableOpacity>
         </View>
-        <View>
-          <Text className="text-center text-gray-500">
-            Remeber your password?{" "}
+        <View className="flex flex-row items-center justify-between">
+          <Text  className="text-center text-gray-500">  Remeber your password?{" "}</Text>
             <Pressable
               className="text-blue-900 font-semibold"
               onPress={() => navigation.navigate("Login")}
             >
               <Text>Login</Text>
             </Pressable>
-          </Text>
+          
+        </View>
         </View>
       </View>
-    </View>
+  
   );
 };
 

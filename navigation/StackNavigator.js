@@ -24,6 +24,9 @@ import {
   Orders,
   Searchpage,
   Productresult,
+  Membership,
+  Contact,
+  About,
 } from "../screens";
 
 import { IconButton } from "react-native-paper";
@@ -113,14 +116,28 @@ function StoreStackNavigator() {
   );
 }
 const WishStackNavigator = () => {
+  const navigation=useNavigation()
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Wishlist"
         component={Wishlist}
         options={{
-          headerShown: false
+          title: "",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="menu-sharp" size={23} color={"white"} />
+            </Pressable>
+          ),
 
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#00308F",
+          },
         }}
       />
       <Stack.Screen name="Details" component={ProductDetails} />
@@ -182,21 +199,30 @@ const ProfileStackNavigator = () => {
         name="Profile"
         component={Profile}
         options={{
+          title: "",
           headerLeft: () => (
-            <Pressable onPress={() => navigation.goBack()}>
-              <ChevronLeftIcon />
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="menu-sharp" size={23} color={"white"} />
             </Pressable>
           ),
-          title: 'Profile',
 
-          headerRight: () => (
-            <Pressable>
-              <MenuIcon />
-            </Pressable>
-          ),
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#00308F",
+          },
         }}
       />
-      <Stack.Screen name="EditProfile" component={Editprofile} />
+      <Stack.Screen
+        name="EditProfile"
+        component={Editprofile}
+        options={{
+          headerTitle: "Edit profile",
+        }}
+      />
       <Stack.Screen
         name="Changepassword"
         component={Changepassword}
@@ -204,7 +230,13 @@ const ProfileStackNavigator = () => {
           headerTitle: "Reset password",
         }}
       />
-      <Stack.Screen name="Closeaccount" component={Closeaccount} />
+      <Stack.Screen
+        name="Closeaccount"
+        component={Closeaccount}
+        options={{
+          headerTitle: "Close account",
+        }}
+      />
       <Stack.Screen name="Orders" component={Orders} />
     </Stack.Navigator>
   );
@@ -277,6 +309,91 @@ const AuthStackNavigator = () => {
   );
 };
 
+const MembershipStackNavigator = () => {
+  const navigation=useNavigation()
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Membership"
+        component={Membership}
+        options={{
+          title: "",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="menu-sharp" size={23} color={"white"} />
+            </Pressable>
+          ),
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#00308F",
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+const ContactStackNavigator = () => {
+  const navigation=useNavigation()
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Contact"
+        component={Contact}
+        options={{
+          title: "",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="menu-sharp" size={23} color={"white"} />
+            </Pressable>
+          ),
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#00308F",
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+const AboutStackNavigator = () => {
+  const navigation=useNavigation()
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="About"
+        component={About}
+        options={{
+          title: "",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="menu-sharp" size={23} color={"white"} />
+            </Pressable>
+          ),
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#00308F",
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 // const StackNavigator = () => {
 //   return (
 //     <Stack.Navigator screenOptions={screenOptionStyle}>
@@ -298,4 +415,7 @@ export {
   TypeDetailsStackNavigator,
   WishStackNavigator,
   AuthStackNavigator,
+  MembershipStackNavigator,
+  ContactStackNavigator,
+  AboutStackNavigator,
 };
