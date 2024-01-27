@@ -81,8 +81,7 @@ const TestSignUp = () => {
        (field) => !errorMessages[field]
      );
 
-     const [data, setdata] = useState([]);
-     console.log("data", data);
+  
 
      const handleSubmit = async () => {
      
@@ -100,7 +99,7 @@ const TestSignUp = () => {
       
        try {
          // perform an asyncronous request to sigin in the user
-         console.log(logInFormData, "response data");
+         console.log(signUpFormData, "response data");
          const data = await Api.post("client/auth/signup", signUpFormData);
 
          const value = data.data;
