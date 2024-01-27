@@ -28,7 +28,6 @@ export default function NewsType() {
       const res = await axios.get(`${baseUrl}admin/category/news/type`);
       setResult(res.data.data);
       setLoading(false);
-      console.log(res.data.data);
     } catch (err) {
       console.log(err);
       setLoading(false);

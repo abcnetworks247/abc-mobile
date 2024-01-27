@@ -34,7 +34,6 @@ const TypeDetails = () => {
       const data = res.data.data;
       setPosts(data);
       // console.log(res.data);
-      console.log(data);
 
       setLoading(false);
     } catch (err) {

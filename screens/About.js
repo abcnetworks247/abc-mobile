@@ -42,7 +42,7 @@ const About= () => {
   ];
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>
-      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#00308F" />
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView
         className="w-full"
         showsHorizontalScrollIndicator={false}

@@ -60,7 +60,7 @@ const TestSignUp = () => {
        }
      }
 
-     const handleInputChange = (name, value) => {
+     const handleInputChange = (name, value, id) => {
        setSignUpFormData({
          ...signUpFormData,
          [name]: value,
@@ -70,7 +70,7 @@ const TestSignUp = () => {
          signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
        } else if (name === "password") {
          signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
-       } else if (name === "fullname") {
+       } else if (id === "fullname") {
          signUpValidate(name, NAME_REGEX, value, "Invalid name");
        } 
      };
@@ -151,9 +151,11 @@ const TestSignUp = () => {
               placeholder="Enter your name"
               className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white"
               value={signUpFormData.fullname}
+              
               onChangeText={(value) => {
                 handleInputChange("fullname", value);
               }}
+              id='fullname'
             />
             {errorMessages.fullname && (
               <Text className="text-red-500 my-1 text-[13px]">
@@ -198,8 +200,9 @@ const TestSignUp = () => {
         <View>
           <TouchableOpacity
             title=""
-            className=" items-center justify-center tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none"
+            className={` items-center justify-center tracking-wide font-semibold ${!allFieldsValid? "bg-blue-600/30" : "bg-blue-900" }  text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none`}
             onPress={() => handleSubmit()}
+            disabled={!allFieldsValid}
           >
             <View className="flex flex-row gap-2 items-center">
               <Svg

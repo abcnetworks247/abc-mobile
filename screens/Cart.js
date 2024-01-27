@@ -45,7 +45,7 @@ export default function Cart() {
 
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>
-      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#00308F" />
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView>
         <View className="mt-4 px-2">
           {allProducts.map((product) => (

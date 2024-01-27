@@ -15,8 +15,9 @@ export const UserContextProvider = ({ children }) => {
   // initial state for user incoming data
   const [UserData, setUserData] = useState([]);
   const [dummyUser, setDummyUser] = useState([]);
+  const [isSignUpVisible, setIsSignUpVisible] = useState(false);
 
-  console.log("user data", UserData);
+  // console.log("user data", UserData);
 
   // loading state for user incoming data
 
@@ -25,20 +26,21 @@ export const UserContextProvider = ({ children }) => {
 
   
 
-  const authToken = AsyncStorage.getItem("authToken");
+
 
    useEffect(() => {
      const getUserData = async () => {
        try {
-       
+        const authToken = await AsyncStorage.getItem("authToken");
+        console.log('authToken get ',  );
          if (authToken) {
            const response = await Api.get("client/auth/account", {
              headers: {
-               Authorization: `Bearer ${authToken}`,
+               Authorization: `Bearer ${JSON.stringify(authToken)}`,
              },
            });
            const dataValue = response.data.olduser;
-
+              // console.log('datavalue', dataValue);
            if (response.status === 200) {
              setUserData(dataValue);
              setLoading(false);
@@ -94,7 +96,7 @@ export const UserContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("blog context", blogData && blogData);
+    // console.log("blog context", blogData && blogData);
     getBlog();
   }, []);
 
@@ -110,10 +112,11 @@ export const UserContextProvider = ({ children }) => {
         handleLogout,
         UserData,
         loading,
-        authToken  
+        isSignUpVisible,
+        setIsSignUpVisible,
       }}
     >
-      {children} 
+      {children}
     </UserContext.Provider>
   );
 };

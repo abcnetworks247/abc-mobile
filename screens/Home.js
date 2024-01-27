@@ -20,7 +20,7 @@ export default function Home() {
       <ScrollView className="p-2" showsVerticalScrollIndicator={false}>
         <FocusAwareStatusBar
           barStyle="light-content"
-          backgroundColor="#00308F"
+          backgroundColor="#2c3e50"
         />
         <New />
         <HomeNews />

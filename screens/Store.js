@@ -64,7 +64,7 @@ const StoreScreen = () => {
 
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>
-      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#00308F" />
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <View style={styles.container} className="bg-white">
         <FlatList
           data={dummyTexts}
