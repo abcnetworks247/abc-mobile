@@ -10,7 +10,7 @@ import {
 import React from "react";
 import Svg, { Path, G } from "react-native-svg";
 import * as ImagePicker from "expo-image-picker";
-
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 const Changepassword = () => {
   const SelectImagePicker = async () => {
     try {
@@ -24,13 +24,14 @@ const Changepassword = () => {
 
   return (
     <SafeAreaView>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView>
         <View>
           <View className="px-4 w-full">
             <View className="mt-6">
               <View className="mb-6">
                 <Text className="block mb-2 text-sm font-medium dark:text-gray-400">
-                   Current Password
+                  Current Password
                 </Text>
                 <TextInput
                   name="currentPassword"
@@ -43,7 +44,7 @@ const Changepassword = () => {
               </View>
               <View className="mb-6">
                 <Text className="block mb-2 text-sm font-medium dark:text-gray-400">
-                   New password
+                  New password
                 </Text>
                 <TextInput
                   name="newPassword"
@@ -56,7 +57,7 @@ const Changepassword = () => {
               </View>
               <View className="mb-6">
                 <Text className="block mb-2 text-sm font-medium dark:text-gray-400">
-                   Confirm password
+                  Confirm password
                 </Text>
                 <TextInput
                   name="confirmPassword"
@@ -67,14 +68,13 @@ const Changepassword = () => {
                   wt-ignore-input="true"
                 />
               </View>
-             
-             
+
               <TouchableOpacity
                 type="submit"
                 className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 <Text className="text-white text-center text-lg">
-                   Change Password
+                  Change Password
                 </Text>
               </TouchableOpacity>
             </View>

@@ -136,7 +136,7 @@ const WishStackNavigator = () => {
           headerStyle: {
             shadowColor: "#000",
             elevation: 25,
-            backgroundColor: "#00308F",
+            backgroundColor: "#2c3e50",
           },
         }}
       />
@@ -212,7 +212,7 @@ const ProfileStackNavigator = () => {
           headerStyle: {
             shadowColor: "#000",
             elevation: 25,
-            backgroundColor: "#00308F",
+            backgroundColor: "#2c3e50",
           },
         }}
       />
@@ -330,7 +330,7 @@ const MembershipStackNavigator = () => {
           headerStyle: {
             shadowColor: "#000",
             elevation: 25,
-            backgroundColor: "#00308F",
+            backgroundColor: "#2c3e50",
           },
         }}
       />
@@ -358,7 +358,7 @@ const ContactStackNavigator = () => {
           headerStyle: {
             shadowColor: "#000",
             elevation: 25,
-            backgroundColor: "#00308F",
+            backgroundColor: "#2c3e50",
           },
         }}
       />

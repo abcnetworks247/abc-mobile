@@ -17,7 +17,7 @@ export default function Navbar() {
 
 
     return (
-      <View className="flex flex-row gap-3 items-center h-[65px] px-2 bg-[#00308F]">
+      <View className="flex flex-row gap-3 items-center h-[65px] px-2 bg-[#2c3e50]">
         <Pressable
           className="flex-1 flex flex-row items-center boder"
           onPress={() => navigation.openDrawer()}
@@ -43,12 +43,13 @@ export default function Navbar() {
               <TouchableOpacity
                 onPress={() => setUser({ name: "john" })}
                 activeOpacity={0.5}
-                className="border p-1 rounded"
+                className=" p-1 rounded"
               >
-                <Text className="px-[2px] text-base font-semibold text-white">
-                  Login
+                <Text className="px-[2px] text-base font-semibold text-white text-sm">
+                  Login/signup
                 </Text>
               </TouchableOpacity>
+              
             </View>
           </View>
         )}
