@@ -31,7 +31,7 @@ export const UserContextProvider = ({ children }) => {
      const getUserData = async () => {
        try {
         const authToken = await AsyncStorage.getItem("authToken");
-        console.log('authToken get ',  );
+ 
          if (authToken) {
            const response = await Api.get("client/auth/account", {
              headers: {
@@ -100,7 +100,6 @@ export const UserContextProvider = ({ children }) => {
   }, []);
 
   // log out user
-  console.log("UserData", UserData);
 
   // if (genLoading) {
   //   return <Loading />;

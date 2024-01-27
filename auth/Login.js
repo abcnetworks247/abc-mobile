@@ -95,17 +95,13 @@ const Login = () => {
     (field) => !errorMessages[field]
   );
 
- 
-
-  const [data, setdata] = useState([]);
-  console.log("data", data);
 
 
 
   const handleSubmit = async () => {
     
 
-    console.log(logInFormData);
+    // console.log(logInFormData);
     setIsValidData(allFieldsValid);
 
     // if (!allFieldsValid) {
@@ -119,7 +115,7 @@ const Login = () => {
     // });
     try {
       // perform an asyncronous request to sigin in the user
-      console.log(logInFormData, "response data");
+      // console.log(logInFormData, "response data");
       const data = await Api.post("client/auth/signin", logInFormData, {
         withCredentials: true,
       });
@@ -131,7 +127,7 @@ const Login = () => {
       if (data.status === 200) {
         if(data && data.data && data.data.authToken){
         console.log(value?.message, "success message"); 
-        console.log(data.data, "data");
+        // console.log(data.data, "data");
         console.log(data.data.authToken, "token");
         const token = data.data.authToken
           await  AsyncStorage.setItem("authToken", JSON.stringify(token) );
