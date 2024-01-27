@@ -21,23 +21,7 @@ const ProductProvider = ({ children }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cartProducts, setCartProducts] = useState([]);
   const [wishlist, setWishlist] = useState(null);
-  const [isSignUpVisible, setIsSignUpVisible] = useState(false);
-  const [isSignInVisible, setIsSignInVisible] = useState(false);
-  const [recoverVisible, setRecoverVisible]=useState(false)
-
-
-  const handleSubmit = () => {
-    setIsSignUpVisible(false);
-    setIsSignInVisible(true)
-  };
-
-  const handleSignIn = () =>{
-    setIsSignUpVisible(false);
-  }
-
-  const handleRecovery = () => {
-    setRecoverVisible(false)
-  }
+  
 
 
   // add to cart socket
@@ -182,15 +166,7 @@ const ProductProvider = ({ children }) => {
         handleAddToCart,
         handleRemoveFromCart,
         handleCartDecrease,
-        isSignUpVisible,
-        setIsSignUpVisible,
-        setIsSignInVisible,
-        handleSubmit,
-        isSignInVisible,
-        handleSignIn,
-        setRecoverVisible,
-        recoverVisible,
-        handleRecovery,
+      
       }}
     >
       {children}

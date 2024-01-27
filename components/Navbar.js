@@ -8,7 +8,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function Navbar() {
     const navigation=useNavigation()
-    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
 
     // set a timeout to change the state of the user then after some time set it to null
@@ -17,14 +16,14 @@ export default function Navbar() {
 
 
     return (
-      <View className="flex flex-row gap-3 items-center h-[65px] px-2 bg-[#00308F]">
+      <View className="flex flex-row gap-3 items-center h-[65px] px-2 bg-[#2c3e50]">
         <Pressable
           className="flex-1 flex flex-row items-center boder"
           onPress={() => navigation.openDrawer()}
         >
           <Ionicons name="menu-sharp" size={22} color={"white"} />
         </Pressable>
-        {user ? (
+        {/* {user ? (
           <View className="flex-1 flex flex-row items-center justify-center">
             <Text
               onPress={() => setUser(null)}
@@ -33,25 +32,22 @@ export default function Navbar() {
               Hello, {user.name} user
             </Text>
           </View>
-        ) : (
+        ) : ( */}
           <View className="flex-1 flex flex-row items-center justify-end">
-            <View className="flex flex-row gap-1 items-center justify-center p-1 rounded">
-              {/* <Button color="black" title='Sign Up' touchSoundDisabled={false}/> */}
-              {/* <TouchableOpacity onPress={() => setUser({ name: "john" })} activeOpacity={0.5} className="border p-1 bg-black rounded">
-                                <Text className="text-base font-semibold text-white">Sign Up</Text>
-                            </TouchableOpacity> */}
+            <View className="flex flex-row gap-1 items-center justify-center p-1 rounded">   
               <TouchableOpacity
                 onPress={() => setUser({ name: "john" })}
                 activeOpacity={0.5}
-                className="border p-1 rounded"
+                className=" p-1 rounded"
               >
-                <Text className="px-[2px] text-base font-semibold text-white">
-                  Login
+                <Text className="px-[2px] text-base font-semibold text-white text-sm">
+                  Login/signup
                 </Text>
               </TouchableOpacity>
+              
             </View>
           </View>
-        )}
+        
       </View>
     );
 }

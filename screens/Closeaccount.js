@@ -25,7 +25,7 @@ const Closeaccount = () => {
 
   return (
     <SafeAreaView>
-      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#00308F" />
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView>
         <View>
           <View className="px-4 w-full">
