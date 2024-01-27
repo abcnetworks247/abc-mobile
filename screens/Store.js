@@ -52,6 +52,7 @@ const StoreScreen = () => {
       price={item.price}
     />
   );
+  
 
   if (loading) {
     return (

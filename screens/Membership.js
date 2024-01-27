@@ -14,28 +14,32 @@ const Membership = () => {
   const Plans = [
     {
       name: "General - Copper Donor",
-      price: "10 - 50",
+      id: "1",
+      price: 50,
       description:
         "This plan is ideal for individual users and hobbyists who are looking for essential functionalities to support.",
       features: ["Live Video"],
     },
     {
       name: "Prime -Silver Donor",
-      price: "55 - 100",
+      id: "2",
+      price: 100,
       description:
         "This plan is ideal for individual users and hobbyists who are looking for essential functionalities to support.",
       features: ["Special Discount", "Live Video"],
     },
     {
       name: "Patrons 1 - Gold Donor",
-      price: "105 - 200",
+      id: "3",
+      price: 200,
       description:
         "This plan is ideal for individual users and hobbyists who are looking for essential functionalities to support.",
       features: ["Special Discount", "Live Video", "Free Shipping"],
     },
     {
       name: "Patron 2 - Diamond Donor",
-      price: "500",
+      id: "4",
+      price: 500,
       description:
         "This plan is ideal for individual users and hobbyists who are looking for essential functionalities to support.",
       features: [
@@ -47,7 +51,8 @@ const Membership = () => {
     },
     {
       name: "Patron 3 - Titanium Donor",
-      price: "1000",
+      id: "5",
+      price: 1000,
       description:
         "This plan is ideal for individual users and hobbyists who are looking for essential functionalities to support.",
       features: [
@@ -68,22 +73,22 @@ const Membership = () => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
-        <View className=" flex flex-col items-center justify-center w-full px-8 py-4 mx-auto lg:pt-8 text-center">
+        <View className="flex flex-col items-center justify-center w-full px-8 py-4 mx-auto text-center lg:pt-8">
           <View className="text-center">
-            <Text className="mt-8 text-2xl font-semibold tracking-tight text-black lg:text-3xl text-center">
+            <Text className="mt-8 text-2xl font-semibold tracking-tight text-center text-black lg:text-3xl">
               Membership Packages
             </Text>
-            <Text className=" mt-4 text-base text-gray-400 text-center">
+            <Text className="mt-4 text-base text-center text-gray-400 ">
               Every plan includes every feature, and can scale as your team
               does.
             </Text>
           </View>
 
-          {Plans.map(({ price, name, description, features }) => {
+          {Plans.map(({ price, name, description, features, id }) => {
             return (
               <View
-                className="border-blue-600 rounded-2xl border  divide-gray-200  mt-10 w-full"
-                key={name}
+                className="w-full mt-10 border border-blue-600 divide-gray-200 rounded-2xl"
+                key={id}
               >
                 <View className="">
                   <View className="p-6">
@@ -103,7 +108,7 @@ const Membership = () => {
                         /mo
                       </Text>
                     </Text>
-                    <TouchableOpacity className="flex justify-center text-center w-full py-3 mt-4 text-sm font-medium text-white bg-indigo-600 border border-indigo-600 rounded active:text-indigo-500 hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring">
+                    <TouchableOpacity className="flex justify-center w-full py-3 mt-4 text-sm font-medium text-center text-white bg-indigo-600 border border-indigo-600 rounded active:text-indigo-500 hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring">
                       <Text className="text-center text-white">
                         Get started now
                       </Text>
@@ -116,10 +121,10 @@ const Membership = () => {
                     {features.map((feature) => {
                       return (
                         <View
-                          className="flex space-x-3 flex-row mt-3"
+                          className="flex flex-row mt-3 space-x-3"
                           key={feature}
                         >
-                          <View className="flex  justify-center items-center rounded-full bg-green-100 h-5 w-5">
+                          <View className="flex items-center justify-center w-5 h-5 bg-green-100 rounded-full">
                             <Svg
                               fill="#0285DE"
                               width="20px"
