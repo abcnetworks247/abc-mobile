@@ -10,11 +10,11 @@ import Api from "../utils/Api";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../utils/regex";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { Link } from "expo-router";
 
 const Login = () => {
   const navigation = useNavigation();
-  const { handleSignIn, setIsSignUpVisible, setRecoverVisible } =
-    UseProductProvider();
+  const { handleSignIn, setIsSignUpVisible, setRecoverVisible } = UseProductProvider();
   const [universalError, setUniversalError] = useState("");
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -71,6 +71,22 @@ const Login = () => {
      } else if (name === "password") {
        signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
      }
+
+     if (!value.trim()) {
+      setErrorMessages((prevErrors) => ({
+        ...prevErrors,
+        [name]: "This field is required",
+      }));
+      setIsValidData(false);
+    } else {
+      setErrorMessages((prevErrors) => ({
+        ...prevErrors,
+        [name]: "",
+      }));
+      setIsValidData(true);
+  
+      setUniversalError("");
+    }
    };
 
   // Define Variable for allfield valid
@@ -113,9 +129,14 @@ const Login = () => {
       console.log("errorr", value.error);
       // check the staus of the request to see if the request was successful or not
       if (data.status === 200) {
-        console.log(value?.message, "success message");
-        AsyncStorage.setItem("authToken", data.authToken);
-        navigation.navigate("Home");
+        if(data && data.data && data.data.authToken){
+        console.log(value?.message, "success message"); 
+        console.log(data.data, "data");
+        console.log(data.data.authToken, "token");
+        const token = data.data.authToken
+          await  AsyncStorage.setItem("authToken", JSON.stringify(token) );
+     
+        };
 
         // setTimeout(() => {
         //   toast.dismiss(id);
@@ -127,17 +148,17 @@ const Login = () => {
         // });
         // router.push("/");
 
-        setdata(value);
+        // setdata(value);
       }
     } catch (error) {
-      const suberrormsg = toast.update(id, {
-        render: `${error.response.data.error}`,
-        type: "error",
-        isLoading: false,
-      });
-      setTimeout(() => {
-        toast.dismiss(suberrormsg);
-      }, 2000);
+      // const suberrormsg = toast.update(id, {
+      //   render: `${error.response.data.error}`,
+      //   type: "error",
+      //   isLoading: false,
+      // });
+      // setTimeout(() => {
+      //   toast.dismiss(suberrormsg);
+      // }, 2000);
 
       console.error(error);
     }
@@ -153,6 +174,8 @@ const Login = () => {
           <Text className="text-[14px] text-gray-500">
             Hey enter your details to create your account
           </Text>
+
+          {/* <Text>{data && data?.value?.message}</Text> */}
         </View>
 
         <View className="mb-2">
@@ -178,6 +201,7 @@ const Login = () => {
             <TextInput
               placeholder="Enter password"
               secureTextEntry={true}
+              
               className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white"
               value={logInFormData.password}
               onChangeText={(value) => handleInputChange("password", value)}
@@ -190,6 +214,7 @@ const Login = () => {
           </View>
         </View>
         <View>
+          <Text>{data}</Text>
           <TouchableOpacity
             title=""
             className=" items-center justify-center tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none"
@@ -230,11 +255,14 @@ const Login = () => {
          
             <TouchableOpacity
               className="font-semibold text-blue-900"
-              onPress={() => navigation.navigate("Recovery")}
+              // onPress={() => navigation.navigate("Recovery")}
             >
+              <Link href="https://abcstudio-nine.vercel.app/recovery">
+
               <Text className="text-sm text-center text-gray-600">
                 Forgot Password?
               </Text>
+              </Link>
             </TouchableOpacity>
         
         </View>

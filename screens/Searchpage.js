@@ -16,8 +16,7 @@ const Searchpage = () => {
     const {allProducts} = UseProductProvider()
   const [searchPhrase, setSearchPhrase] = useState("");
  
-    const [fakeData, setFakeData] = useState();
-  console.log("allProduct", allProducts)
+
   
    useLayoutEffect(() => {
      // Hide the bottom navigation when navigating to Searchpage

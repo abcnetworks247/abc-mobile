@@ -37,7 +37,7 @@ export default function SignUp() {
     try {
       
       const data = await Api.post("admin/auth/signup", values)
-      console.log(data);
+      // console.log(data);
     } catch (error) {
        console.error(error);
        
