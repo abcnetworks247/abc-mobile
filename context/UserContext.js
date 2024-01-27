@@ -32,11 +32,12 @@ export const UserContextProvider = ({ children }) => {
      const getUserData = async () => {
        try {
         const authToken = await AsyncStorage.getItem("authToken");
- 
+        const token = JSON.stringify(authToken)
+        console.log('get auth ', authToken)
          if (authToken) {
            const response = await Api.get("client/auth/account", {
              headers: {
-               Authorization: `Bearer ${JSON.stringify(authToken)}`,
+              Authorization: "Bearer " + authToken,
              },
            });
            const dataValue = response.data.olduser;
@@ -88,7 +89,7 @@ export const UserContextProvider = ({ children }) => {
     try {
       const res = await Api.get("admin/blog");
       const data = await res.data;
-      console.log("res", data);
+    
       setBlogData(data.allblog);
     } catch (error) {
       console.log(error);

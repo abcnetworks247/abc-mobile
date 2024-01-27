@@ -122,11 +122,11 @@ const Login = () => {
 
       const value = data.data;
       // log the response data
-      console.log("errorr", value.error);
+      // console.log("errorr", value.error);
       // check the staus of the request to see if the request was successful or not
       if (data.status === 200) {
         if(data && data.data && data.data.authToken){
-        console.log(value?.message, "success message"); 
+        // console.log(value?.message, "success message"); 
         // console.log(data.data, "data");
         console.log(data.data.authToken, "token");
         const token = data.data.authToken
