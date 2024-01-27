@@ -15,6 +15,7 @@ export default function Home() {
   const HandleNavigate = () => {
     navigation.push("/signup");
   };
+  
   return (
     <View>
       <ScrollView className="p-2" showsVerticalScrollIndicator={false}>
