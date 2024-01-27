@@ -15,6 +15,7 @@ export const UserContextProvider = ({ children }) => {
   // initial state for user incoming data
   const [UserData, setUserData] = useState([]);
   const [dummyUser, setDummyUser] = useState([]);
+  const [isSignUpVisible, setIsSignUpVisible] = useState(false);
 
   // console.log("user data", UserData);
 
@@ -110,10 +111,12 @@ export const UserContextProvider = ({ children }) => {
       value={{
         handleLogout,
         UserData,
-        loading, 
+        loading,
+        isSignUpVisible,
+        setIsSignUpVisible,
       }}
     >
-      {children} 
+      {children}
     </UserContext.Provider>
   );
 };

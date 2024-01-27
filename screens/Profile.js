@@ -21,13 +21,13 @@ import { useNavigation } from "@react-navigation/native";
 import { ResetPasswordIcon } from "../components/svgs/Icons";
 import { StatusBar } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { UseProductProvider } from "../context/ProductProvider";
 import globalstyels from "../styles/globalstyels";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import { UseUserContext } from "../context/UserContext";
 
 
 export default function Profile() {
-  const { setIsSignUpVisible } = UseProductProvider();
+  const { setIsSignUpVisible } = UseUserContext();
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventDate, setEventDate] = useState("");

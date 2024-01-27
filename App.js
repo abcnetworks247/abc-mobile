@@ -13,13 +13,15 @@ import Recovery from "./auth/Recovery"
 import Updatepassword from "./auth/Updatepassword";
 import { AuthStackNavigator } from "./navigation/StackNavigator";
 import { UserContextProvider } from "./context/UserContext";
+import { UseUserContext } from "./context/UserContext";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
 });
 
 function AppContent() {
-  const { isSignUpVisible, isSignInVisible, recoverVisible } = UseProductProvider();
+  const { isSignUpVisible } = UseUserContext();
+  
 
   return (
     <>
