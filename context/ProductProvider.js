@@ -42,13 +42,11 @@ const ProductProvider = ({ children }) => {
 
   // add to cart socket
   const handleAddToCart = (productId, userId) => {
-    console.log("emmiting value to add to cart");
     const cartdata = {
       productId: productId,
       userId: userId,
     };
 
-    console.log("cartdata", cartdata);
     socket.emit("cartadd", cartdata);
   };
 
@@ -81,7 +79,6 @@ const ProductProvider = ({ children }) => {
   //   });
   // }, []);
 
-  console.log("cart products from socket", cartProducts);
 
   // useEffect(() => {
   //   const fetchWishlistFromServer = async () => {
