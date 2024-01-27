@@ -3,12 +3,14 @@ import React, { useState } from 'react'
 import { HamburgerIcon } from './svgs/Icons'
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { UseUserContext } from '../context/UserContext';
 
 
 
 export default function Navbar() {
     const navigation=useNavigation()
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const {setIsSignUpVisible}= UseUserContext()
 
     // set a timeout to change the state of the user then after some time set it to null
 
@@ -36,7 +38,7 @@ export default function Navbar() {
           <View className="flex-1 flex flex-row items-center justify-end">
             <View className="flex flex-row gap-1 items-center justify-center p-1 rounded">   
               <TouchableOpacity
-                onPress={() => setUser({ name: "john" })}
+                onPress={() => setIsSignUpVisible(true)}
                 activeOpacity={0.5}
                 className=" p-1 rounded"
               >
