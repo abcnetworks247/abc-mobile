@@ -1,10 +1,7 @@
-
 import { createContext, useState, useContext, useEffect } from "react";
 import React from "react";
 import Api from "../utils/Api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-
 
 const UserContext = createContext();
 
@@ -24,39 +21,40 @@ export const UserContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [genLoading, setGenload] = useState(true);
 
-  
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const authToken1 = await AsyncStorage.getItem("authToken");
 
+        const authToken = JSON.parse(await AsyncStorage.getItem("authToken"))
+        
+        if (authToken && authToken !== 'undefined' && authToken !== '') {
+          const token = authToken;
+          console.log("get authss", token);
+          const response = await Api.get("client/auth/account", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          });
+          const dataValue = response.data.olduser;
+          console.log("datavalue", dataValue);
+          if (response.status === 200) {
+            setUserData(dataValue);
+            setLoading(false);
+            setGenload(false);
+          }
+        } else {
+          setGenload(false);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
 
-
-   useEffect(() => {
-     const getUserData = async () => {
-       try {
-        const authToken = await AsyncStorage.getItem("authToken");
-        const token = JSON.stringify(authToken)
-        console.log('get auth ', authToken)
-         if (authToken) {
-           const response = await Api.get("client/auth/account", {
-             headers: {
-              Authorization: "Bearer " + authToken,
-             },
-           });
-           const dataValue = response.data.olduser;
-              // console.log('datavalue', dataValue);
-           if (response.status === 200) {
-             setUserData(dataValue);
-             setLoading(false);
-             setGenload(false);
-           }
-         } else {
-           setGenload(false);
-         }
-       } catch (error) {
-         console.error("Error fetching user data:", error);
-       }
-     };
-
-     getUserData();
-   }, []);
+    getUserData();
+  }, []);
 
   /**
    * @function (fuction) getUserData - a fuction created to retrieve user info.
@@ -75,9 +73,6 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
-
-
-
   const [blogData, setBlogData] = useState(null);
 
   /**
@@ -89,7 +84,7 @@ export const UserContextProvider = ({ children }) => {
     try {
       const res = await Api.get("admin/blog");
       const data = await res.data;
-    
+
       setBlogData(data.allblog);
     } catch (error) {
       console.log(error);

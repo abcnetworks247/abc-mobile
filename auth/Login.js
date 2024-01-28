@@ -98,6 +98,8 @@ const Login = () => {
 
 
 
+  
+
   const handleSubmit = async () => {
     
 
@@ -210,7 +212,6 @@ const Login = () => {
           </View>
         </View>
         <View>
-          <Text>{data}</Text>
           <TouchableOpacity
             title=""
             className=" items-center justify-center tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none"
