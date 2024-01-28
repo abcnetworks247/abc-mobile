@@ -7,6 +7,7 @@ import Updatepassword from "../auth/Updatepassword";
 import Recovery from "../auth/Recovery";
 import Login from "../auth/Login";
 import { Ionicons } from "@expo/vector-icons";
+import { UseProductProvider } from "../context/ProductProvider";
 import {
   Home,
   News,
@@ -32,7 +33,7 @@ import {
 import { IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { ChangePasswordIcon, HamburgerIcon } from "../components/svgs/Icons";
-import { Pressable, TouchableHighlight, View } from "react-native";
+import { Pressable, TouchableHighlight, View , Text} from "react-native";
 import { SearchIcon } from "../components/svgs/Icons";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { ChevronLeftIcon } from "../components/svgs/Icons";
@@ -40,7 +41,6 @@ import { MenuIcon } from "../components/svgs/Icons";
 import Profileheader from "../components/Profileheader";
 import Productheader from "../components/products/Productheader";
 import Navbar from "../components/Navbar";
-
 
 
 
@@ -161,6 +161,8 @@ const NewStackNavigator = () => {
 };
 
 const CartStackNavigator = () => {
+  
+const { cartProducts } = UseProductProvider();
   const navigation = useNavigation()
   return (
     <Stack.Navigator>
@@ -175,11 +177,11 @@ const CartStackNavigator = () => {
           ),
           title: "Cart",
 
-          // headerRight: () => (
-          //   <Pressable>
-          //     <MenuIcon />
-          //   </Pressable>
-          // ),
+          headerRight: () => (
+            <Pressable style={{marginRight:50}}>
+              <Text>{ cartProducts && cartProducts.length} items</Text>
+            </Pressable>
+          ),
         }}
       />
     </Stack.Navigator>

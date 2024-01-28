@@ -142,8 +142,8 @@ export const ShopIcon=({color}) =>{
   return (
      <Svg
     fill={color}
-    height="25px"
-    width="25px"
+    height="30px"
+    width="30px"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="-44.31 -44.31 580.93 580.93"
     xmlSpace="preserve"
@@ -185,8 +185,8 @@ export const HomeIcon=({color}) =>{
       viewBox="-12.24 -12.24 48.48 48.48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      width="50px"
-      height="50px"
+      width="55px"
+      height="55px"
     >
       <Path
         d="M18.438 20c.918 0 1.711-.627 1.835-1.537.117-.864.227-2.053.227-3.463 0-3 .168-4.832-3-8-1.461-1.461-3.094-2.581-4.198-3.26a2.474 2.474 0 00-2.604 0C9.593 4.42 7.96 5.54 6.5 7c-3.168 3.168-3 5-3 8 0 1.41.11 2.599.227 3.463.124.91.917 1.537 1.835 1.537h12.876z"
@@ -201,8 +201,8 @@ export const HomeIcon=({color}) =>{
 export const AccountIcon=({color}) =>{
   return (
     <Svg
-      width="20px"
-      height="20px"
+      width="25px"
+      height="25px"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -222,8 +222,8 @@ export const AccountIcon=({color}) =>{
 export const CartIcon=({color}) =>{
   return (
     <Svg
-      width="30px"
-      height="30px"
+      width="35px"
+      height="35px"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -256,8 +256,8 @@ export const CartIcon=({color}) =>{
 export const NewsIcon = ({ color }) => {
   return (
     <Svg
-      width="30px"
-      height="30px"
+      width="35px"
+      height="35px"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

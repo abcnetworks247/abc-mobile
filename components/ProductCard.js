@@ -10,8 +10,13 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Svg, { Path } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
+import { UseUserContext } from "../context/UserContext";
+import { UseProductProvider } from "../context/ProductProvider";
 
-const ProductCard = ({ title, description, thumbnail, price }) => {
+const ProductCard = ({ title, description, thumbnail, price, productId }) => {
+  const { UserData } = UseUserContext();
+
+  const { handleWishAdd, handleAddToCart } = UseProductProvider();
   const navigation = useNavigation();
 
   const handlePress = () => {
@@ -54,12 +59,20 @@ const ProductCard = ({ title, description, thumbnail, price }) => {
 
       <View className="absolute flex flex-col gap-4 top-4 right-2">
         <View style={styles.socialBarSection}>
-          <TouchableOpacity className="flex flex-row items-center justify-center">
+          <TouchableOpacity
+            className="flex flex-row items-center justify-center"
+            onPress={() => handleWishAdd(productId, UserData._id)}
+          >
             <Ionicons name="heart-circle-sharp" size={30} color={"#737373"} />
           </TouchableOpacity>
         </View>
         <View style={styles.socialBarSection}>
-          <TouchableOpacity className="flex flex-row items-center justify-center">
+          <TouchableOpacity
+            className="flex flex-row items-center justify-center"
+            onPress={() => {
+              handleAddToCart(productId, UserData._id);
+            }}
+          >
             <Ionicons name="cart-sharp" size={30} color={"#737373"} />
           </TouchableOpacity>
         </View>

@@ -1,9 +1,10 @@
 
 import React from "react";
 import { useEffect, useState, useContext } from "react";
-import { io } from "socket.io-client";
 import axios from "axios";
 import { createContext } from "react";
+import { UseUserContext } from "./UserContext";
+import { io } from "socket.io-client";
 
 
 
@@ -11,8 +12,9 @@ import { createContext } from "react";
 const ProductContext = createContext();
 
 const ProductProvider = ({ children }) => {
- 
-  const socket = io.connect(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
+    const { UserData } = UseUserContext();
+
+  const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
 
 
   const [searchResults, setSearchResults] = useState([]);
@@ -31,11 +33,13 @@ const ProductProvider = ({ children }) => {
       userId: userId,
     };
 
-    socket.emit("cartadd", cartdata);
+    socket.emit("cartadd", cartdata); 
   };
 
   // remove item from cart
   const handleRemoveFromCart = (productId, userId) => {
+    console.log("hitting remove from cart", productId, userId)
+    console.log(`${process.env.NEXT_PUBLIC_SOCKET_URL}`)
     const cartdata = {
       productId: productId,
       userId: userId,
@@ -46,6 +50,7 @@ const ProductProvider = ({ children }) => {
 
   // minus cart quantity
   const handleCartDecrease = (productId, userId) => {
+    console.log("decreasing cart Item", productId, userId);
     const cartdata = {
       productId: productId,
       userId: userId,
@@ -56,12 +61,17 @@ const ProductProvider = ({ children }) => {
 
   // get the cart products back from the server
 
-  // useEffect(() => {
-  //   socket.on("cart", (cartItems) => {
-  //     console.log("cart sent back");
-  //     setCartProducts(cartItems);
-  //   });
-  // }, []);
+  
+  useEffect(() => {
+    setCartProducts(UserData.cart);
+  }, [UserData]);
+
+  useEffect(() => {
+    socket.on("cart", (cartItems) => {
+      console.log("cart sent back");
+      setCartProducts(cartItems);
+    });
+  }, [socket]);
 
 
   // useEffect(() => {
@@ -155,18 +165,16 @@ const ProductProvider = ({ children }) => {
     <ProductContext.Provider
       value={{
         cartProducts,
-        handleAddToWishlist,
-        wishlist,
-        setSearchResults,
-        handleRemoveFromCart,
-        setLoading,
-        loading,
         allProducts,
-
         handleAddToCart,
         handleRemoveFromCart,
         handleCartDecrease,
-      
+
+        handleAddToWishlist,
+        wishlist,
+        setSearchResults,
+        setLoading,
+        loading,
       }}
     >
       {children}
