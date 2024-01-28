@@ -24,7 +24,6 @@ export const UserContextProvider = ({ children }) => {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const authToken1 = await AsyncStorage.getItem("authToken");
 
         const authToken = JSON.parse(await AsyncStorage.getItem("authToken"))
         
