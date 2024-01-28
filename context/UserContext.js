@@ -31,7 +31,7 @@ export const UserContextProvider = ({ children }) => {
           const token = authToken;
           setGenload(false);
           console.log("get authss", token);
-          setIsSignUpVisible(false)
+          // setIsSignUpVisible(false)
           const response = await Api.get("client/auth/account", {
             headers: {
               Authorization: `Bearer ${token}`,
