@@ -165,7 +165,7 @@ export const RemoveWishIcon=() =>{
       height="20px"
       viewBox="-2.94 0 31.716 31.716"
       xmlns="http://www.w3.org/2000/svg"
-      stroke="##727472"
+      stroke="#727472"
       strokeWidth={1.5858}
     >
       <Path

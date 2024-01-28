@@ -22,7 +22,7 @@ const ProductProvider = ({ children }) => {
   const [allProducts, setAllProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cartProducts, setCartProducts] = useState([]);
-  const [wishlist, setWishlist] = useState(null);
+  const [wishlist, setWishlist] = useState([]);
   
 
 
@@ -74,47 +74,47 @@ const ProductProvider = ({ children }) => {
   }, [socket]);
 
 
-  // useEffect(() => {
-  //   const fetchWishlistFromServer = async () => {
-  //     try {
-  //       // Map through the wishlist IDs and fetch product details
-  //       const productsPromises = UserData.wishlist.map(async (productId) => {
-  //         const productResponse = await axios.get(
-  //           `${process.env.NEXT_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
-  //         );
-  //         return productResponse.data; // Adjust to your server's response structure
-  //       });
+  useEffect(() => {
+    const fetchWishlistFromServer = async () => {
+      try {
+        // Map through the wishlist IDs and fetch product details
+        const productsPromises = UserData.wishlist.map(async (productId) => {
+          const productResponse = await axios.get(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
+          );
+          return productResponse.data; // Adjust to your server's response structure
+        });
 
-  //       const products = await Promise.all(productsPromises);
+        const products = await Promise.all(productsPromises);
 
-  //       setWishlist(products);
-  //     } catch (error) {
-  //       console.error("Error fetching wishlist from the server:", error);
-  //     }
-  //   };
+        setWishlist(products);
+      } catch (error) {
+        console.error("Error fetching wishlist from the server:", error);
+      }
+    };
 
-  //   // Fetch wishlist from the server when the component mounts
-  //   fetchWishlistFromServer();
-  // }, []);
+    // Fetch wishlist from the server when the component mounts
+    fetchWishlistFromServer();
+  }, []);
 
  
 
   // emit signals to add to wish list
-  // const handleWishAdd = (productId, userId) => {
-  //   const wishdata = {
-  //     productId: productId,
-  //     userId: userId,
-  //   };
-  //   socket.emit("wishadd", wishdata);
-  // };
+  const handleWishAdd = (productId, userId) => {
+    const wishdata = {
+      productId: productId,
+      userId: userId,
+    };
+    socket.emit("wishadd", wishdata);
+  };
 
   //reevie the response from the server
-  // socket.on("wishlist", (userwishlist) => {
-  //   // Update the local state with the updated
-  //   console.log(userwishlist);
-  //   setWishlist(userwishlist);
-  //   console.log("returning wishlist", wishlist);
-  // });
+  socket.on("wishlist", (userwishlist) => {
+    // Update the local state with the updated
+    console.log(userwishlist);
+    setWishlist(userwishlist);
+    console.log("returning wishlist", wishlist);
+  });
 
   const handleAddToWishlist = (product) => {
     addToWishlist(product);
@@ -170,8 +170,10 @@ const ProductProvider = ({ children }) => {
         handleRemoveFromCart,
         handleCartDecrease,
 
+
         handleAddToWishlist,
         wishlist,
+        handleWishAdd,
         setSearchResults,
         setLoading,
         loading,

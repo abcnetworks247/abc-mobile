@@ -41,9 +41,10 @@ const WishlistCard = ({ title, description, thumbnail, price }) => {
           {title}
         </Text>
       </View>
-      <View className="flex flex-row items-center px-2 mt-2">
-        <View className="mr-2">
-          <Text className="text-blue-500 font-bold text-lg">${price.toFixed(2)}</Text>
+
+     <View className="flex flex-row items-center justify-between px-2">
+        <View>
+          <Text className="text-[#00308F] font-bold">${price.toFixed(2)}</Text>
         </View>
         <View>
           <Text className="text-gray-400 text-xs font-bold line-through">

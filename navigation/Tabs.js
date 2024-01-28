@@ -44,9 +44,11 @@ const Tabs = () => {
             return (
               <View className="relative">
                 <CartIcon color={color} />
-                <View className="absolute flex flex-row items-center justify-center rounded-full h-5 w-5 bg-red-400">
-                   <Text className="text-white text-sm">12</Text>
-                </View>
+                {cartProducts && cartProducts.length > 0 && (
+                  <View className="absolute flex flex-row items-center justify-center rounded-full h-5 w-5 bg-red-400">
+                    <Text className="text-white text-sm">{cartProducts.length}</Text>
+                  </View>
+                )}
               </View>
             );
           } else if (route.name === "Profiletab") {

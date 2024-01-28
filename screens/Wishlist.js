@@ -1,11 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet, Dimensions } from "react-native";
+import { View, Text, FlatList, StyleSheet, Dimensions, Image } from "react-native";
 import ProductCard from "../components/ProductCard";
 import axios from "axios";
 import { UseProductProvider } from "../context/ProductProvider";
 import WishlistCard from "../components/products/WishlistCard";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import basket from "../assets/emptycart.jpg"
 
 
 
@@ -13,7 +14,23 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 const { width } = Dimensions.get("window");
 
 const Wishlist = () => {
-  const { allProducts, loading } = UseProductProvider();
+  const { wishlist } = UseProductProvider()
+  
+
+  if (wishlist.length == 0) {
+    return (
+      <View className=" bg-gray-100 lg:h-screen sm:flex sm:items-center sm:justify-center ">
+        <View className="bg-white sm:w-[30vw] sm:h-[40vh] h-full flex flex-col justify-center items-center sm:shadow-md sm:rounded-md">
+          <Image source={basket} className="w-32 h-auto" />
+          <Text className="text-bold">You have no saved items</Text>
+
+          <Text  className="text-sm text-blue-500 underline">
+            Go back to store
+          </Text>
+        </View>
+      </View>
+    );
+}
 
   const renderProductCard = ({ item }) => (
     <WishlistCard
@@ -24,19 +41,13 @@ const Wishlist = () => {
     />
   );
 
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+ 
 
   return (
     <View style={styles.container}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#00308F" />
       <FlatList
-        data={allProducts}
+        data={wishlist}
         renderItem={renderProductCard}
         keyExtractor={(item) => item._id.toString()}
         numColumns={2}

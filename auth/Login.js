@@ -15,7 +15,7 @@ import { UseUserContext } from "../context/UserContext";
 const Login = () => {
   const navigation = useNavigation();
   const {setIsSignUpVisible} = UseUserContext()
-  const { handleSignIn, setRecoverVisible } = UseProductProvider();
+  // const { handleSignIn, setRecoverVisible } = UseProductProvider();
   const [universalError, setUniversalError] = useState("");
 
   const [passwordVisible, setPasswordVisible] = useState(false);
