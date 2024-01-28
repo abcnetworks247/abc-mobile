@@ -59,8 +59,8 @@ export default function Profile() {
           />
 
           <View className="flex flex-col">
-            <Text className="font-bold">{UserData.fullname}</Text>
-            <Text className="text-gray-400">{UserData.email}</Text>
+            <Text className="font-bold">{UserData&& UserData.fullname}</Text>
+            <Text className="text-gray-400">{UserData && UserData.email}</Text>
           </View>
         </View>
 
