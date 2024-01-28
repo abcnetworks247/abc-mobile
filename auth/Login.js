@@ -95,17 +95,15 @@ const Login = () => {
     (field) => !errorMessages[field]
   );
 
- 
-
-  const [data, setdata] = useState([]);
-  console.log("data", data);
 
 
+
+  
 
   const handleSubmit = async () => {
     
 
-    console.log(logInFormData);
+    // console.log(logInFormData);
     setIsValidData(allFieldsValid);
 
     // if (!allFieldsValid) {
@@ -119,19 +117,19 @@ const Login = () => {
     // });
     try {
       // perform an asyncronous request to sigin in the user
-      console.log(logInFormData, "response data");
+      // console.log(logInFormData, "response data");
       const data = await Api.post("client/auth/signin", logInFormData, {
         withCredentials: true,
       });
 
       const value = data.data;
       // log the response data
-      console.log("errorr", value.error);
+      // console.log("errorr", value.error);
       // check the staus of the request to see if the request was successful or not
       if (data.status === 200) {
         if(data && data.data && data.data.authToken){
-        console.log(value?.message, "success message"); 
-        console.log(data.data, "data");
+        // console.log(value?.message, "success message"); 
+        // console.log(data.data, "data");
         console.log(data.data.authToken, "token");
         const token = data.data.authToken
           await  AsyncStorage.setItem("authToken", JSON.stringify(token) );
@@ -213,7 +211,6 @@ const Login = () => {
           </View>
         </View>
         <View>
-          <Text>{data}</Text>
           <TouchableOpacity
             title=""
             className=" items-center justify-center tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none"
