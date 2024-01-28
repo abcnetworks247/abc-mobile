@@ -11,10 +11,12 @@ import { EMAIL_REGEX, PASSWORD_REGEX } from "../utils/regex";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Link } from "expo-router";
+import { UseUserContext } from "../context/UserContext";
 
 const Login = () => {
   const navigation = useNavigation();
-  const { handleSignIn, setIsSignUpVisible, setRecoverVisible } = UseProductProvider();
+  const {setIsSignUpVisible} = UseUserContext()
+  const { handleSignIn, setRecoverVisible } = UseProductProvider();
   const [universalError, setUniversalError] = useState("");
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -67,9 +69,9 @@ const Login = () => {
      });
 
      if (name === "email") {
-       signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
+      signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
      } else if (name === "password") {
-       signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
+      signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
      }
 
      if (!value.trim()) {
@@ -94,7 +96,6 @@ const Login = () => {
   const allFieldsValid = Object.keys(errorMessages).every(
     (field) => !errorMessages[field]
   );
-
 
 
 
@@ -135,6 +136,7 @@ const Login = () => {
           await  AsyncStorage.setItem("authToken", JSON.stringify(token) );
      
         };
+        setIsSignUpVisible(false)
 
         // setTimeout(() => {
         //   toast.dismiss(id);
@@ -180,6 +182,7 @@ const Login = () => {
           <View className="mb-2">
             <TextInput
               placeholder="Enter your email"
+              
               className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white "
               keyboardType="email-address"
               value={logInFormData.email}
@@ -216,8 +219,10 @@ const Login = () => {
             title=""
             className=" items-center justify-center tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none"
             onPress={() => handleSubmit()}
+            disabled={!allFieldsValid}
           >
             <View className="flex flex-row gap-2 items-center">
+
               <Svg
                 width="24"
                 height="24"

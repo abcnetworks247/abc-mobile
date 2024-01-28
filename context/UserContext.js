@@ -13,7 +13,7 @@ export const UserContextProvider = ({ children }) => {
   // initial state for user incoming data
   const [UserData, setUserData] = useState([]);
   const [dummyUser, setDummyUser] = useState([]);
-  const [isSignUpVisible, setIsSignUpVisible] = useState(false);
+  const [isSignUpVisible, setIsSignUpVisible] = useState(true);
 
   // console.log("user data", UserData);
 
@@ -31,7 +31,7 @@ export const UserContextProvider = ({ children }) => {
           const token = authToken;
           setGenload(false);
           console.log("get authss", token);
-          setIsSignUpVisible(false)
+          // setIsSignUpVisible(false)
           const response = await Api.get("client/auth/account", {
             headers: {
               Authorization: `Bearer ${token}`,
