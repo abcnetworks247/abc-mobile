@@ -17,13 +17,14 @@ import { CloseAccountIcon } from "../components/svgs/Icons";
 import { AngleIcon } from "../components/svgs/Icons";
 import { LogOutIcon } from "../components/svgs/Icons";
 import { EditIcon } from "../components/svgs/Icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native"
 import { ResetPasswordIcon } from "../components/svgs/Icons";
 import { StatusBar } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import globalstyels from "../styles/globalstyels";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { UseUserContext } from "../context/UserContext";
+
 
 
 export default function Profile() {

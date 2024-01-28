@@ -49,6 +49,7 @@ import Navbar from "../components/Navbar";
 
 
 
+
 const Stack = createStackNavigator();
 
 
@@ -129,7 +130,7 @@ const WishStackNavigator = () => {
               onPress={() => navigation.openDrawer()}
               style={{ marginLeft: 10 }}
             >
-              <Ionicons name="menu-sharp" size={23} color={"white"} />
+              <HamburgerIcon />
             </Pressable>
           ),
 
@@ -205,7 +206,7 @@ const ProfileStackNavigator = () => {
               onPress={() => navigation.openDrawer()}
               style={{ marginLeft: 10 }}
             >
-              <Ionicons name="menu-sharp" size={23} color={"white"} />
+              <HamburgerIcon  />
             </Pressable>
           ),
 
@@ -323,7 +324,7 @@ const MembershipStackNavigator = () => {
               onPress={() => navigation.openDrawer()}
               style={{ marginLeft: 10 }}
             >
-              <Ionicons name="menu-sharp" size={23} color={"white"} />
+              <HamburgerIcon />
             </Pressable>
           ),
 
@@ -351,7 +352,7 @@ const ContactStackNavigator = () => {
               onPress={() => navigation.openDrawer()}
               style={{ marginLeft: 10 }}
             >
-              <Ionicons name="menu-sharp" size={23} color={"white"} />
+              <HamburgerIcon />
             </Pressable>
           ),
 
@@ -379,14 +380,14 @@ const AboutStackNavigator = () => {
               onPress={() => navigation.openDrawer()}
               style={{ marginLeft: 10 }}
             >
-              <Ionicons name="menu-sharp" size={23} color={"white"} />
+              <HamburgerIcon />
             </Pressable>
           ),
 
           headerStyle: {
             shadowColor: "#000",
             elevation: 25,
-            backgroundColor: "#00308F",
+            backgroundColor: "#2c3e50",
           },
         }}
       />

@@ -307,16 +307,37 @@ export const SearchIcon = () => {
 export const HamburgerIcon= () => {
   return (
     <Svg
-      width="35px"
-      height="35px"
-      viewBox="0 -0.5 25 25"
-      fill="none"
+      fill="#ffff"
+      width="40px"
+      height="40px"
+      viewBox="-17.92 -17.92 99.84 99.84"
       xmlns="http://www.w3.org/2000/svg"
+      stroke="#ffff"
+      strokeWidth={4.224}
+      fillRule="evenodd"
+      clipRule="evenodd"
+      strokeLinejoin="round"
+      strokeMiterlimit={2}
+    
     >
-      <Path
-        d="M5.5 7.75a.75.75 0 000 1.5v-1.5zm14 1.5a.75.75 0 000-1.5v1.5zm-14 2.5a.75.75 0 000 1.5v-1.5zm12 1.5a.75.75 0 000-1.5v1.5zm-12 2.5a.75.75 0 000 1.5v-1.5zm7 1.5a.75.75 0 000-1.5v1.5zm-7-8h14v-1.5h-14v1.5zm0 4h12v-1.5h-12v1.5zm0 4h7v-1.5h-7v1.5z"
-        fill="#000"
-      />
+      <G transform="translate(-1088 -192)">
+        <Path d="M0 0H1280V800H0z" fill="none" />
+        <Path
+          transform="matrix(1.50868 0 0 1.01217 70.647 191.772) matrix(.1492 0 0 .17344 664.206 42.142)"
+          d="M103.288 8.535H174.506V42.668000000000006H103.288z"
+          fillRule="nonzero"
+        />
+        <Path
+          transform="matrix(1.50868 0 0 1.01217 70.647 191.772) matrix(.1492 0 0 .17344 664.345 27.4)"
+          d="M103.288 8.535H244.654V42.668000000000006H103.288z"
+          fillRule="nonzero"
+        />
+        <Path
+          transform="matrix(1.50868 0 0 1.01217 70.647 191.772) matrix(.1492 0 0 .17344 664.345 12.658)"
+          d="M103.288 8.535H315.735V42.668000000000006H103.288z"
+          fillRule="nonzero"
+        />
+      </G>
     </Svg>
   );
 };

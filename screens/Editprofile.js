@@ -13,6 +13,10 @@ import Svg, { Path, G } from "react-native-svg";
 import * as ImagePicker from "expo-image-picker";
 import globalstyels from "../styles/globalstyels";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import { Toast } from "toastify-react-native";
+import ToastManager from "toastify-react-native";
+import Container from "toastify-react-native"
+
 
 
 const Editprofile = () => {
@@ -25,11 +29,15 @@ const Editprofile = () => {
       }
     } catch (error) { }
   };
+const handleSubmit = async () => {
+  Toast.success("Promise if Resolved");
+};
 
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView>
+       
         <View>
           <View className="px-4 w-full">
             <View className="mt-6">
@@ -125,6 +133,7 @@ const Editprofile = () => {
                 </TouchableOpacity>
               </View>
               <TouchableOpacity
+                onPress={() => handleSubmit()}
                 type="submit"
                 className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >

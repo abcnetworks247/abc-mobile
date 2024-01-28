@@ -9,12 +9,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Api from "../utils/Api";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../utils/regex";
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
 import { Link } from "expo-router";
+import { UseUserContext } from "../context/UserContext";
 
 const Login = () => {
   const navigation = useNavigation();
-  const { handleSignIn, setIsSignUpVisible, setRecoverVisible } = UseProductProvider();
+  const { setIsSignUpVisible } = UseUserContext();
   const [universalError, setUniversalError] = useState("");
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -201,7 +201,6 @@ const Login = () => {
             <TextInput
               placeholder="Enter password"
               secureTextEntry={true}
-              
               className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white"
               value={logInFormData.password}
               onChangeText={(value) => handleInputChange("password", value)}
@@ -242,29 +241,26 @@ const Login = () => {
         </View>
 
         <View className="flex items-center justify-between flex-row">
-
           <View className="flex flex-row items-center">
-            <Text className="mr-2">
-              New?
-            </Text>
+            <Pressable onPress={()=>setIsSignUpVisible(false)}>
+              <Text className="mr-2">New?</Text>
+            </Pressable>
+
             <TouchableOpacity onPress={() => navigation.navigate("TestSignUp")}>
               <Text className="font-semibold text-blue-900">Register</Text>
             </TouchableOpacity>
           </View>
 
-         
-            <TouchableOpacity
-              className="font-semibold text-blue-900"
-              // onPress={() => navigation.navigate("Recovery")}
-            >
-              <Link href="https://abcstudio-nine.vercel.app/recovery">
-
+          <TouchableOpacity
+            className="font-semibold text-blue-900"
+            // onPress={() => navigation.navigate("Recovery")}
+          >
+            <Link href="https://abcstudio-nine.vercel.app/recovery">
               <Text className="text-sm text-center text-gray-600">
                 Forgot Password?
               </Text>
-              </Link>
-            </TouchableOpacity>
-        
+            </Link>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
