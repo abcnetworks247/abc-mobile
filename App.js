@@ -26,7 +26,7 @@ function AppContent() {
   return (
     <>
       <NavigationContainer>
-        { isSignUpVisible &&isSignUpVisible ?
+        { isSignUpVisible && isSignUpVisible ?
          <AuthStackNavigator /> :
           <DrawerNavigator />}
       </NavigationContainer>

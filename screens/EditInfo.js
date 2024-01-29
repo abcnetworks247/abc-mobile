@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import React from "react";
 import Svg, { Path, G } from "react-native-svg";
@@ -15,11 +15,9 @@ import globalstyels from "../styles/globalstyels";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { Toast } from "toastify-react-native";
 import ToastManager from "toastify-react-native";
-import Container from "toastify-react-native"
+import Container from "toastify-react-native";
 
-
-
-const Editprofile = () => {
+const EditInfo = () => {
   const SelectImagePicker = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -27,17 +25,16 @@ const Editprofile = () => {
       });
       if (!result.canceled) {
       }
-    } catch (error) { }
+    } catch (error) {}
   };
-const handleSubmit = async () => {
-  Toast.success("Promise if Resolved");
-};
+  const handleSubmit = async () => {
+    Toast.success("Promise if Resolved");
+  };
 
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView>
-       
         <View>
           <View className="px-4 w-full">
             <View className="mt-6">
@@ -149,4 +146,4 @@ const handleSubmit = async () => {
   );
 };
 
-export default Editprofile;
+export default EditInfo;

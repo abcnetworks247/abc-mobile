@@ -7,8 +7,6 @@ import Svg, { Circle, Path } from "react-native-svg";
 import { UseProductProvider } from '../context/ProductProvider';
 import { useNavigation } from '@react-navigation/native';
 import { NAME_REGEX, PASSWORD_REGEX, EMAIL_REGEX } from '../utils/regex';
-import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
 import Api from '../utils/Api';
 
 
@@ -107,27 +105,27 @@ const TestSignUp = () => {
          console.log("errorr", value.error);
           if (data.status === 201) {
             console.log("post successful", data.data.message);
-            toast("Registration successful", {
-              type: "success",
-              position: "top",
-            });
+            // toast("Registration successful", {
+            //   type: "success",
+            //   position: "top",
+            // });
             navigation.navigate("Login");
           } else if (data.status === 500) {
-            toast("User email or name already exists", {
-              type: "error",
-              position: "top",
-            });
+            // toast("User email or name already exists", {
+            //   type: "error",
+            //   position: "top",
+            // });
           } else {
-            toast("Error while creating account", {
-              type: "error",
-              position: "top",
-            });
+            // toast("Error while creating account", {
+            //   type: "error",
+            //   position: "top",
+            // });
           }
        } catch (error) {
-          toast(error.response.data.error, {
-            type: "error",
-            position: "top",
-          });
+          // toast(error.response.data.error, {
+          //   type: "error",
+          //   position: "top",
+          // });
        }
      };
 

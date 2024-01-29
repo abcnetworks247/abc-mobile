@@ -1,10 +1,9 @@
 import { StyleSheet, Text, View, Button, TouchableOpacity, Pressable,Image } from 'react-native'
 import React, { useState } from 'react'
-import { HamburgerIcon } from './svgs/Icons'
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { UseUserContext } from '../context/UserContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { HamburgerIcon } from './svgs/Icons';
 
 
 
@@ -25,7 +24,7 @@ export default  function Navbar() {
           className="flex-1 flex flex-row items-center boder"
           onPress={() => navigation.openDrawer()}
         >
-          <Ionicons name="menu-sharp" size={22} color={"white"} />
+          <HamburgerIcon/>
         </Pressable>
         {/* {user ? (
           <View className="flex-1 flex flex-row items-center justify-center">
@@ -37,28 +36,19 @@ export default  function Navbar() {
             </Text>
           </View>
         ) : ( */}
-          <View className="flex-1 flex flex-row items-center justify-end">
-            <View className="flex flex-row gap-1 items-center justify-center p-1 rounded">   
-              <TouchableOpacity
-                onPress={() => setIsSignUpVisible(true)}
-                activeOpacity={0.5}
-                className=" p-1 rounded"
-              >
-              {UserData === null ?  <Text className="px-[2px] text-base font-semibold text-white text-sm">
-
-                  Login / signup
-                </Text> 
-                
-                :
-                <TouchableOpacity  >
-   
-                <Image source={UserData.userdp} className="w-10 h-10 rounded-full border-2 border-[#f5f5f5]"  />
-                </TouchableOpacity>}
-              </TouchableOpacity>
-              
-            </View>
+        <View className="flex-1 flex flex-row items-center justify-end">
+          <View className="flex flex-row gap-1 items-center justify-center p-1 rounded">
+            <TouchableOpacity
+              onPress={() => setIsSignUpVisible(true)}
+              activeOpacity={0.5}
+              className=" p-1 rounded"
+            >
+              <Text className="px-[2px] text-base font-semibold text-white text-md">
+                Login / signup
+              </Text>
+            </TouchableOpacity>
           </View>
-        
+        </View>
       </View>
     );
 }

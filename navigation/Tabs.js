@@ -14,13 +14,14 @@ import {
 } from "./StackNavigator";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Editprofile } from "../screens";
-
+import { UseProductProvider } from "../context/ProductProvider";
 
 
 const Tab = createBottomTabNavigator();
 
 
 const Tabs = () => {
+  const {cartProducts}=UseProductProvider()
    const getTabBarVisibility = (route) => {
      const routeName = getFocusedRouteNameFromRoute(route);
      const hideOnScreens = [Editprofile]; // put here name of screen where you want to hide tabBar
@@ -39,7 +40,17 @@ const Tabs = () => {
           } else if (route.name === "Storetab") {
             return <ShopIcon color={color} />;
           } else if (route.name === "Carttab") {
-            return <CartIcon color={color} />;
+            
+            return (
+              <View className="relative">
+                <CartIcon color={color} />
+                {cartProducts && cartProducts.length > 0 && (
+                  <View className="absolute flex flex-row items-center justify-center rounded-full h-5 w-5 bg-red-400">
+                    <Text className="text-white text-sm">{cartProducts.length}</Text>
+                  </View>
+                )}
+              </View>
+            );
           } else if (route.name === "Profiletab") {
             return <AccountIcon color={color} />;
           }
@@ -49,7 +60,7 @@ const Tabs = () => {
       })}
       tabBarOptions={{
         activeTintColor: "#00308F", // Change this to set the color of the active tab icon
-        inactiveTintColor: "gray", // Change this to set the color of inactive tab icons
+        inactiveTintColor: "black", // Change this to set the color of inactive tab icons
         style: {
           backgroundColor: "white", // Change this to set the background color of the bottom tab bar
         },
@@ -58,22 +69,22 @@ const Tabs = () => {
       <Tab.Screen
         name="Hometab"
         component={HomeStackNavigator}
-        options={{ headerShown: false, tabBarLabel: "Home" }}
+        options={{ headerShown: false, tabBarLabel: "" }}
       />
       <Tab.Screen
         name="Newstab"
         component={NewStackNavigator}
-        options={{ headerShown: false, tabBarLabel: "News" }}
+        options={{ headerShown: false, tabBarLabel: "" }}
       />
       <Tab.Screen
         name="Storetab"
         component={StoreStackNavigator}
-        options={{ headerShown: false, tabBarLabel: "Store" }}
+        options={{ headerShown: false, tabBarLabel: "" }}
       />
       <Tab.Screen
         name="Carttab"
         component={CartStackNavigator}
-        options={{ headerShown: false, tabBarLabel: "Cart" }}
+        options={{ headerShown: false, tabBarLabel: "" }}
       />
       {/* <Tab.Screen
         name="signup"
@@ -85,7 +96,7 @@ const Tabs = () => {
         component={ProfileStackNavigator}
         options={({ route }) => ({
           headerShown: false,
-          tabBarLabel: "Profile",
+          tabBarLabel: "",
           tabBarVisible: getTabBarVisibility(route),
         })}
       />

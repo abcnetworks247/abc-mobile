@@ -61,7 +61,7 @@ const ProductDetails = () => {
             </View>
 
             <View className="flex flex-row item-center">
-              <Text className="text-blue-500 font-bold text-[24px]">
+              <Text className="text-[#00308F] font-bold text-lg">
                 ${price.toFixed(2)}
               </Text>
             </View>
