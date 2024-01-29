@@ -33,8 +33,7 @@ const TypeDetails = () => {
       const res = await axios.get(`${baseURL}admin/blog/news/${id}`);
       const data = res.data.data;
       setPosts(data);
-      // console.log(res.data);
-
+     
       setLoading(false);
     } catch (err) {
       console.log(err);

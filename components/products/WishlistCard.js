@@ -11,9 +11,14 @@ import { useNavigation } from "@react-navigation/native";
 import Svg, { Path } from "react-native-svg";
 import { BinIcon } from "../svgs/Icons";
 import { RemoveWishIcon } from "../svgs/Icons";
+import { UseProductProvider } from "../../context/ProductProvider";
+import { UseUserContext } from "../../context/UserContext";
 
-const WishlistCard = ({ title, description, thumbnail, price }) => {
+const WishlistCard = ({ title, description, thumbnail, price ,productId}) => {
   const navigation = useNavigation();
+    
+const { UserData } = UseUserContext();
+const {handleWishAdd} = UseProductProvider();
 
   const handlePress = () => {
     navigation.navigate("Details", {
@@ -41,9 +46,10 @@ const WishlistCard = ({ title, description, thumbnail, price }) => {
           {title}
         </Text>
       </View>
-      <View className="flex flex-row items-center px-2 mt-2">
-        <View className="mr-2">
-          <Text className="text-blue-500 font-bold text-lg">${price.toFixed(2)}</Text>
+
+      <View className="flex flex-row items-center justify-between px-2">
+        <View>
+          <Text className="text-[#00308F] font-bold">${price.toFixed(2)}</Text>
         </View>
         <View>
           <Text className="text-gray-400 text-xs font-bold line-through">
@@ -53,12 +59,14 @@ const WishlistCard = ({ title, description, thumbnail, price }) => {
       </View>
 
       <View className="absolute top-4 right-2">
-       
-          <TouchableOpacity className="flex flex-row items-center justify-center bg-gray-300 rounded-lg p-2 border border-white">
-              <RemoveWishIcon/>
-          </TouchableOpacity>
-       
-      
+        <TouchableOpacity
+          className="flex flex-row items-center justify-center bg-gray-300 rounded-lg p-2 border border-white"
+          onPress={() => {
+            handleWishAdd(productId, UserData._id);
+          }}
+        >
+          <RemoveWishIcon />
+        </TouchableOpacity>
       </View>
     </Pressable>
   );

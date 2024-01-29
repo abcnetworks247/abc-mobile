@@ -142,8 +142,8 @@ export const ShopIcon=({color}) =>{
   return (
      <Svg
     fill={color}
-    height="25px"
-    width="25px"
+    height="30px"
+    width="30px"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="-44.31 -44.31 580.93 580.93"
     xmlSpace="preserve"
@@ -165,7 +165,7 @@ export const RemoveWishIcon=() =>{
       height="20px"
       viewBox="-2.94 0 31.716 31.716"
       xmlns="http://www.w3.org/2000/svg"
-      stroke="##727472"
+      stroke="#727472"
       strokeWidth={1.5858}
     >
       <Path
@@ -185,8 +185,8 @@ export const HomeIcon=({color}) =>{
       viewBox="-12.24 -12.24 48.48 48.48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      width="50px"
-      height="50px"
+      width="55px"
+      height="55px"
     >
       <Path
         d="M18.438 20c.918 0 1.711-.627 1.835-1.537.117-.864.227-2.053.227-3.463 0-3 .168-4.832-3-8-1.461-1.461-3.094-2.581-4.198-3.26a2.474 2.474 0 00-2.604 0C9.593 4.42 7.96 5.54 6.5 7c-3.168 3.168-3 5-3 8 0 1.41.11 2.599.227 3.463.124.91.917 1.537 1.835 1.537h12.876z"
@@ -201,8 +201,8 @@ export const HomeIcon=({color}) =>{
 export const AccountIcon=({color}) =>{
   return (
     <Svg
-      width="20px"
-      height="20px"
+      width="25px"
+      height="25px"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -222,8 +222,8 @@ export const AccountIcon=({color}) =>{
 export const CartIcon=({color}) =>{
   return (
     <Svg
-      width="30px"
-      height="30px"
+      width="35px"
+      height="35px"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -256,8 +256,8 @@ export const CartIcon=({color}) =>{
 export const NewsIcon = ({ color }) => {
   return (
     <Svg
-      width="30px"
-      height="30px"
+      width="35px"
+      height="35px"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -307,16 +307,37 @@ export const SearchIcon = () => {
 export const HamburgerIcon= () => {
   return (
     <Svg
-      width="35px"
-      height="35px"
-      viewBox="0 -0.5 25 25"
-      fill="none"
+      fill="#ffff"
+      width="40px"
+      height="40px"
+      viewBox="-17.92 -17.92 99.84 99.84"
       xmlns="http://www.w3.org/2000/svg"
+      stroke="#ffff"
+      strokeWidth={4.224}
+      fillRule="evenodd"
+      clipRule="evenodd"
+      strokeLinejoin="round"
+      strokeMiterlimit={2}
+    
     >
-      <Path
-        d="M5.5 7.75a.75.75 0 000 1.5v-1.5zm14 1.5a.75.75 0 000-1.5v1.5zm-14 2.5a.75.75 0 000 1.5v-1.5zm12 1.5a.75.75 0 000-1.5v1.5zm-12 2.5a.75.75 0 000 1.5v-1.5zm7 1.5a.75.75 0 000-1.5v1.5zm-7-8h14v-1.5h-14v1.5zm0 4h12v-1.5h-12v1.5zm0 4h7v-1.5h-7v1.5z"
-        fill="#000"
-      />
+      <G transform="translate(-1088 -192)">
+        <Path d="M0 0H1280V800H0z" fill="none" />
+        <Path
+          transform="matrix(1.50868 0 0 1.01217 70.647 191.772) matrix(.1492 0 0 .17344 664.206 42.142)"
+          d="M103.288 8.535H174.506V42.668000000000006H103.288z"
+          fillRule="nonzero"
+        />
+        <Path
+          transform="matrix(1.50868 0 0 1.01217 70.647 191.772) matrix(.1492 0 0 .17344 664.345 27.4)"
+          d="M103.288 8.535H244.654V42.668000000000006H103.288z"
+          fillRule="nonzero"
+        />
+        <Path
+          transform="matrix(1.50868 0 0 1.01217 70.647 191.772) matrix(.1492 0 0 .17344 664.345 12.658)"
+          d="M103.288 8.535H315.735V42.668000000000006H103.288z"
+          fillRule="nonzero"
+        />
+      </G>
     </Svg>
   );
 };

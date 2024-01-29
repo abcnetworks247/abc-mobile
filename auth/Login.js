@@ -9,12 +9,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Api from "../utils/Api";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../utils/regex";
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
 import { Link } from "expo-router";
+import { UseUserContext } from "../context/UserContext";
 
 const Login = () => {
   const navigation = useNavigation();
-  const { handleSignIn, setIsSignUpVisible, setRecoverVisible } = UseProductProvider();
+  const {setIsSignUpVisible} = UseUserContext()
+  // const { handleSignIn, setRecoverVisible } = UseProductProvider();
   const [universalError, setUniversalError] = useState("");
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -67,9 +68,9 @@ const Login = () => {
      });
 
      if (name === "email") {
-       signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
+      signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
      } else if (name === "password") {
-       signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
+      signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
      }
 
      if (!value.trim()) {
@@ -97,6 +98,7 @@ const Login = () => {
 
 
 
+  
 
   const handleSubmit = async () => {
     
@@ -133,6 +135,7 @@ const Login = () => {
           await  AsyncStorage.setItem("authToken", JSON.stringify(token) );
      
         };
+        setIsSignUpVisible(false)
 
         // setTimeout(() => {
         //   toast.dismiss(id);
@@ -179,6 +182,8 @@ const Login = () => {
             <TextInput
               placeholder="Enter your email"
               className="w-auto px-5 py-3 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:bg-white "
+              
+              className="w-auto px-5 py-3 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:bg-white "
               keyboardType="email-address"
               value={logInFormData.email}
               onChangeText={(value) => {
@@ -210,11 +215,12 @@ const Login = () => {
           </View>
         </View>
         <View>
-          {/* <Text>{data}</Text> */}
+          <Text>{data}</Text>
           <TouchableOpacity
             title=""
             className="items-center justify-center w-full py-4 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-blue-900 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
             onPress={() => handleSubmit()}
+            disabled={!allFieldsValid}
           >
             <View className="flex flex-row items-center gap-2">
               <Svg
@@ -240,27 +246,25 @@ const Login = () => {
         <View className="flex flex-row items-center justify-between">
 
           <View className="flex flex-row items-center">
-            <Text className="mr-2">
-              New?
-            </Text>
+            <Pressable onPress={()=>setIsSignUpVisible(false)}>
+              <Text className="mr-2">New?</Text>
+            </Pressable>
+
             <TouchableOpacity onPress={() => navigation.navigate("TestSignUp")}>
               <Text className="font-semibold text-blue-900">Register</Text>
             </TouchableOpacity>
           </View>
 
-         
-            <TouchableOpacity
-              className="font-semibold text-blue-900"
-              // onPress={() => navigation.navigate("Recovery")}
-            >
-              <Link href="https://abcstudio-nine.vercel.app/recovery">
-
+          <TouchableOpacity
+            className="font-semibold text-blue-900"
+            // onPress={() => navigation.navigate("Recovery")}
+          >
+            <Link href="https://abcstudio-nine.vercel.app/recovery">
               <Text className="text-sm text-center text-gray-600">
                 Forgot Password?
               </Text>
-              </Link>
-            </TouchableOpacity>
-        
+            </Link>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

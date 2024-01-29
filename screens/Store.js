@@ -22,11 +22,11 @@ const StoreScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const uniqueCategories = [
-    "All", ...new Set(allProducts.map((product) => product.category)),
+    "All", ...new Set(allProducts && allProducts.map((product) => product.category)),
   ];
 
   const filteredProducts = selectedCategory
-    ? allProducts.filter((product) =>
+    ? allProducts && allProducts.filter((product) =>
       selectedCategory === "All"
         ? true
         : product.category === selectedCategory
@@ -50,6 +50,7 @@ const StoreScreen = () => {
       description={item.description}
       thumbnail={item.thumbnail}
       price={item.price}
+      productId={item._id}
     />
   );
   
