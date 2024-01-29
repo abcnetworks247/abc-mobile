@@ -16,6 +16,7 @@ import Productresult from "./Productresult";
 import Membership from "./Membership";
 import Contact from "./Contact";
 import About from "./About";
+import EditInfo from "./EditInfo";
 
 
 export {
@@ -37,4 +38,5 @@ export {
   Membership,
   Contact,
   About,
+  EditInfo,
 };

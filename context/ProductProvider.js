@@ -12,7 +12,7 @@ import { io } from "socket.io-client";
 const ProductContext = createContext();
 
 const ProductProvider = ({ children }) => {
-    const { UserData } = UseUserContext();
+   const { UserData } = UseUserContext();
 
   const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
 
@@ -80,7 +80,7 @@ const ProductProvider = ({ children }) => {
         // Map through the wishlist IDs and fetch product details
         const productsPromises = UserData.wishlist.map(async (productId) => {
           const productResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
+            `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
           );
           return productResponse.data; // Adjust to your server's response structure
         });

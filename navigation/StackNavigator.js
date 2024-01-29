@@ -28,6 +28,7 @@ import {
   Membership,
   Contact,
   About,
+  EditInfo,
 } from "../screens";
 
 import { IconButton } from "react-native-paper";
@@ -62,6 +63,8 @@ const screenOptionStyle = {
 };
 
 function StoreStackNavigator() {
+const { wishlist } = UseProductProvider();
+    
 
   const navigation = useNavigation();
 
@@ -74,27 +77,38 @@ function StoreStackNavigator() {
         name="Store"
         component={Store}
         options={{
-          title: '',
+          title: "",
           headerLeft: () => (
             <Pressable
               onPress={() => navigation.openDrawer()}
               style={{ marginLeft: 10 }}
             >
-              <Ionicons name="menu-sharp" size={23} />
+              <Ionicons name="menu-sharp" size={30} color={"white"} />
             </Pressable>
           ),
 
           headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("Searchpage")}
-              style={{ marginRight: 10 }}
-            >
-              <Ionicons name="search-sharp" size={23} />
-            </Pressable>
+            <View className="flex flex-row items-center gap-4">
+              <View className="relative">
+                <Ionicons name="heart-sharp" size={30} color={"white"} />
+                {wishlist && wishlist.length > 0 && (
+                  <View className="absolute flex flex-row items-center justify-center  h-5 w-5 rounded-full bg-red-500 left-[-7px] top-[-2px]">
+                    <Text className="text-white text-sm m-0 p-0">{wishlist.length}</Text>
+                  </View>
+                )}
+              </View>
+              <Pressable
+                onPress={() => navigation.navigate("Searchpage")}
+                style={{ marginRight: 10 }}
+              >
+                <Ionicons name="search-sharp" size={30} color={"white"} />
+              </Pressable>
+            </View>
           ),
           headerStyle: {
             shadowColor: "#000",
             elevation: 25,
+            backgroundColor: "#2c3e50",
           },
         }}
       />
@@ -117,6 +131,7 @@ function StoreStackNavigator() {
   );
 }
 const WishStackNavigator = () => {
+  const { wishlist } = UseProductProvider();
   const navigation=useNavigation()
   return (
     <Stack.Navigator>
@@ -132,6 +147,21 @@ const WishStackNavigator = () => {
             >
               <HamburgerIcon />
             </Pressable>
+          ),
+          headerRight: () => (
+            <View className="flex flex-row items-center gap-4">
+              <View className="relative">
+                <Ionicons name="heart-sharp" size={30} color={"white"} />
+                {wishlist && wishlist.length > 0 && (
+                  <View className="absolute flex flex-row items-center justify-center  h-5 w-5 rounded-full bg-red-500 left-[-7px] top-[-2px]">
+                    <Text className="text-white text-sm m-0 p-0">
+                      {wishlist.length}
+                    </Text>
+                  </View>
+                )}
+              </View>
+      
+            </View>
           ),
 
           headerStyle: {
@@ -208,7 +238,7 @@ const ProfileStackNavigator = () => {
               onPress={() => navigation.openDrawer()}
               style={{ marginLeft: 10 }}
             >
-              <HamburgerIcon  />
+              <HamburgerIcon />
             </Pressable>
           ),
 
@@ -224,6 +254,18 @@ const ProfileStackNavigator = () => {
         component={Editprofile}
         options={{
           headerTitle: "Edit profile",
+          headerRight: () => (
+            <TouchableOpacity className="mr-2" onPress={()=>navigation.navigate("EditInfo")}>
+              <Ionicons name="pencil-sharp" size={30}  />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="EditInfo"
+        component={EditInfo}
+        options={{
+          headerTitle: "Edit Information",
         }}
       />
       <Stack.Screen
