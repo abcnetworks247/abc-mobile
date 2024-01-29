@@ -120,7 +120,7 @@ const Login = () => {
         withCredentials: true,
       });
 
-      const value = data.data;
+   
       // log the response data
       // console.log("errorr", value.error);
       // check the staus of the request to see if the request was successful or not
@@ -160,11 +160,11 @@ const Login = () => {
     }
   };
   return (
-    <View className="flex items-center justify-center m-auto w-full px-6">
-      <View className="gap-4 w-full">
-        <View className=" flex items-center justify-center ">
+    <View className="flex items-center justify-center w-full px-6 m-auto">
+      <View className="w-full gap-4">
+        <View className="flex items-center justify-center ">
           <Image source={Logo} className="w-40 h-20" resizeMode="cover" />
-          <Text className="text-3xl font-extrabold text-blue-900 mb-2 text-center">
+          <Text className="mb-2 text-3xl font-extrabold text-center text-blue-900">
             Login
           </Text>
           <Text className="text-[14px] text-gray-500">
@@ -178,7 +178,7 @@ const Login = () => {
           <View className="mb-2">
             <TextInput
               placeholder="Enter your email"
-              className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white "
+              className="w-auto px-5 py-3 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:bg-white "
               keyboardType="email-address"
               value={logInFormData.email}
               onChangeText={(value) => {
@@ -198,7 +198,7 @@ const Login = () => {
               placeholder="Enter password"
               secureTextEntry={true}
               
-              className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white"
+              className="w-auto px-5 py-3 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:bg-white"
               value={logInFormData.password}
               onChangeText={(value) => handleInputChange("password", value)}
             />
@@ -210,13 +210,13 @@ const Login = () => {
           </View>
         </View>
         <View>
-          <Text>{data}</Text>
+          {/* <Text>{data}</Text> */}
           <TouchableOpacity
             title=""
-            className=" items-center justify-center tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none"
+            className="items-center justify-center w-full py-4 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-blue-900 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
             onPress={() => handleSubmit()}
           >
-            <View className="flex flex-row gap-2 items-center">
+            <View className="flex flex-row items-center gap-2">
               <Svg
                 width="24"
                 height="24"
@@ -232,12 +232,12 @@ const Login = () => {
                 <Circle cx="8.5" cy="7" r="4" />
                 <Path d="M20 8v6M23 11h-6" />
               </Svg>
-              <Text className="text-white text-center">SignIn</Text>
+              <Text className="text-center text-white">SignIn</Text>
             </View>
           </TouchableOpacity>
         </View>
 
-        <View className="flex items-center justify-between flex-row">
+        <View className="flex flex-row items-center justify-between">
 
           <View className="flex flex-row items-center">
             <Text className="mr-2">
