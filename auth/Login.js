@@ -14,7 +14,7 @@ import { UseUserContext } from "../context/UserContext";
 
 const Login = () => {
   const navigation = useNavigation();
-  const {setIsSignUpVisible} = UseUserContext()
+  const { setIsSignUpVisible } = UseUserContext();
   // const { handleSignIn, setRecoverVisible } = UseProductProvider();
   const [universalError, setUniversalError] = useState("");
 
@@ -34,8 +34,6 @@ const Login = () => {
     fullname: "",
     password: "",
   });
-
- 
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prevVisible) => !prevVisible);
@@ -60,20 +58,19 @@ const Login = () => {
     }
   }
 
+  const handleInputChange = (name, value) => {
+    setlogInFormData({
+      ...logInFormData,
+      [name]: value,
+    });
 
-   const handleInputChange = (name, value) => {
-     setlogInFormData({
-       ...logInFormData,
-       [name]: value,
-     });
-
-     if (name === "email") {
+    if (name === "email") {
       signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
-     } else if (name === "password") {
+    } else if (name === "password") {
       signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
-     }
+    }
 
-     if (!value.trim()) {
+    if (!value.trim()) {
       setErrorMessages((prevErrors) => ({
         ...prevErrors,
         [name]: "This field is required",
@@ -85,10 +82,10 @@ const Login = () => {
         [name]: "",
       }));
       setIsValidData(true);
-  
+
       setUniversalError("");
     }
-   };
+  };
 
   // Define Variable for allfield valid
 
@@ -96,13 +93,7 @@ const Login = () => {
     (field) => !errorMessages[field]
   );
 
-
-
-  
-
   const handleSubmit = async () => {
-    
-
     // console.log(logInFormData);
     setIsValidData(allFieldsValid);
 
@@ -122,20 +113,18 @@ const Login = () => {
         withCredentials: true,
       });
 
-   
       // log the response data
       // console.log("errorr", value.error);
       // check the staus of the request to see if the request was successful or not
       if (data.status === 200) {
-        if(data && data.data && data.data.authToken){
-        // console.log(value?.message, "success message"); 
-        // console.log(data.data, "data");
-        console.log(data.data.authToken, "token");
-        const token = data.data.authToken
-          await  AsyncStorage.setItem("authToken", JSON.stringify(token) );
-     
-        };
-        setIsSignUpVisible(false)
+        if (data && data.data && data.data.authToken) {
+          // console.log(value?.message, "success message");
+          // console.log(data.data, "data");
+          console.log(data.data.authToken, "token");
+          const token = data.data.authToken;
+          await AsyncStorage.setItem("authToken", JSON.stringify(token));
+        }
+        setIsSignUpVisible(false);
 
         // setTimeout(() => {
         //   toast.dismiss(id);
@@ -182,7 +171,7 @@ const Login = () => {
             <TextInput
               placeholder="Enter your email"
               // className="w-auto px-5 py-3 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:bg-white "
-              
+
               className="w-auto px-5 py-3 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:bg-white "
               keyboardType="email-address"
               value={logInFormData.email}
@@ -202,7 +191,6 @@ const Login = () => {
             <TextInput
               placeholder="Enter password"
               secureTextEntry={true}
-              
               className="w-auto px-5 py-3 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:bg-white"
               value={logInFormData.password}
               onChangeText={(value) => handleInputChange("password", value)}
@@ -244,9 +232,8 @@ const Login = () => {
         </View>
 
         <View className="flex flex-row items-center justify-between">
-
           <View className="flex flex-row items-center">
-            <Pressable onPress={()=>setIsSignUpVisible(false)}>
+            <Pressable onPress={() => setIsSignUpVisible(false)}>
               <Text className="mr-2">New?</Text>
             </Pressable>
 
