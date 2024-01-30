@@ -130,7 +130,7 @@ const Login = () => {
         //   toast.dismiss(id);
         // }, 1000);
         // toast.update(id, {
-        //   render: `${data.data.message}`,
+        //   render: ${data.data.message},
         //   type: "success",
         //   isLoading: false,
         // });
@@ -140,7 +140,7 @@ const Login = () => {
       }
     } catch (error) {
       // const suberrormsg = toast.update(id, {
-      //   render: `${error.response.data.error}`,
+      //   render: ${error.response.data.error},
       //   type: "error",
       //   isLoading: false,
       // });
