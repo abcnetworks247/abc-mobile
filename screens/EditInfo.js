@@ -24,40 +24,49 @@ import { useNavigation } from "@react-navigation/native";
 const EditInfo = () => {
     const { UserData, authToken, getUserData } = UseUserContext();
     const navigation = useNavigation()
-    const [loading, setLoading]= useState(false)
+    const [loading, setLoading] = useState(false)
     
- const SelectImagePicker = async () => {
-   try {
-     const result = await ImagePicker.launchImageLibraryAsync({
-       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-     });
-
-       if (!result.canceled) {
-         setSelectedPhoto({ uri: result.uri });
-         setFormData({ ...formData, userphoto: result.uri });
-       }
- 
-   } catch (error) {
-     console.error("Error picking image:", error);
-   }
- };
-    
- const [selectedPhoto, setSelectedPhoto] = useState(
-   UserData.userdp
-     ? { uri: UserData.userdp }
-     : {
-         uri: "https://i.pinimg.com/originals/a6/f3/c5/a6f3c55ace829310723adcb7a468869b.png",
-       }   
- );
- 
-    
-  const [formData, setFormData] = useState({
+      
+ const [formData, setFormData] = useState({
     fullname: UserData.fullname,
     email: UserData.email,
     phone: UserData.phone,
     shippingaddress: UserData.shippingaddress,
     userphoto: UserData.userdp,
-  });
+ });
+    
+       
+    
+ const [selectedPhoto, setSelectedPhoto] = useState(
+   formData.userphoto
+ );
+    
+ const SelectImagePicker = async () => {
+   try {
+     const result = await ImagePicker.launchImageLibraryAsync({
+       mediaTypes: ImagePicker.MediaTypeOptions.All,
+       allowsEditing: true,
+       aspect: [4, 3],
+       quality: 1,
+     });
+       console.log("result")
+
+         console.log("image result", result)
+       if (!result.canceled) {
+         setSelectedPhoto(result.assets[0].uri);
+         setFormData({ ...formData, userphoto: result.assets[0].uri });
+       }
+ 
+   } catch (error) {
+     console.error("Error picking image:", error);
+   }
+};
+    
+
+
+ 
+ 
+  
 
  const handleInputChange = (name, value) => {
        setFormData((prevData) => ({
@@ -191,7 +200,7 @@ const EditInfo = () => {
                   wt-ignore-input="true"
                   value={formData.email}
                   onChangeText={(text) =>
-                    handleInputChange("shippingaddress", text)
+                    handleInputChange("email", text)
                   }
                 />
               </View>
@@ -226,7 +235,7 @@ const EditInfo = () => {
                     </View>
                     <View>
                       <Image
-                        source={selectedPhoto}
+                        source={{uri:selectedPhoto}}
                         alt=""
                         className=" relative object-cover rounded-md h-[90px] w-[100px]"
                       />

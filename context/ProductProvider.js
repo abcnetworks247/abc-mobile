@@ -74,28 +74,28 @@ const ProductProvider = ({ children }) => {
   }, [socket]);
 
 
-  useEffect(() => {
-    const fetchWishlistFromServer = async () => {
-      try {
-        // Map through the wishlist IDs and fetch product details
-        const productsPromises = UserData.wishlist.map(async (productId) => {
-          const productResponse = await axios.get(
-            `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
-          );
-          return productResponse.data; // Adjust to your server's response structure
-        });
+   useEffect(() => {
+     const fetchWishlistFromServer = async () => {
+       try {
+         // Map through the wishlist IDs and fetch product details
+         const productsPromises = UserData.wishlist.map(async (productId) => {
+           const productResponse = await axios.get(
+             `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
+           );
+           return productResponse.data; // Adjust to your server's response structure
+         });
 
-        const products = await Promise.all(productsPromises);
+         const products = await Promise.all(productsPromises);
 
-        setWishlist(products);
-      } catch (error) {
-        console.error("Error fetching wishlist from the server:", error);
-      }
-    };
+         setWishlist(products);
+       } catch (error) {
+         console.error("Error fetching wishlist from the server:", error);
+       }
+     };
 
-    // Fetch wishlist from the server when the component mounts
-    fetchWishlistFromServer();
-  }, []);
+     // Fetch wishlist from the server when the component mounts
+     fetchWishlistFromServer();
+   }, []);
 
  
 
@@ -144,21 +144,7 @@ const ProductProvider = ({ children }) => {
    }, []);
 
 
-  // const handleSearch = (searchTerm) => {
-  //   console.log("hit", searchTerm);
-  //   // Filter products based on the search term
-  //   const filteredProducts = allProducts.filter(
-  //     (product) =>
-  //       product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //       product.category.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
 
-  //   setSearchResults(filteredProducts);
-  //   console.log("filtered", filteredProducts);
-  //   console.log("allProduct in provider", allProducts);
-  // };
-
-  // console.log("provider search results", searchResults);
 
 
   return (
