@@ -109,19 +109,20 @@ const Login = () => {
     try {
       // perform an asyncronous request to sigin in the user
       // console.log(logInFormData, "response data");
-      const data = await Api.post("client/auth/signin", logInFormData, {
+      const response = await Api.post("client/auth/signin", logInFormData, {
         withCredentials: true,
       });
 
       // log the response data
       // console.log("errorr", value.error);
       // check the staus of the request to see if the request was successful or not
-      if (data.status === 200) {
-        if (data && data.data && data.data.authToken) {
+
+      if (response.status === 200) {
+        if (response.data && response.data.authToken) {
           // console.log(value?.message, "success message");
           // console.log(data.data, "data");
-          console.log(data.data.authToken, "token");
-          const token = data.data.authToken;
+          console.log(response.data.authToken, "token");
+          const token = response.data.authToken;
           await AsyncStorage.setItem("authToken", JSON.stringify(token));
         }
         setIsSignUpVisible(false);
@@ -203,7 +204,7 @@ const Login = () => {
           </View>
         </View>
         <View>
-          <Text>{data}</Text>
+          
           <TouchableOpacity
             title=""
             className="items-center justify-center w-full py-4 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-blue-900 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
