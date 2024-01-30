@@ -16,10 +16,11 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { Toast } from "toastify-react-native";
 import ToastManager from "toastify-react-native";
 import Container from "toastify-react-native"
-
+import { UseUserContext } from "../context/UserContext";
 
 
 const Editprofile = () => {
+  const { UserData } = UseUserContext();
   const SelectImagePicker = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -37,7 +38,6 @@ const handleSubmit = async () => {
     <SafeAreaView style={globalstyels.droidSafeArea}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView>
-       
         <View>
           <View className="px-4 w-full">
             <View className="mt-6">
@@ -46,7 +46,7 @@ const handleSubmit = async () => {
                   Mobile Number
                 </Text>
                 <TextInput
-                  name="shippingaddress"
+                  name="phone "
                   type="text"
                   keyboardType="phone-pad"
                   placeholder="Type your mobile number"
@@ -60,12 +60,13 @@ const handleSubmit = async () => {
                   Full Name
                 </Text>
                 <TextInput
-                  name="shippingaddress"
+                  name="fullname"
                   type="text"
                   placeholder="Type your name"
                   className="w-full px-4 d py-2.5 text-base text-gray-900 font-normal border border-gray-200 bg-white"
                   data-gramm="false"
                   wt-ignore-input="true"
+                  value={UserData.fullname}
                 />
               </View>
               <View className="mb-6">
@@ -79,6 +80,7 @@ const handleSubmit = async () => {
                   className="w-full px-4 d py-2.5 text-base text-gray-900 font-normal border border-gray-200 bg-white"
                   data-gramm="false"
                   wt-ignore-input="true"
+                  value={UserData && UserData.shippingaddress}
                 />
               </View>
               <View className="mb-6">
@@ -86,12 +88,13 @@ const handleSubmit = async () => {
                   Email
                 </Text>
                 <TextInput
-                  name="shippingaddress"
+                  name="email"
                   type="email"
                   placeholder="Enter your shipping address..."
-                  className="w-full px-4  py-2.5 text-base text-gray-900 font-normal border border-gray-200 bg-white"
+                  className="w-full px-4 py-2.5 text-base text-gray-900 font-normal border border-gray-200 bg-white"
                   data-gramm="false"
                   wt-ignore-input="true"
+                  value={UserData.email}
                 />
               </View>
               <View className="mb-6">
@@ -132,15 +135,7 @@ const handleSubmit = async () => {
                   </View>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                onPress={() => handleSubmit()}
-                type="submit"
-                className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                <Text className="text-white text-center text-lg">
-                  Save Details
-                </Text>
-              </TouchableOpacity>
+             
             </View>
           </View>
         </View>

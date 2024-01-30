@@ -14,6 +14,7 @@ export const UserContextProvider = ({ children }) => {
   const [UserData, setUserData] = useState([]);
   const [dummyUser, setDummyUser] = useState([]);
   const [isSignUpVisible, setIsSignUpVisible] = useState(true);
+  const [authToken, setAuthToken] = useState(null);
 
   // console.log("user data", UserData);
 
@@ -21,41 +22,41 @@ export const UserContextProvider = ({ children }) => {
 
   const [genLoading, setGenload] = useState(true);
 
-  useEffect(() => {
+
+
     const getUserData = async () => {
       try {
+        const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
 
-        const authToken = JSON.parse(await AsyncStorage.getItem("authToken"))
-        
-        if (authToken && authToken !== 'undefined' && authToken !== '') {
-          const token = authToken;
-          setGenload(false);
-          console.log("get authss", token);
-          // setIsSignUpVisible(false)
+        if (storedToken && storedToken !== "undefined" && storedToken !== "") {
+          setAuthToken(storedToken); // Set authToken in the context
+          console.log("authToken", authToken);
           const response = await Api.get("client/auth/account", {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${storedToken}`,
               "Content-Type": "application/json",
               Accept: "application/json",
             },
           });
           const dataValue = response.data.olduser;
-          console.log("datavalue", dataValue);
+
           if (response.status === 200) {
             setUserData(dataValue);
-           
-          
           }
-        } else {
-          setGenload(false);
         }
+        setGenload(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
-    };
-
+  };
+  
+  
+  useEffect(() => {
     getUserData();
   }, []);
+
+
+ 
 
   /**
    * @function (fuction) getUserData - a fuction created to retrieve user info.
@@ -109,29 +110,27 @@ export const UserContextProvider = ({ children }) => {
         UserData,
         isSignUpVisible,
         setIsSignUpVisible,
+        authToken,
+        getUserData,
       }}
     >
-  
-    
       {
-      
-      
-    //   genLoading ?  <Svg
-    //   xmlns="http://www.w3.org/2000/svg"
-    //   fill="none"
-    //   viewBox="0 0 24 24"
-    //    height={`24`}
-    //    width={`24`}
-    // >
-    //   <Circle cx={12} cy={12} r={10} stroke="currentColor" />
-    //   <Path
-    //     fill="currentColor"
-    //     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-    //   />
-    // </Svg> :
-    
-    
-    children }
+        //   genLoading ?  <Svg
+        //   xmlns="http://www.w3.org/2000/svg"
+        //   fill="none"
+        //   viewBox="0 0 24 24"
+        //    height={`24`}
+        //    width={`24`}
+        // >
+        //   <Circle cx={12} cy={12} r={10} stroke="currentColor" />
+        //   <Path
+        //     fill="currentColor"
+        //     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+        //   />
+        // </Svg> :
+
+        children
+      }
     </UserContext.Provider>
   );
 };
