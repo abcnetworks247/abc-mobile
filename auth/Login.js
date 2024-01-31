@@ -11,6 +11,7 @@ import { EMAIL_REGEX, PASSWORD_REGEX } from "../utils/regex";
 import { useState, useEffect } from "react";
 import { Link } from "expo-router";
 import { UseUserContext } from "../context/UserContext";
+import { Ionicons } from "@expo/vector-icons";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -18,7 +19,12 @@ const Login = () => {
   // const { handleSignIn, setRecoverVisible } = UseProductProvider();
   const [universalError, setUniversalError] = useState("");
 
-  const [passwordVisible, setPasswordVisible] = useState(false);
+ const [passwordVisible, setPasswordVisible] = useState(false);
+
+
+ const togglePasswordVisibility = () => {
+   setPasswordVisible((prevVisible) => !prevVisible);
+ };
 
   // Define initial validation state
   const [isValidData, setIsValidData] = useState(true);
@@ -35,9 +41,7 @@ const Login = () => {
     password: "",
   });
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible((prevVisible) => !prevVisible);
-  };
+  
 
   function signUpValidate(fieldName, regex, value, errorMessage) {
     if (!regex.test(value)) {
@@ -189,13 +193,26 @@ const Login = () => {
           </View>
 
           <View>
-            <TextInput
-              placeholder="Enter password"
-              secureTextEntry={true}
-              className="w-auto px-5 py-3 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:bg-white"
-              value={logInFormData.password}
-              onChangeText={(value) => handleInputChange("password", value)}
-            />
+            <View className="flex flex-row items-center justify-between border border-gray-200 rounded-lg">
+              <TextInput
+                placeholder="Enter password"
+                secureTextEntry={!passwordVisible}
+                className="px-4 d py-2.5 text-base text-gray-900 font-normal bg-gray-100 focus:bg-white flex-grow rounded-l-lg"
+                value={logInFormData.password}
+                onChangeText={(value) => handleInputChange("password", value)}
+              />
+              <TouchableOpacity
+                onPress={togglePasswordVisibility}
+                className=" h-full flex flex-row items-center justify-center px-2 rounded-r-lg bg-white"
+              >
+                {passwordVisible ? (
+                  <Ionicons name="eye-off-sharp" size={23} />
+                ) : (
+                  <Ionicons name="eye-sharp" size={23} />
+                )}
+              </TouchableOpacity>
+            </View>
+
             {errorMessages.password && (
               <Text className="text-red-500 my-1 text-[13px]">
                 {errorMessages.password}
@@ -204,7 +221,6 @@ const Login = () => {
           </View>
         </View>
         <View>
-          
           <TouchableOpacity
             title=""
             className="items-center justify-center w-full py-4 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-blue-900 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
