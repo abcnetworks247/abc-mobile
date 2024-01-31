@@ -9,6 +9,7 @@ import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native";
 import globalstyels from "../styles/globalstyels";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import { ActivityIndicator } from "react-native";
 
 
 
@@ -20,6 +21,9 @@ const StoreScreen = () => {
   const IMG_HEIGHT = IMG_WIDTH / 5;
   const { allProducts, loading } = UseProductProvider()
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categoryLoading, setCategoryLoading] = useState(false)
+  // const [filteredProducts,setFilteredProducts]=useState(null)
+
 
   const uniqueCategories = [
     "All", ...new Set(allProducts && allProducts.map((product) => product.category)),
@@ -32,6 +36,26 @@ const StoreScreen = () => {
         : product.category === selectedCategory
     )
     : allProducts;
+
+//  const handleCategoryPress = () => {
+//     // Set the loading state to true
+//   setCategoryLoading(true);
+
+   
+//        filteredData = selectedCategory
+//         ? allProducts.filter(
+//             (product) =>
+//               selectedCategory === "All"
+//                 ? true
+//                 : product.category === selectedCategory
+//           )
+//         : allProducts;
+
+//       // Set the filtered data and selected category
+    
+     
+   
+//   };
 
 
 
@@ -66,33 +90,39 @@ const StoreScreen = () => {
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
-      <View style={styles.container} className="bg-white">
+      <View style={styles.container} >
         <FlatList
           data={dummyTexts}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.key}
-          className=""
+          className=" mt-2"
           renderItem={({ item, index }) => {
             return (
-              <TouchableOpacity
+              <Pressable
                 className={`px-2 py-2 h-10  mx-1 flex flex-row items-center justify-center ${
                   selectedCategory === item.category
                     ? "bg-black"
                     : "bg-gray-200"
                 }`}
-                onPress={() => setSelectedCategory(item.category)}
+                onPress={() => {
+                  setSelectedCategory(item.category);
+                  // handleCategoryPress();
+                }}
               >
-                <Text
-                  className={`${
-                    selectedCategory === item.category
-                      ? "text-white"
-                      : "text-black"
-                  }`}
-                >
-                  {item.category}
-                </Text>
-              </TouchableOpacity>
+              
+              
+                  <Text
+                    className={`${
+                      selectedCategory === item.category
+                        ? "text-white"
+                        : "text-black"
+                    }`}
+                  >
+                    {item.category}
+                  </Text>
+              
+              </Pressable>
             );
           }}
         />
@@ -118,7 +148,7 @@ const styles = StyleSheet.create({
 
   columnWrapper: {
     gap: 6,
-    padding: 4,
+    padding: 2,
   },
 
 
