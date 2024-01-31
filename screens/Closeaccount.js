@@ -7,17 +7,25 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import { Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import { UseUserContext } from "../context/UserContext";
+import { useNavigation } from "@react-navigation/native";
+import { ActivityIndicator } from "react-native";
+import axios from "axios";
 
 const Closeaccount = () => {
+  const navigation=useNavigation()
+    const {authToken } = UseUserContext();
   const [formData, setFormData] = useState({
-    email: "",
+    email: "", 
     password: "",
    });
 
   const [passwordVisible, setPasswordVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
   
   const togglePasswordVisibility = () => {
     setPasswordVisible((prevVisible) => !prevVisible);
@@ -28,15 +36,58 @@ const Closeaccount = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const confirmDeletion = () => {
+    Alert.alert(
+      "Confirmation",
+      "Are you sure you want to delete your account?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: handleSubmit, // Call your delete function here
+        },
+      ]
+    );
+  };
+
   
   
 
-  const handleSubmit = () => {
-    // Access form data in formData.email and formData.password
-    console.log("Email:", formData.email);
-    console.log("Password:", formData.password);
+  const handleSubmit = async () => {
 
-    // Add your logic here to handle the form submission
+    const config = {
+      headers: {
+        Authorization: `Bearer ${String(authToken)}`,
+        "Content-Type": "application/json",
+      },
+      data: {
+        email: formData.email,
+        password: formData.password,
+      }, // Include data in the config object
+    };
+    try {
+      console.log(config.data)
+      setLoading(true);
+      
+       await axios.delete(
+         `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
+           config
+      );
+
+       await AsyncStorage.removeItem("authToken");
+      
+      setLoading(false);
+      
+       Alert.alert("Success", "Account deleted successfully");
+      
+      
+    } catch (error) {
+       setLoading(false);
+      console.error("Error deleting account:", error.response.data);
+    }
   };
 
   return (
@@ -89,10 +140,18 @@ const Closeaccount = () => {
               </View>
 
               <TouchableOpacity
-                onPress={handleSubmit}
+                onPress={confirmDeletion}
                 className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                <Text className="text-white text-center text-lg">Proceed</Text>
+                {loading ? (
+                  // Show loading indicator while loading
+                  <ActivityIndicator size="small" color="white" />
+                ) : (
+                  // Show "Proceed" text when not loading
+                  <Text className="text-white text-center text-lg">
+                    Proceed
+                  </Text>
+                )}
               </TouchableOpacity>
             </View>
           </View>
