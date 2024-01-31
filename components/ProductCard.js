@@ -60,20 +60,20 @@ const ProductCard = ({ title, description, thumbnail, price, productId }) => {
       <View className="absolute flex flex-col gap-4 top-4 right-2">
         <View style={styles.socialBarSection}>
           <TouchableOpacity
-            className="flex flex-row items-center justify-center"
+            className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
             onPress={() => handleWishAdd(productId, UserData._id)}
           >
-            <Ionicons name="heart-circle-sharp" size={30} color={"#737373"} />
+            <Ionicons name="heart-outline" size={23} color={"#737373"} />
           </TouchableOpacity>
         </View>
         <View style={styles.socialBarSection}>
           <TouchableOpacity
-            className="flex flex-row items-center justify-center"
+            className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
             onPress={() => {
               handleAddToCart(productId, UserData._id);
             }}
           >
-            <Ionicons name="cart-sharp" size={30} color={"#737373"} />
+            <Ionicons name="cart" size={23} color={"#737373"} />
           </TouchableOpacity>
         </View>
       </View>

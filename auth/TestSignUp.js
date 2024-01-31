@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NAME_REGEX, PASSWORD_REGEX, EMAIL_REGEX } from '../utils/regex';
 import Api from '../utils/Api';
 import { Ionicons } from "@expo/vector-icons";
+import { Alert } from 'react-native';
 
 
 
@@ -107,27 +108,11 @@ const TestSignUp = () => {
          console.log("errorr", value.error);
           if (data.status === 201) {
             console.log("post successful", data.data.message);
-            // toast("Registration successful", {
-            //   type: "success",
-            //   position: "top",
-            // });
+          
             navigation.navigate("Login");
-          } else if (data.status === 500) {
-            // toast("User email or name already exists", {
-            //   type: "error",
-            //   position: "top",
-            // });
-          } else {
-            // toast("Error while creating account", {
-            //   type: "error",
-            //   position: "top",
-            // });
-          }
+          } 
        } catch (error) {
-          // toast(error.response.data.error, {
-          //   type: "error",
-          //   position: "top",
-          // });
+            console.error("Error updating password:", error.response.data);
        }
      };
 
