@@ -126,19 +126,21 @@ const Login = () => {
       );
 
         if (res.status === 200) {
-             const { authToken } = res.data;
-             const token = authToken
-              console.log(authToken, "token");
-              // const token = authToken;
-              await AsyncStorage.setItem("authToken", JSON.stringify(token));
-              setIsSignUpVisible(false);
+          const { authToken } = res.data;
+          const token = authToken;
+          console.log(authToken, "token");
+          // const token = authToken;
+          await AsyncStorage.setItem("authToken", JSON.stringify(token));
+          setIsSignUpVisible(false);
         } else {
-          console.log("Error creating user Profile")
-          }
-          
+        
+          // Handle other status codes or error messages
+          console.error("Error signing in:");
+      
+        }
+
     } catch (error) {
       console.error("Error signing in:", error.message);
-      throw error
     }
   };
   return (
