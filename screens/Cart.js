@@ -24,14 +24,30 @@ import emptyCart from "../assets/basket.png"
 import CartItem from "../components/products/CartItem";
 import { useNavigation } from "@react-navigation/native";
 import { CommonActions } from "@react-navigation/native";
+import { UseUserContext } from "../context/UserContext";
 
 
 export default function Cart() {
 
-  const { cartProducts } = UseProductProvider() 
-  const shippingFee = 5;
+const { cartProducts } = UseProductProvider(); 
+const { authToken } = UseUserContext()
+ const shippingFee = 5;
+  
+  if (!authToken) {
+    return (
+      <View>
+        <Text>
+           Login in to view you cart
+        </Text>
+      </View>
+    )
+  }
 
-  const totalPrice = cartProducts.length > 0 && cartProducts.reduce(
+  
+  
+ 
+
+  const totalPrice = cartProducts?.length > 0 && cartProducts.reduce(
     (accumulator, product) =>
       accumulator + product.quantity * product.product.price,
     0
@@ -40,7 +56,7 @@ export default function Cart() {
 
   const grandTotal = totalPrice + shippingFee;
 
-  if (cartProducts && cartProducts.length == 0) {
+  if (authToken && cartProducts.length == 0) {
     const navigation=useNavigation()
     return (
       <SafeAreaView style={globalstyels.droidSafeArea}>
@@ -76,7 +92,7 @@ export default function Cart() {
 
   
 
-
+if(authToken && cartProducts.length > 0)
 
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>

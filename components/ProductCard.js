@@ -14,7 +14,7 @@ import { UseUserContext } from "../context/UserContext";
 import { UseProductProvider } from "../context/ProductProvider";
 
 const ProductCard = ({ title, description, thumbnail, price, productId }) => {
-  const { UserData } = UseUserContext();
+  const { UserData, authToken,setIsSignUpVisible  } = UseUserContext();
 
   const { handleWishAdd, handleAddToCart } = UseProductProvider();
   const navigation = useNavigation();
@@ -61,7 +61,7 @@ const ProductCard = ({ title, description, thumbnail, price, productId }) => {
         <View style={styles.socialBarSection}>
           <TouchableOpacity
             className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
-            onPress={() => handleWishAdd(productId, UserData._id)}
+            onPress={() =>authToken  ? handleWishAdd(productId, UserData._id): setIsSignUpVisible(true) }
           >
             <Ionicons name="heart-outline" size={23} color={"#737373"} />
           </TouchableOpacity>
@@ -69,9 +69,11 @@ const ProductCard = ({ title, description, thumbnail, price, productId }) => {
         <View style={styles.socialBarSection}>
           <TouchableOpacity
             className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
-            onPress={() => {
-              handleAddToCart(productId, UserData._id);
-            }}
+            onPress={() => 
+              authToken
+                ? handleAddToCart(productId, UserData._id)
+                : setIsSignUpVisible(true)
+            }
           >
             <Ionicons name="cart" size={23} color={"#737373"} />
           </TouchableOpacity>

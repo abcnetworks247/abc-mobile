@@ -16,105 +16,116 @@ import { Alert } from 'react-native';
 
 const TestSignUp = () => {
   const navigation = useNavigation()
-  const {  setIsSignInVisible, setIsSignUpVisible } = UseProductProvider();
-     const [universalError, setUniversalError] = useState("");
+  const { setIsSignInVisible, setIsSignUpVisible } = UseProductProvider();
+  const [universalError, setUniversalError] = useState("");
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const togglePasswordVisibility = () => {
     setPasswordVisible((prevVisible) => !prevVisible);
   };
 
-     // Define initial validation state
-     const [isValidData, setIsValidData] = useState(true);
-     // Define the initial loginform data
+  // Define initial validation state
+  const [isValidData, setIsValidData] = useState(true);
+  // Define the initial loginform data
 
-     const [signUpFormData, setSignUpFormData] = useState({
-       fullname: "",
-       email: "",
-       password: "",
-     });
+  const [signUpFormData, setSignUpFormData] = useState({
+    fullname: "",
+    email: "",
+    password: "",
+  });
 
-     const [errorMessages, setErrorMessages] = useState({
-       email: "",
-       fullname: "",
-       password: "",
-     });
+  const [errorMessages, setErrorMessages] = useState({
+    email: "",
+    fullname: "",
+    password: "",
+  });
 
      
 
-     function signUpValidate(fieldName, regex, value, errorMessage) {
-       if (!regex.test(value)) {
-         setUniversalError("");
-         setErrorMessages((prevErrors) => ({
-           ...prevErrors,
-           [fieldName]: errorMessage,
-         }));
-         setIsValidData(false);
-       } else {
-         setErrorMessages((prevErrors) => ({
-           ...prevErrors,
-           [fieldName]: "",
-         }));
-         setIsValidData(true);
+  function signUpValidate(fieldName, regex, value, errorMessage) {
+    if (!regex.test(value)) {
+      setUniversalError("");
+      setErrorMessages((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: errorMessage,
+      }));
+      setIsValidData(false);
+    } else {
+      setErrorMessages((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: "",
+      }));
+      setIsValidData(true);
 
-         setUniversalError("");
-       }
-     }
+      setUniversalError("");
+    }
+  }
 
-     const handleInputChange = (name, value, id) => {
-       setSignUpFormData({
-         ...signUpFormData,
-         [name]: value,
-       });
+  const handleInputChange = (name, value, id) => {
+    setSignUpFormData({
+      ...signUpFormData,
+      [name]: value,
+    });
 
-       if (name === "email") {
-         signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
-       } else if (name === "password") {
-         signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
-       } else if (id === "fullname") {
-         signUpValidate(name, NAME_REGEX, value, "Invalid name");
-       } 
-     };
+    if (name === "email") {
+      signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
+    } else if (name === "password") {
+      signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
+    } else if (id === "fullname") {
+      signUpValidate(name, NAME_REGEX, value, "Invalid name");
+    }
+  };
 
-     // Define Variable for allfield valid
+  // Define Variable for allfield valid
 
-     const allFieldsValid = Object.keys(errorMessages).every(
-       (field) => !errorMessages[field]
-     );
+  const allFieldsValid = Object.keys(errorMessages).every(
+    (field) => !errorMessages[field]
+  );
 
   
 
-     const handleSubmit = async () => {
+  const handleSubmit = async () => {
      
 
-       console.log("sign up data", signUpFormData);
-       setIsValidData(allFieldsValid);
+    console.log("sign up data", signUpFormData);
+    setIsValidData(allFieldsValid);
 
-       if (!allFieldsValid) {
-        toast("Please fill in all the fields correctly", {
-          type: "error",
-          position: "top",
-        });
-         return;
+    if (!allFieldsValid) {
+      toast("Please fill in all the fields correctly", {
+        type: "error",
+        position: "top",
+      });
+      return;
+    }
+      
+    try {
+      // perform an asyncronous request to sigin in the user
+      console.log(signUpFormData, "response data");
+      const response = await Api.post("client/auth/signup", {
+        fullname: signUpFormData.fullname,
+        email: signUpFormData.email,
+        password: signUpFormData.password
+      });
+      console.log("my response", response)
+
+      const { data, message } = response.data;
+         
+      console.log("mydata", data)
+      console.log("my message", message)
+
+       if (response.ok) {
+        //  console.log("post successful", data.data.message);
+          navigation.navigate("Login")
        }
       
-       try {
-         // perform an asyncronous request to sigin in the user
-         console.log(signUpFormData, "response data");
-         const data = await Api.post("client/auth/signup", signUpFormData);
+    } catch (error) {
+      const { error: errorMessage } = error.response.data;
+        
+      console.error('Error creating account:', errorMessage);
+      Alert.alert("Error creating account", errorMessage)
 
-         const value = data.data;
-         // log the response data
-         console.log("errorr", value.error);
-          if (data.status === 201) {
-            console.log("post successful", data.data.message);
-          
-            navigation.navigate("Login");
-          } 
-       } catch (error) {
-            console.error("Error updating password:", error.response.data);
-       }
-     };
+    };
+  }
 
   
   return (
@@ -197,9 +208,8 @@ const TestSignUp = () => {
         <View>
           <TouchableOpacity
             title=""
-            className={` items-center justify-center tracking-wide font-semibold ${
-              !allFieldsValid ? "bg-blue-600/30" : "bg-blue-900"
-            }  text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none`}
+            className={` items-center justify-center tracking-wide font-semibold ${!allFieldsValid ? "bg-blue-600/30" : "bg-blue-900"
+              }  text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none`}
             onPress={() => handleSubmit()}
             disabled={!allFieldsValid}
           >
@@ -238,5 +248,8 @@ const TestSignUp = () => {
     </View>
   );
 }
+  
 
-export default TestSignUp
+
+
+  export default TestSignUp;

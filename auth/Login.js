@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { Link } from "expo-router";
 import { UseUserContext } from "../context/UserContext";
 import { Ionicons } from "@expo/vector-icons";
+import { Alert } from "react-native";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -101,59 +102,35 @@ const Login = () => {
     // console.log(logInFormData);
     setIsValidData(allFieldsValid);
 
-    // if (!allFieldsValid) {
-    //   toast.error("please fill in all the fields correctly", {
-    //     position: toast.POSITION.TOP_LEFT,
-    //   });
-    //   return;
-    // }
-    // const id = toast.loading("loging in..", {
-    //   position: toast.POSITION.TOP_LEFT,
-    // });
     try {
-      // perform an asyncronous request to sigin in the user
-      // console.log(logInFormData, "response data");
-      const response = await Api.post("client/auth/signin", logInFormData, {
-        withCredentials: true,
-      });
-
-      // log the response data
-      // console.log("errorr", value.error);
-      // check the staus of the request to see if the request was successful or not
-
-      if (response.status === 200) {
-        if (response.data && response.data.authToken) {
-          // console.log(value?.message, "success message");
-          // console.log(data.data, "data");
-          console.log(response.data.authToken, "token");
-          const token = response.data.authToken;
-          await AsyncStorage.setItem("authToken", JSON.stringify(token));
+      console.log(logInFormData)
+      const res = await Api.post(
+        "client/auth/signin",
+        {
+          email: logInFormData.email,
+          password: logInFormData.password,
+        },
+        {
+          withCredentials: true,
         }
-        setIsSignUpVisible(false);
+      );
+      
+      const { olduser, authToken, message } = res.data;
+      console.log("message", message)
+      console.log("my data,", olduser)
+  
+  
 
-        // setTimeout(() => {
-        //   toast.dismiss(id);
-        // }, 1000);
-        // toast.update(id, {
-        //   render: ${data.data.message},
-        //   type: "success",
-        //   isLoading: false,
-        // });
-        // router.push("/");
-
-        // setdata(value);
+      if (res.status===200 && olduser) {
+          console.log(authToken, "token");
+          // const token = authToken;
+          await AsyncStorage.setItem("authToken", JSON.stringify(authToken));
+          setIsSignUpVisible(false);
       }
     } catch (error) {
-      // const suberrormsg = toast.update(id, {
-      //   render: ${error.response.data.error},
-      //   type: "error",
-      //   isLoading: false,
-      // });
-      // setTimeout(() => {
-      //   toast.dismiss(suberrormsg);
-      // }, 2000);
 
       console.error(error);
+       console.error("Error signing in:", error.message);
     }
   };
   return (
