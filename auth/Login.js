@@ -13,6 +13,7 @@ import { Link } from "expo-router";
 import { UseUserContext } from "../context/UserContext";
 import { Ionicons } from "@expo/vector-icons";
 import { Alert } from "react-native";
+import axios from "axios";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -104,33 +105,40 @@ const Login = () => {
 
     try {
       console.log(logInFormData)
-      const res = await Api.post(
-        "client/auth/signin",
-        {
-          email: logInFormData.email,
-          password: logInFormData.password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      // const res = await Api.post(
+      //   "client/auth/signin",
+      //   {
+      //     email: logInFormData.email,
+      //     password: logInFormData.password,
+      //   },
+      //   {
+      //     withCredentials: true,
+      //   }
+      // );
+       const config = {
+         headers: {
+           "Content-Type": "application/json",
+         },
+       };
+      const res = axios.post(`${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
+        { ...logInFormData }, config
       
-      const { olduser, authToken, message } = res.data;
-      console.log("message", message)
-      console.log("my data,", olduser)
-  
-  
+      );
 
-      if (res.status===200 && olduser) {
-          console.log(authToken, "token");
-          // const token = authToken;
-          await AsyncStorage.setItem("authToken", JSON.stringify(authToken));
-          setIsSignUpVisible(false);
-      }
+        if (res.status === 200) {
+             const { authToken } = res.data;
+             const token = authToken
+              console.log(authToken, "token");
+              // const token = authToken;
+              await AsyncStorage.setItem("authToken", JSON.stringify(token));
+              setIsSignUpVisible(false);
+        } else {
+          console.log("Error creating user Profile")
+          }
+          
     } catch (error) {
-
-      console.error(error);
-       console.error("Error signing in:", error.message);
+      console.error("Error signing in:", error.message);
+      throw error
     }
   };
   return (
