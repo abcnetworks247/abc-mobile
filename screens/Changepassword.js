@@ -14,11 +14,12 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { UseUserContext } from "../context/UserContext";
 import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native";
-import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const Closeaccount = () => {
   const navigation = useNavigation();
-  const { authToken, getUserData } = UseUserContext();
+  const { getUserData } = UseUserContext();
   const [formData, setFormData] = useState({
     oldPassword: "",
     newPassword: "",
@@ -38,47 +39,48 @@ const Closeaccount = () => {
 
   
 
-  const handleSubmit = async () => {
- 
+const handleSubmit = async () => {
+
+
+  try {
+    setLoading(true);
+  
+    const authToken = await AsyncStorage.getItem("authToken");
    
-    const config = {
-      headers: {
-        Authorization: `Bearer ${String(authToken)}`,
-        "Content-Type": "application/json",
-      },
-     
-    };
-    try {
-      console.log(config.data);
-      setLoading(true);
 
-      const response= await axios.patch(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account/activeuserupdatepassword`,
-        {
-          oldPassword: formData.oldPassword,
-          password: formData.password,
+    console.log("my authToken", authToken)
+    console.log("my string", authToken)
+    const response = await fetch(
+      `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account/activeUserUpdatePassword`,
+      {
+        method: "PATCH",
+        headers: {
+          headers: {
+            Authorization: `Bearer ${String(authToken)}`,
+            "Content-Type": "application/json",
+          },
         },
-        config
-      );
+        body: JSON.stringify(formData),
+      }
+    );
 
-      if (response.status === 200) {
-       await getUserData();
-       console.log("Password changed:", UserData);
-       navigation.navigate("Profile");
+     const {message} = await response.json()
 
-     
-    } else {
-      console.error("Failed to update password.");
-    }
+  
+      //  await getUserData();
+       Alert.alert(message);
+      // navigation.navigate("Profile");
+   
 
-      setLoading(false);
+    setLoading(false);
 
-      Alert.alert("Success", "Password updated uccessfully");
-    } catch (error) {
-      setLoading(false);
-      console.error("Error updating password:", error.response.data);
-    }
-  };
+  } catch (error) {
+    setLoading(false);
+    console.error("Error updating password:", error);
+  }
+};
+
+
 
   return (
     <SafeAreaView>

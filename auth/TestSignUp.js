@@ -113,10 +113,13 @@ const TestSignUp = () => {
       console.log("mydata", data)
       console.log("my message", message)
 
-       if (response.ok) {
-        //  console.log("post successful", data.data.message);
-          navigation.navigate("Login")
-       }
+  Alert.alert("Success", "Signup successful!");
+
+  
+   setTimeout(() => {
+    navigation.navigate("Login");
+  }, 2000);
+     
       
     } catch (error) {
       const { error: errorMessage } = error.response.data;

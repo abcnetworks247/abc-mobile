@@ -104,16 +104,16 @@ const Login = () => {
 
         // Store authToken in AsyncStorage
         await AsyncStorage.setItem("authToken", JSON.stringify(authToken));
-        Alert.alert(JSON.stringify(message));
+        Alert.alert(message);
         setIsSignUpVisible(false);
       } else {
         // If the response status is not okay, handle the error
         const { message } = await response.json();
-        console.error("error signing in:", JSON.stringify(message));
-        Alert.alert("Error signing in account", JSON.stringify(message));
+        console.error("error signing in:", message);
+        Alert.alert("Error signing in account", message);
       }
     } catch (error) {
-      console.error("error signing in:", JSON.stringify(error.message));
+      console.error("error signing in:", error.message);
       //  Alert.alert( "Error signing in account", "An unexpected error occurred.");
     }
   };
@@ -212,7 +212,7 @@ const Login = () => {
           <Text className="text-center text-gray-500">New?</Text>
           <Pressable
             className="text-center text-gray-500"
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("TestSignUp")}
           >
             <Text className="text-blue-900 font-semibold">Register</Text>
           </Pressable>
