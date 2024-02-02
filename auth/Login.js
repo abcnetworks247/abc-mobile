@@ -13,7 +13,6 @@ import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UseUserContext } from "../context/UserContext";
 import axios from "axios";
-import { UseUserContext } from "../context/UserContext";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -99,17 +98,14 @@ const Login = () => {
      const result = await response.json()
      console.log("my result", result)
 
-     if (response.ok) {
+     if (response.status === 200) {
        const { message, olduser, authToken } = result;
        console.log("my message", message);
 
         // Store authToken in AsyncStorage
         await AsyncStorage.setItem("authToken", JSON.stringify(authToken));
-        Alert.alert(message);
-        if (isSignUpVisible === Boolean) {
-          console.log(typeof isSignUpVisible);
-          setIsSignUpVisible(false);
-        }
+        Alert.alert(JSON.stringify(message));
+        setIsSignUpVisible(false);
       } else {
         // If the response status is not okay, handle the error
         const { message } = await response.json();
