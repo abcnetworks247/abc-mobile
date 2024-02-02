@@ -94,7 +94,7 @@ const Login = () => {
        }
      );
 
-     console.log("my response", JSON.stringify(response.status));
+     console.log("my response", JSON.stringify(response));
 
      if (response.status === 200) {
        const { message, olduser, authToken } = await response.json();
@@ -106,12 +106,12 @@ const Login = () => {
        setIsSignUpVisible(false);
      } else {
        // If the response status is not okay, handle the error
-       const { error: errorMessage } = await response.json();
-       console.error("error signing in:",JSON.stringify(errorMessage));
-       Alert.alert("Error signing in account", JSON.stringify( errorMessage));
+       const { message } = await response.json();
+       console.error("error signing in:",JSON.stringify(message));
+       Alert.alert("Error signing in account", JSON.stringify( message));
      }
    } catch (error) {
-     console.error("error signing in:", JSON.stringify( error.messag));
+     console.error("error signing in:", JSON.stringify( error.message));
     //  Alert.alert( "Error signing in account", "An unexpected error occurred.");
    }
  };
