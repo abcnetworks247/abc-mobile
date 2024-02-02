@@ -12,10 +12,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { UseUserContext } from "../context/UserContext";
 
 const Login = () => {
   const navigation = useNavigation();
-  const { setIsSignInVisible, setIsSignUpVisible } = UseProductProvider();
+  const { setIsSignUpVisible, isSignUpVisible } = UseUserContext();
   const [universalError, setUniversalError] = useState("");
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -66,7 +67,7 @@ const Login = () => {
       signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
     } else if (name === "password") {
       signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
-    } 
+    }
   };
 
   // Define Variable for allfield valid
@@ -75,47 +76,48 @@ const Login = () => {
     (field) => !errorMessages[field]
   );
 
- const handleSubmit = async () => {
+  const handleSubmit = async () => {
+    try {
+      // perform an asynchronous request to sign in the user
+      console.log(signUpFormData, "signin data");
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: signUpFormData.email,
+            password: signUpFormData.password,
+          }),
+        }
+      );
 
-   try {
-     // perform an asynchronous request to sign in the user
-     console.log(signUpFormData, "signin data");
-     const response = await fetch(
-       `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
-       {
-         method: "POST",
-         headers: {
-           "Content-Type": "application/json",
-         },
-         body: JSON.stringify({
-           email: signUpFormData.email,
-           password: signUpFormData.password,
-         }),
-       }
-     );
+      console.log("my response", JSON.stringify(response));
 
-     console.log("my response", JSON.stringify(response));
+      if (response.status === 200) {
+        const { message, olduser, authToken } = await response.json();
+        console.log("my message", JSON.stringify(message));
 
-     if (response.status === 200) {
-       const { message, olduser, authToken } = await response.json();
-       console.log("my message", JSON.stringify(message));
-
-       // Store authToken in AsyncStorage
-       await AsyncStorage.setItem("authToken", JSON.stringify(authToken));
-       Alert.alert(message)
-       setIsSignUpVisible(false);
-     } else {
-       // If the response status is not okay, handle the error
-       const { message } = await response.json();
-       console.error("error signing in:",JSON.stringify(message));
-       Alert.alert("Error signing in account", JSON.stringify( message));
-     }
-   } catch (error) {
-     console.error("error signing in:", JSON.stringify( error.message));
-    //  Alert.alert( "Error signing in account", "An unexpected error occurred.");
-   }
- };
-
+        // Store authToken in AsyncStorage
+        await AsyncStorage.setItem("authToken", JSON.stringify(authToken));
+        Alert.alert(message);
+        if (isSignUpVisible === Boolean) {
+          console.log(typeof isSignUpVisible);
+          setIsSignUpVisible(false);
+        }
+      } else {
+        // If the response status is not okay, handle the error
+        const { message } = await response.json();
+        console.error("error signing in:", JSON.stringify(message));
+        Alert.alert("Error signing in account", JSON.stringify(message));
+      }
+    } catch (error) {
+      console.error("error signing in:", JSON.stringify(error.message));
+      //  Alert.alert( "Error signing in account", "An unexpected error occurred.");
+    }
+  };
 
   return (
     <View className="flex items-center justify-center m-auto w-full px-6 bg-[#F2F2F2]">
@@ -131,7 +133,6 @@ const Login = () => {
         </View>
 
         <View className="gap-2">
-         
           <View>
             <TextInput
               placeholder="Enter your email"
@@ -209,9 +210,7 @@ const Login = () => {
           </TouchableOpacity>
         </View>
         <View className="flex flex-row items-center justify-between">
-          <Text className="text-center text-gray-500">
-            New?
-          </Text>
+          <Text className="text-center text-gray-500">New?</Text>
           <Pressable
             className="text-center text-gray-500"
             onPress={() => navigation.navigate("Login")}

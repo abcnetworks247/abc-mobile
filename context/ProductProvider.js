@@ -17,7 +17,7 @@ const ProductProvider = ({ children }) => {
   const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
 
 
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults,  setSearchResults] = useState([]);
  const [loading, setLoading] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
