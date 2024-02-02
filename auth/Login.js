@@ -94,24 +94,25 @@ const Login = () => {
        }
      );
 
-     console.log("my response", response);
+     console.log("my response", JSON.stringify(response.status));
 
-     if (response.ok) {
+     if (response.status === 200) {
        const { message, olduser, authToken } = await response.json();
-       console.log("my message", message);
+       console.log("my message", JSON.stringify(message));
 
        // Store authToken in AsyncStorage
        await AsyncStorage.setItem("authToken", JSON.stringify(authToken));
+       Alert.alert(message)
        setIsSignUpVisible(false);
      } else {
        // If the response status is not okay, handle the error
        const { error: errorMessage } = await response.json();
-       console.error("error signing in:", errorMessage);
-       Alert.alert("Error signing in account", errorMessage);
+       console.error("error signing in:",JSON.stringify(errorMessage));
+       Alert.alert("Error signing in account", JSON.stringify( errorMessage));
      }
    } catch (error) {
-     console.error("error signing in:", error.message);
-     Alert.alert("Error signing in account", "An unexpected error occurred.");
+     console.error("error signing in:", JSON.stringify( error.messag));
+    //  Alert.alert( "Error signing in account", "An unexpected error occurred.");
    }
  };
 
