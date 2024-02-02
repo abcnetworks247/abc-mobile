@@ -12,7 +12,7 @@ import { io } from "socket.io-client";
 const ProductContext = createContext();
 
 const ProductProvider = ({ children }) => {
-   const { UserData } = UseUserContext();
+   const { UserData, authToken } = UseUserContext();
 
   const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
 
@@ -95,7 +95,7 @@ const ProductProvider = ({ children }) => {
 
      // Fetch wishlist from the server when the component mounts
      fetchWishlistFromServer();
-   }, []);
+   }, [authToken]);
 
  
 

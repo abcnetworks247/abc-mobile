@@ -26,6 +26,8 @@ export const UserContextProvider = ({ children }) => {
 
     const getUserData = async () => {
       try {
+          
+
         const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
 
         if (storedToken && storedToken !== "undefined" && storedToken !== "") {
@@ -53,7 +55,7 @@ export const UserContextProvider = ({ children }) => {
   
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [authToken]);
 
 
  

@@ -120,15 +120,18 @@ const Login = () => {
            "Content-Type": "application/json",
          },
        };
-      const res = axios.post(`${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
-        { ...logInFormData }, config
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
+        logInFormData, config
       
       );
-
-        if (res.status === 200) {
-          const { authToken } = res.data;
-          const token = authToken;
-          console.log(authToken, "token");
+    
+      console.log("my current status", response.status)
+      console.log("my cureent statusText", statusText)
+        
+        if (response.statusText === "OK") {
+            const { authToken } = response.data;
+           const token = authToken;
+        console.log("my token", authToken)
           // const token = authToken;
           await AsyncStorage.setItem("authToken", JSON.stringify(token));
           setIsSignUpVisible(false);
@@ -140,7 +143,20 @@ const Login = () => {
         }
 
     } catch (error) {
-      console.error("Error signing in:", error.message);
+      if (error.response) {
+         console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log("Error", error.message);
+      }
+      console.log(error.config);
     }
   };
   return (
