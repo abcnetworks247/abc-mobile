@@ -15,13 +15,15 @@ import {
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Editprofile } from "../screens";
 import { UseProductProvider } from "../context/ProductProvider";
+import { UseUserContext } from "../context/UserContext";
 
 
 const Tab = createBottomTabNavigator();
 
 
 const Tabs = () => {
-  const {cartProducts}=UseProductProvider()
+  const { cartProducts } = UseProductProvider()
+  const{UserData} =UseUserContext()
    const getTabBarVisibility = (route) => {
      const routeName = getFocusedRouteNameFromRoute(route);
      const hideOnScreens = [Editprofile]; // put here name of screen where you want to hide tabBar
@@ -44,7 +46,7 @@ const Tabs = () => {
             return (
               <View className="relative">
                 <CartIcon color={color} />
-                {cartProducts && cartProducts.length > 0 && (
+                {UserData && cartProducts && cartProducts.length > 0 && (
                   <View className="absolute flex flex-row items-center justify-center rounded-full h-5 w-5 bg-red-400">
                     <Text className="text-white text-sm">{cartProducts.length}</Text>
                   </View>

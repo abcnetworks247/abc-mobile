@@ -11,12 +11,13 @@ import Api from "../utils/Api";
 import { Ionicons } from "@expo/vector-icons";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { UseUserContext } from "../context/UserContext";
 import axios from "axios";
 import { UseUserContext } from "../context/UserContext";
 
 const Login = () => {
   const navigation = useNavigation();
-  const { setIsSignUpVisible, isSignUpVisible } = UseUserContext();
+  const { setIsSignInVisible, setIsSignUpVisible } = UseUserContext();
   const [universalError, setUniversalError] = useState("");
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -94,11 +95,13 @@ const Login = () => {
         }
       );
 
-      console.log("my response", JSON.stringify(response));
+     console.log("my response", response);
+     const result = await response.json()
+     console.log("my result", result)
 
-      if (response.status === 200) {
-        const { message, olduser, authToken } = await response.json();
-        console.log("my message", JSON.stringify(message));
+     if (response.ok) {
+       const { message, olduser, authToken } = result;
+       console.log("my message", message);
 
         // Store authToken in AsyncStorage
         await AsyncStorage.setItem("authToken", JSON.stringify(authToken));
