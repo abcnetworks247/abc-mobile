@@ -11,7 +11,7 @@ const UserContext = createContext();
  */
 export const UserContextProvider = ({ children }) => {
   // initial state for user incoming data
-  const [UserData, setUserData] = useState([]);
+  const [UserData, setUserData] = useState(null);
   const [dummyUser, setDummyUser] = useState([]);
   const [isSignUpVisible, setIsSignUpVisible] = useState(true);
   const [authToken, setAuthToken] = useState(null);
@@ -23,39 +23,42 @@ export const UserContextProvider = ({ children }) => {
   const [genLoading, setGenload] = useState(true);
 
 
+const getUserData = async () => {
+  try {
+    const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
 
-    const getUserData = async () => {
-      try {
-          
+    if (storedToken && storedToken !== "undefined" && storedToken !== "") {
+      setAuthToken(storedToken); // Set authToken in the context
+      console.log("authToken", authToken);
 
-        const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
-
-        if (storedToken && storedToken !== "undefined" && storedToken !== "") {
-          setAuthToken(storedToken); // Set authToken in the context
-          console.log("authToken", authToken);
-          const response = await Api.get("client/auth/account", {
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-          });
-          const dataValue = response.data.olduser;
-
-          if (response.status === 200) {
-            setUserData(dataValue);
-          }
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            "Content-Type": "application/json",
+          },
         }
-        setGenload(false);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+      );
+
+      const dataValue = await response.json();
+
+      if (response.ok) {
+        setUserData(dataValue.olduser);
       }
-  };
+    }
+    setGenload(false);
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+
   
   
   useEffect(() => {
     getUserData();
-  }, [authToken]);
+  }, []);
 
 
  

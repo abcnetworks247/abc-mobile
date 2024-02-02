@@ -29,11 +29,11 @@ import { UseUserContext } from "../context/UserContext";
 
 export default function Cart() {
 
-const { cartProducts } = UseProductProvider(); 
-const { authToken } = UseUserContext()
+
+const { authToken, UserData } = UseUserContext()
  const shippingFee = 5;
   
-  if (!authToken) {
+  if (!UserData) {
     return (
       <View>
         <Text>
@@ -46,7 +46,7 @@ const { authToken } = UseUserContext()
   
   
  
-
+  const { cartProducts } = UseProductProvider();  
   const totalPrice = cartProducts?.length > 0 && cartProducts.reduce(
     (accumulator, product) =>
       accumulator + product.quantity * product.product.price,

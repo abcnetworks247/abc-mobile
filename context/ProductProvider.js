@@ -61,11 +61,12 @@ const ProductProvider = ({ children }) => {
 
   // get the cart products back from the server
 
-  
   useEffect(() => {
-    setCartProducts(UserData.cart);
+    if (UserData && UserData.cart) {
+      setCartProducts(UserData.cart);
+    }
   }, [UserData]);
-
+  
   useEffect(() => {
     socket.on("cart", (cartItems) => {
       console.log("cart sent back");
