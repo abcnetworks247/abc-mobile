@@ -13,30 +13,34 @@ const { UserData } = UseUserContext();
   };
   return (
     <View className="bg-white p-2 mb-2">
-      <View className="flex flex-row items-center gap-2">
-        <View className="basis-1/3">
+      <View className="flex flex-row items-center gap-2 relative">
+        {/* image here */}
+        <View className="w-[80px]">
           <Image
             source={{ uri: product.product.thumbnail }}
             style={{ width: "100%", aspectRatio: 1 }}
           />
         </View>
-        <View className="flex flex-col basis-2/3">
-          <View className="flex flex-row items-center ">
-            <View className="flex flex-col basis-2/3">
+
+        <Pressable
+          className="absolute top-0 right-0"
+          onPress={() =>
+            handleRemoveFromCart(product.product._id, UserData._id)
+          }
+        >
+          <BinIcon size="24px" />
+        </Pressable>
+
+        <View className="flex flex-col flex-grow">
+          <View className="flex flex-row items-center justify-between ">
+            <View className="flex flex-col ">
               <Text className="font-semibold">{product.product.title}</Text>
               <Text className="text-gray-500">{product.product.category}</Text>
             </View>
-
-            <Pressable
-              onPress={() =>
-                handleRemoveFromCart(product.product._id, UserData._id)
-              }
-            >
-              <BinIcon />
-            </Pressable>
           </View>
 
-          <View className="flex flex-row items-center gap-2">
+          <View className="flex flex-row items-center justify-between">
+            {/* price */}
             <View className="flex flex-row gap-1 items-center">
               <Text className="font-bold text-[#00308F]">
                 ${calculateSubtotal()}

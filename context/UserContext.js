@@ -13,7 +13,7 @@ export const UserContextProvider = ({ children }) => {
   // initial state for user incoming data
   const [UserData, setUserData] = useState(null);
   const [dummyUser, setDummyUser] = useState([]);
-  const [isSignUpVisible, setIsSignUpVisible] = useState(true);
+  const [isSignUpVisible, setIsSignUpVisible] = useState(false);
   const [authToken, setAuthToken] = useState(null);
 
   // console.log("user data", UserData);

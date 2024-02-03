@@ -43,10 +43,12 @@ export default function Navbar() {
         ) : ( */}
       <View className="flex-1 flex flex-row items-center justify-end">
         <View className="flex flex-row gap-1 items-center justify-center p-1 rounded">
-          {UserData.authtoken !== "" ? (
+          {UserData ? (
             <TouchableOpacity>
               <Image
-                source={UserData && UserData.userdp}
+                source={{
+                  uri: `${UserData.userdp}`,
+                }}
                 className="w-10 h-10  rounded-full border-2 border-[#f5f5f5]"
               />
             </TouchableOpacity>

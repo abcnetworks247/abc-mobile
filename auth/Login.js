@@ -16,7 +16,7 @@ import axios from "axios";
 
 const Login = () => {
   const navigation = useNavigation();
-  const { setIsSignInVisible, setIsSignUpVisible } = UseUserContext();
+  const { setIsSignInVisible, setIsSignUpVisible, UserData } = UseUserContext();
   const [universalError, setUniversalError] = useState("");
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -76,10 +76,66 @@ const Login = () => {
     (field) => !errorMessages[field]
   );
 
+  // const handleSubmit = async () => {
+  //   try {
+  //     // perform an asynchronous request to sign in the user
+  //     console.log(signUpFormData, "signin data");
+  //     const response = await fetch(
+  //       `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           email: signUpFormData.email,
+  //           password: signUpFormData.password,
+  //         }),
+  //       }
+  //     );
+
+  //    console.log("my response", response);
+  //    const responseData = await response.json()
+    
+
+  //    if (response.status === 200) {
+    
+  //       // Store authToken in AsyncStorage
+  //       await AsyncStorage.setItem(
+  //         "authToken",
+  //         JSON.stringify(responseData.authToken)
+  //       );
+         
+  //       if (!UserData) {
+  //         // UserData not available, alert the user
+  //         Alert.alert("Poor internet connection", "Please try again later.");
+  //         return;
+  //       }
+  //         Alert.alert(responseData.message);
+  //         setIsSignUpVisible(false);
+      
+       
+  //    } else {
+        
+  //       // If the response status is not okay, handle the error
+     
+  //       console.error("error signing into acccount:", responseData.message);
+  //       Alert.alert("Error signing in account", responseData.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("error signing in:", error.message);
+  //     Alert.alert("Unable to signin:", error.message);
+  //     //  Alert.alert( "Error signing in account", "An unexpected error occurred.");
+  //   }
+  // };
+
   const handleSubmit = async () => {
     try {
-      // perform an asynchronous request to sign in the user
       console.log(signUpFormData, "signin data");
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // Set a timeout of 10 seconds (adjust as needed)
+
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
         {
@@ -91,32 +147,39 @@ const Login = () => {
             email: signUpFormData.email,
             password: signUpFormData.password,
           }),
+          signal: controller.signal, // Pass the abort signal to the fetch call
         }
       );
 
-     console.log("my response", response);
-     const result = await response.json()
-     console.log("my result", result)
+      clearTimeout(timeoutId); // Clear the timeout since the request completed
 
-     if (response.status === 200) {
-       const { message, olduser, authToken } = result;
-       console.log("my message", message);
+      console.log("my response", response);
 
-        // Store authToken in AsyncStorage
-        await AsyncStorage.setItem("authToken", JSON.stringify(authToken));
-        Alert.alert(message);
+      const responseData = await response.json();
+
+      if (response.status == 200) {
+        await AsyncStorage.setItem(
+          "authToken",
+          JSON.stringify(responseData.authToken)
+        );
+
+         Alert.alert(responseData.message);
         setIsSignUpVisible(false);
       } else {
-        // If the response status is not okay, handle the error
-        const { message } = await response.json();
-        console.error("error signing in:", message);
-        Alert.alert("Error signing in account", message);
+        console.error("error signing into account:", responseData.message);
+        Alert.alert("Error signing in account", responseData.message);
       }
     } catch (error) {
-      console.error("error signing in:", error.message);
-      //  Alert.alert( "Error signing in account", "An unexpected error occurred.");
+      if (error.name === "AbortError") {
+        console.error("Request timed out:", error.message);
+        Alert.alert("Request timed out", "Please try again later.");
+      } else {
+        console.error("Error signing in:", error.message);
+        Alert.alert("Unable to sign in:", error.message);
+      }
     }
   };
+
 
   return (
     <View className="flex items-center justify-center m-auto w-full px-6 bg-[#F2F2F2]">

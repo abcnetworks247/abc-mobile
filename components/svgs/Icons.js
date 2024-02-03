@@ -118,23 +118,23 @@ export const HeartIcon=() =>{
     </Svg>
   );
 }
-export const BinIcon=() =>{
+export const BinIcon=({size}) =>{
   return (
     <Svg
-      width="30px"
-      height="30px"
-      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      viewBox="-2.94 0 31.716 31.716"
       xmlns="http://www.w3.org/2000/svg"
-      aria-labelledby="binIconTitle"
-      stroke="red"
-      strokeWidth={1.176}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      fill="none"
-      color="red"
     
     >
-      <Path d="M19 6H5m9-1h-4m-4 5v10c0 .667.333 1 1 1h10c.667 0 1-.333 1-1V10" />
+      <Path
+        d="M376.515 610.716h-15.284a2.361 2.361 0 01-2.358-2.359V584.1a1 1 0 012 0v24.255a.36.36 0 00.358.359h15.284a.36.36 0 00.358-.359V584.1a1 1 0 012 0v24.255a2.361 2.361 0 01-2.358 2.361z"
+        transform="translate(-355.957 -579)"
+      />
+      <Path
+        d="M365.457 604.917a1 1 0 01-1-1v-14a1 1 0 012 0v14a1 1 0 01-1 1zM372.29 604.917a1 1 0 01-1-1v-14a1 1 0 012 0v14a1 1 0 01-1 1zM380.79 585.1h-23.833a1 1 0 010-2h23.833a1 1 0 010 2zM372.79 581h-7.917a1 1 0 110-2h7.917a1 1 0 010 2z"
+        transform="translate(-355.957 -579)"
+      />
     </Svg>
   );
 }
@@ -424,7 +424,7 @@ export const MinusIcon= () => {
     </Svg>
   );
 };
-export const TrendIcon= () => {
+export const TrendIcon = () => {
   return (
     <Svg
       width="30px"
