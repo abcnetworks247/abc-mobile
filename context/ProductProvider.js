@@ -1,45 +1,66 @@
-
 import React from "react";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { createContext } from "react";
 import { UseUserContext } from "./UserContext";
 import { io } from "socket.io-client";
-
-
-
+import Toast from "react-native-toast-message";
 
 const ProductContext = createContext();
 
 const ProductProvider = ({ children }) => {
-   const { UserData, authToken } = UseUserContext();
+  const { UserData, authToken } = UseUserContext();
 
   const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
 
-
-  const [searchResults,  setSearchResults] = useState([]);
- const [loading, setLoading] = useState(true);
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cartProducts, setCartProducts] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [removeFromCartLoading, setRemoveFromCartLoading] = useState(false);
+  const [handleCartLoading, setHandleCartLoading] = useState(false);
   
+ 
 
 
   // add to cart socket
   const handleAddToCart = (productId, userId) => {
+     setHandleCartLoading(true)
     const cartdata = {
       productId: productId,
       userId: userId,
     };
 
-    socket.emit("cartadd", cartdata); 
+    socket.emit("cartadd", cartdata);
   };
+
+
+   let receiveData = () => {
+     socket.on("cart", (cartItems) => {
+       console.log("cart sent back");
+       setCartProducts(cartItems);
+     });
+     if (removeFromCartLoading) {
+       setRemoveFromCartLoading(false);
+     }
+     if (handleCartLoading) {
+       setHandleCartLoading(false);
+     }
+   };
+
+   useEffect(() => {
+     receiveData();
+   }, [socket]);
+
+
 
   // remove item from cart
   const handleRemoveFromCart = (productId, userId) => {
-    console.log("hitting remove from cart", productId, userId)
-    console.log(`${process.env.NEXT_PUBLIC_SOCKET_URL}`)
+    setRemoveFromCartLoading(true);
+    console.log("hitting remove from cart", productId, userId);
+    console.log(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
     const cartdata = {
       productId: productId,
       userId: userId,
@@ -66,39 +87,31 @@ const ProductProvider = ({ children }) => {
       setCartProducts(UserData.cart);
     }
   }, [UserData]);
-  
-  useEffect(() => {
-    socket.on("cart", (cartItems) => {
-      console.log("cart sent back");
-      setCartProducts(cartItems);
-    });
-  }, [socket]);
-
-
-   useEffect(() => {
-     const fetchWishlistFromServer = async () => {
-       try {
-         // Map through the wishlist IDs and fetch product details
-         const productsPromises = UserData.wishlist.map(async (productId) => {
-           const productResponse = await axios.get(
-             `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
-           );
-           return productResponse.data; // Adjust to your server's response structure
-         });
-
-         const products = await Promise.all(productsPromises);
-
-         setWishlist(products);
-       } catch (error) {
-         console.error("Error fetching wishlist from the server:", error);
-       }
-     };
-
-     // Fetch wishlist from the server when the component mounts
-     fetchWishlistFromServer();
-   }, [authToken]);
 
  
+
+  useEffect(() => {
+    const fetchWishlistFromServer = async () => {
+      try {
+        // Map through the wishlist IDs and fetch product details
+        const productsPromises = UserData.wishlist.map(async (productId) => {
+          const productResponse = await axios.get(
+            `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
+          );
+          return productResponse.data; // Adjust to your server's response structure
+        });
+
+        const products = await Promise.all(productsPromises);
+
+        setWishlist(products);
+      } catch (error) {
+        console.error("Error fetching wishlist from the server:", error);
+      }
+    };
+
+    // Fetch wishlist from the server when the component mounts
+    fetchWishlistFromServer();
+  }, [authToken]);
 
   // emit signals to add to wish list
   const handleWishAdd = (productId, userId) => {
@@ -121,32 +134,26 @@ const ProductProvider = ({ children }) => {
     addToWishlist(product);
   };
 
- 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products`
+        );
+        if (response.status !== 200) {
+          throw new Error("Failed to fetch products");
+        }
+        const fetchedProducts = response.data;
+        setAllProducts(fetchedProducts);
+      } catch (error) {
+        console.error(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-   useEffect(() => {
-     const fetchData = async () => {
-       try {
-         const response = await axios.get(
-           `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products`
-         );
-         if (response.status !== 200) {
-           throw new Error("Failed to fetch products");
-         }
-         const fetchedProducts = response.data;
-         setAllProducts(fetchedProducts);
-       } catch (error) {
-         console.error(error.message);
-       } finally {
-         setLoading(false);
-       }
-     };
-
-     fetchData();
-   }, []);
-
-
-
-
+    fetchData();
+  }, []);
 
   return (
     <ProductContext.Provider
@@ -157,13 +164,15 @@ const ProductProvider = ({ children }) => {
         handleRemoveFromCart,
         handleCartDecrease,
 
-
         handleAddToWishlist,
         wishlist,
         handleWishAdd,
         setSearchResults,
         setLoading,
         loading,
+        removeFromCartLoading,
+        handleCartLoading,
+        
       }}
     >
       {children}

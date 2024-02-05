@@ -3,17 +3,45 @@ import { View, Text, TouchableOpacity, Pressable, Image } from 'react-native';
 import { BinIcon, PlusIcon, MinusIcon } from '../svgs/Icons';
 import { UseProductProvider } from '../../context/ProductProvider';
 import { UseUserContext } from '../../context/UserContext';
+import Toast from 'react-native-toast-message';
+import { ActivityIndicator } from "react-native";
+import { useState } from 'react';
 
 const CartItem = ({ product }) => {
 
-const { handleRemoveFromCart, handleCartDecrease, handleAddToCart } =UseProductProvider();
-const { UserData } = UseUserContext();
+const {
+  handleRemoveFromCart,
+  handleCartDecrease,
+  handleAddToCart,
+  removeFromCartLoading,
+  handleCartLoading,
+} = UseProductProvider();
+  const { UserData } = UseUserContext();
+  const [deletedId, setDeletedId] = useState(null);
+  const [incrementId, setIncrementId] = useState(null)
+  
   const calculateSubtotal = () => {
     return product.quantity * product.product.price;
   };
+
+  const MAX_NAME_LENGTH = 25;  
+
+  
+  const showDeleteToast = () => {
+    Toast.show({
+      type: "success",
+      text1: "Hello",
+      text2: "Item is deleted",
+      bottomOffset: 2,
+      position: "bottom",
+    });
+  };
+
+
+ 
   return (
-    <View className="bg-white p-2 mb-2">
-      <View className="flex flex-row items-center gap-2 relative">
+    <View className="bg-white p-2 mb-2 ">
+      <View className="flex flex-row items-center gap-2 relative w-full">
         {/* image here */}
         <View className="w-[80px]">
           <Image
@@ -22,19 +50,34 @@ const { UserData } = UseUserContext();
           />
         </View>
 
-        <Pressable
+        <TouchableOpacity
           className="absolute top-0 right-0"
-          onPress={() =>
-            handleRemoveFromCart(product.product._id, UserData._id)
-          }
+          onPress={() => {
+            setDeletedId(product.product._id);
+            handleRemoveFromCart(product.product._id, UserData._id);
+            showDeleteToast();
+          }}
         >
-          <BinIcon size="24px" />
-        </Pressable>
+          {removeFromCartLoading && deletedId === product.product._id ? (
+            <ActivityIndicator size="small" color="blue" />
+          ) : (
+            <BinIcon size="24px" />
+          )}
+        </TouchableOpacity>
 
-        <View className="flex flex-col flex-grow">
-          <View className="flex flex-row items-center justify-between ">
-            <View className="flex flex-col ">
-              <Text className="font-semibold">{product.product.title}</Text>
+        <View className="flex flex-col flex-grow ">
+          <View className=" flex-grow-0">
+            <View className="flex flex-co py-1 ">
+              <Text
+                className="font-bold ml-2"
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {product.product.title.length > MAX_NAME_LENGTH
+                  ? `${product.product.title.substring(0, MAX_NAME_LENGTH)}...`
+                  : product.product.title}
+              </Text>
+
               <Text className="text-gray-500">{product.product.category}</Text>
             </View>
           </View>
@@ -52,9 +95,9 @@ const { UserData } = UseUserContext();
             <View className="flex flex-row items-center justify-evenly gap-2">
               <TouchableOpacity
                 className="flex flex-row items-center justify-center p-2 border border-gray-200"
-                onPress={() =>
-                  handleCartDecrease(product.product._id, UserData._id)
-                }
+                onPress={() => {
+                  handleCartDecrease(product.product._id, UserData._id);
+                }}
               >
                 <MinusIcon />
               </TouchableOpacity>
@@ -62,14 +105,19 @@ const { UserData } = UseUserContext();
                 <Text className="font-bold">{product.quantity}</Text>
               </View>
 
-              <TouchableOpacity
-                className="flex flex-row items-center justify-center p-2 border border-gray-200"
-                onPress={() =>
-                  handleAddToCart(product.product._id, UserData._id)
-                }
-              >
-                <PlusIcon />
-              </TouchableOpacity>
+              {handleCartLoading && incrementId === product.product._id ? (
+                <ActivityIndicator size="small" color="red" />
+              ) : (
+                <TouchableOpacity
+                  className="flex flex-row items-center justify-center p-2 border border-gray-200"
+                  onPress={() => {
+                    setIncrementId(product.product._id);
+                    handleAddToCart(product.product._id, UserData._id);
+                  }}
+                >
+                  <PlusIcon />
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </View>

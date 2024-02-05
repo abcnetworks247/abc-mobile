@@ -12,13 +12,15 @@ import Svg, { Path } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
 import { UseUserContext } from "../context/UserContext";
 import { UseProductProvider } from "../context/ProductProvider";
-
+import { useState } from "react";
+import { ActivityIndicator } from "react-native";
 const ProductCard = ({ title, description, thumbnail, price, productId }) => {
   const { UserData, authToken,setIsSignUpVisible  } = UseUserContext();
 
-  const { handleWishAdd, handleAddToCart } = UseProductProvider();
+  const { handleWishAdd, handleAddToCart, handleCartLoading } =
+    UseProductProvider();
   const navigation = useNavigation();
-
+   const [addedProduct, setAddedProduct]=useState(null)
   const handlePress = () => {
     navigation.navigate("Details", {
       title,
@@ -61,7 +63,11 @@ const ProductCard = ({ title, description, thumbnail, price, productId }) => {
         <View style={styles.socialBarSection}>
           <TouchableOpacity
             className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
-            onPress={() =>authToken  ? handleWishAdd(productId, UserData._id): setIsSignUpVisible(true) }
+            onPress={() =>
+              authToken
+                ? handleWishAdd(productId, UserData._id)
+                : setIsSignUpVisible(true)
+            }
           >
             <Ionicons name="heart-outline" size={23} color={"#737373"} />
           </TouchableOpacity>
@@ -69,13 +75,20 @@ const ProductCard = ({ title, description, thumbnail, price, productId }) => {
         <View style={styles.socialBarSection}>
           <TouchableOpacity
             className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
-            onPress={() => 
+            onPress={
               authToken
-                ? handleAddToCart(productId, UserData._id)
+                ? () => {
+                    setAddedProduct(productId);
+                    handleAddToCart(productId, UserData._id);
+                  }
                 : setIsSignUpVisible(true)
             }
           >
-            <Ionicons name="cart" size={23} color={"#737373"} />
+            {handleCartLoading && productId === addedProduct ? (
+              <ActivityIndicator size="small" color="blue" />
+            ) : (
+              <Ionicons name="cart" size={23} color={"#737373"} />
+            )}
           </TouchableOpacity>
         </View>
       </View>

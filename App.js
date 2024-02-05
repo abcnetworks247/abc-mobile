@@ -15,6 +15,7 @@ import Updatepassword from "./auth/Updatepassword";
 import { AuthStackNavigator } from "./navigation/StackNavigator";
 import { UserContextProvider } from "./context/UserContext";
 import { UseUserContext } from "./context/UserContext";
+import Toast from "react-native-toast-message";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -27,10 +28,13 @@ function AppContent() {
   return (
     <>
       <NavigationContainer>
-        { isSignUpVisible && isSignUpVisible ?
-         <AuthStackNavigator /> :
-          <DrawerNavigator />}
+        {isSignUpVisible && isSignUpVisible ? (
+          <AuthStackNavigator />
+        ) : (
+          <DrawerNavigator />
+        )}
       </NavigationContainer>
+      
     </>
   );
 }

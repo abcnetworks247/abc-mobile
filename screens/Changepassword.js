@@ -64,19 +64,23 @@ const handleSubmit = async () => {
       }
     );
 
-     const {message} = await response.json()
+    const responseData = await response.json()
+
+    if (response.status == 200) {
+      //  await getUserData();
+      Alert.alert(responseData.message);
+      // navigation.navigate("Profile");
+    }
 
   
-      //  await getUserData();
-       Alert.alert(message);
-      // navigation.navigate("Profile");
-   
+      
 
     setLoading(false);
 
   } catch (error) {
+     console.error("Error updating password:", error);
     setLoading(false);
-    console.error("Error updating password:", error);
+   
   }
 };
 

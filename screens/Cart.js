@@ -25,7 +25,7 @@ import CartItem from "../components/products/CartItem";
 import { useNavigation } from "@react-navigation/native";
 import { CommonActions } from "@react-navigation/native";
 import { UseUserContext } from "../context/UserContext";
-
+import Toast from "react-native-toast-message";
 
 export default function Cart() {
 
@@ -85,6 +85,7 @@ const { authToken, UserData } = UseUserContext()
             </TouchableOpacity>
           </View>
         </View>
+      
       </SafeAreaView>
     );
 }
