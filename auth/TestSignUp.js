@@ -10,6 +10,7 @@ import { NAME_REGEX, PASSWORD_REGEX, EMAIL_REGEX } from '../utils/regex';
 import Api from '../utils/Api';
 import { Ionicons } from "@expo/vector-icons";
 import { Alert } from 'react-native';
+import { ToastAndroid } from 'react-native';
 
 
 
@@ -18,6 +19,18 @@ const TestSignUp = () => {
   const navigation = useNavigation()
   const { setIsSignInVisible, setIsSignUpVisible } = UseProductProvider();
   const [universalError, setUniversalError] = useState("");
+
+   
+  const showToast = (message) => {
+    ToastAndroid.showWithGravityAndOffset(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.TOP,
+      25,
+      50
+    );
+  };
+
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const togglePasswordVisibility = () => {
@@ -113,7 +126,7 @@ const TestSignUp = () => {
       console.log("mydata", data)
       console.log("my message", message)
 
-  Alert.alert("Success", "Signup successful!");
+       showToast("Signup successful!");
 
   
    setTimeout(() => {
@@ -125,7 +138,8 @@ const TestSignUp = () => {
       const { error: errorMessage } = error.response.data;
         
       console.error('Error creating account:', errorMessage);
-      Alert.alert("Error creating account", errorMessage)
+    
+       showToast(errorMessage);
 
     };
   }

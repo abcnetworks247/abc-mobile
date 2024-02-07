@@ -28,8 +28,7 @@ import { UseUserContext } from "../context/UserContext";
 import Toast from "react-native-toast-message";
 
 export default function Cart() {
-
-
+const { cartProducts } = UseProductProvider(); 
 const { authToken, UserData } = UseUserContext()
  const shippingFee = 5;
   
@@ -46,17 +45,10 @@ const { authToken, UserData } = UseUserContext()
   
   
  
-  const { cartProducts } = UseProductProvider();  
-  const totalPrice = cartProducts?.length > 0 && cartProducts.reduce(
-    (accumulator, product) =>
-      accumulator + product.quantity * product.product.price,
-    0
-  );
-  console.log(totalPrice);
+   
+  
 
-  const grandTotal = totalPrice + shippingFee;
-
-  if (authToken && cartProducts.length == 0) {
+  if (authToken && !cartProducts) {
     const navigation=useNavigation()
     return (
       <SafeAreaView style={globalstyels.droidSafeArea}>
@@ -93,40 +85,54 @@ const { authToken, UserData } = UseUserContext()
 
   
 
-if(authToken && cartProducts.length > 0)
-
-  return (
-    <SafeAreaView style={globalstyels.droidSafeArea}>
-      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
-      <ScrollView>
-        <View className="mt-4 px-2">
-          {cartProducts.map((product) => (
-            <CartItem key={product._id} product={product} />
-          ))}
-          <View className="bg-white px-2">
-            <View className="flex flex-row py-4 justify-between">
-              <Text className="text-sm text-gray-500">Subtotal</Text>
-              <Text className="text-sm font-semibold">
-                ${totalPrice.toFixed(2)}
-              </Text>
-            </View>
-            <View className="flex flex-row justify-between py-2">
-              <Text className="text-sm text-gray-500">Shipping</Text>
-              <Text className="text-sm font-semibold">${shippingFee}</Text>
-            </View>
-            <View className="flex flex-row py-2  border-t border-t-gray-100 justify-between ">
-              <Text className="text-sm text-gray-500">Total</Text>
-              <Text className="text-sm font-semibold">
-                ${grandTotal.toFixed(2)}
-              </Text>
-            </View>
-          </View>
-          <TouchableOpacity className="bg-black flex flex-row justify-center items-center h-10">
-            <Text className="text-white">Confirm Order</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+if (authToken && cartProducts && cartProducts.length > 0) {
+  const totalPrice = cartProducts.reduce(
+    (accumulator, product) =>
+      accumulator + product.quantity * product.product.price,
+    0
   );
+  console.log(totalPrice);
+
+const grandTotal = totalPrice + shippingFee;
+
+   return (
+     <SafeAreaView style={globalstyels.droidSafeArea}>
+       <FocusAwareStatusBar
+         barStyle="light-content"
+         backgroundColor="#2c3e50"
+       />
+       <ScrollView>
+         <View className="mt-4 px-2">
+           {cartProducts.map((product) => (
+             <CartItem key={product._id} product={product} />
+           ))}
+           <View className="bg-white px-2">
+             <View className="flex flex-row py-4 justify-between">
+               <Text className="text-sm text-gray-500">Subtotal</Text>
+               <Text className="text-sm font-semibold">
+                 ${totalPrice.toFixed(2)}
+               </Text>
+             </View>
+             <View className="flex flex-row justify-between py-2">
+               <Text className="text-sm text-gray-500">Shipping</Text>
+               <Text className="text-sm font-semibold">${shippingFee}</Text>
+             </View>
+             <View className="flex flex-row py-2  border-t border-t-gray-100 justify-between ">
+               <Text className="text-sm text-gray-500">Total</Text>
+               <Text className="text-sm font-semibold">
+                 ${grandTotal.toFixed(2)}
+               </Text>
+             </View>
+           </View>
+           <TouchableOpacity className="bg-black flex flex-row justify-center items-center h-10">
+             <Text className="text-white">Confirm Order</Text>
+           </TouchableOpacity>
+         </View>
+       </ScrollView>
+     </SafeAreaView>
+   );
+}
+
+ 
 }
 

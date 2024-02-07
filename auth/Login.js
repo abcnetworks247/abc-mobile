@@ -12,12 +12,25 @@ import { Ionicons } from "@expo/vector-icons";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UseUserContext } from "../context/UserContext";
+import { ToastAndroid } from "react-native";
 import axios from "axios";
 
 const Login = () => {
   const navigation = useNavigation();
   const { setIsSignInVisible, setIsSignUpVisible, UserData } = UseUserContext();
   const [universalError, setUniversalError] = useState("");
+
+
+  
+  const showToast = (message) => {
+    ToastAndroid.showWithGravityAndOffset(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.TOP,
+      25,
+      50
+    );
+  };
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const togglePasswordVisibility = () => {
@@ -163,11 +176,11 @@ const Login = () => {
           JSON.stringify(responseData.authToken)
         );
 
-         Alert.alert(responseData.message);
+         showToast(responseData.message);
         setIsSignUpVisible(false);
       } else {
         console.error("error signing into account:", responseData.message);
-        Alert.alert("Error signing in account", responseData.message);
+        showToast(responseData.message);
       }
     } catch (error) {
       if (error.name === "AbortError") {

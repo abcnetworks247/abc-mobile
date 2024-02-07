@@ -8,16 +8,45 @@ import {
   TouchableOpacity,
   StatusBar,
   SafeAreaView,
+  ToastAndroid,
+  Platform,
+  AlertIOS,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import HTML from "react-native-render-html";
 import Svg, { Path } from "react-native-svg";
 import globalstyels from "../styles/globalstyels";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import { UseUserContext } from "../context/UserContext";
+import { UseProductProvider } from "../context/ProductProvider";
+import { useState } from "react";
+import { ActivityIndicator } from "react-native";
+
 
 const ProductDetails = () => {
   const route = useRoute();
-  const { title, price, description, thumbnail } = route.params;
+  const { title, price, description, thumbnail, productId } = route.params;
+  const { authToken, setIsSignUpVisible, UserData } = UseUserContext();
+  const { handleWishAdd, handleAddToCart, handleCartLoading } = UseProductProvider();
+  
+  // function notifyMessage(msg: string) {
+  //   if (Platform.OS === "android") {
+  //     ToastAndroid.show(msg, ToastAndroid.SHORT);
+  //   } else {
+  //     AlertIOS.alert(msg);
+  //   }
+  // }
+
+  const showAddToCartToast = () => {
+    ToastAndroid.showWithGravityAndOffset(
+       "Item added to cart",
+      ToastAndroid.LONG,
+      ToastAndroid.TOP,
+      25,
+      50
+    );
+  };
+ 
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
@@ -33,11 +62,26 @@ const ProductDetails = () => {
           <View className="flex flex-row items-center justify-between w-full px-4 mt-10 mb-4">
             <View className="flex flex-row items-center gap-2">
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={
+                  UserData
+                    ? () => {
+                      handleAddToCart(
+                        productId,
+                        UserData._id,
+                       showAddToCartToast
+                      );
+                     
+                      }
+                    : setIsSignUpVisible(true)
+                }
                 className="px-5 py-[8px] bg-black border-gray-100  shadow-md border-1"
               >
                 <Text className="text-sm font-semibold text-left text-white">
-                  Add To Cart
+                  {handleCartLoading ? (
+                    <ActivityIndicator size="small" color="white" />
+                  ) : (
+                    " Add To Cart"
+                  )}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity className="flex items-center justify-center  py-2 px-2 bg-gray-100">

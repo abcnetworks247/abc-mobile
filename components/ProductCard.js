@@ -12,23 +12,42 @@ import Svg, { Path } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
 import { UseUserContext } from "../context/UserContext";
 import { UseProductProvider } from "../context/ProductProvider";
-import { useState } from "react";
-import { ActivityIndicator } from "react-native";
+import { useState, useEffect } from "react";
+import { ActivityIndicator, ToastAndroid } from "react-native";
+
 const ProductCard = ({ title, description, thumbnail, price, productId }) => {
   const { UserData, authToken,setIsSignUpVisible  } = UseUserContext();
 
-  const { handleWishAdd, handleAddToCart, handleCartLoading } =
-    UseProductProvider();
+  const {
+    handleWishAdd,
+    handleAddToCart,
+    handleCartLoading,
+    setAddToCartActive,
+   
+  } = UseProductProvider();
   const navigation = useNavigation();
-   const [addedProduct, setAddedProduct]=useState(null)
+  const [addedProduct, setAddedProduct] = useState(null)
+  
+  useEffect(() => {
+    if (addedProduct) {
+       console.log("my added product", addedProduct)
+       handleAddToCart(productId, UserData._id);
+      
+    }
+  }, [addedProduct,productId])
+  
+
   const handlePress = () => {
     navigation.navigate("Details", {
       title,
       description,
       thumbnail,
       price,
+      productId,
     });
   };
+
+ 
   return (
     <Pressable
       className="basis-1/2 bg-white mb-2 pb-4 shadow-md"
@@ -64,7 +83,7 @@ const ProductCard = ({ title, description, thumbnail, price, productId }) => {
           <TouchableOpacity
             className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
             onPress={() =>
-              authToken
+              UserData
                 ? handleWishAdd(productId, UserData._id)
                 : setIsSignUpVisible(true)
             }
@@ -76,11 +95,11 @@ const ProductCard = ({ title, description, thumbnail, price, productId }) => {
           <TouchableOpacity
             className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
             onPress={
-              authToken
+              UserData
                 ? () => {
+                   
                     setAddedProduct(productId);
-                    handleAddToCart(productId, UserData._id);
-                  }
+                  } 
                 : setIsSignUpVisible(true)
             }
           >

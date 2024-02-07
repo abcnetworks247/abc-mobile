@@ -4,7 +4,7 @@ import axios from "axios";
 import { createContext } from "react";
 import { UseUserContext } from "./UserContext";
 import { io } from "socket.io-client";
-import Toast from "react-native-toast-message";
+import { FlatListComponent, ToastAndroid } from "react-native";
 
 const ProductContext = createContext();
 
@@ -17,48 +17,63 @@ const ProductProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [cartProducts, setCartProducts] = useState([]);
+  const [cartProducts, setCartProducts] = useState(null);
   const [wishlist, setWishlist] = useState([]);
-  const [removeFromCartLoading, setRemoveFromCartLoading] = useState(false);
   const [handleCartLoading, setHandleCartLoading] = useState(false);
+  const [addToCartActive, setAddToCartActive] = useState(false);
+  const [removeFromCartActive, setRemoveFromCartActive] = useState(false);
+ const messages = {
+     add: "item added to cart",
+     remove:"item removed from cart"
+ }
   
- 
+  
+  const showToast = (message) => {
+    ToastAndroid.showWithGravityAndOffset(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.TOP,
+      25,
+      50
+    );
+  };
 
 
   // add to cart socket
   const handleAddToCart = (productId, userId) => {
-     setHandleCartLoading(true)
+    setHandleCartLoading(true)
+    console.log("state of loading before emit", handleCartLoading)
     const cartdata = {
       productId: productId,
       userId: userId,
     };
 
     socket.emit("cartadd", cartdata);
-  };
+     console.log("state of loadind after emit", handleCartLoading) 
+    };
 
 
-   let receiveData = () => {
-     socket.on("cart", (cartItems) => {
-       console.log("cart sent back");
-       setCartProducts(cartItems);
-     });
-     if (removeFromCartLoading) {
-       setRemoveFromCartLoading(false);
-     }
-     if (handleCartLoading) {
-       setHandleCartLoading(false);
-     }
-   };
 
-   useEffect(() => {
-     receiveData();
-   }, [socket]);
+  useEffect(() => {
+      
+    socket.on("cart", (cartItems) => {
+         setHandleCartLoading(true);
+          setCartProducts(cartItems);
+         setHandleCartLoading(false);
+         console.log("state of loading in socket", handleCartLoading)
+         socket.disconnect()
+ 
+         showToast(messages.add);
+        
+         
+   });
+  }, [socket]);
 
 
 
   // remove item from cart
   const handleRemoveFromCart = (productId, userId) => {
-    setRemoveFromCartLoading(true);
+    setHandleCartLoading(true);
     console.log("hitting remove from cart", productId, userId);
     console.log(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
     const cartdata = {
@@ -71,6 +86,7 @@ const ProductProvider = ({ children }) => {
 
   // minus cart quantity
   const handleCartDecrease = (productId, userId) => {
+      setHandleCartLoading(true);
     console.log("decreasing cart Item", productId, userId);
     const cartdata = {
       productId: productId,
@@ -111,7 +127,7 @@ const ProductProvider = ({ children }) => {
 
     // Fetch wishlist from the server when the component mounts
     fetchWishlistFromServer();
-  }, [authToken]);
+  }, []);
 
   // emit signals to add to wish list
   const handleWishAdd = (productId, userId) => {
@@ -170,9 +186,9 @@ const ProductProvider = ({ children }) => {
         setSearchResults,
         setLoading,
         loading,
-        removeFromCartLoading,
         handleCartLoading,
-        
+        setAddToCartActive,
+        setRemoveFromCartActive,
       }}
     >
       {children}
