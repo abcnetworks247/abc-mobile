@@ -177,10 +177,10 @@ const Login = () => {
         );
 
          showToast(responseData.message);
-        setIsSignUpVisible(false);
+         setIsSignUpVisible(false);
       } else {
         console.error("error signing into account:", responseData.message);
-        showToast(responseData.message);
+        showToast("Error signing into account");
       }
     } catch (error) {
       if (error.name === "AbortError") {

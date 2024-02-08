@@ -32,8 +32,8 @@ const LayerOne = ({ data, loading }) => {
       {
         loading ? (
           
-          Array.from({ length: 1 }).map((_) => (
-            <View className=" flex flex-row gap-2">
+          Array.from({ length: 1 }).map((_, index) => (
+            <View className=" flex flex-row gap-2" key={index}>
 
             <View className="flex rounded w-28 h-24 animate-pulse bg-gray-300">
             </View>

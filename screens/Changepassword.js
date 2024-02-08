@@ -15,9 +15,16 @@ import { UseUserContext } from "../context/UserContext";
 import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { useRef } from "react";
 
 const Closeaccount = () => {
+
+    const inputRefs = {
+      oldPassword: useRef(null),
+      newPassword: useRef(null),
+      confirmNewPassword: useRef(null),
+    };
+  
   const navigation = useNavigation();
   const { getUserData } = UseUserContext();
   const [formData, setFormData] = useState({
@@ -28,14 +35,34 @@ const Closeaccount = () => {
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [inputName, setInputNames] = useState({
+    oldPassword:"oldPassword",
+    newPassword:"newPassword",
+    confirmNewPassword : "confirmNewPassword"
+  });
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible((prevVisible) => !prevVisible);
+  const togglePasswordVisibility = (fieldName) => {
+    if (inputName[fieldName]=== fieldName) {
+        setPasswordVisible((prev) => !prev);
+    }
+   
+    
   };
 
   const handleInputChange = (name, value) => {
+    
     setFormData({ ...formData, [name]: value });
   };
+
+   const createSubmitAlert = () =>
+     Alert.alert("Password Reset", "You are about to reset your password.", [
+       {
+         text: "Cancel",
+         onPress: () => console.log("Cancel Pressed"),
+         style: "cancel",
+       },
+       { text: "OK", onPress: () => handleSubmit() },
+     ]);
 
   
 
@@ -99,6 +126,7 @@ const handleSubmit = async () => {
                 </Text>
                 <View className="flex flex-row items-center justify-between bg-white  border border-gray-200">
                   <TextInput
+                    ref={inputRefs.oldPassword}
                     name="oldPassword"
                     secureTextEntry={!passwordVisible}
                     placeholder="Type your password"
@@ -111,7 +139,7 @@ const handleSubmit = async () => {
                     }
                   />
                   <TouchableOpacity
-                    onPress={togglePasswordVisibility}
+                    onPress={() => togglePasswordVisibility("oldPassword")}
                     className="mr-2"
                   >
                     {passwordVisible ? (
@@ -129,6 +157,7 @@ const handleSubmit = async () => {
                 </Text>
                 <View className="flex flex-row items-center justify-between bg-white  border border-gray-200">
                   <TextInput
+                    ref={inputRefs.newPassword}
                     name="newPassword"
                     secureTextEntry={!passwordVisible}
                     placeholder="Type your password"
@@ -141,7 +170,7 @@ const handleSubmit = async () => {
                     }
                   />
                   <TouchableOpacity
-                    onPress={togglePasswordVisibility}
+                    onPress={() => togglePasswordVisibility("newPassword")}
                     className="mr-2"
                   >
                     {passwordVisible ? (
@@ -159,6 +188,7 @@ const handleSubmit = async () => {
                 </Text>
                 <View className="flex flex-row items-center justify-between bg-white  border border-gray-200">
                   <TextInput
+                    ref={inputRefs.confirmNewPassword}
                     name="confirmNewPassword"
                     secureTextEntry={!passwordVisible}
                     placeholder="Type your password"
@@ -171,7 +201,7 @@ const handleSubmit = async () => {
                     }
                   />
                   <TouchableOpacity
-                    onPress={togglePasswordVisibility}
+                    onPress={() => togglePasswordVisibility(3, "newPassword")}
                     className="mr-2"
                   >
                     {passwordVisible ? (
@@ -184,7 +214,7 @@ const handleSubmit = async () => {
               </View>
 
               <TouchableOpacity
-                onPress={handleSubmit}
+                onPress={createSubmitAlert}
                 className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 {loading ? (

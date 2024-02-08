@@ -24,6 +24,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import globalstyels from "../styles/globalstyels";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { UseUserContext } from "../context/UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -165,7 +166,10 @@ export default function Profile() {
 
           <TouchableOpacity
             className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
-            onPress={() => setIsSignUpVisible(true)}
+            onPress={async () => {
+              await AsyncStorage.removeItem("authToken")
+              navigation.navigate("Home")
+            }}
           >
             <View className="flex flex-row items-center">
               <LogOutIcon />

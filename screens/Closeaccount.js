@@ -14,9 +14,15 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { UseUserContext } from "../context/UserContext";
 import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native";
+import { UseProductProvider } from "../context/ProductProvider";
 import axios from "axios";
+import { useRef } from "react";
 
 const Closeaccount = () => {
+
+   const inputRef = useRef(null)
+
+  const {showToast}= UseProductProvider()
   const navigation=useNavigation()
     const {authToken } = UseUserContext();
   const [formData, setFormData] = useState({
@@ -33,25 +39,25 @@ const Closeaccount = () => {
 
   
   const handleInputChange = (name, value) => {
+    console.log(inputRef.current().name)
     setFormData({ ...formData, [name]: value });
   };
 
-  const confirmDeletion = () => {
-    Alert.alert(
-      "Confirmation",
-      "Are you sure you want to delete your account?",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Delete",
-          onPress: handleSubmit, // Call your delete function here
-        },
-      ]
-    );
-  };
+  
+
+   const confirmDeletion = () =>
+     Alert.alert(
+       "Are you sure you want to delete your account?",
+       "Deleting your account is permanent and irreversible. You will lose access to all your data, including saved preferences and purchase history.",
+       [
+         {
+           text: "Cancel",
+           onPress: () => console.log("Cancel Pressed"),
+           style: "cancel",
+         },
+         { text: "OK", onPress: () => handleSubmit() },
+       ]
+     );
 
   
   
@@ -81,12 +87,13 @@ const Closeaccount = () => {
       
       setLoading(false);
       
-       Alert.alert("Success", "Account deleted successfully");
+      showToast("Account deleted successfully");
       
       
     } catch (error) {
        setLoading(false);
       console.error("Error deleting account:", error.response.data);
+       showToast("Error deleting account");
     }
   };
 
@@ -102,6 +109,7 @@ const Closeaccount = () => {
                   Email
                 </Text>
                 <TextInput
+                  inputRef
                   name="email"
                   type="email"
                   placeholder="Type your email"
@@ -117,6 +125,7 @@ const Closeaccount = () => {
                 </Text>
                 <View className="flex flex-row items-center justify-between bg-white  border border-gray-200">
                   <TextInput
+                    inputRef
                     name="password"
                     secureTextEntry={!passwordVisible}
                     placeholder="Type your password"

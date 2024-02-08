@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -11,6 +11,7 @@ import {
   ProfileStackNavigator,
   HomeStackNavigator,
   CartStackNavigator,
+  AuthStackNavigator,
 } from "./StackNavigator";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Editprofile } from "../screens";
@@ -23,7 +24,7 @@ const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   const { cartProducts } = UseProductProvider()
-  const{UserData} =UseUserContext()
+  const{UserData, setIsSignUpVisible} =UseUserContext()
    const getTabBarVisibility = (route) => {
      const routeName = getFocusedRouteNameFromRoute(route);
      const hideOnScreens = [Editprofile]; // put here name of screen where you want to hide tabBar
@@ -42,19 +43,29 @@ const Tabs = () => {
           } else if (route.name === "Storetab") {
             return <ShopIcon color={color} />;
           } else if (route.name === "Carttab") {
-            
             return (
               <View className="relative">
                 <CartIcon color={color} />
                 {UserData && cartProducts && cartProducts.length > 0 && (
                   <View className="absolute flex flex-row items-center justify-center rounded-full h-5 w-5 bg-red-400">
-                    <Text className="text-white text-sm">{cartProducts.length}</Text>
+                    <Text className="text-white text-sm">
+                      {cartProducts.length}
+                    </Text>
                   </View>
                 )}
               </View>
             );
           } else if (route.name === "Profiletab") {
-            return <AccountIcon color={color} />;
+            if (!UserData) {
+              return (
+                <TouchableOpacity onPress={()=>setIsSignUpVisible(true)}>
+                  <AccountIcon color={color} />
+                </TouchableOpacity>
+              );
+            } else {
+               return <AccountIcon color={color} />;
+               }
+           
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -88,20 +99,16 @@ const Tabs = () => {
         component={CartStackNavigator}
         options={{ headerShown: false, tabBarLabel: "" }}
       />
-      {/* <Tab.Screen
-        name="signup"
-        component={AuthStackNavigatior}
-        options={{ headerShown: false, tabBarLabel: "Cart",  }}
-      /> */}
-      <Tab.Screen
-        name="Profiletab"
-        component={ProfileStackNavigator}
-        options={({ route }) => ({
-          headerShown: false,
-          tabBarLabel: "",
-          tabBarVisible: getTabBarVisibility(route),
-        })}
-      />
+    
+        <Tab.Screen
+          name="Profiletab"
+          component={ProfileStackNavigator}
+          options={({ route }) => ({
+            headerShown: false,
+            tabBarLabel: "",
+          })}
+        />
+     
     </Tab.Navigator>
   );
 };

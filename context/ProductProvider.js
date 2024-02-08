@@ -36,7 +36,7 @@ const ProductProvider = ({ children }) => {
       25,
       50
     );
-  };
+  }; 
 
 
   // add to cart socket
@@ -57,11 +57,11 @@ const ProductProvider = ({ children }) => {
   useEffect(() => {
       
     socket.on("cart", (cartItems) => {
-         setHandleCartLoading(true);
-          setCartProducts(cartItems);
-         setHandleCartLoading(false);
-         console.log("state of loading in socket", handleCartLoading)
-         socket.disconnect()
+        setHandleCartLoading(true);
+        setCartProducts(cartItems);
+        setHandleCartLoading(false);
+        console.log("state of loading in socket", handleCartLoading)
+        socket.disconnect()
  
          showToast(messages.add);
         
@@ -105,29 +105,29 @@ const ProductProvider = ({ children }) => {
   }, [UserData]);
 
  
+ useEffect(() => {
+   const fetchWishlistFromServer = async () => {
+     try {
+       const productsPromises = UserData.wishlist.map(async (productId) => {
+         const productResponse = await fetch(
+           `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
+         );
+         if (!productResponse.ok) {
+           throw new Error(`HTTP error! Status: ${productResponse.status}`);
+         }
+         return await productResponse.json(); // Adjust to your server's response structure
+       });
 
-  useEffect(() => {
-    const fetchWishlistFromServer = async () => {
-      try {
-        // Map through the wishlist IDs and fetch product details
-        const productsPromises = UserData.wishlist.map(async (productId) => {
-          const productResponse = await axios.get(
-            `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
-          );
-          return productResponse.data; // Adjust to your server's response structure
-        });
+       const products = await Promise.all(productsPromises);
 
-        const products = await Promise.all(productsPromises);
+       setWishlist(products);
+     } catch (error) {
+       console.error("Error fetching wishlist from the server:", error);
+     }
+   };
 
-        setWishlist(products);
-      } catch (error) {
-        console.error("Error fetching wishlist from the server:", error);
-      }
-    };
-
-    // Fetch wishlist from the server when the component mounts
-    fetchWishlistFromServer();
-  }, []);
+   fetchWishlistFromServer();
+ }, [UserData]);
 
   // emit signals to add to wish list
   const handleWishAdd = (productId, userId) => {
@@ -189,6 +189,7 @@ const ProductProvider = ({ children }) => {
         handleCartLoading,
         setAddToCartActive,
         setRemoveFromCartActive,
+        showToast,
       }}
     >
       {children}

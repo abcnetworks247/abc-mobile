@@ -29,17 +29,38 @@ import Toast from "react-native-toast-message";
 
 export default function Cart() {
 const { cartProducts } = UseProductProvider(); 
-const { authToken, UserData } = UseUserContext()
+const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
  const shippingFee = 5;
   
   if (!UserData) {
+  
+
+    const handleLoginPress = () => {
+      // Navigate to the login screen
+      setIsSignUpVisible(true)
+    };
     return (
-      <View>
-        <Text>
-           Login in to view you cart
+      <View className="flex flex-1 items-center justify-center" >
+        <Text className="mb-[20px] text-md" >
+          You are not logged in!
         </Text>
+        <Text style={{ marginBottom: 20 }}>
+          Please log in to view your cart.
+        </Text>
+        <TouchableOpacity
+          onPress={handleLoginPress}
+          className
+          style={{
+            backgroundColor: "#007bff",
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            borderRadius: 5,
+          }}
+        >
+          <Text className="text-white text-[16px]" >Log In</Text>
+        </TouchableOpacity>
       </View>
-    )
+    );
   }
 
   
@@ -48,7 +69,7 @@ const { authToken, UserData } = UseUserContext()
    
   
 
-  if (authToken && !cartProducts) {
+  if (UserData && !cartProducts) {
     const navigation=useNavigation()
     return (
       <SafeAreaView style={globalstyels.droidSafeArea}>

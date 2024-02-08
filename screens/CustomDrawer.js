@@ -24,7 +24,7 @@ const CustomDrawer = (props) => {
           </View>
         </DrawerContentScrollView>
         <View
-          style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}
+          style={{ padding: 20, borderTopWidth: 1, }}
         >
           <TouchableOpacity style={{ paddingVertical: 15 }}>
             <View className="flex flex-row items-center">

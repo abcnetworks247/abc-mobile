@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/AbcstudioNo.png",
-      "resizeMode": "contain",
+      "resizeMode": "300 * 300",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    },
+    }, 
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"

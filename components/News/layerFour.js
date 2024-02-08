@@ -31,8 +31,8 @@ const LayerFour = ({ data, loading }) => {
       <View className="flex flex-col ">
         {
           loading ? (
-            Array.from({ length: 1 }).map((_) => (
-              <View className=" flex flex-col p-1 gap-2">
+            Array.from({ length: 1 }).map((_, index) => (
+              <View className=" flex flex-col p-1 gap-2" key={index}>
                 <View className=" w-full flex flex-col gap-1">
                   <View className="h-5 w-full rounded-md bg-gray-300 animate-pulse" />
                 </View>
