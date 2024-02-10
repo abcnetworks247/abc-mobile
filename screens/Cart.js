@@ -26,6 +26,7 @@ import { useNavigation } from "@react-navigation/native";
 import { CommonActions } from "@react-navigation/native";
 import { UseUserContext } from "../context/UserContext";
 import Toast from "react-native-toast-message";
+import { Fontisto } from "@expo/vector-icons";
 
 export default function Cart() {
 const { cartProducts } = UseProductProvider(); 
@@ -73,9 +74,10 @@ const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
       <SafeAreaView style={globalstyels.droidSafeArea}>
         <View className="flex flex-1 items-center justify-center sm:mx-12 sm:shadow-lg sm:py-7 ">
           <View className="flex flex-col items-center  gap-2">
-            <Image
-              source={emptyCart}
-              className="w-[200px] h-[200px] object-contain"
+            <Fontisto
+              name="shopping-basket-remove"
+              size={100}
+              color={"#2c3e50"}
             />
             <Text className="text-[#575746] font-bold">Your cart is empty</Text>
             <Text className="text-sm ml-3  text-center text-[#313133]  ">
