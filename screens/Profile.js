@@ -26,6 +26,8 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { UseUserContext } from "../context/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UseProductProvider } from "../context/ProductProvider";
+import { Alert } from "react-native";
+import { ActivityIndicator } from "react-native";
 
 
 export default function Profile() {
@@ -42,7 +44,7 @@ export default function Profile() {
   
    const confirmLogout = () =>
      Alert.alert(
-       "You are about to log out?",
+       "Logging out","You are about to log out" ,
 
        [
          {

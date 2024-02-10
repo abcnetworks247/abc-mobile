@@ -87,6 +87,7 @@ const { wishlist } = UseProductProvider();
               <Ionicons name="menu-sharp" size={30} color={"white"} />
             </Pressable>
           ),
+          headerTintColor:"white",
 
           headerRight: () => (
             <View className="flex flex-row items-center gap-4">

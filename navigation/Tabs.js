@@ -37,7 +37,6 @@ const Tabs = () => {
       initialRouteName="Home"
       activeColor="#2c3e50"
       barStyle={{ backgroundColor: "white" }}
-  
     >
       <Tab.Screen
         name="Hometab"
@@ -89,6 +88,7 @@ const Tabs = () => {
               color={color}
             />
           ),
+          tabBarBadge:cartProducts.length
         }}
       />
 
