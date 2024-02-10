@@ -25,17 +25,77 @@ import globalstyels from "../styles/globalstyels";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { UseUserContext } from "../context/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { UseProductProvider } from "../context/ProductProvider";
 
 
 export default function Profile() {
   const { setIsSignUpVisible, UserData } = UseUserContext();
+  const { cartProducts } = UseProductProvider();
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventDate, setEventDate] = useState("");
   const [eventTime, setEventTime] = useState("");
+  const [loading, setLoading]=useState(false)
   const navigation = useNavigation()
-   const insets = useSafeAreaInsets();
+  const insets = useSafeAreaInsets();
+
+  
+   const confirmLogout = () =>
+     Alert.alert(
+       "You are about to log out?",
+
+       [
+         {
+           text: "Cancel",
+           onPress: () => console.log("Cancel Pressed"),
+           style: "cancel",
+         },
+         { text: "OK", onPress: () => handleLogout() },
+       ]
+    );
+  
+  const handleLogout = async () => {
+    try {
+      setLoading(true)
+      await AsyncStorage.removeItem('authToken')
+      const storedToken = await AsyncStorage.getItem("authToken")
+      if (!storedToken) {
+        setIsSignUpVisible(true)
+      }
+    } catch (error) {
+       console.error("Error checking authToken in async storage", error)
+    } finally {
+       setLoading(false)
+    }
+  }
+  
+  
+  
+  
+
+  // const checkAuthTokenInAsyncStorage = async () => {
+  //   try {
+  //     // Retrieve the authToken from AsyncStorage
+  //     const authToken = await AsyncStorage.getItem("authToken");
+  //     const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
+  //     console.log("stored token that has been parse", storedToken)
+
+  //     // Check if authToken exists in AsyncStorage
+  //     if (authToken) {
+  //       console.log("Auth token found in AsyncStorage:", authToken);
+  //       // Do something if authToken is found
+  //     } else {
+  //       console.log("Auth token not found in AsyncStorage");
+  //       // Do something if authToken is not found
+  //     }
+  //   } catch (error) {
+  //     console.error("Error checking authToken in AsyncStorage:", error);
+  //   }
+  // };
+
+  const checkCart = () => {
+    console.log("my cart product", cartProducts)
+  }
 
 
   return (
@@ -61,7 +121,7 @@ export default function Profile() {
           />
 
           <View className="flex flex-col">
-            <Text className="font-bold">{UserData&& UserData.fullname}</Text>
+            <Text className="font-bold">{UserData && UserData.fullname}</Text>
             <Text className="text-gray-400">{UserData && UserData.email}</Text>
           </View>
         </View>
@@ -91,7 +151,10 @@ export default function Profile() {
               </Svg>
               <Text className="mx-2">Orders</Text>
             </TouchableOpacity>
-            <Pressable className="bg-white flex-1 flex flex-row items-center px-2  shadow-md ">
+            <Pressable
+              className="bg-white flex-1 flex flex-row items-center px-2  shadow-md "
+              onPress={() => checkCart()}
+            >
               <Svg
                 width="30px"
                 height="30px"
@@ -112,15 +175,6 @@ export default function Profile() {
               <Text className="mx-2">Wishlist</Text>
             </Pressable>
           </View>
-
-          {/* <View className="flex flex-row w-full gap-2">
-            <View className="bg-white flex-1 flex flex-row items-center justify-between px-2">
-              <Text>Coupons</Text>
-            </View>
-            <View className="bg-white flex-1 flex flex-row items-center justify-between px-2">
-              <Text>Help Center</Text>
-            </View>
-          </View> */}
         </View>
 
         <View
@@ -166,16 +220,17 @@ export default function Profile() {
 
           <TouchableOpacity
             className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
-            onPress={async () => {
-              await AsyncStorage.removeItem("authToken")
-              navigation.navigate("Home")
-            }}
+            onPress={() => confirmLogout()}
           >
             <View className="flex flex-row items-center">
               <LogOutIcon />
               <Text className="mx-2">Log out</Text>
             </View>
-            <AngleIcon />
+            {loading ? (
+              <ActivityIndicator size="small" color="#727272" />
+            ) : (
+              <AngleIcon />
+            )}
           </TouchableOpacity>
         </View>
       </ScrollView>

@@ -51,6 +51,7 @@ const LayerTwo = ({ data, loading }) => {
               </View>
             ))
           ) : (
+             !data ? <Text>No data available</Text> :
             <Pressable>
               <View className="flex flex-col flex-1 p-1">
                 <View className="border-b-gray-300 border-b mt-3 mb-3" />
@@ -69,7 +70,7 @@ const LayerTwo = ({ data, loading }) => {
               </View>
               <View className="border-b-gray-300 border-b mt-2 mb-2" />
               {
-                data.slice(1, 6).map((item) => (
+                data && data.slice(1, 6).map((item) => (
                   <View className="flex flex-col flex-1  w-full  rounded gap-y-[0px]" key={item._id}>
                     <View className="">
                       <TouchableOpacity activeOpacity={0.5} onPress={handlePress(item)} className="flex-row flex justify-between gap-2 w-fit p-1 ">

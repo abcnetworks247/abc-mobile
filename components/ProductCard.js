@@ -16,7 +16,7 @@ import { useState, useEffect } from "react";
 import { ActivityIndicator, ToastAndroid } from "react-native";
 
 const ProductCard = ({ title, description, thumbnail, price, productId }) => {
-  const { UserData, authToken,setIsSignUpVisible  } = UseUserContext();
+  const { UserData, setIsSignUpVisible  } = UseUserContext();
 
 const {
     handleWishAdd,

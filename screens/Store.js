@@ -37,25 +37,6 @@ const StoreScreen = () => {
     )
     : allProducts;
 
-//  const handleCategoryPress = () => {
-//     // Set the loading state to true
-//   setCategoryLoading(true);
-
-   
-//        filteredData = selectedCategory
-//         ? allProducts.filter(
-//             (product) =>
-//               selectedCategory === "All"
-//                 ? true
-//                 : product.category === selectedCategory
-//           )
-//         : allProducts;
-
-//       // Set the filtered data and selected category
-    
-     
-   
-//   };
 
 
 
@@ -85,12 +66,16 @@ const StoreScreen = () => {
         <Text>Loading...</Text>
       </View>
     );
-  }
+  } 
 
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
-      <View style={styles.container} >
+      {allProducts.length === 0 ?
+        <View className="flex flex-1 items-center justify-center">
+            <Text>No products have been uploaded yet</Text>
+        </View> :
+        <View style={styles.container} >
         <FlatList
           data={dummyTexts}
           horizontal
@@ -135,7 +120,8 @@ const StoreScreen = () => {
           columnWrapperStyle={styles.columnWrapper}
           className="bg-gray-200 mt-2 pt-2"
         />
-      </View>
+      </View>}
+    
     </SafeAreaView>
   );
 };

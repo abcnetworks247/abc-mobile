@@ -15,6 +15,7 @@ export const UserContextProvider = ({ children }) => {
   const [dummyUser, setDummyUser] = useState([]);
   const [isSignUpVisible, setIsSignUpVisible] = useState(false);
   const [authToken, setAuthToken] = useState(null);
+  
 
   // console.log("user data", UserData);
 
@@ -23,35 +24,47 @@ export const UserContextProvider = ({ children }) => {
   const [genLoading, setGenload] = useState(true);
 
 
-const getUserData = async () => {
-  try {
-    const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
+  const getUserData = async () => {
+   setGenload(true)
+    try {
+      console.log("authToken iniially", authToken);
+      const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
+      console.log("my stored token", storedToken);
 
-    if (storedToken && storedToken !== "undefined" && storedToken !== "") {
-      setAuthToken(storedToken); // Set authToken in the context
-      console.log("authToken", authToken);
-
-      const response = await fetch(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const dataValue = await response.json();
-
-      if (response.ok) {
-        setUserData(dataValue.olduser);
+      if (!storedToken) {
+        setIsSignUpVisible(true);
       }
+
+      if (storedToken && storedToken !== "undefined" && storedToken !== "") {
+        setAuthToken(storedToken); // Set authToken in the context
+        console.log("authToken", authToken);
+        console.log("authToken finally", storedToken);
+        const response = await fetch(
+          `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const dataValue = await response.json();
+
+        console.log("my data value", dataValue);
+
+        if (response.status === 200) {
+          setUserData(dataValue.olduser);
+          console.log("User data if status is ok", UserData);
+         }
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setGenload(false);
+    } finally {
+      setGenload(false);
     }
-    setGenload(false);
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
 };
 
   
@@ -117,6 +130,7 @@ const getUserData = async () => {
         setIsSignUpVisible,
         authToken,
         getUserData,
+        genLoading
       }}
     >
       {

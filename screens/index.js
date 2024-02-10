@@ -17,7 +17,7 @@ import Membership from "./Membership";
 import Contact from "./Contact";
 import About from "./About";
 import EditInfo from "./EditInfo";
-
+import Loadingscreen from "./Loadingscreen";
 
 export {
   Home,
@@ -39,4 +39,5 @@ export {
   Contact,
   About,
   EditInfo,
+  Loadingscreen,
 };

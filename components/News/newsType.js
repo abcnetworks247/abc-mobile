@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import globalstyels from "../../styles/globalstyels";
 
 export default function NewsType() {
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const baseUrl = process.env.EXPO_PUBLIC_SERVER_URL;
@@ -41,13 +41,14 @@ export default function NewsType() {
     <SafeAreaView style={globalstyels.droidSafeArea}>
       <ScrollView>
         <View className="px-4">
-          {loading === true ? (
+          {loading  ? (
             <View className="justify-center h-[80vh] tems-center ">
               <View className="h-[40vh] bg-gray-500 rounded-t-lg ">
                 <Image className="object-cover w-full h-full" source={img} />
               </View>
             </View>
           ) : (
+              !result ? <Text>Empty</Text>:
             <ScrollView
               className="mt-4 mb-24"
               showsVerticalScrollIndicator={false}

@@ -33,9 +33,7 @@ const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
  const shippingFee = 5;
   
   if (!UserData) {
-  
-
-    const handleLoginPress = () => {
+   const handleLoginPress = () => {
       // Navigate to the login screen
       setIsSignUpVisible(true)
     };
@@ -69,23 +67,23 @@ const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
    
   
 
-  if (UserData && !cartProducts) {
+  if (UserData && cartProducts.length === 0) {
     const navigation=useNavigation()
     return (
       <SafeAreaView style={globalstyels.droidSafeArea}>
-        <View className="flex items-center justify-center sm:mx-12 sm:shadow-lg sm:py-7 ">
+        <View className="flex flex-1 items-center justify-center sm:mx-12 sm:shadow-lg sm:py-7 ">
           <View className="flex flex-col items-center  gap-2">
             <Image
               source={emptyCart}
               className="w-[200px] h-[200px] object-contain"
             />
-            <Text className="text-[#575746]">Your cart is empty</Text>
+            <Text className="text-[#575746] font-bold">Your cart is empty</Text>
             <Text className="text-sm ml-3  text-center text-[#313133]  ">
               Why not explore our latest products and discover something you
               love
             </Text>
             <TouchableOpacity
-              className="flex items-center justify-center p-2 bg-blue-600 shadow-md rounded-sm "
+              className="flex items-center justify-center p-2 bg-[#2c3e50] shadow-md rounded-sm "
               onPress={() =>
                 navigation.dispatch(
                   CommonActions.navigate({
@@ -98,7 +96,6 @@ const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
             </TouchableOpacity>
           </View>
         </View>
-      
       </SafeAreaView>
     );
 }

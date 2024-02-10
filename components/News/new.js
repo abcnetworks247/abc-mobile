@@ -21,14 +21,15 @@ import LayerTwo from "./layerTwo";
 import LayerThree from "./layerThree";
 import LayerFour from "./layerFour";
 const New = () => {
-  const [posts, setPosts] = useState([]);
-  const [highlight, setHighlight] = useState([]);
-  const [trending, setTrending] = useState([]);
-  const [topNews, setTopNews] = useState([]);
-  const [popular, setPopular] = useState([]);
+  const [posts, setPosts] = useState(null);
+  const [highlight, setHighlight] = useState(null);
+  const [trending, setTrending] = useState(null);
+  const [topNews, setTopNews] = useState(null);
+  const [popular, setPopular] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
   const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
+  console.log("trending",trending, "higlight",highlight, "topNees", topNews, popular, )
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -45,6 +46,7 @@ const New = () => {
       const res = await axios.get(`${baseURL}admin/blog`);
       setPosts(res.data);
       setHighlight(res.data.highlight);
+      console.log("highlight", highlight)
       // console.log(res.data.highlight);
       setTrending(res.data.trending);
       // console.log(res.data.trending);
@@ -61,6 +63,17 @@ const New = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  console.log(
+    "trending",
+    trending,
+    "higlight",
+    highlight,
+    "topNees",
+    topNews,
+    popular
+  );
+
 
   const navigation = useNavigation();
   const handlePress = (item) => () => {
@@ -92,10 +105,10 @@ const New = () => {
         >
           {/* trending news */}
           <View className="w-full">
-            <LayerOne data={trending} loading={loading}/>
-            <LayerTwo  data={highlight} loading={loading}/>
-            <LayerThree data={trending} loading={loading}/>
-            <LayerFour data={topNews} loading={loading}/>
+            {trending && <LayerOne data={trending} loading={loading} />}
+            {highlight && <LayerTwo data={highlight} loading={loading} />} 
+            {trending && <LayerThree data={trending} loading={loading} />}
+            {topNews && <LayerFour data={topNews} loading={loading} />}
           </View>
         </ScrollView>
       </SafeAreaView>

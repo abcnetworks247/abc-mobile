@@ -169,7 +169,7 @@ const Login = () => {
       console.log("my response", response);
 
       const responseData = await response.json();
-
+      console.log("my response data", responseData)
       if (response.status == 200) {
         await AsyncStorage.setItem(
           "authToken",

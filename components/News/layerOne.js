@@ -44,13 +44,14 @@ const LayerOne = ({ data, loading }) => {
             </View>
           ))
         ) : (
+         !data ? <Text>No data available</Text>:
           <>
             <Text className="text-xl font-bold">Here are the world {data[0].type} News you don't want to miss.. </Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-2">
               <View className=" flex flex-row gap-2">
-                {/* Your individual View components */}
+             
                 {
-                  data.slice(0, 5).map((item) => (
+                   data.slice(0, 5).map((item) => (
                     <View className="flex rounded w-28 h-24">
                       <TouchableOpacity activeOpacity={0.5} onPress={handlePress(item)} className="w-full">
 

@@ -102,7 +102,7 @@ const ProductProvider = ({ children }) => {
     if (UserData && UserData.cart) {
       setCartProducts(UserData.cart);
     }
-  }, [UserData]);
+  }, [UserData && UserData]);
 
  
  useEffect(() => {
@@ -127,7 +127,7 @@ const ProductProvider = ({ children }) => {
    };
 
    fetchWishlistFromServer();
- }, [UserData]);
+ }, [UserData && UserData]);
 
   // emit signals to add to wish list
   const handleWishAdd = (productId, userId) => {
