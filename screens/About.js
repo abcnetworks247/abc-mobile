@@ -84,7 +84,7 @@ const About= () => {
               </Text>
             </View>
           </View>
-          {data.map(({ description, title, index }) => {
+          {data.map(({ description, title }, index) => {
             return (
               <View className="shadow-2xl" key={index}>
                 <TouchableOpacity

@@ -25,7 +25,10 @@ export const UserContextProvider = ({ children }) => {
 
 
   const getUserData = async () => {
-   setGenload(true)
+    if (!UserData) {
+       setGenload(true);
+    }
+  
     try {
       console.log("authToken iniially", authToken);
       const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));

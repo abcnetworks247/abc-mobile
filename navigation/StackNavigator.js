@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity} from "react-native";
+import { TouchableOpacity, Image,} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Searchbar from "react-native-paper";
 import TestSignUp from "../auth/TestSignUp";
@@ -43,6 +43,8 @@ import { MenuIcon } from "../components/svgs/Icons";
 import Profileheader from "../components/Profileheader";
 import Productheader from "../components/products/Productheader";
 import Navbar from "../components/Navbar";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { UseUserContext } from "../context/UserContext";
 
 
 
@@ -181,12 +183,56 @@ const WishStackNavigator = () => {
 }
 
 const NewStackNavigator = () => {
+  const { UserData, setIsSignUpVisible } = UseUserContext();
+  const navigation = useNavigation();
   return (
-    <Stack.Navigator >
-      <Stack.Screen name="News" component={News}
-      options={{
-        header: () => <Navbar />
-      }}
+    <Stack.Navigator>
+      <Stack.Screen
+        name="News"
+        component={News}
+        options={{
+          title: "News",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <HamburgerIcon />
+            </Pressable>
+          ),
+
+          headerRight: () => (
+            <View className="mr-3">
+              {UserData ? (
+                <TouchableOpacity>
+                  <Image
+                    source={{
+                      uri: `${UserData.userdp}`,
+                    }}
+                    className="w-10 h-10  rounded-full border-2 border-[#f5f5f5]"
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => setIsSignUpVisible(true)}
+                  activeOpacity={0.5}
+                  className=" p-1 rounded"
+                >
+                  <Text className="px-[2px] text-base font-semibold text-white text-md">
+                    Login / signup
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          ),
+          headerTintColor: "white",
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#2c3e50",
+          },
+        }}
       />
       <Stack.Screen name="TypeDetails" component={TypeDetails} />
       <Stack.Screen name="NewsDetails" component={NewsDetails} />
@@ -263,13 +309,13 @@ const ProfileStackNavigator = () => {
         name="EditProfile"
         component={Editprofile}
         options={{
-          headerTitle: "Edit profile",
+          headerTitle: "Profile Information",
           headerRight: () => (
             <TouchableOpacity
               className="mr-2"
               onPress={() => navigation.navigate("EditInfo")}
             >
-              <Ionicons name="pencil-sharp" size={30} />
+              <MaterialCommunityIcons name="account-edit" size={30} />
             </TouchableOpacity>
           ),
         }}
@@ -302,19 +348,59 @@ const ProfileStackNavigator = () => {
 
 // home stack
 const HomeStackNavigator = () => {
+  const { UserData, setIsSignUpVisible } = UseUserContext();
   const navigation = useNavigation();
   return (
-    <Stack.Navigator >
+    <Stack.Navigator>
       <Stack.Screen
         name="Home"
         component={Home}
         options={{
-          header: () => <Navbar />
- 
+          title: "Home",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <HamburgerIcon />
+            </Pressable>
+          ),
+
+          headerRight: () => (
+              <View className="mr-3">
+                {UserData ? (
+                  <TouchableOpacity>
+                    <Image
+                      source={{
+                        uri: `${UserData.userdp}`,
+                      }}
+                      className="w-10 h-10  rounded-full border-2 border-[#f5f5f5]"
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => setIsSignUpVisible(true)}
+                    activeOpacity={0.5}
+                    className=" p-1 rounded"
+                  >
+                    <Text className="px-[2px] text-base font-semibold text-white text-md">
+                      Login / signup
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+          ),
+          headerTintColor: "white",
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#2c3e50",
+          },
         }}
       />
-      <Stack.Screen name="NewsDetails" component={NewsDetails}/>
-      
+      <Stack.Screen name="NewsDetails" component={NewsDetails} />
+
       <Stack.Screen name="News" component={News} />
     </Stack.Navigator>
   );

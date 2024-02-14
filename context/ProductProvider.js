@@ -127,7 +127,7 @@ const ProductProvider = ({ children }) => {
    };
 
    fetchWishlistFromServer();
- }, [UserData && UserData]);
+ }, []);
 
   // emit signals to add to wish list
   const handleWishAdd = (productId, userId) => {

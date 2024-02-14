@@ -163,8 +163,12 @@ const EditInfo = () => {
       if (response.status === 200) {
         await getUserData();
         console.log("Updated UserData:", UserData);
-         setLoading(false)
-          navigation.navigate("Profile")
+        if (UserData) {
+          setLoading(false);
+          navigation.navigate("Profile");
+        }
+        
+         
         
 
         console.log("use profle updated successfully");
