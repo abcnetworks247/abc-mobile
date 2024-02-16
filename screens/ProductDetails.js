@@ -72,7 +72,7 @@ const ProductDetails = () => {
                       ? () => {
                           handleAddToCart(productId, UserData._id);
                         }
-                      : setIsSignUpVisible(true)
+                      : ()=>setIsSignUpVisible(true)
                   }
                   className="px-5 py-[8px] bg-black border-gray-100  shadow-md border-1"
                 >
