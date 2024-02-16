@@ -88,7 +88,7 @@ const Tabs = () => {
               color={color}
             />
           ),
-          tabBarBadge:cartProducts.length
+          tabBarBadge:cartProducts && cartProducts.length
         }}
       />
 

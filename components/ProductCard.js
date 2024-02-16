@@ -99,7 +99,7 @@ const {
                    
                     setAddedProduct(productId);
                   } 
-                : setIsSignUpVisible(true)
+                :() =>setIsSignUpVisible(true)
             }
           >
             {handleCartLoading && productId === addedProduct ? (
