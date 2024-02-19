@@ -10,6 +10,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import Api from '../utils/Api';
+import { Link } from 'expo-router';
+
 
 const CustomDrawer = (props) => {
 
@@ -59,6 +61,14 @@ const CustomDrawer = (props) => {
             <DrawerItemList {...props} />
 
             <DrawerItem
+              label={() => (
+                <Link href="https://abcstudio-nine.vercel.app/donate">
+                  <Text>Donate</Text>
+                </Link>
+              )}
+            />
+
+            <DrawerItem
               // icon={({ color, size, focused }) => (
               //   <Entypo name="news" size={22} color={color} />
               // )}
@@ -85,7 +95,6 @@ const CustomDrawer = (props) => {
               type.map((item, index) => (
                 <DrawerItem
                   key={index}
-        
                   icon={({ color, size, focused }) => (
                     <Entypo name="chevron-right" size={22} color={color} />
                   )}
