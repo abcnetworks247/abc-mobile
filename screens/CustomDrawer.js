@@ -60,13 +60,6 @@ const CustomDrawer = (props) => {
           <View style={{ paddingTop: 10, backgroundColor: "white" }}>
             <DrawerItemList {...props} />
 
-            <DrawerItem
-              label={() => (
-                <Link href="https://abcstudio-nine.vercel.app/donate">
-                  <Text>Donate</Text>
-                </Link>
-              )}
-            />
 
             <DrawerItem
               // icon={({ color, size, focused }) => (
@@ -103,8 +96,8 @@ const CustomDrawer = (props) => {
               ))}
           </View>
         </DrawerContentScrollView>
-        <View style={{ padding: 20, borderTopWidth: 1 }}>
-          <TouchableOpacity style={{ paddingVertical: 15 }}>
+        <View style={{ padding: 10, borderTopWidth: 1 }}>
+          <TouchableOpacity style={{ paddingVertical: 10 }}>
             <View className="flex flex-row items-center">
               <Ionicons name="exit-outline" size={22} />
               <Text className="ml-2">log out</Text>

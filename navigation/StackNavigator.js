@@ -30,6 +30,7 @@ import {
   About,
   EditInfo,
   Loadingscreen,
+  Donation
 } from "../screens";
 
 import { IconButton } from "react-native-paper";
@@ -553,6 +554,13 @@ const LoadingStackNavigator = () => {
     </Stack.Navigator>
   );
 };
+const DonateStackNavigator = () => {
+  return (
+    <Stack.Navigator >
+      <Stack.Screen name="Donate" component={Donation} />
+    </Stack.Navigator>
+  );
+};
 
 
 export {
@@ -568,4 +576,5 @@ export {
   ContactStackNavigator,
   AboutStackNavigator,
   LoadingStackNavigator,
+  DonateStackNavigator
 };

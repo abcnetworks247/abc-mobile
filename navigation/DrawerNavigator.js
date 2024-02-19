@@ -15,6 +15,7 @@ import {
   MembershipStackNavigator,
   ContactStackNavigator,
   AboutStackNavigator,
+  DonateStackNavigator,
 } from "./StackNavigator";
 
 import { AuthStackNavigatior } from "./StackNavigator";
@@ -66,13 +67,21 @@ export default function DrawerNavigator() {
           }}
         />
         <Drawer.Screen
+          name="Donation"
+          component={DonateStackNavigator}
+          options={{
+            drawerLabel:"Donate",
+            drawerIcon: ({ color }) => (
+              <Ionicons name="medal-outline" size={22} color={color} />
+            ),
+          }}
+        />
+        <Drawer.Screen
           name="AboutStack"
           component={AboutStackNavigator}
           options={{
             drawerLabel: "About",
-            drawerIcon: ({ color }) => (
-              <InfoIcon color={color} />
-            ),
+            drawerIcon: ({ color }) => <InfoIcon color={color} />,
           }}
         />
         <Drawer.Screen

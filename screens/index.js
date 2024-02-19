@@ -18,7 +18,7 @@ import Contact from "./Contact";
 import About from "./About";
 import EditInfo from "./EditInfo";
 import Loadingscreen from "./Loadingscreen";
-
+import Donation from "./Donation";
 export {
   Home,
   Store,
@@ -40,4 +40,5 @@ export {
   About,
   EditInfo,
   Loadingscreen,
+  Donation,
 };
