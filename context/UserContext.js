@@ -1,10 +1,8 @@
-
 import { createContext, useState, useContext, useEffect } from "react";
 import React from "react";
 import Api from "../utils/Api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-
+import Svg, { Circle, Path } from "react-native-svg"
 
 const UserContext = createContext();
 
@@ -13,47 +11,73 @@ const UserContext = createContext();
  */
 export const UserContextProvider = ({ children }) => {
   // initial state for user incoming data
-  const [UserData, setUserData] = useState([]);
+  const [UserData, setUserData] = useState(null);
   const [dummyUser, setDummyUser] = useState([]);
+  const [isSignUpVisible, setIsSignUpVisible] = useState(false);
+  const [authToken, setAuthToken] = useState(null);
+  
 
-  console.log("user data", UserData);
+  // console.log("user data", UserData);
 
   // loading state for user incoming data
 
-  const [loading, setLoading] = useState(true);
   const [genLoading, setGenload] = useState(true);
 
+
+  const getUserData = async () => {
+    if (!UserData) {
+       setGenload(true);
+    }
   
+    try {
+      console.log("authToken iniially", authToken);
+      const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
+      console.log("my stored token", storedToken);
 
-  const authToken = AsyncStorage.getItem("authToken");
+      if (!storedToken) {
+        setIsSignUpVisible(true);
+      }
 
-   useEffect(() => {
-     const getUserData = async () => {
-       try {
-       
-         if (authToken) {
-           const response = await Api.get("client/auth/account", {
-             headers: {
-               Authorization: `Bearer ${authToken}`,
-             },
-           });
-           const dataValue = response.data.olduser;
+      if (storedToken && storedToken !== "undefined" && storedToken !== "") {
+        setAuthToken(storedToken); // Set authToken in the context
+        console.log("authToken", authToken);
+        console.log("authToken finally", storedToken);
+        const response = await fetch(
+          `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-           if (response.status === 200) {
-             setUserData(dataValue);
-             setLoading(false);
-             setGenload(false);
-           }
-         } else {
-           setGenload(false);
+        const dataValue = await response.json();
+
+        console.log("my data value", dataValue);
+
+        if (response.status === 200) {
+          setUserData(dataValue.olduser);
+          console.log("User data if status is ok", UserData);
          }
-       } catch (error) {
-         console.error("Error fetching user data:", error);
-       }
-     };
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setGenload(false);
+    } finally {
+      setGenload(false);
+    }
+};
 
-     getUserData();
-   }, []);
+  
+  
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+
+ 
 
   /**
    * @function (fuction) getUserData - a fuction created to retrieve user info.
@@ -72,9 +96,6 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
-
-
-
   const [blogData, setBlogData] = useState(null);
 
   /**
@@ -86,7 +107,7 @@ export const UserContextProvider = ({ children }) => {
     try {
       const res = await Api.get("admin/blog");
       const data = await res.data;
-      console.log("res", data);
+
       setBlogData(data.allblog);
     } catch (error) {
       console.log(error);
@@ -94,12 +115,11 @@ export const UserContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("blog context", blogData && blogData);
+    // console.log("blog context", blogData && blogData);
     getBlog();
   }, []);
 
   // log out user
-  console.log("UserData", UserData);
 
   // if (genLoading) {
   //   return <Loading />;
@@ -109,11 +129,30 @@ export const UserContextProvider = ({ children }) => {
       value={{
         handleLogout,
         UserData,
-        loading,
-        authToken  
+        isSignUpVisible,
+        setIsSignUpVisible,
+        authToken,
+        getUserData,
+        genLoading
       }}
     >
-      {children} 
+      {
+        //   genLoading ?  <Svg
+        //   xmlns="http://www.w3.org/2000/svg"
+        //   fill="none"
+        //   viewBox="0 0 24 24"
+        //    height={`24`}
+        //    width={`24`}
+        // >
+        //   <Circle cx={12} cy={12} r={10} stroke="currentColor" />
+        //   <Path
+        //     fill="currentColor"
+        //     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+        //   />
+        // </Svg> :
+
+        children
+      }
     </UserContext.Provider>
   );
 };

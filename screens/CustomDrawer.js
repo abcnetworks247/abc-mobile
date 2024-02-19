@@ -1,47 +1,110 @@
 import React from 'react'
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { useState, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity , ImageBackground} from 'react-native'
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from "@react-navigation/drawer";
 import { Ionicons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import Api from '../utils/Api';
+import { Link } from 'expo-router';
+
+
 const CustomDrawer = (props) => {
+
+ const [type, setType] = useState([]);
+ const [focus, setFocus]=useState('1')
+  const [nestedDrawerItem, setNestedDrawerItem] = useState(false)
+  
+  const toggleDrawerItem = () => {
+    setNestedDrawerItem(prev=>!prev)
+  }
+
+  
+  const fetchData = async () => {
+    try {
+      const response = await Api.get("admin/category/news/type");
+
+      if (response.status === 200) {
+        console.log("data2", response.data.data);
+        setType(response.data.data);
+      }
+    } catch (error) {
+      // console.log(" Error------------->>", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
     return (
       <View style={{ flex: 1 }}>
-        <DrawerContentScrollView
-          {...props}
-          contentContainerStyle={{ backgroundColor: "white" }}
-        >
+        <ImageBackground source={require("../assets/abcbackground.jpg")}>
           <Image
             source={require("../assets/AbcstudioNo.png")}
             style={{
-              height: 100,
-              width: 100,
-              marginBottom: 10,
-              marginLeft: 10,
+              height: 200,
+              width: 200,
             }}
             resizeMode="contain"
           />
-          <View style={{ paddingTop: 10 }}>
+        </ImageBackground>
+        <DrawerContentScrollView
+          {...props}
+          contentContainerStyle={{ backgroundColor: "#2c3e50" }}
+        >
+          <View style={{ paddingTop: 10, backgroundColor: "white" }}>
             <DrawerItemList {...props} />
+
+            <DrawerItem
+              label={() => (
+                <Link href="https://abcstudio-nine.vercel.app/donate">
+                  <Text>Donate</Text>
+                </Link>
+              )}
+            />
+
+            <DrawerItem
+              // icon={({ color, size, focused }) => (
+              //   <Entypo name="news" size={22} color={color} />
+              // )}
+              label={({ focused, color }) => (
+                <View className="flex flex-row items-center justify-between">
+                  <View className="flex flex-row items-center gap-2">
+                    <Entypo name="news" size={22} color={color} />
+                    <Text style={{ color }}>News</Text>
+                  </View>
+                  {nestedDrawerItem ? (
+                    <Entypo name="chevron-down" size={22} color={color} />
+                  ) : (
+                    <Entypo name="chevron-right" size={22} color={color} />
+                  )}
+                </View>
+              )}
+              onPress={() => {
+                setFocus(1);
+                toggleDrawerItem();
+              }}
+            />
+            {nestedDrawerItem &&
+              type &&
+              type.map((item, index) => (
+                <DrawerItem
+                  key={index}
+                  icon={({ color, size, focused }) => (
+                    <Entypo name="chevron-right" size={22} color={color} />
+                  )}
+                  label={({ focused, color }) => <Text>{item.name}</Text>}
+                />
+              ))}
           </View>
         </DrawerContentScrollView>
-        <View
-          style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}
-        >
+        <View style={{ padding: 20, borderTopWidth: 1 }}>
           <TouchableOpacity style={{ paddingVertical: 15 }}>
-            {/* <View className="flex flex-row gap-2 items-center mx-2 mt-2">
-              <Image
-                className="rounded-full"
-                style={{ height: 70, width: 70 }}
-                source={{
-                  uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                }}
-                resizeMode="contain"
-              />
-
-              <View className="flex flex-col">
-                <Text className="font-bold">Mijan Richard</Text>
-                <Text className="text-gray-400">mijanigoni@gmail.com</Text>
-              </View>
-            </View> */}
             <View className="flex flex-row items-center">
               <Ionicons name="exit-outline" size={22} />
               <Text className="ml-2">log out</Text>

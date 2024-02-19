@@ -1,3 +1,4 @@
+
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import SignUp from "./screens";
@@ -13,21 +14,31 @@ import Recovery from "./auth/Recovery"
 import Updatepassword from "./auth/Updatepassword";
 import { AuthStackNavigator } from "./navigation/StackNavigator";
 import { UserContextProvider } from "./context/UserContext";
+import { UseUserContext } from "./context/UserContext";
+import Toast from "react-native-toast-message";
+import { LoadingStackNavigator } from "./navigation/StackNavigator";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
 });
 
 function AppContent() {
-  const { isSignUpVisible, isSignInVisible, recoverVisible } = UseProductProvider();
+  const { isSignUpVisible, genLoading, UserData } = UseUserContext();
+  
 
   return (
     <>
       <NavigationContainer>
-        {isSignUpVisible ?
-         <AuthStackNavigator /> :
-          <DrawerNavigator />}
+        {isSignUpVisible   ? 
+          <AuthStackNavigator />
+        :
+          genLoading?
+           <LoadingStackNavigator/>
+            :
+           <DrawerNavigator />
+        }
       </NavigationContainer>
+      
     </>
   );
 }

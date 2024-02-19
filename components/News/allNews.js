@@ -13,15 +13,14 @@ import React from "react";
 import { ScrollView, SafeAreaView } from "react-native";
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
-// import {  TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import globalstyels from "../../styles/globalstyels";
 globalstyels;
+import Api from "../../utils/Api";
 const HomeNews = () => {
   const [popular, setPopular] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
-  const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -35,7 +34,7 @@ const HomeNews = () => {
   //fetch data from news api
   const fetchPosts = async () => {
     try {
-      const res = await axios.get(`${baseURL}admin/blog`);
+      const res = await Api.get(`admin/blog`);
 
       setPopular(res.data.popular);
       // console.log(res.data.popular);
@@ -87,9 +86,11 @@ const HomeNews = () => {
 
 
           {/* popular news */}
+          
           <View className=" mb-5">
             <Text className="py-1 text-xl font-bold">Popular News</Text>
-            {popular &&
+            {
+              !popular? <Text>No news yet</Text>:
               popular.map((item, index) => (
                 <TouchableOpacity activeOpacity={0.5} key={index}>
                   <View className="flex flex-col " key={index}>

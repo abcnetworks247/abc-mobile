@@ -10,14 +10,14 @@ import NewsDetails from "./NewsDetails";
 import Profile from "./Profile";
 import Closeaccount from "./Closeaccount";
 import Changepassword from "./Changepassword";
-import SignUp from "./SignUp";
 import Orders from "./Orders";
 import Searchpage from "./Searchpage";
 import Productresult from "./Productresult";
 import Membership from "./Membership";
 import Contact from "./Contact";
 import About from "./About";
-
+import EditInfo from "./EditInfo";
+import Loadingscreen from "./Loadingscreen";
 
 export {
   Home,
@@ -28,7 +28,6 @@ export {
   NewsDetails,
   TypeDetails,
   Wishlist,
-  SignUp,
   Editprofile,
   Profile,
   Closeaccount,
@@ -39,4 +38,6 @@ export {
   Membership,
   Contact,
   About,
+  EditInfo,
+  Loadingscreen,
 };

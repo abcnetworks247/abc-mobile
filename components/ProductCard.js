@@ -10,9 +10,31 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Svg, { Path } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
+import { UseUserContext } from "../context/UserContext";
+import { UseProductProvider } from "../context/ProductProvider";
+import { useState, useEffect } from "react";
+import { ActivityIndicator, ToastAndroid } from "react-native";
 
-const ProductCard = ({ title, description, thumbnail, price }) => {
+const ProductCard = ({ title, description, thumbnail, price, productId }) => {
+  const { UserData, setIsSignUpVisible  } = UseUserContext();
+
+const {
+    handleWishAdd,
+    handleAddToCart,
+    handleCartLoading,
+    setAddToCartActive,
+    } = UseProductProvider();
   const navigation = useNavigation();
+  const [addedProduct, setAddedProduct] = useState(null)
+  
+  useEffect(() => {
+    if (addedProduct) {
+       console.log("my added product", addedProduct)
+       handleAddToCart(productId, UserData._id);
+      
+    }
+  }, [addedProduct,productId])
+  
 
   const handlePress = () => {
     navigation.navigate("Details", {
@@ -20,8 +42,11 @@ const ProductCard = ({ title, description, thumbnail, price }) => {
       description,
       thumbnail,
       price,
+      productId,
     });
   };
+
+ 
   return (
     <Pressable
       className="basis-1/2 bg-white mb-2 pb-4 shadow-md"
@@ -54,13 +79,34 @@ const ProductCard = ({ title, description, thumbnail, price }) => {
 
       <View className="absolute flex flex-col gap-4 top-4 right-2">
         <View style={styles.socialBarSection}>
-          <TouchableOpacity className="flex flex-row items-center justify-center">
-            <Ionicons name="heart-circle-sharp" size={30} color={"#737373"} />
+          <TouchableOpacity
+            className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
+            onPress={() =>
+              UserData
+                ? handleWishAdd(productId, UserData._id)
+                : setIsSignUpVisible(true)
+            }
+          >
+            <Ionicons name="heart-outline" size={23} color={"#737373"} />
           </TouchableOpacity>
         </View>
         <View style={styles.socialBarSection}>
-          <TouchableOpacity className="flex flex-row items-center justify-center">
-            <Ionicons name="cart-sharp" size={30} color={"#737373"} />
+          <TouchableOpacity
+            className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
+            onPress={
+              UserData
+                ? () => {
+                   
+                    setAddedProduct(productId);
+                  } 
+                :() =>setIsSignUpVisible(true)
+            }
+          >
+            {handleCartLoading && productId === addedProduct ? (
+              <ActivityIndicator size="small" color="blue" />
+            ) : (
+              <Ionicons name="cart" size={23} color={"#737373"} />
+            )}
           </TouchableOpacity>
         </View>
       </View>

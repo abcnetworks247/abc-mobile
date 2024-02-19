@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -11,82 +11,96 @@ import {
   ProfileStackNavigator,
   HomeStackNavigator,
   CartStackNavigator,
+  AuthStackNavigator,
 } from "./StackNavigator";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Editprofile } from "../screens";
+import { UseProductProvider } from "../context/ProductProvider";
+import { UseUserContext } from "../context/UserContext";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { FontAwesome } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 
 const Tabs = () => {
-   const getTabBarVisibility = (route) => {
-     const routeName = getFocusedRouteNameFromRoute(route);
-     const hideOnScreens = [Editprofile]; // put here name of screen where you want to hide tabBar
-     return hideOnScreens.indexOf(routeName) <= -1;
-   };
+  const { cartProducts } = UseProductProvider()
+  const{UserData, setIsSignUpVisible} =UseUserContext()
+ 
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          let iconName;
-
-          if (route.name === "Hometab") {
-            return <HomeIcon color={color} />;
-          } else if (route.name === "Newstab") {
-            return <NewsIcon color={color} />;
-          } else if (route.name === "Storetab") {
-            return <ShopIcon color={color} />;
-          } else if (route.name === "Carttab") {
-            return <CartIcon color={color} />;
-          } else if (route.name === "Profiletab") {
-            return <AccountIcon color={color} />;
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-      })}
-      tabBarOptions={{
-        activeTintColor: "#00308F", // Change this to set the color of the active tab icon
-        inactiveTintColor: "gray", // Change this to set the color of inactive tab icons
-        style: {
-          backgroundColor: "white", // Change this to set the background color of the bottom tab bar
-        },
-      }}
+      initialRouteName="Home"
+      activeColor="#2c3e50"
+      barStyle={{ backgroundColor: "white" }}
     >
       <Tab.Screen
         name="Hometab"
         component={HomeStackNavigator}
-        options={{ headerShown: false, tabBarLabel: "Home" }}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="home" size={24} color={color} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Newstab"
         component={NewStackNavigator}
-        options={{ headerShown: false, tabBarLabel: "News" }}
+        options={{
+          headerShown: false,
+          tabBarLabel: "News",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="newspaper-outline" size={24} color={color} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Storetab"
         component={StoreStackNavigator}
-        options={{ headerShown: false, tabBarLabel: "Store" }}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Store",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="storefront-outline"
+              size={24}
+              color={color}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="Carttab"
         component={CartStackNavigator}
-        options={{ headerShown: false, tabBarLabel: "Cart" }}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Cart",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="cart-outline"
+              size={24}
+              color={color}
+            />
+          ),
+          tabBarBadge:cartProducts && cartProducts.length
+        }}
       />
-      {/* <Tab.Screen
-        name="signup"
-        component={AuthStackNavigatior}
-        options={{ headerShown: false, tabBarLabel: "Cart",  }}
-      /> */}
+
       <Tab.Screen
         name="Profiletab"
         component={ProfileStackNavigator}
         options={({ route }) => ({
           headerShown: false,
           tabBarLabel: "Profile",
-          tabBarVisible: getTabBarVisibility(route),
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="person-outline" size={24} color={color} />
+          ),
         })}
       />
     </Tab.Navigator>

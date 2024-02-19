@@ -19,10 +19,11 @@ import {
 
 import { AuthStackNavigatior } from "./StackNavigator";
 import Tabs from "./Tabs";
-import { CloseAccountIcon } from "../components/svgs/Icons";
+import { CloseAccountIcon, InfoIcon } from "../components/svgs/Icons";
 import { HeartIcon } from "../components/svgs/Icons";
 import CustomDrawer from "../screens/CustomDrawer";
 import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 
 const Drawer = createDrawerNavigator();
@@ -38,8 +39,8 @@ export default function DrawerNavigator() {
             backgroundColor: "white",
           },
           drawerLabelStyle: { marginLeft: -25 },
-          drawerActiveBackgroundColor: "#D3D3D3",
-          drawerActiveTintColor: "black",
+          drawerActiveBackgroundColor: "#2c3e50",
+          drawerActiveTintColor: "white",
           headerShown: false,
         }}
         drawerContent={(props) => <CustomDrawer {...props} />}
@@ -70,7 +71,7 @@ export default function DrawerNavigator() {
           options={{
             drawerLabel: "About",
             drawerIcon: ({ color }) => (
-              <Ionicons name="heart-outline" size={22} color={color} />
+              <InfoIcon color={color} />
             ),
           }}
         />

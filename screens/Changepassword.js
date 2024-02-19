@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -5,77 +6,226 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Image,
 } from "react-native";
-import React from "react";
-import Svg, { Path, G } from "react-native-svg";
-import * as ImagePicker from "expo-image-picker";
+import { Alert } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-const Changepassword = () => {
-  const SelectImagePicker = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      });
-      if (!result.canceled) {
-      }
-    } catch (error) {}
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import { UseUserContext } from "../context/UserContext";
+import { useNavigation } from "@react-navigation/native";
+import { ActivityIndicator } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRef } from "react";
+
+const Closeaccount = () => {
+
+    const inputRefs = {
+      oldPassword: useRef(null),
+      newPassword: useRef(null),
+      confirmNewPassword: useRef(null),
+    };
+  
+  const navigation = useNavigation();
+  const { getUserData } = UseUserContext();
+  const [formData, setFormData] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [inputName, setInputNames] = useState({
+    oldPassword:"oldPassword",
+    newPassword:"newPassword",
+    confirmNewPassword : "confirmNewPassword"
+  });
+
+  const togglePasswordVisibility = (fieldName) => {
+    if (inputName[fieldName]=== fieldName) {
+        setPasswordVisible((prev) => !prev);
+    }
+   
+    
   };
+
+  const handleInputChange = (name, value) => {
+    
+    setFormData({ ...formData, [name]: value });
+  };
+
+   const createSubmitAlert = () =>
+     Alert.alert("Password Reset", "You are about to reset your password.", [
+       {
+         text: "Cancel",
+         onPress: () => console.log("Cancel Pressed"),
+         style: "cancel",
+       },
+       { text: "OK", onPress: () => handleSubmit() },
+     ]);
+
+  
+
+const handleSubmit = async () => {
+
+
+  try {
+    setLoading(true);
+  
+    const authToken = await AsyncStorage.getItem("authToken");
+   
+
+    console.log("my authToken", authToken)
+    console.log("my string", authToken)
+    const response = await fetch(
+      `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account/activeUserUpdatePassword`,
+      {
+        method: "PATCH",
+        headers: {
+          headers: {
+            Authorization: `Bearer ${String(authToken)}`,
+            "Content-Type": "application/json",
+          },
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+
+    const responseData = await response.json()
+
+    if (response.status == 200) {
+      //  await getUserData();
+      Alert.alert(responseData.message);
+      // navigation.navigate("Profile");
+    }
+
+  
+      
+
+    setLoading(false);
+
+  } catch (error) {
+     console.error("Error updating password:", error);
+    setLoading(false);
+   
+  }
+};
+
+
 
   return (
     <SafeAreaView>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView>
         <View>
           <View className="px-4 w-full">
             <View className="mt-6">
               <View className="mb-6">
                 <Text className="block mb-2 text-sm font-medium dark:text-gray-400">
-                   Current Password
+                  Old password
                 </Text>
-                <TextInput
-                  name="currentPassword"
-                  type="password"
-                  placeholder="......."
-                  className="w-full px-4 d py-2.5 text-base text-gray-900 bg-white font-normal border border-gray-200"
-                  data-gramm="false"
-                  wt-ignore-input="true"
-                />
+                <View className="flex flex-row items-center justify-between bg-white  border border-gray-200">
+                  <TextInput
+                    ref={inputRefs.oldPassword}
+                    name="oldPassword"
+                    secureTextEntry={!passwordVisible}
+                    placeholder="Type your password"
+                    value={formData.oldPassword}
+                    className="px-4 d py-2.5 text-base text-gray-900 font-normal "
+                    data-gramm="false"
+                    wt-ignore-input="true"
+                    onChangeText={(text) =>
+                      handleInputChange("oldPassword", text)
+                    }
+                  />
+                  <TouchableOpacity
+                    onPress={() => togglePasswordVisibility("oldPassword")}
+                    className="mr-2"
+                  >
+                    {passwordVisible ? (
+                      <Ionicons name="eye-off-sharp" size={23} />
+                    ) : (
+                      <Ionicons name="eye-sharp" size={23} />
+                    )}
+                  </TouchableOpacity>
+                </View>
               </View>
+
               <View className="mb-6">
                 <Text className="block mb-2 text-sm font-medium dark:text-gray-400">
-                   New password
+                  New Password
                 </Text>
-                <TextInput
-                  name="newPassword"
-                  type="password"
-                  placeholder="Type your name"
-                  className="w-full px-4 d py-2.5 text-base text-gray-900 font-normal border border-gray-200 bg-white"
-                  data-gramm="false"
-                  wt-ignore-input="true"
-                />
+                <View className="flex flex-row items-center justify-between bg-white  border border-gray-200">
+                  <TextInput
+                    ref={inputRefs.newPassword}
+                    name="newPassword"
+                    secureTextEntry={!passwordVisible}
+                    placeholder="Type your password"
+                    value={formData.newPassword}
+                    className="px-4 d py-2.5 text-base text-gray-900 font-normal "
+                    data-gramm="false"
+                    wt-ignore-input="true"
+                    onChangeText={(text) =>
+                      handleInputChange("newPassword", text)
+                    }
+                  />
+                  <TouchableOpacity
+                    onPress={() => togglePasswordVisibility("newPassword")}
+                    className="mr-2"
+                  >
+                    {passwordVisible ? (
+                      <Ionicons name="eye-off-sharp" size={23} />
+                    ) : (
+                      <Ionicons name="eye-sharp" size={23} />
+                    )}
+                  </TouchableOpacity>
+                </View>
               </View>
+
               <View className="mb-6">
                 <Text className="block mb-2 text-sm font-medium dark:text-gray-400">
-                   Confirm password
+                  Confirm Password
                 </Text>
-                <TextInput
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="Type your location"
-                  className="w-full px-4 d py-2.5 text-base text-gray-900 font-normal border border-gray-200 bg-white"
-                  data-gramm="false"
-                  wt-ignore-input="true"
-                />
+                <View className="flex flex-row items-center justify-between bg-white  border border-gray-200">
+                  <TextInput
+                    ref={inputRefs.confirmNewPassword}
+                    name="confirmNewPassword"
+                    secureTextEntry={!passwordVisible}
+                    placeholder="Type your password"
+                    value={formData.confirmNewPassword}
+                    className="px-4 d py-2.5 text-base text-gray-900 font-normal "
+                    data-gramm="false"
+                    wt-ignore-input="true"
+                    onChangeText={(text) =>
+                      handleInputChange("confirmNewPassword", text)
+                    }
+                  />
+                  <TouchableOpacity
+                    onPress={() => togglePasswordVisibility(3, "newPassword")}
+                    className="mr-2"
+                  >
+                    {passwordVisible ? (
+                      <Ionicons name="eye-off-sharp" size={23} />
+                    ) : (
+                      <Ionicons name="eye-sharp" size={23} />
+                    )}
+                  </TouchableOpacity>
+                </View>
               </View>
-             
-             
+
               <TouchableOpacity
-                type="submit"
+                onPress={createSubmitAlert}
                 className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                <Text className="text-white text-center text-lg">
-                   Change Password
-                </Text>
+                {loading ? (
+                  // Show loading indicator while loading
+                  <ActivityIndicator size="small" color="white" />
+                ) : (
+                  // Show "Proceed" text when not loading
+                  <Text className="text-white text-center text-lg">
+                    Change password
+                  </Text>
+                )}
               </TouchableOpacity>
             </View>
           </View>
@@ -85,4 +235,4 @@ const Changepassword = () => {
   );
 };
 
-export default Changepassword;
+export default Closeaccount;
