@@ -20,16 +20,22 @@ import LayerOne from "./layerOne";
 import LayerTwo from "./layerTwo";
 import LayerThree from "./layerThree";
 import LayerFour from "./layerFour";
+import BotNews from "./bottomNews";
 const New = () => {
   const [posts, setPosts] = useState(null);
-  const [highlight, setHighlight] = useState(null);
-  const [trending, setTrending] = useState(null);
-  const [topNews, setTopNews] = useState(null);
-  const [popular, setPopular] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [africaNews, setAfricaNews] = useState([]);
+  const [pressReleases, setPressReleases] = useState([]);
+  const [officeOfThePresident, setOfficeOfThePresident] = useState([]);
+  const [socioCultural, setSocioCultural] = useState([]);
+  const [archivesAndAnalysis, setArchivesAndAnalysis] = useState([]);
+  const [breakingNews, setBreakingNews] = useState([]);
+  const [sportsNews, setSportsNews] = useState([]);
+  const [worldNews, setWorldNews] = useState([]);
+  const [interimGovernmentUpdates, setInterimGovernmentUpdates] = useState([]);
+  const [businessNews, setBusinessNews] = useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
   const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
-  console.log("trending",trending, "higlight",highlight, "topNees", topNews, popular, )
+  console.log("trending", trending, "higlight", highlight, "topNees", topNews, popular,)
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -44,16 +50,17 @@ const New = () => {
   const fetchPosts = async () => {
     try {
       const res = await axios.get(`${baseURL}admin/blog`);
-      setPosts(res.data);
-      setHighlight(res.data.highlight);
-      console.log("highlight", highlight)
-      // console.log(res.data.highlight);
-      setTrending(res.data.trending);
-      // console.log(res.data.trending);
-      setTopNews(res.data.top);
-      // console.log(res.data.topNews);
-      setPopular(res.data.popular);
-      // console.log(res.data.popular);
+      const data = res.data;
+      setAfricaNews(data[0]["Africa News Update"]);
+      setPressReleases(data[1]["Dr. Martin Mungwa - Press Releases"]);
+      setOfficeOfThePresident(data[2]["Office of the President"]);
+      setSocioCultural(data[3]["Socio Cultural"]);
+      setArchivesAndAnalysis(data[4]["Archives & Analysis"]);
+      setBreakingNews(data[5]["Breaking News"]);
+      setSportsNews(data[6]["Sports"]);
+      setWorldNews(data[7]["World News"]);
+      setInterimGovernmentUpdates(data[8]["Interim Government Updates"]);
+      setBusinessNews(data[9]["Business"]);
       setLoading(false);
     } catch (err) {
       console.log(err);
@@ -63,16 +70,6 @@ const New = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
-
-  console.log(
-    "trending",
-    trending,
-    "higlight",
-    highlight,
-    "topNees",
-    topNews,
-    popular
-  );
 
 
   const navigation = useNavigation();
@@ -105,10 +102,12 @@ const New = () => {
         >
           {/* trending news */}
           <View className="w-full">
-            {trending && <LayerOne data={trending} loading={loading} />}
-            {highlight && <LayerTwo data={highlight} loading={loading} />} 
-            {trending && <LayerThree data={trending} loading={loading} />}
-            {topNews && <LayerFour data={topNews} loading={loading} />}
+            {africaNews && <LayerOne data={africaNews} loading={loading} />}
+            {officeOfThePresident && <LayerTwo data={officeOfThePresident} loading={loading} />}
+            {interimGovernmentUpdates && <LayerThree data={interimGovernmentUpdates} loading={loading} />}
+            {sportsNews && <BotNews data={sportsNews} loading={loading} />}
+            {pressReleases && <LayerFour data={pressReleases} loading={loading} />}
+            {worldNews && <LayerFour data={worldNews} loading={loading} />}
           </View>
         </ScrollView>
       </SafeAreaView>
