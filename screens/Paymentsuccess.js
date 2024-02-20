@@ -3,7 +3,11 @@ import WebView from "react-native-webview";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Paymentsuccess = () => {
-     const injectedJavaScript =`document.querySelector('.topnav').style.display = 'none'`;
+    const injectedJavaScript =
+    ` document.getElementById('footer').style.display = 'none';
+     document.getElementById('nav1').style.display = 'none';
+     document.getElementById('mainnav').style.display = 'none';
+     `;
     
   return (
     <SafeAreaView style={{ flex: 1 }}>
