@@ -23,20 +23,22 @@ import LayerFour from "./layerFour";
 import BotNews from "./bottomNews";
 const New = () => {
   const [posts, setPosts] = useState(null);
-  const [africaNews, setAfricaNews] = useState([]);
-  const [pressReleases, setPressReleases] = useState([]);
-  const [officeOfThePresident, setOfficeOfThePresident] = useState([]);
-  const [socioCultural, setSocioCultural] = useState([]);
-  const [archivesAndAnalysis, setArchivesAndAnalysis] = useState([]);
-  const [breakingNews, setBreakingNews] = useState([]);
-  const [sportsNews, setSportsNews] = useState([]);
-  const [worldNews, setWorldNews] = useState([]);
-  const [interimGovernmentUpdates, setInterimGovernmentUpdates] = useState([]);
-  const [businessNews, setBusinessNews] = useState([]);
+  const [africaNews, setAfricaNews] = useState(null);
+  const [pressReleases, setPressReleases] = useState(null);
+  const [officeOfThePresident, setOfficeOfThePresident] = useState(null);
+  const [socioCultural, setSocioCultural] = useState(null);
+  const [archivesAndAnalysis, setArchivesAndAnalysis] = useState(null);
+  const [breakingNews, setBreakingNews] = useState(null);
+  const [sportsNews, setSportsNews] = useState(null);
+  const [worldNews, setWorldNews] = useState(null);
+  const [interimGovernmentUpdates, setInterimGovernmentUpdates] = useState(null);
+  const [businessNews, setBusinessNews] = useState(null);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [loading, setLoading] = useState(true)
   const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
-  console.log("trending", trending, "higlight", highlight, "topNees", topNews, popular,)
-
+  // console.log("trending", trending, "higlight", highlight, "topNees", topNews, popular,)
+  
+console.log("office of the president", officeOfThePresident);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
@@ -49,6 +51,7 @@ const New = () => {
   //fetch data from api
   const fetchPosts = async () => {
     try {
+      setLoading(true)
       const res = await axios.get(`${baseURL}admin/blog`);
       const data = res.data;
       setAfricaNews(data[0]["Africa News Update"]);

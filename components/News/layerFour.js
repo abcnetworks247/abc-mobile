@@ -47,7 +47,7 @@ const LayerFour = ({ data, loading }) => {
               </View>
             ))
           ) : (
-              !data? 
+             data.length===0? 
               <Text>
                    No data available 
               </Text> :
