@@ -19,6 +19,8 @@ import About from "./About";
 import EditInfo from "./EditInfo";
 import Loadingscreen from "./Loadingscreen";
 import Donation from "./Donation";
+import Stripescreen from "./Stripescreen";
+import Stripeproduct from "./Stripeproduct";
 export {
   Home,
   Store,
@@ -41,4 +43,6 @@ export {
   EditInfo,
   Loadingscreen,
   Donation,
+  Stripescreen,
+  Stripeproduct,
 };

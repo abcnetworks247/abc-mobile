@@ -30,7 +30,9 @@ import {
   About,
   EditInfo,
   Loadingscreen,
-  Donation
+  Donation,
+  Stripescreen,
+  Stripeproduct,
 } from "../screens";
 
 import { IconButton } from "react-native-paper";
@@ -261,7 +263,9 @@ const { cartProducts } = UseProductProvider();
 
           headerRight: () => (
             <Pressable style={{ marginRight: 50 }}>
-              <Text className="text-white">{cartProducts && cartProducts.length} items</Text>
+              <Text className="text-white">
+                {cartProducts && cartProducts.length} items
+              </Text>
             </Pressable>
           ),
 
@@ -270,6 +274,9 @@ const { cartProducts } = UseProductProvider();
           },
         }}
       />
+      <Stack.Screen name="Stripeproduct" component={Stripeproduct} options={{
+        title:'Stripe'
+      }}  />
     </Stack.Navigator>
   );
 };
@@ -556,8 +563,20 @@ const LoadingStackNavigator = () => {
 };
 const DonateStackNavigator = () => {
   return (
-    <Stack.Navigator >
-      <Stack.Screen name="Donate" component={Donation} />
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Donate"
+        component={Donation}
+        options={{
+          headerTintColor:'white',
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#2c3e50",
+          },
+        }}
+      />
+      <Stack.Screen name="Stripe" component={Stripescreen} />
     </Stack.Navigator>
   );
 };

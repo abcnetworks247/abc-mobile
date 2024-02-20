@@ -27,9 +27,16 @@ import { CommonActions } from "@react-navigation/native";
 import { UseUserContext } from "../context/UserContext";
 import Toast from "react-native-toast-message";
 import { Fontisto } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { Picker } from "@react-native-picker/picker";
+import { ActivityIndicator } from "react-native-paper";
+import { loadStripe } from "@stripe/stripe-js";
+
 
 export default function Cart() {
-const { cartProducts } = UseProductProvider(); 
+  const { cartProducts } = UseProductProvider(); 
+ const navigation = useNavigation();
 const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
  const shippingFee = 5;
   
@@ -69,7 +76,7 @@ const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
   
 
   if (UserData && cartProducts.length === 0) {
-    const navigation=useNavigation()
+    
     return (
       <SafeAreaView style={globalstyels.droidSafeArea}>
         <View className="flex flex-1 items-center justify-center sm:mx-12 sm:shadow-lg sm:py-7 ">
@@ -104,7 +111,7 @@ const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
 
 
   
-
+const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 if (authToken && cartProducts && cartProducts.length > 0) {
   const totalPrice = cartProducts.reduce(
     (accumulator, product) =>
@@ -113,7 +120,61 @@ if (authToken && cartProducts && cartProducts.length > 0) {
   );
   console.log(totalPrice);
 
-const grandTotal = totalPrice + shippingFee;
+  const grandTotal = totalPrice + shippingFee;
+  const [paymentType, setPaymentType] = useState("Stripe");
+   const [spinner, setSpinner] = useState(false);
+  
+
+  
+  const CheckOut = async () => {
+    console.log("Ready to checkout", cartProducts);
+    const AuthtokenString = await AsyncStorage.getItem('authToken')
+    const Authtoken = JSON.parse(AuthtokenString)
+    console.log("my auth", Authtoken)
+    console.log("my payment type", paymentType)
+    if (!Authtoken) {
+      setIsSignUpVisible(false)
+      return;
+    }
+
+    let data = {
+      product: cartProducts,
+    };
+
+    if (paymentType === "Stripe") {
+    
+      try {
+         setSpinner(true);
+        const session = await axios.post(
+          `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/stripe/create-checkout-session`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${Authtoken}`,
+            },
+            "Content-Type": "application/json",
+          }
+        );
+
+        if (session.status === 200) {
+          console.log("session", session);
+
+            navigation.navigate("Stripeproduct", {
+              stripe_url: session.data.url,
+            });
+
+          setSpinner(false);
+
+        
+        } else {
+          console.log("error");
+        }
+      } catch (error) {
+        console.error("Error in PayWithStripe:", error);
+          setSpinner(false);
+      }
+    }
+  };
 
    return (
      <SafeAreaView style={globalstyels.droidSafeArea}>
@@ -144,8 +205,25 @@ const grandTotal = totalPrice + shippingFee;
                </Text>
              </View>
            </View>
-           <TouchableOpacity className="bg-black flex flex-row justify-center items-center h-10">
-             <Text className="text-white">Confirm Order</Text>
+           <View style={{ marginTop: 12 }}>
+             <Text>Choose a Payment Method</Text>
+             <Picker
+               selectedValue={paymentType}
+               onValueChange={(itemValue, itemIndex) =>
+                 setPaymentType(itemValue)
+               }
+             >
+               <Picker.Item label="Stripe" value="Stripe" />
+               <Picker.Item label="Crypto" value="Crypto" />
+             </Picker>
+           </View>
+           <TouchableOpacity
+             className="bg-black flex flex-row justify-center items-center h-10"
+             onPress={CheckOut}
+           >
+             <Text className="text-white">
+               {spinner ?  <ActivityIndicator size="small" color="white" />: 'Place an order '}
+             </Text>
            </TouchableOpacity>
          </View>
        </ScrollView>
