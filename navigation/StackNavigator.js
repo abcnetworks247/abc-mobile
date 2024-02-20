@@ -33,6 +33,7 @@ import {
   Donation,
   Stripescreen,
   Stripeproduct,
+  Paymentsuccess,
 } from "../screens";
 
 import { IconButton } from "react-native-paper";
@@ -350,6 +351,7 @@ const ProfileStackNavigator = () => {
         }}
       />
       <Stack.Screen name="Orders" component={Orders} />
+      <Stack.Screen name="Paymentsuccess" component={Paymentsuccess} />
     </Stack.Navigator>
   );
 };

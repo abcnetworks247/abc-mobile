@@ -155,7 +155,7 @@ export default function Profile() {
             </TouchableOpacity>
             <Pressable
               className="bg-white flex-1 flex flex-row items-center px-2  shadow-md "
-              onPress={() => checkCart()}
+              onPress={() => navigation.navigate("Paymentsuccess")}
             >
               <Svg
                 width="30px"

@@ -21,6 +21,7 @@ import Loadingscreen from "./Loadingscreen";
 import Donation from "./Donation";
 import Stripescreen from "./Stripescreen";
 import Stripeproduct from "./Stripeproduct";
+import Paymentsuccess from "./Paymentsuccess";
 export {
   Home,
   Store,
@@ -45,4 +46,5 @@ export {
   Donation,
   Stripescreen,
   Stripeproduct,
+  Paymentsuccess,
 };
