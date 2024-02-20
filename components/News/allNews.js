@@ -18,8 +18,10 @@ import globalstyels from "../../styles/globalstyels";
 globalstyels;
 import Api from "../../utils/Api";
 const HomeNews = () => {
-  const [popular, setPopular] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [socioCultural, setSocioCultural] = useState([]);
+  const [archivesAndAnalysis, setArchivesAndAnalysis] = useState([]);
+  const [breakingNews, setBreakingNews] = useState([]);
+  const [sportsNews, setSportsNews] = useState([]);  const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -35,9 +37,12 @@ const HomeNews = () => {
   const fetchPosts = async () => {
     try {
       const res = await Api.get(`admin/blog`);
+      const data = res.data;
+      setSocioCultural(data[3]["Socio Cultural"]);
+      setArchivesAndAnalysis(data[4]["Archives & Analysis"]);
+      setBreakingNews(data[5]["Breaking News"]);
+      setSportsNews(data[6]["Sports"]);
 
-      setPopular(res.data.popular);
-      // console.log(res.data.popular);
       setLoading(false);
     } catch (err) {
       console.log(err);
@@ -90,8 +95,8 @@ const HomeNews = () => {
           <View className=" mb-5">
             <Text className="py-1 text-xl font-bold">Popular News</Text>
             {
-              !popular? <Text>No news yet</Text>:
-              popular.map((item, index) => (
+              !breakingNews? <Text>No news yet</Text>:
+              breakingNews.map((item, index) => (
                 <TouchableOpacity activeOpacity={0.5} key={index}>
                   <View className="flex flex-col " key={index}>
                     <Pressable onPress={handlePress(item)}>
