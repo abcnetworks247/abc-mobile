@@ -40,6 +40,7 @@ const Donation = () => {
   };
 
   const handleSubmit = async () => {
+    console.log('stripe promise', stripe)
     console.log("my payment type in function", paymentType)
     console.log("my amount in function", amount)
     const AuthtokenString = await AsyncStorage.getItem('authToken')

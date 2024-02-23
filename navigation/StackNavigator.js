@@ -34,6 +34,8 @@ import {
   Stripescreen,
   Stripeproduct,
   Paymentsuccess,
+  Modalscreen,
+  Stripesub,
 } from "../screens";
 
 import { IconButton } from "react-native-paper";
@@ -473,7 +475,7 @@ const MembershipStackNavigator = () => {
         options={{
           title: "Membership",
           headerTintColor: "white",
-        
+
           headerLeft: () => (
             <Pressable
               onPress={() => navigation.openDrawer()}
@@ -490,6 +492,12 @@ const MembershipStackNavigator = () => {
           },
         }}
       />
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen name="MyModal" component={Modalscreen} options={{
+          headerShown:false
+        }} />
+      </Stack.Group>
+      <Stack.Screen name="Stripesub" component={Stripesub} />
     </Stack.Navigator>
   );
 };

@@ -3,8 +3,9 @@ import WebView from "react-native-webview";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Paymentsuccess = () => {
+    
     const injectedJavaScript =
-    ` document.getElementById('footer').style.display = 'none';
+    `document.getElementById('footer').style.display = 'none';
      document.getElementById('nav1').style.display = 'none';
      document.getElementById('mainnav').style.display = 'none';
      `;
