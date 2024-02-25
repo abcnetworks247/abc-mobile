@@ -54,7 +54,7 @@ const LayerFour = ({ data, loading }) => {
               <View className="border-b-gray-300 border-b mt-3 mb-3" />
               <Text
                 className="flex-1 py-2 text-xl font-bold "
-                style={Typography.header}
+                
               >
                 {data[0].title}
               </Text>

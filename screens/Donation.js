@@ -104,8 +104,8 @@ const Donation = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView className="px-2 py-2">
-        <View style={{ marginTop: 20 }}>
+      <ScrollView className="px-2 ">
+        <View >
           <Image
             source={{
               uri: "https://res.cloudinary.com/db2b7vgg4/image/upload/v1707751594/UserDP/plgw3iwrk1zwvtsa3keq.jpg",
@@ -118,7 +118,7 @@ const Donation = () => {
             }}
           />
         </View>
-        <View style={{ marginTop: 24 }}>
+        <View>
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>Summary</Text>
           <View
             style={{
@@ -131,32 +131,32 @@ const Donation = () => {
             <View className="flex flex-row items-center justify-between">
               <Text className="">Donate</Text>
 
-              <View className="flex flex-row items-center  ml-2">
+              <View className="flex flex-row items-center h-8">
                 <Pressable
                   onPress={handleRemove}
-                  className="bg-blue-600 p-4 font-bold rounded"
+                  className="bg-blue-600  font-bold h-full w-6 mr-2 flex flex-row items-center justify-center "
                 >
-                  <Text className="text-white">-</Text>
+                  <Text className="text-white font-bold">-</Text>
                 </Pressable>
 
                 <TextInput
-                  value={amount}
+                  value={amount.toString()}
                   onChangeText={(value)=>setAmount(value)}
                   keyboardType="numeric"
                   style={{
                     borderWidth: 1,
                     borderColor: "#CCC",
-                    borderRadius: 6,
                     padding: 8,
+                    height:'100%',
                     width: 100,
                   }}
                 />
 
                 <Pressable
                   onPress={handleAdd}
-                  className="bg-blue-600  p-4  font-bold rounded"
+                  className="bg-blue-600 font-bold h-full w-6 ml-2 flex flex-row items-center justify-center"
                 >
-                  <Text className="text-white">+</Text>
+                  <Text className="text-white font-bold">+</Text>
                 </Pressable>
               </View>
             </View>

@@ -30,8 +30,9 @@ import { Alert } from "react-native";
 import { ActivityIndicator } from "react-native";
 
 
+
 export default function Profile() {
-  const { setIsSignUpVisible, UserData } = UseUserContext();
+  const { setIsSignUpVisible, UserData, getUserData } = UseUserContext();
   const { cartProducts } = UseProductProvider();
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
@@ -62,7 +63,7 @@ export default function Profile() {
       await AsyncStorage.removeItem('authToken')
       const storedToken = await AsyncStorage.getItem("authToken")
       if (!storedToken) {
-        setIsSignUpVisible(true)
+      getUserData()
       }
     } catch (error) {
        console.error("Error checking authToken in async storage", error)
@@ -123,7 +124,9 @@ export default function Profile() {
           />
 
           <View className="flex flex-col">
-            <Text className="font-bold">{UserData && UserData.fullname}</Text>
+            <Text className="font-bold" style={{ fontFamily: "Roboto" }}>
+              {UserData && UserData.fullname}
+            </Text>
             <Text className="text-gray-400">{UserData && UserData.email}</Text>
           </View>
         </View>
@@ -153,10 +156,7 @@ export default function Profile() {
               </Svg>
               <Text className="mx-2">Orders</Text>
             </TouchableOpacity>
-            <Pressable
-              className="bg-white flex-1 flex flex-row items-center px-2  shadow-md "
-              onPress={() => navigation.navigate("Paymentsuccess")}
-            >
+            <Pressable className="bg-white flex-1 flex flex-row items-center px-2  shadow-md ">
               <Svg
                 width="30px"
                 height="30px"

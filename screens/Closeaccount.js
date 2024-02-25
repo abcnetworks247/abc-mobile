@@ -17,6 +17,8 @@ import { ActivityIndicator } from "react-native";
 import { UseProductProvider } from "../context/ProductProvider";
 import axios from "axios";
 import { useRef } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ToastAndroid } from "react-native";
 
 const Closeaccount = () => {
 
@@ -39,7 +41,6 @@ const Closeaccount = () => {
 
   
   const handleInputChange = (name, value) => {
-    console.log(inputRef.current().name)
     setFormData({ ...formData, [name]: value });
   };
 
@@ -57,43 +58,60 @@ const Closeaccount = () => {
          },
          { text: "OK", onPress: () => handleSubmit() },
        ]
+    );
+  
+   const deleteSuccess = (message) => {
+     ToastAndroid.showWithGravityAndOffset(
+       message,
+       ToastAndroid.LONG,
+       ToastAndroid.TOP,
+       25,
+       50
      );
+     navigation.navigate('home')
+   };
 
   
   
 
   const handleSubmit = async () => {
-
+    const authTokenString = await AsyncStorage.getItem('authToken')
+    const authToken= JSON.parse(authTokenString)
     const config = {
-      headers: {
-        Authorization: `Bearer ${String(authToken)}`,
-        "Content-Type": "application/json",
-      },
       data: {
         email: formData.email,
         password: formData.password,
       }, // Include data in the config object
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+      
     };
     try {
       console.log(config.data)
       setLoading(true);
       
-       await axios.delete(
+      const response= await axios.delete(
          `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
            config
       );
 
-       await AsyncStorage.removeItem("authToken");
+      if (response.status == 200) {
+        await AsyncStorage.removeItem('authToken')
+        deleteSuccess("Your account has been deleted successfully");
+      }
+     
       
       setLoading(false);
-      
-      showToast("Account deleted successfully");
+   
       
       
     } catch (error) {
        setLoading(false);
-      console.error("Error deleting account:", error.response.data);
-       showToast("Error deleting account");
+      // console.error("Error deleting account:", error.response.data);
+        deleteSuccess(error.response.data.error);
+      
     }
   };
 

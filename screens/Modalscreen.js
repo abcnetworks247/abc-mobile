@@ -18,42 +18,63 @@ import CheckBox from '@react-native-community/checkbox';
 import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loadStripe } from '@stripe/stripe-js';
+import { Modal } from 'react-native';
+import { PanResponder } from 'react-native';
+import { Animated } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const Modalscreen = () => {
     const navigation = useNavigation()
     const route = useRoute()
-    const {spinnerId}=route.params
+    const {plan}=route.params
     //  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
      const [spinner, setSpinner] = useState(false);
-     const [amount, setAmount] = useState(spinnerId.range1);
-     const [paymentType, setPaymentType] = useState("Stripe");
+    // const [amount, setAmount] = useState(plan.range1);
+  const [paymentType, setPaymentType] = useState("Stripe");
+   const [modalVisible, setModalVisible] = useState(null);
       
   // console.log("stripe key", process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
- 
-  
+ const [value, setValue] = useState(plan.range1);
 
-     const Add = () => {
-       if (amount < spinnerId.range2) {
-         setAmount((prevAmount) => prevAmount + 1);
-       }
+ const increment = () => {
+   if (value < plan.range2) {
+     setValue(value + 1);
+   }
+ };
 
-       console.log("data", spinnerId);
-     };
-
-     const Remove = () => {
-       if (amount > spinnerId.range1) {
-         setAmount((prevAmount) => prevAmount - 1);
-       }
-    };
-     const handleChange = (text) => {
-       // Ensure the entered value is within the specified range
-       const parsedValue = parseInt(text, 10);
-       const minValue = spinnerId?.range1 || 0;
-       const maxValue = spinnerId?.range2 || 100;
-       const newValue = Math.min(Math.max(parsedValue, minValue), maxValue);
-       setAmount(newValue.toString());
-     };
+ const decrement = () => {
+   if (value > plan.range1) {
+     setValue(value - 1);
+   }
+ };
+  //  const pan = React.useRef(new Animated.ValueXY()).current;
+  //  const panResponder = React.useRef(
+  //    PanResponder.create({
+  //      onStartShouldSetPanResponder: () => true,
+  //      onPanResponderMove: Animated.event(
+  //        [
+  //          null,
+  //          {
+  //            dy: pan.y,
+  //          },
+  //        ],
+  //        { useNativeDriver: false }
+  //      ),
+  //      onPanResponderRelease: (_, gestureState) => {
+  //        if (gestureState.dy > 50) {
+  //          // If dragged down more than 50, close the modal
+  //          closeModal();
+  //        } else {
+  //          // Otherwise, reset the position
+  //          Animated.spring(pan, {
+  //            toValue: { x: 0, y: 0 },
+  //            useNativeDriver: false,
+  //          }).start();
+  //        }
+  //      },
+  //    })
+  //  ).current;
 
      const SubscribeNow = async () => {
      
@@ -65,10 +86,12 @@ const Modalscreen = () => {
          const Authtoken = JSON.parse(AuthtokenString);
 
        const update = {
-         ...spinnerId,
-         price: amount,
-         type: spinnerId.type,
+         ...plan,
+         price: value,
+         type: plan.type,
        };
+
+       console.log("my update", update)
 
        
 
@@ -93,6 +116,7 @@ const Modalscreen = () => {
                "User is already subscribed, redirecting to billing portal",
                response.data.redirectUrl
              );
+            
 
               navigation.navigate("Stripesub", {
                 stripe_url: response.data.redirectUrl,
@@ -104,10 +128,12 @@ const Modalscreen = () => {
              // }
            } else if (response.status === 200) {
              // Adjusted condition to handle successee
-       
-              navigation.navigate("Stripesub", {
-                stripe_url: response.data.url,
-              });
+               navigation.navigate("Stripesub", {
+                 stripe_url: response.data.url,
+               });
+              // navigation.navigate("Stripesub", {
+              //   stripe_url: response.data.url,
+              // });
 
 
              setSpinner(false);
@@ -129,31 +155,19 @@ const Modalscreen = () => {
           
          }
        }
-     };
+  };
+  //  const closeModal = () => {
+  //    navigation.goBack(); // Close the modal
+  //  };
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View className="flex items-center justify-center w-full h-full px-2 overflow-hidden bg-gray-900 bg-opacity-60">
-        <View className="relative w-full bg-white rounded-md shadow-xl md:max-w-md md:mx-auto">
-          <View className="flex justify-end p-2">
-            <Pressable
-              type="button"
-              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-              onPress={() => navigation.goBack()}
-            >
-              <Svg
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-                height={32}
-                width={32}
-              >
-                <Path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
-              </Svg>
-            </Pressable>
-          </View>
+   
+      <SafeAreaView className="flex-1 items-center justify-center bg-white" >
+      
+         
           <View>
             <Text className="ml-8 text-sm font-medium">
-              {spinnerId?.name} - {spinnerId?.type} plan
+              {plan?.name} - {plan?.type} plan
             </Text>
             <View className="py-6 mt-4 bg-white rounded shadow-lg">
               <View>
@@ -164,7 +178,7 @@ const Modalscreen = () => {
                     </Text>
                     <View className="flex flex-row items-center">
                       <Pressable
-                        onPress={Remove}
+                        onPress={decrement}
                         className="bg-blue-600 p-1.5 font-bold rounded"
                       >
                         <Svg
@@ -177,14 +191,23 @@ const Modalscreen = () => {
                         </Svg>
                       </Pressable>
                       <TextInput
-                        value={amount}
-                        onChangeText={handleChange}
+                        value={value.toString()}
+                        onChangeText={(text) => {
+                          const numericValue = parseInt(text);
+                          if (
+                            !isNaN(numericValue) &&
+                            numericValue >= plan.range1 &&
+                            numericValue <= plan.range2
+                          ) {
+                            setValue(numericValue);
+                          }
+                        }}
                         keyboardType="numeric"
                         editable={false} // Make the input read-only
-                        className="font-bold font-mono w-[80px] py-1.5 px-2 mx-1.5 block border border-gray-300 rounded-md text-sm shadow-sm  placeholder-gray-400"
+                        className="font-bold  w-[80px] py-1.5 px-2 mx-1.5 block border border-gray-300 rounded-md text-sm shadow-sm  placeholder-gray-400"
                       />
                       <Pressable
-                        onPress={Add}
+                        onPress={increment}
                         className="bg-blue-600 p-1.5 font-bold rounded"
                       >
                         <Svg
@@ -216,7 +239,7 @@ const Modalscreen = () => {
                 <View className="px-8 pt-4 mt-4 border-t">
                   <View className="flex items-end justify-between">
                     <Text className="font-semibold">Amount in (USD)</Text>
-                    <Text className="font-semibold">${amount}</Text>
+                    <Text className="font-semibold">${value}</Text>
                   </View>
                   <Text className="mt-2 text-xs text-gray-500">
                     Payment goes to ABC Networks 24
@@ -237,9 +260,9 @@ const Modalscreen = () => {
                     onPress={SubscribeNow}
                   >
                     {spinner === false ? (
-                      <Text className='text-white'>Subscribe</Text>
+                      <Text className="text-white">Subscribe</Text>
                     ) : (
-                     <ActivityIndicator color={'white'} size='small'/>
+                      <ActivityIndicator color={"white"} size="small" />
                     )}
                   </TouchableOpacity>
                   <Text className="mt-3 text-xs text-blue-500 underline">
@@ -249,10 +272,33 @@ const Modalscreen = () => {
               </View>
             </View>
           </View>
-        </View>
-      </View>
-    </SafeAreaView>
+       
+      </SafeAreaView>
+   
   );
 }
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    width: "100%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+    minHeight: 200, // Adjust as needed
+  },
+  closeButton: {
+    marginTop: 10,
+    alignSelf: "flex-end",
+  },
+  closeButtonText: {
+    color: "blue",
+  },
+});
 
 export default Modalscreen

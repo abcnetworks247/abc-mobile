@@ -4,26 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Dimensions, Pressable, View, Text, ScrollView, TouchableOpacity } from "react-native";
 import Svg, { Rect, Path, Defs, ClipPath } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
-
+import { StyleSheet } from "react-native";
 const Membership = () => {
   const navigation=useNavigation() 
   const { width, height } = Dimensions.get("window");
 
 
  const [spinner, setSpinner] = useState(false);
- const [oPenNav, setOpenNav] = useState(false);
- const [spinnerId, setSpinnerId] = useState(null);
   const [plantype, setPlanType] = useState("monthly");
- 
-
-  useEffect(() =>{
-    if (spinnerId) {
-      navigation.navigate("MyModal", {
-        spinnerId,
-      });
-   }
-},[spinnerId])
-
  
   
 
@@ -95,54 +83,55 @@ const Membership = () => {
 
  const MonthlyPlan = () => {
    setPlanType("monthly");
+  
  };
 
  const YearlyPlan = () => {
    setPlanType("yearly");
+   
  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <View className="px-2" style={{ width: width }}>
-          <View className="flex flex-col items-center">
-            <View className="text-2xl font-semibold tracking-tight text-black lg:text-3xl">
-              <Text className="md:block"> Membership Packages</Text>
-            </View>
-            <Text className="max-w-xl mt-4 text-base text-gray-400">
+          <View className="flex flex-row items-center justify-center">
+            <Text className="mt-2 ">
               Your Prime membership now also includes 24*7 hours Customer
               Support, fast delivery on eligible items, exclusive access to
               deals & more.
             </Text>
-
-            <Text className="flex flex-row items-center justify-center ml-4">
-              <View className="w-fit flex flex-row gap-2 mt-14 border border-gray-300 p-1 rounded-lg">
-                <Pressable
-                  id="submit-button"
-                  onPress={MonthlyPlan}
-                  className={
-                    plantype === "monthly"
-                      ? "w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                      : "w-full px-4 py-2 text-blue-500 bg-white rounded-md hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  }
-                >
-                  <Text> Monthly</Text>
-                </Pressable>
-                <Pressable
-                  id="submit-button"
-                  className={
-                    plantype === "monthly"
-                      ? "w-full px-4 py-2 text-blue-500 bg-white rounded-md hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                      : "w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  }
-                  onPress={YearlyPlan}
-                >
-                  <Text> Yearly</Text>
-                </Pressable>
-              </View>
-            </Text>
           </View>
-          <View className="grid grid-cols-1 gap-8 mt-4 mb-16 lg:ap-2 lg:grid-cols-3">
+          <View>
+            <View className="flex flex-row border border-gray-300 items-center mt-2 p-0 px-2 py-2 rounded-lg">
+              <Pressable
+                id="submit-button"
+                onPress={MonthlyPlan}
+                className={`${
+                  plantype === "monthly" ? "bg-blue-600" : "bg-gray-200"
+                } basis-1/2 h-8 flex flex-row items-center justify-center rounded-l-lg`}
+              >
+                <Text className={`${plantype === "monthly" && "text-white"}`}>
+                  {" "}
+                  Monthly
+                </Text>
+              </Pressable>
+              <Pressable
+                id="submit-button"
+                className={`${
+                  plantype === "yearly" ? "bg-blue-600" : "bg-gray-200"
+                } basis-1/2 h-8 flex flex-row items-center justify-center rounded-r-lg`}
+                onPress={YearlyPlan}
+              >
+                <Text className={`${plantype === "yearly" && "text-white"}`}>
+                  {" "}
+                  Yearly
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+
+          <View className="grid grid-cols-1 gap-8 mt-1 mb-16 lg:ap-2 lg:grid-cols-3">
             {Plans.map((plan) => (
               <View className="order-first" key={plan.id}>
                 <View className="flex flex-col">
@@ -176,37 +165,31 @@ const Membership = () => {
                             </ClipPath>
                           </Defs>
                         </Svg>
-                        <View className="flex flex-col">
+                        <View className="flex flex-col items-center">
                           <Text className="text-sm font-medium text-white uppercase">
                             {plan.name}
                           </Text>
-                          <View className="ml-3">
-                            <Text className="text-base font-medium text-white  lg:text-xl">
-                              {`${plan.price}/${plan.type}`}
-                            </Text>
-                           
-                          </View>
+                          <Text className="text-base font-medium text-white  lg:text-xl">
+                            {`${plan.price}/${plan.type}`}
+                          </Text>
+                          <Text className="mt-8 text-sm font-medium text-gray-300">
+                            {plan.description}
+                          </Text>
                         </View>
                       </View>
                     </View>
-                    <Text className="mt-8 text-sm font-medium text-gray-300">
-                      {plan.description}
-                    </Text>
+
                     <View className="flex mt-6">
                       <TouchableOpacity
                         className="w-full px-8 py-1.5 text-white bg-blue-600 rounded-md"
                         for="modal-3"
-                        onPress={() =>
-                        {
-                          setSpinnerId(plan);
-  
-                          }
-                        
-                         
-                        }
+                        onPress={() => {
+                          // Navigate to modal with plan details
+                          navigation.navigate("MyModal", { plan });
+                        }}
                       >
                         <View className="flex flex-row items-center justify-center">
-                          <Text>Subscribe Now</Text>
+                          <Text className="text-white">Subscribe Now</Text>
                         </View>
                       </TouchableOpacity>
                     </View>
@@ -221,7 +204,10 @@ const Membership = () => {
                         role="list"
                       >
                         {plan.features.map((feature, index) => (
-                          <View className="flex flex-row items-center gap-2" key={index}>
+                          <View
+                            className="flex flex-row items-center gap-2"
+                            key={index}
+                          >
                             <Svg
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
@@ -248,5 +234,34 @@ const Membership = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
+  button: {
+    padding: 10,
+    marginRight: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+  },
+  selectedPlan: {
+    backgroundColor: "blue",
+  },
+  buttonText: {
+    color: "black",
+  },
+  content: {
+    alignItems: "center",
+  },
+});
 
 export default Membership;

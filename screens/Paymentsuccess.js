@@ -4,10 +4,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const Paymentsuccess = () => {
     
-    const injectedJavaScript =
-    `document.getElementById('footer').style.display = 'none';
-     document.getElementById('nav1').style.display = 'none';
-     document.getElementById('mainnav').style.display = 'none';
+    const hideNavBarAndFooter =
+    `document.getElementById('navbar').style.display = 'none';
+     document.getElementById('footer').style.display = 'none';
      `;
     
   return (
@@ -15,8 +14,7 @@ const Paymentsuccess = () => {
       <WebView
         source={{ uri: "https://www.abcnetworks24.com/donate" }}
         javaScriptEnabled={true}
-        injectedJavaScript={injectedJavaScript}
-       
+        injectedJavaScript={hideNavBarAndFooter}
       />
     </SafeAreaView>
   );

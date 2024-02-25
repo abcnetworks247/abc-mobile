@@ -30,6 +30,7 @@ export const UserContextProvider = ({ children }) => {
     }
   
     try {
+      console.log("my user data", UserData)
       console.log("authToken iniially", authToken);
       const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
       console.log("my stored token", storedToken);

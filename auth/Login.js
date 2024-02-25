@@ -17,7 +17,7 @@ import axios from "axios";
 
 const Login = () => {
   const navigation = useNavigation();
-  const { setIsSignInVisible, setIsSignUpVisible, UserData } = UseUserContext();
+  const { setIsSignInVisible, setIsSignUpVisible, UserData, getUserData } = UseUserContext();
   const [universalError, setUniversalError] = useState("");
 
 
@@ -146,8 +146,6 @@ const Login = () => {
     try {
       console.log(signUpFormData, "signin data");
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // Set a timeout of 10 seconds (adjust as needed)
 
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
@@ -160,36 +158,29 @@ const Login = () => {
             email: signUpFormData.email,
             password: signUpFormData.password,
           }),
-          signal: controller.signal, // Pass the abort signal to the fetch call
+         
         }
       );
 
-      clearTimeout(timeoutId); // Clear the timeout since the request completed
 
       console.log("my response", response);
 
       const responseData = await response.json();
       console.log("my response data", responseData)
+      console.log("my status", response.status)
       if (response.status == 200) {
         await AsyncStorage.setItem(
           "authToken",
           JSON.stringify(responseData.authToken)
         );
-
+         getUserData()
          showToast(responseData.message);
          setIsSignUpVisible(false);
       } else {
-        console.error("error signing into account:", responseData.message);
-        showToast("Error signing into account");
+        showToast(responseData.error);
       }
     } catch (error) {
-      if (error.name === "AbortError") {
-        console.error("Request timed out:", error.message);
-        Alert.alert("Request timed out", "Please try again later.");
-      } else {
-        console.error("Error signing in:", error.message);
-        Alert.alert("Unable to sign in:", error.message);
-      }
+        console.log(error)
     }
   };
 

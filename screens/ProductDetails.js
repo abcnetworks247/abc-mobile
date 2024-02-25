@@ -22,12 +22,13 @@ import { UseProductProvider } from "../context/ProductProvider";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native";
 import { Dimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 
 
 
 const ProductDetails = () => {
   const route = useRoute();
-  const { width } = Dimensions.get("window"); // Get window width
+ const {width, height}= useWindowDimensions()
   const { title, price, description, thumbnail, productId } = route.params;
   const { authToken, setIsSignUpVisible, UserData } = UseUserContext();
   const { handleWishAdd, handleAddToCart, handleCartLoading } =
@@ -52,19 +53,19 @@ const ProductDetails = () => {
   };
 
   return (
-    <SafeAreaView style={globalstyels.droidSafeArea}>
+    <SafeAreaView style={{ flex: 1, width: width }}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
-      <ScrollView style={styles.container}>
-        <View style={{ width: width }}>
-          <View className="mt-10 mb-40">
-            <View className="px-10">
+      <ScrollView style={{ ...styles.container, width: width }}>
+        <View style={{ width: width , }} >
+          <View className={`mt-10 mb-40  `}>
+            <View style={{width:width}} className="flex flex-row items-center justify-center">
               <Image
-                style={styles.image}
+                style={{ ...styles.image, width: width/2}}
                 source={{ uri: thumbnail }}
                 className="rounded-md"
               />
             </View>
-            <View className="flex flex-row items-center justify-between w-full px-4 mt-10 mb-4">
+            <View className="flex flex-row items-center justify-between w-full px-4 mt-10 mb-4" style={{width:width}}> 
               <View className="flex flex-row items-center gap-2">
                 <TouchableOpacity
                   onPress={
@@ -72,7 +73,7 @@ const ProductDetails = () => {
                       ? () => {
                           handleAddToCart(productId, UserData._id);
                         }
-                      : ()=>setIsSignUpVisible(true)
+                      : () => setIsSignUpVisible(true)
                   }
                   className="px-5 py-[8px] bg-black border-gray-100  shadow-md border-1"
                 >
@@ -110,10 +111,10 @@ const ProductDetails = () => {
                 </Text>
               </View>
             </View>
-            <View style={styles.info}>
+            <View style={{...styles.info, width:width }}>
               <Text style={styles.name}>{title}</Text>
 
-              <HTML source={{ html: description }} />
+              <HTML source={{ html: description }} contentWidth={width} />
             </View>
           </View>
         </View>
@@ -125,9 +126,9 @@ const ProductDetails = () => {
 const styles = {
   container: {
     backgroundColor: "#fff",
+  
   },
   image: {
-    width: "100%",
     aspectRatio: 1,
   },
   info: {

@@ -10,19 +10,33 @@ import { SafeAreaView } from "react-native";
 import globalstyels from "../styles/globalstyels";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { ActivityIndicator } from "react-native";
+import { useWindowDimensions } from "react-native";
 
 
 
 
 
 const StoreScreen = () => {
-  const { width, height } = Dimensions.get("screen");
-  const IMG_WIDTH = width * 0.75;
+  // const { width, height } = Dimensions.get("screen");
+  const { height:screenHeight , width:screenWidth} = useWindowDimensions();
+  // const windowDimensions = Dimensions.get("window");
+  const IMG_WIDTH = screenWidth * 0.75;
   const IMG_HEIGHT = IMG_WIDTH / 5;
   const { allProducts, loading } = UseProductProvider()
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categoryLoading, setCategoryLoading] = useState(false)
   // const [filteredProducts,setFilteredProducts]=useState(null)
+
+   const [numColumns, setNumColumns] = useState(2);
+
+   useEffect(() => {
+     const isPortrait = screenHeight > screenWidth;
+     if (isPortrait) {
+       setNumColumns(2);
+     } else {
+       setNumColumns(3);
+     }
+   }, [screenHeight, screenWidth]);
 
 
   const uniqueCategories = [
@@ -50,6 +64,8 @@ const StoreScreen = () => {
       thumbnail={item.thumbnail}
       price={item.price}
       productId={item._id}
+      screenWidth={screenWidth}
+      numColumns={numColumns}
     />
   );
   
@@ -129,7 +145,7 @@ const StoreScreen = () => {
             data={filteredProducts}
             renderItem={renderProductCard}
             keyExtractor={(item) => item._id.toString()}
-            numColumns={2}
+            numColumns={numColumns}
             columnWrapperStyle={styles.columnWrapper}
             className="mt-2 pt-2 pl-2 bg-gray-200"
           />

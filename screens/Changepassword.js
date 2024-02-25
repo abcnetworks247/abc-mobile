@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRef } from "react";
+import { ToastAndroid } from "react-native";
 
 const Closeaccount = () => {
 
@@ -63,6 +64,16 @@ const Closeaccount = () => {
        },
        { text: "OK", onPress: () => handleSubmit() },
      ]);
+  
+   const passwordSuccess = (message) => {
+     ToastAndroid.showWithGravityAndOffset(
+       message,
+       ToastAndroid.LONG,
+       ToastAndroid.TOP,
+       25,
+       50
+     );
+   };
 
   
 
@@ -72,32 +83,41 @@ const handleSubmit = async () => {
   try {
     setLoading(true);
   
-    const authToken = await AsyncStorage.getItem("authToken");
+    const authTokenString = await AsyncStorage.getItem("authToken");
+    const authToken = JSON.parse(authTokenString)
+
    
 
     console.log("my authToken", authToken)
     console.log("my string", authToken)
     const response = await fetch(
       `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account/activeUserUpdatePassword`,
+
       {
         method: "PATCH",
         headers: {
-          headers: {
-            Authorization: `Bearer ${String(authToken)}`,
-            "Content-Type": "application/json",
-          },
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       }
     );
 
     const responseData = await response.json()
+    console.log("my response data", responseData)
+    console.log("my status", response.status)
+
+    if (response.status === 500) {
+      Alert.alert(responseData.error)
+    }
 
     if (response.status == 200) {
       //  await getUserData();
-      Alert.alert(responseData.message);
-      // navigation.navigate("Profile");
+    console.log("password updated succesffulu")
+      passwordSuccess(responseData.message);
+      navigation.goBack()
     }
+
 
   
       

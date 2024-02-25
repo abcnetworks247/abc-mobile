@@ -15,26 +15,32 @@ import { UseProductProvider } from "../context/ProductProvider";
 import { useState, useEffect } from "react";
 import { ActivityIndicator, ToastAndroid } from "react-native";
 
-const ProductCard = ({ title, description, thumbnail, price, productId }) => {
-  const { UserData, setIsSignUpVisible  } = UseUserContext();
+const ProductCard = ({
+  title,
+  description,
+  thumbnail,
+  price,
+  productId,
+  screenWidth,
+  numColumns,
+}) => {
+  const { UserData, setIsSignUpVisible } = UseUserContext();
 
-const {
+  const {
     handleWishAdd,
     handleAddToCart,
     handleCartLoading,
     setAddToCartActive,
-    } = UseProductProvider();
+  } = UseProductProvider();
   const navigation = useNavigation();
-  const [addedProduct, setAddedProduct] = useState(null)
-  
+  const [addedProduct, setAddedProduct] = useState(null);
+
   useEffect(() => {
     if (addedProduct) {
-       console.log("my added product", addedProduct)
-       handleAddToCart(productId, UserData._id);
-      
+      console.log("my added product", addedProduct);
+      handleAddToCart(productId, UserData._id);
     }
-  }, [addedProduct,productId])
-  
+  }, [addedProduct, productId]);
 
   const handlePress = () => {
     navigation.navigate("Details", {
@@ -46,10 +52,10 @@ const {
     });
   };
 
- 
   return (
     <Pressable
-      className="basis-1/2 bg-white mb-2 pb-4 shadow-md"
+      style={{ width: screenWidth / numColumns - 4 }}
+      className=" bg-white mb-2 pb-4 shadow-md"
       onPress={handlePress}
     >
       <View className="relative">
@@ -96,10 +102,9 @@ const {
             onPress={
               UserData
                 ? () => {
-                   
                     setAddedProduct(productId);
-                  } 
-                :() =>setIsSignUpVisible(true)
+                  }
+                : () => setIsSignUpVisible(true)
             }
           >
             {handleCartLoading && productId === addedProduct ? (

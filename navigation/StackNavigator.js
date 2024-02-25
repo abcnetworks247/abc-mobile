@@ -492,12 +492,21 @@ const MembershipStackNavigator = () => {
           },
         }}
       />
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="MyModal" component={Modalscreen} options={{
-          headerShown:false
-        }} />
-      </Stack.Group>
-      <Stack.Screen name="Stripesub" component={Stripesub} />
+      <Stack.Screen
+        name="Stripesub"
+        component={Stripesub}
+        options={{
+          headerTitle: "Stripe",
+        }}
+      />
+
+      <Stack.Screen
+        name="MyModal"
+        component={Modalscreen}
+        options={{
+          headerTitle: "Details",
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -572,13 +581,22 @@ const LoadingStackNavigator = () => {
   );
 };
 const DonateStackNavigator = () => {
+  const navigation=useNavigation()
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Donate"
         component={Donation}
         options={{
-          headerTintColor:'white',
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <HamburgerIcon />
+            </Pressable>
+          ),
+          headerTintColor: "white",
           headerStyle: {
             shadowColor: "#000",
             elevation: 25,
