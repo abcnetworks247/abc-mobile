@@ -20,11 +20,15 @@ import {
 
 import { AuthStackNavigatior } from "./StackNavigator";
 import Tabs from "./Tabs";
-import { CloseAccountIcon, InfoIcon } from "../components/svgs/Icons";
+import { CloseAccountIcon, } from "../components/svgs/Icons";
 import { HeartIcon } from "../components/svgs/Icons";
 import CustomDrawer from "../screens/CustomDrawer";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import { Foundation } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 
 const Drawer = createDrawerNavigator();
@@ -52,7 +56,7 @@ export default function DrawerNavigator() {
           options={{
             drawerLabel: "Home",
             drawerIcon: ({ color }) => (
-              <Ionicons name="home-outline" size={22} color={color} />
+              <Foundation name="home" size={22} color={color} />
             ),
           }}
         />
@@ -62,7 +66,11 @@ export default function DrawerNavigator() {
           options={{
             drawerLabel: "Membership",
             drawerIcon: ({ color }) => (
-              <Ionicons name="medal-outline" size={22} color={color} />
+              <MaterialCommunityIcons
+                name="wallet-membership"
+                size={22}
+                color={color}
+              />
             ),
           }}
         />
@@ -70,9 +78,9 @@ export default function DrawerNavigator() {
           name="Donation"
           component={DonateStackNavigator}
           options={{
-            drawerLabel:"Donate",
+            drawerLabel: "Donate",
             drawerIcon: ({ color }) => (
-              <Ionicons name="medal-outline" size={22} color={color} />
+              <FontAwesome5 name="donate" size={22} color={color} />
             ),
           }}
         />
@@ -81,7 +89,9 @@ export default function DrawerNavigator() {
           component={AboutStackNavigator}
           options={{
             drawerLabel: "About",
-            drawerIcon: ({ color }) => <InfoIcon color={color} />,
+            drawerIcon: ({ color }) => (
+              <Entypo name="info-with-circle" color={color} size={22} />
+            ),
           }}
         />
         <Drawer.Screen
@@ -90,7 +100,7 @@ export default function DrawerNavigator() {
           options={{
             drawerLabel: "Contact",
             drawerIcon: ({ color }) => (
-              <Ionicons name="call-outline" size={22} color={color} />
+              <MaterialIcons name="contact-support" size={25} color={color} />
             ),
           }}
         />
@@ -100,7 +110,7 @@ export default function DrawerNavigator() {
           options={{
             drawerLabel: "Wishlist",
             drawerIcon: ({ color }) => (
-              <Ionicons name="heart-outline" size={22} color={color} />
+              <Entypo name="heart" color={color} size={22} />
             ),
           }}
         />
@@ -110,7 +120,7 @@ export default function DrawerNavigator() {
           options={{
             drawerLabel: "Profile",
             drawerIcon: ({ color }) => (
-              <Ionicons name="person-outline" size={22} color={color} />
+              <MaterialIcons name="person" size={24} color={color} />
             ),
             title: "Profile",
           }}

@@ -22,6 +22,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { useWindowDimensions } from "react-native";
+import { StyleSheet } from "react-native";
 
 
 
@@ -29,6 +31,8 @@ const Tab = createMaterialBottomTabNavigator();
 
 
 const Tabs = () => {
+  const { width, height } = useWindowDimensions();
+  const isPortrait = height > width;
   const { cartProducts } = UseProductProvider()
   const{UserData, setIsSignUpVisible} =UseUserContext()
  
@@ -36,7 +40,10 @@ const Tabs = () => {
     <Tab.Navigator
       initialRouteName="Home"
       activeColor="#2c3e50"
-      barStyle={{ backgroundColor: "white" }}
+      barStyle={{
+        backgroundColor: "white",
+        width: "100%",
+      }}
     >
       <Tab.Screen
         name="Hometab"
@@ -88,7 +95,7 @@ const Tabs = () => {
               color={color}
             />
           ),
-          tabBarBadge:cartProducts && cartProducts.length
+          tabBarBadge: cartProducts && cartProducts.length,
         }}
       />
 
@@ -106,6 +113,16 @@ const Tabs = () => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  tabBarPortrait: {
+    height: 60,
+  },
+  tabBarLandscape: {
+    height: 40,
+  },
+});
+
 
 
 export default Tabs

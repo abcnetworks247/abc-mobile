@@ -1,3 +1,4 @@
+import React from "react";
 import {
   View,
   Text,
@@ -9,7 +10,6 @@ import {
   Linking,
   Pressable,
 } from "react-native";
-import React from "react";
 import { ScrollView, SafeAreaView } from "react-native";
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
@@ -22,6 +22,8 @@ const HomeNews = () => {
   const [archivesAndAnalysis, setArchivesAndAnalysis] = useState([]);
   const [breakingNews, setBreakingNews] = useState([]);
   const [sportsNews, setSportsNews] = useState([]);  const [loading, setLoading] = useState(true);
+ 
+
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -75,27 +77,19 @@ const HomeNews = () => {
         <ScrollView
           className="my-2 space-y-8`"
           refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              enabled={true}
-              colors={colors}
-              size={"large"}
-            />
-            //disable scrollbar
-
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           showsVerticalScrollIndicator={false}
         >
           {/* trending news */}
 
-
           {/* popular news */}
-          
+
           <View className=" mb-5">
             <Text className="py-1 text-xl font-bold">Popular News</Text>
-            {
-              !breakingNews? <Text>No news yet</Text>:
+            {!breakingNews ? (
+              <Text>No news yet</Text>
+            ) : (
               breakingNews.map((item, index) => (
                 <TouchableOpacity activeOpacity={0.5} key={index}>
                   <View className="flex flex-col " key={index}>
@@ -123,7 +117,8 @@ const HomeNews = () => {
                     </Pressable>
                   </View>
                 </TouchableOpacity>
-              ))}
+              ))
+            )}
           </View>
         </ScrollView>
       </SafeAreaView>

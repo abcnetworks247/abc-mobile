@@ -8,6 +8,8 @@ import Recovery from "../auth/Recovery";
 import Login from "../auth/Login";
 import { Ionicons } from "@expo/vector-icons";
 import { UseProductProvider } from "../context/ProductProvider";
+import { useIsFocused } from "@react-navigation/native";
+
 import {
   Home,
   News,
@@ -247,6 +249,7 @@ const NewStackNavigator = () => {
 };
 
 const CartStackNavigator = () => {
+  const isFocused = useIsFocused();
   
 const { cartProducts } = UseProductProvider();
   const navigation = useNavigation()
@@ -267,7 +270,7 @@ const { cartProducts } = UseProductProvider();
           headerRight: () => (
             <Pressable style={{ marginRight: 50 }}>
               <Text className="text-white">
-                {cartProducts && cartProducts.length} items
+                {cartProducts && cartProducts.length} items 
               </Text>
             </Pressable>
           ),
@@ -275,11 +278,17 @@ const { cartProducts } = UseProductProvider();
           headerStyle: {
             backgroundColor: "#2c3e50",
           },
+          tabBarVisible: !isFocused, // Hide the tab bar when screen is focused
+          tabBarStyle: { display: isFocused ? "none" : "flex" }, // Hide the tab bar when screen is focused
         }}
       />
-      <Stack.Screen name="Stripeproduct" component={Stripeproduct} options={{
-        title:'Stripe'
-      }}  />
+      <Stack.Screen
+        name="Stripeproduct"
+        component={Stripeproduct}
+        options={{
+          title: "Stripe",
+        }}
+      />
     </Stack.Navigator>
   );
 };

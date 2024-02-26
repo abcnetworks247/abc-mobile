@@ -30,13 +30,9 @@ const StoreScreen = () => {
    const [numColumns, setNumColumns] = useState(2);
 
    useEffect(() => {
-     const isPortrait = screenHeight > screenWidth;
-     if (isPortrait) {
-       setNumColumns(2);
-     } else {
-       setNumColumns(3);
-     }
-   }, [screenHeight, screenWidth]);
+     const isPortrait = screenWidth < 500; 
+     setNumColumns(isPortrait ? 2 : 3);
+   }, [screenWidth]);
 
 
   const uniqueCategories = [
@@ -79,47 +75,15 @@ const StoreScreen = () => {
   } 
 
   return (
-    <SafeAreaView className="flex-1 bg-white ">
+    <SafeAreaView className="flex-1 bg-white " style={{width:screenWidth}}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       {allProducts.length === 0 ? (
         <View className="flex flex-1 items-center justify-center">
           <Text>No products have been uploaded yet</Text>
         </View>
       ) : (
-        <View style={styles.container}>
-          {/* <FlatList
-            data={dummyTexts}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.key}
-            className=" mt-2"
-            renderItem={({ item, index }) => {
-              return (
-                <Pressable
-                  className={`px-2 py-2 h-10  mx-1 flex flex-row items-center justify-center ${
-                    selectedCategory === item.category
-                      ? "bg-black"
-                      : "bg-gray-200"
-                  }`}
-                  onPress={() => {
-                    setSelectedCategory(item.category);
-                    // handleCategoryPress();
-                  }}
-                >
-                  <Text
-                    className={`${
-                      selectedCategory === item.category
-                        ? "text-white"
-                        : "text-black"
-                    }`}
-                  >
-                    {item.category}
-                  </Text>
-                </Pressable>
-              );
-            }}
-          /> */}
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <View style={{...styles.container, width:screenWidth }}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{width:'100%'}}>
             {uniqueCategories.map((category, index) => (
               <Pressable
                 key={index}
@@ -146,7 +110,7 @@ const StoreScreen = () => {
             renderItem={renderProductCard}
             keyExtractor={(item) => item._id.toString()}
             numColumns={numColumns}
-            columnWrapperStyle={styles.columnWrapper}
+            columnWrapperStyle={{ ...styles.columnWrapper , width:screenWidth}}
             className="mt-2 pt-2 pl-2 bg-gray-200"
           />
         </View>

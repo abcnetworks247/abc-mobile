@@ -51,8 +51,8 @@ const LayerOne = ({ data, loading }) => {
               <View className=" flex flex-row gap-2">
              
                 {
-                   data.slice(0, 5).map((item) => (
-                    <View className="flex rounded w-28 h-24">
+                   data.slice(0, 5).map((item, index) => (
+                    <View className="flex rounded w-28 h-24" key={index}>
                       <TouchableOpacity activeOpacity={0.5} onPress={handlePress(item)} className="w-full">
 
                         <Image

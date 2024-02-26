@@ -32,13 +32,27 @@ import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
 import { ActivityIndicator } from "react-native-paper";
 import { loadStripe } from "@stripe/stripe-js";
+import { RefreshControl } from "react-native";
+import { useWindowDimensions } from "react-native";
 
 
 export default function Cart() {
-  const { cartProducts } = UseProductProvider(); 
+  const {width}=useWindowDimensions()
+  const { cartProducts,  } = UseProductProvider(); 
  const navigation = useNavigation();
 const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
- const shippingFee = 5;
+  const shippingFee = 5;
+  
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+   const onRefresh = React.useCallback(() => {
+     setRefreshing(true);
+     setTimeout(() => {
+       setRefreshing(false);
+        console.log("current user data", UserData)
+     }, 2000);
+   }, []);
   
   if (!UserData) {
    const handleLoginPress = () => {
@@ -177,56 +191,70 @@ if (authToken && cartProducts && cartProducts.length > 0) {
   };
 
    return (
-     <SafeAreaView style={globalstyels.droidSafeArea}>
+     <SafeAreaView style={globalstyels.droidSafeArea} className="relative">
        <FocusAwareStatusBar
          barStyle="light-content"
          backgroundColor="#2c3e50"
        />
-       <ScrollView>
+       <ScrollView
+         refreshControl={
+           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+         }
+       >
          <View className="mt-4 px-2">
            {cartProducts.map((product) => (
              <CartItem key={product._id} product={product} />
            ))}
-           <View className="bg-white px-2">
-             <View className="flex flex-row py-4 justify-between">
-               <Text className="text-sm text-gray-500">Subtotal</Text>
-               <Text className="text-sm font-semibold">
-                 ${totalPrice.toFixed(2)}
-               </Text>
-             </View>
-             <View className="flex flex-row justify-between py-2">
-               <Text className="text-sm text-gray-500">Shipping</Text>
-               <Text className="text-sm font-semibold">${shippingFee}</Text>
-             </View>
-             <View className="flex flex-row py-2  border-t border-t-gray-100 justify-between ">
-               <Text className="text-sm text-gray-500">Total</Text>
-               <Text className="text-sm font-semibold">
-                 ${grandTotal.toFixed(2)}
-               </Text>
-             </View>
+         </View>
+         <View className="bg-white px-2">
+           <View className="flex flex-row py-4 justify-between">
+             <Text className="text-sm text-gray-500">Subtotal</Text>
+             <Text className="text-sm font-semibold">
+               ${totalPrice.toFixed(2)}
+             </Text>
            </View>
-           <View style={{ marginTop: 12 }}>
-             <Text>Choose a Payment Method</Text>
-             <Picker
-               selectedValue={paymentType}
-               onValueChange={(itemValue, itemIndex) =>
-                 setPaymentType(itemValue)
-               }
-             >
-               <Picker.Item label="Stripe" value="Stripe" />
-               <Picker.Item label="Crypto" value="Crypto" />
-             </Picker>
+           <View className="flex flex-row justify-between py-2">
+             <Text className="text-sm text-gray-500">Shipping</Text>
+             <Text className="text-sm font-semibold">${shippingFee}</Text>
            </View>
+           <View className="flex flex-row py-2  border-t border-t-gray-100 justify-between ">
+             <Text className="text-sm text-gray-500">Total</Text>
+             <Text className="text-lg font-bold text-[#00308F]">
+               ${grandTotal.toFixed(2)}
+             </Text>
+           </View>
+         </View>
+         <View style={{ marginTop: 12 }}>
+           <Text>Choose a Payment Method</Text>
+           <Picker
+             selectedValue={paymentType}
+             onValueChange={(itemValue, itemIndex) => setPaymentType(itemValue)}
+           >
+             <Picker.Item label="Stripe" value="Stripe" />
+             <Picker.Item label="Crypto" value="Crypto" />
+           </Picker>
+         </View>
+       </ScrollView>
+       <View className="absolute bottom-0 right-0 left-0 z-10">
+         <View className="flex flex-row items-center justify-between bg-white px-4 py-2 shadow-lg">
+           <Text className="text-lg font-bold ">
+             ${grandTotal.toFixed(2)}
+           </Text>
            <TouchableOpacity
-             className="bg-black flex flex-row justify-center items-center h-10"
+             style={{width:width/2}}
+             className="bg-black flex flex-row justify-center items-center h-10 "
              onPress={CheckOut}
            >
-             <Text className="text-white">
-               {spinner ?  <ActivityIndicator size="small" color="white" />: 'Place an order '}
+             <Text className="text-white font-bold">
+               {spinner ? (
+                 <ActivityIndicator size="small" color="white" />
+               ) : (
+                 "Check out "
+               )}
              </Text>
            </TouchableOpacity>
          </View>
-       </ScrollView>
+       </View>
      </SafeAreaView>
    );
 }

@@ -54,8 +54,8 @@ const ProductCard = ({
 
   return (
     <Pressable
-      style={{ width: screenWidth / numColumns - 4 }}
-      className=" bg-white mb-2 pb-4 shadow-md"
+     
+      className=" bg-white mb-2 pb-4 shadow-md basis-1/2"
       onPress={handlePress}
     >
       <View className="relative">

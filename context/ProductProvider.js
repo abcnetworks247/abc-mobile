@@ -5,11 +5,15 @@ import { createContext } from "react";
 import { UseUserContext } from "./UserContext";
 import { io } from "socket.io-client";
 import { FlatListComponent, ToastAndroid } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const ProductContext = createContext();
 
 const ProductProvider = ({ children }) => {
-  const { UserData, authToken } = UseUserContext();
+  const { UserData, authToken, getUserData } = UseUserContext();
+
+  console.log("User Data in product provider", UserData)
 
   const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
 
@@ -105,29 +109,36 @@ const ProductProvider = ({ children }) => {
   }, [UserData && UserData]);
 
  
- useEffect(() => {
-   const fetchWishlistFromServer = async () => {
-     try {
-       const productsPromises = UserData.wishlist.map(async (productId) => {
-         const productResponse = await fetch(
-           `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
-         );
-         if (!productResponse.ok) {
-           throw new Error(`HTTP error! Status: ${productResponse.status}`);
-         }
-         return await productResponse.json(); // Adjust to your server's response structure
-       });
+  useEffect(() => {
+   
+    const fetchWishlistFromServer = async () => {
+      try {
+        const authToken = JSON.parse(await AsyncStorage.getItem('authToken'))
+        
+        if (!UserData) {
+          return
+        }
+       
+        // Map through the wishlist IDs and fetch product details
+        const productsPromises = UserData.wishlist.map(async (productId) => {
+          const productResponse = await axios.get(
+            `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
+          );
+          return productResponse.data; // Adjust to your server's response structure
+        });
 
-       const products = await Promise.all(productsPromises);
+        const products = await Promise.all(productsPromises);
 
-       setWishlist(products);
-     } catch (error) {
-       console.error("Error fetching wishlist from the server:", error);
-     }
-   };
+        setWishlist(products);
+      } catch (error) {
+        console.error("Error fetching wishlist from the server:", error);
+      }
+    };
 
-   fetchWishlistFromServer();
- }, []);
+    // Fetch wishlist from the server when the component mounts
+    fetchWishlistFromServer();
+  }, [UserData]);
+
 
   // emit signals to add to wish list
   const handleWishAdd = (productId, userId) => {

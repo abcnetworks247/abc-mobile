@@ -39,7 +39,7 @@ export default function AboutComponent() {
   }, []);
 
   return (
-    <ScrollView style={{width:width}}>
+    <ScrollView style={{ width: screenWidth }}>
       {loading ? (
         <Text>Loading...</Text>
       ) : error ? (
@@ -52,7 +52,7 @@ export default function AboutComponent() {
             >
               About Us
             </Text>
-            <HTML source={{ html: about }} />
+            <HTML source={{ html: about }} contentWidth={screenWidth}/>
             <Image
               source={{ uri: aboutImageSrc }}
               style={{
@@ -64,12 +64,19 @@ export default function AboutComponent() {
               resizeMode="cover"
             />
           </View>
-          <View style={{ padding: 20, backgroundColor: "#f0f0f0" , width:width}}>
-            <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 10 }}
+          <View
+            style={{
+              padding: 20,
+              backgroundColor: "#f0f0f0",
+              width: screenWidth,
+            }}
+          >
+            <Text
+              style={{ fontSize: 24, fontWeight: "bold", marginBottom: 10 }}
             >
               More About Us
             </Text>
-            <HTML source={{ html: about2 }} />
+            <HTML source={{ html: about2 }} contentWidth={screenWidth} />
           </View>
         </>
       )}
