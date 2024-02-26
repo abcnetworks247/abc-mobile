@@ -52,7 +52,7 @@ const LayerThree = ({ data, loading }) => {
               </View>
             ))
           ) : (
-              !data? <Text>No data available</Text>:
+             
             <Pressable>
               <View className="flex flex-col flex-1 p-1">
                 <View className="border-b-gray-300 border-b mt-3 mb-3" />

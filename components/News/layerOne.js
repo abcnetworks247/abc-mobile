@@ -44,7 +44,7 @@ const LayerOne = ({ data, loading }) => {
             </View>
           ))
         ) : (
-         !data ? <Text>No data available</Text>:
+        
           <>
             <Text className="text-xl font-bold">Here are the world {data[0].type} News you don't want to miss.. </Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-2">
