@@ -18,12 +18,21 @@ import { useEffect, useState } from "react";
 // import {  TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import globalstyels from "../styles/globalstyels";
+import { useCustomFonts } from "../context/FontContext";
+import AppLoading from "expo-app-loading";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 const TypeDetails = () => {
+   const { fontsLoaded, fontStyles } = useCustomFonts();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
   const route = useRoute();
+
+   if (!fontsLoaded) {
+     return <AppLoading />;
+   }
+
 
   //get data from params
   const { id, name } = route.params;
@@ -62,15 +71,19 @@ const TypeDetails = () => {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#111827" />
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <SafeAreaView style={globalstyels.droidSafeArea}>
-        <ScrollView className="my-2 space-y-8 mx-3"
+        <ScrollView
+          className="my-2 space-y-8 mx-3"
           // remove scrollbar
           showsVerticalScrollIndicator={false}
         >
           {/* trending news */}
           <View className=" ">
-            <Text className="py-1 text-xl font-bold h-fit uppercase">
+            <Text
+              style={{ fontFamily: "PublicSans_700Bold", fontSize: 16 }}
+              className="py-1 h-fit "
+            >
               {name}
             </Text>
             <TouchableOpacity onPress={handlePress}>
@@ -89,11 +102,20 @@ const TypeDetails = () => {
                           />
 
                           <View className="flex flex-col flex-1 p-1">
-                            <Text className="text-xs w-fit  uppercase hover:underline text-blue-600">
+                            <Text
+                              style={{ fontFamily: "PublicSans_400Regular" }}
+                              className="w-fit hover:underline text-blue-600"
+                            >
                               {item.category}
                             </Text>
 
-                            <Text className="flex-1 py-2 text-lg font-semibold ">
+                            <Text
+                              style={{
+                                fontFamily: "PublicSans_600SemiBold",
+                                fontSize: 14,
+                              }}
+                              className="flex-1 py-2 capitalize"
+                            >
                               {item.title}
                             </Text>
                           </View>

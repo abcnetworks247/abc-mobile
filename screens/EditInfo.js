@@ -183,7 +183,7 @@ const EditInfo = () => {
     
 
   return (
-    <SafeAreaView style={globalstyels.droidSafeArea}>
+    <SafeAreaView style={globalstyels.droidSafeArea} className="relative">
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       {loading ? (
         <View className="flex flex-row items-center justify-center mt-24 ">
@@ -302,7 +302,7 @@ const EditInfo = () => {
       <TouchableOpacity
         onPress={() => handleSubmit()}
         type="submit"
-        className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="absolute bottom-0 left-0 right-0 text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         <Text className="text-white text-center text-lg">Save details</Text>
       </TouchableOpacity>

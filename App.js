@@ -17,6 +17,7 @@ import { UserContextProvider } from "./context/UserContext";
 import { UseUserContext } from "./context/UserContext";
 import Toast from "react-native-toast-message";
 import { LoadingStackNavigator } from "./navigation/StackNavigator";
+import FontProvider from "./context/FontContext";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -48,7 +49,9 @@ export default function App() {
   return (
     <UserContextProvider>
       <ProductProvider>
-        <AppContent />
+        <FontProvider>
+          <AppContent />
+        </FontProvider>
       </ProductProvider>
     </UserContextProvider>
   );

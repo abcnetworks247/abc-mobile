@@ -17,7 +17,13 @@ import { useNavigation } from "@react-navigation/native";
 import globalstyels from "../../styles/globalstyels";
 globalstyels;
 import Api from "../../utils/Api";
+import { useCustomFonts } from "../../context/FontContext";
+import AppLoading from "expo-app-loading";
+
+
 const HomeNews = () => {
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+ 
   const [socioCultural, setSocioCultural] = useState([]);
   const [archivesAndAnalysis, setArchivesAndAnalysis] = useState([]);
   const [breakingNews, setBreakingNews] = useState([]);
@@ -69,6 +75,9 @@ const HomeNews = () => {
   if (loading === true) {
     return null;
   }
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <>
@@ -86,7 +95,12 @@ const HomeNews = () => {
           {/* popular news */}
 
           <View className=" mb-5">
-            <Text className="py-1 text-xl font-bold">Popular News</Text>
+            <Text
+              className="py-1 "
+              style={{ fontFamily: "PublicSans_700Bold", fontSize: 20 }}
+            >
+              Popular News
+            </Text>
             {!breakingNews ? (
               <Text>No news yet</Text>
             ) : (
@@ -103,10 +117,16 @@ const HomeNews = () => {
                       />
 
                       <View className="flex flex-col flex-1 p-1">
-                        <Text className="text-xs w-fit  uppercase hover:underline text-blue-600">
+                        <Text
+                          style={{ fontFamily: "PublicSans_400Regular" }}
+                          className="w-fit hover:underline text-blue-600"
+                        >
                           {item.category}
                         </Text>
-                        <Text className="flex-1 py-2 text-lg font-semibold ">
+                        <Text
+                          className="flex-1 py-2 capitalize  "
+                          style={{ fontFamily: "PublicSans_600SemiBold" }}
+                        >
                           {item.title}
                         </Text>
                         <View className="flex flex-wrap justify-between pt-3 text-xs ">

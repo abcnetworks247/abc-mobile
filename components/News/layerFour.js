@@ -12,9 +12,12 @@ import {
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import Typography from "../Typography";
+import { useCustomFonts } from "../../context/FontContext";
+import AppLoading from "expo-app-loading";
 
 
 const LayerFour = ({ data, loading }) => {
+  const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
   const handlePress = (item) => () => {
     navigation.navigate("NewsDetails", {
@@ -26,6 +29,10 @@ const LayerFour = ({ data, loading }) => {
       desc: item.longdescription,
     });
   };
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
 
   return (
     <View>
@@ -53,8 +60,8 @@ const LayerFour = ({ data, loading }) => {
             <View className="flex flex-col flex-1 p-1">
               <View className="border-b-gray-300 border-b mt-3 mb-3" />
               <Text
-                className="flex-1 py-2 text-xl font-bold "
-                
+                style={{ fontFamily: "PublicSans_600SemiBold" }}
+                className="flex-1 py-2 capitalize "
               >
                 {data[0].title}
               </Text>
@@ -85,7 +92,10 @@ const LayerFour = ({ data, loading }) => {
                       onPress={handlePress(item)}
                       className="flex-row flex justify-between gap-2 w-fit p-1 "
                     >
-                      <Text className="text-base font-bold text-gray-700 w-2/3">
+                      <Text
+                        className="w-2/3"
+                        style={{ fontFamily: "PublicSans_600SemiBold" }}
+                      >
                         {item.title}
                       </Text>
                       <Image

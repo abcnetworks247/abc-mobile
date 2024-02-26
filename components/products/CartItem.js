@@ -6,9 +6,11 @@ import { UseUserContext } from '../../context/UserContext';
 import Toast from 'react-native-toast-message';
 import { ActivityIndicator, ToastAndroid } from "react-native";
 import { useState } from 'react';
+import { useCustomFonts } from '../../context/FontContext';
+import AppLoading from "expo-app-loading";
 
 const CartItem = ({ product }) => {
-
+const { fontsLoaded, fontStyles } = useCustomFonts();
 const {
   handleRemoveFromCart,
   handleCartDecrease,
@@ -31,6 +33,10 @@ const {
     setDeletedId(product._id)
     console.log("my deleted of", deletedId)
   }
+  
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
 
  
@@ -48,7 +54,7 @@ const {
         <TouchableOpacity
           className="absolute top-0 right-0  px-2 py-2 z-10"
           onPress={() => {
-            handleId()
+            handleId();
             handleRemoveFromCart(product.product._id, UserData._id);
           }}
         >
@@ -63,7 +69,8 @@ const {
           <View className=" flex-grow-0">
             <View className="flex flex-co py-1 ">
               <Text
-                className="font-bold ml-2"
+                style={{ fontFamily: "PublicSans_700Bold" }}
+                className=""
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
@@ -72,17 +79,27 @@ const {
                   : product.product.title}
               </Text>
 
-              <Text className="text-gray-500">{product.product.category}</Text>
+              <Text style={{ fontFamily: "PublicSans_300Light" }}>
+                {product.product.category}
+              </Text>
             </View>
           </View>
 
           <View className="flex flex-row items-center justify-between">
             {/* price */}
             <View className="flex flex-row gap-1 items-center">
-              <Text className="font-bold text-[#00308F]">
+              <Text
+                style={{ fontFamily: "PublicSans_700Bold" }}
+                className="text-[#00308F]"
+              >
                 ${calculateSubtotal()}
               </Text>
-              <Text className="text-gray-400 line-through">$170</Text>
+              <Text
+                style={{ fontFamily: "PublicSans_300Light" }}
+                className="line-through"
+              >
+                $170
+              </Text>
             </View>
 
             {/* buttons */}
@@ -101,7 +118,9 @@ const {
                     <MinusIcon />
                   </TouchableOpacity>
                   <View className>
-                    <Text className="font-bold">{product.quantity}</Text>
+                    <Text style={{ fontFamily: "PublicSans_700Bold" }}>
+                      {product.quantity}
+                    </Text>
                   </View>
 
                   <TouchableOpacity

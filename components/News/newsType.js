@@ -14,8 +14,11 @@ import img from "../../assets/events-search.jpg";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import globalstyels from "../../styles/globalstyels";
+import { useCustomFonts } from "../../context/FontContext";
+import AppLoading from "expo-app-loading";
 
 export default function NewsType() {
+    const { fontsLoaded, fontStyles } = useCustomFonts();
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -37,18 +40,24 @@ export default function NewsType() {
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>
       <ScrollView>
         <View className="px-4">
-          {loading  ? (
+          {loading ? (
             <View className="justify-center h-[80vh] tems-center ">
               <View className="h-[40vh] bg-gray-500 rounded-t-lg ">
                 <Image className="object-cover w-full h-full" source={img} />
               </View>
             </View>
+          ) : !result ? (
+            <Text>Empty</Text>
           ) : (
-              !result ? <Text>Empty</Text>:
             <ScrollView
               className="mt-4 mb-24"
               showsVerticalScrollIndicator={false}
@@ -65,7 +74,10 @@ export default function NewsType() {
                         })
                       }
                     >
-                      <Text className="text-lg font-semibold text-center text-gray-700 uppercase">
+                      <Text
+                        className="text-center text-gray-700 "
+                        style={{ fontFamily: "PublicSans_600SemiBold", fontSize:16 }}
+                      >
                         {item.name}
                       </Text>
                     </TouchableOpacity>

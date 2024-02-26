@@ -242,8 +242,32 @@ const NewStackNavigator = () => {
           },
         }}
       />
-      <Stack.Screen name="TypeDetails" component={TypeDetails} />
-      <Stack.Screen name="NewsDetails" component={NewsDetails} />
+      <Stack.Screen
+        name="TypeDetails"
+        component={TypeDetails}
+        options={{
+          headerTitle: "",
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#2c3e50",
+          },
+          headerTintColor: "white",
+        }}
+      />
+      <Stack.Screen
+        name="NewsDetails"
+        component={NewsDetails}
+        options={{
+          headerTitle: "Details",
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#2c3e50",
+          },
+          headerTintColor: "white",
+        }}
+      />
     </Stack.Navigator>
   );
 };

@@ -36,9 +36,19 @@ import { RefreshControl } from "react-native";
 import { useWindowDimensions } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { Button } from "react-native";
+import AppLoading from "expo-app-loading";
+import { useCustomFonts } from "../context/FontContext";
 
 
 export default function Cart() {
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+  
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
+
   const {width}=useWindowDimensions()
   const { cartProducts,  } = UseProductProvider(); 
  const navigation = useNavigation();
@@ -284,24 +294,35 @@ if (authToken && cartProducts && cartProducts.length > 0) {
          </View>
          <View className="bg-white px-2">
            <View className="flex flex-row py-4 justify-between">
-             <Text className="text-sm text-gray-500">Subtotal</Text>
-             <Text className="text-sm font-semibold">
+             <Text style={{ fontFamily: "PublicSans_400Regular" }}>
+               Subtotal
+             </Text>
+             <Text style={{ fontFamily: "PublicSans_600SemiBold" }}>
                ${totalPrice.toFixed(2)}
              </Text>
            </View>
            <View className="flex flex-row justify-between py-2">
-             <Text className="text-sm text-gray-500">Shipping</Text>
-             <Text className="text-sm font-semibold">${shippingFee}</Text>
+             <Text style={{ fontFamily: "PublicSans_400Regular" }}>
+               Shipping
+             </Text>
+             <Text style={{ fontFamily: "PublicSans_600SemiBold" }}>
+               ${shippingFee}
+             </Text>
            </View>
            <View className="flex flex-row py-2  border-t border-t-gray-100 justify-between ">
-             <Text className="text-sm text-gray-500">Total</Text>
-             <Text className="text-lg font-bold text-[#00308F]">
+             <Text style={{ fontFamily: "PublicSans_400Regular" }}>Total</Text>
+             <Text
+               style={{ fontFamily: "PublicSans_600SemiBold" }}
+               className="text-[#00308F]"
+             >
                ${grandTotal.toFixed(2)}
              </Text>
            </View>
          </View>
          <View className="px-4 mt-2 bg-white">
-           <Text>Choose a Payment Method</Text>
+           <Text style={{ fontFamily: "PublicSans_500Medium" }}>
+             Choose a Payment Method
+           </Text>
            <Picker
              selectedValue={paymentType}
              onValueChange={(itemValue, itemIndex) => setPaymentType(itemValue)}
@@ -313,7 +334,11 @@ if (authToken && cartProducts && cartProducts.length > 0) {
 
          {/* form begins */}
          <View style={styles.container}>
-           <Text style={styles.label}>Phone Number</Text>
+           <Text
+             style={{ ...styles.label, fontFamily: "PublicSans_500Medium" }}
+           >
+             Phone Number
+           </Text>
            <TextInput
              style={styles.input}
              value={phone}
@@ -321,21 +346,33 @@ if (authToken && cartProducts && cartProducts.length > 0) {
              keyboardType="phone-pad"
            />
 
-           <Text style={styles.label}>Shipping Address</Text>
+           <Text
+             style={{ ...styles.label, fontFamily: "PublicSans_500Medium" }}
+           >
+             Shipping Address
+           </Text>
            <TextInput
              style={styles.input}
              value={shippingAddress}
              onChangeText={setShippingAddress}
            />
 
-           <Text style={styles.label}>City</Text>
+           <Text
+             style={{ ...styles.label, fontFamily: "PublicSans_500Medium" }}
+           >
+             City
+           </Text>
            <TextInput
              style={styles.input}
              value={city}
              onChangeText={setCity}
            />
 
-           <Text style={styles.label}>Postal Code</Text>
+           <Text
+             style={{ ...styles.label, fontFamily: "PublicSans_500Medium" }}
+           >
+             Postal Code
+           </Text>
            <TextInput
              style={styles.input}
              value={postalcode}
@@ -383,9 +420,11 @@ if (authToken && cartProducts && cartProducts.length > 0) {
        {/* absolutely positioned element */}
        <View className="absolute bottom-0 right-0 left-0 z-10">
          <View className="flex flex-row items-center justify-between bg-white px-4 py-2 shadow-lg">
-           <Text className="text-lg font-bold ">${grandTotal.toFixed(2)}</Text>
+           <Text style={{ ...styles.label, fontFamily: "PublicSans_700Bold" }}>
+             ${grandTotal.toFixed(2)}
+           </Text>
            <TouchableOpacity
-             style={{ width: width / 2, opacity: isSubmitDisabled ? 0.5 : 1 }}
+             style={{ width: width / 2, opacity: isSubmitDisabled ? 0.7 : 1 }}
              className="bg-black flex flex-row justify-center items-center h-10 "
              onPress={CheckOut}
              disabled={isSubmitDisabled}

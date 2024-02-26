@@ -28,10 +28,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UseProductProvider } from "../context/ProductProvider";
 import { Alert } from "react-native";
 import { ActivityIndicator } from "react-native";
-
+import { useCustomFonts } from "../context/FontContext";
+import AppLoading from "expo-app-loading";
 
 
 export default function Profile() {
+   const { fontsLoaded, fontStyles } = useCustomFonts();
+
   const { setIsSignUpVisible, UserData, getUserData } = UseUserContext();
   const { cartProducts } = UseProductProvider();
   const [eventName, setEventName] = useState("");
@@ -100,6 +103,9 @@ export default function Profile() {
     console.log("my cart product", cartProducts)
   }
 
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <SafeAreaView style={globalstyels.droidSafeArea}>
@@ -124,10 +130,12 @@ export default function Profile() {
           />
 
           <View className="flex flex-col">
-            <Text className="font-bold" style={{ fontFamily: "Roboto" }}>
+            <Text style={{ fontFamily: "PublicSans_700Bold" }}>
               {UserData && UserData.fullname}
             </Text>
-            <Text className="text-gray-400">{UserData && UserData.email}</Text>
+            <Text style={{ fontFamily: "PublicSans_300Light" }}>
+              {UserData && UserData.email}
+            </Text>
           </View>
         </View>
 
@@ -154,7 +162,12 @@ export default function Profile() {
                   <Path d="M11 2.577a2 2 0 012 0l6.66 3.846a2 2 0 011 1.732v7.69a2 2 0 01-1 1.732L13 21.423a2 2 0 01-2 0l-6.66-3.846a2 2 0 01-1-1.732v-7.69a2 2 0 011-1.732L11 2.577z" />
                 </G>
               </Svg>
-              <Text className="mx-2">Orders</Text>
+              <Text
+                className="mx-2"
+                style={{ fontFamily: "PublicSans_700Bold" }}
+              >
+                Orders
+              </Text>
             </TouchableOpacity>
             <Pressable className="bg-white flex-1 flex flex-row items-center px-2  shadow-md ">
               <Svg
@@ -174,7 +187,12 @@ export default function Profile() {
                   strokeLinejoin="round"
                 />
               </Svg>
-              <Text className="mx-2">Wishlist</Text>
+              <Text
+                className="mx-2"
+                style={{ fontFamily: "PublicSans_700Bold" }}
+              >
+                Wishlist
+              </Text>
             </Pressable>
           </View>
         </View>
@@ -194,7 +212,12 @@ export default function Profile() {
           >
             <View className="flex flex-row items-center">
               <EditIcon />
-              <Text className="mx-2">Edit profile</Text>
+              <Text
+                className="mx-2"
+                style={{ fontFamily: "PublicSans_500Medium" }}
+              >
+                Edit profile
+              </Text>
             </View>
             <AngleIcon />
           </TouchableOpacity>
@@ -204,7 +227,12 @@ export default function Profile() {
           >
             <View className="flex flex-row items-center">
               <ResetPasswordIcon />
-              <Text className="mx-2">Change Password</Text>
+              <Text
+                className="mx-2"
+                style={{ fontFamily: "PublicSans_500Medium" }}
+              >
+                Change Password
+              </Text>
             </View>
             <AngleIcon />
           </TouchableOpacity>
@@ -215,7 +243,12 @@ export default function Profile() {
           >
             <View className="flex flex-row items-center ">
               <CloseAccountIcon />
-              <Text className="mx-2">Close Account</Text>
+              <Text
+                className="mx-2"
+                style={{ fontFamily: "PublicSans_500Medium" }}
+              >
+                Close Account
+              </Text>
             </View>
             <AngleIcon />
           </TouchableOpacity>
@@ -226,7 +259,12 @@ export default function Profile() {
           >
             <View className="flex flex-row items-center">
               <LogOutIcon />
-              <Text className="mx-2">Log out</Text>
+              <Text
+                className="mx-2"
+                style={{ fontFamily: "PublicSans_500Medium" }}
+              >
+                Log out
+              </Text>
             </View>
             {loading ? (
               <ActivityIndicator size="small" color="#727272" />
