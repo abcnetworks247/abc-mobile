@@ -9,7 +9,7 @@ import DrawerNavigator from "./navigation/DrawerNavigator";
 import { UseProductProvider } from "./context/ProductProvider";
 import TestSignUp from "./auth/TestSignUp";
 import Login from "./auth/Login";
-import { useState } from "react" 
+import { useState, useEffect } from "react" 
 import Recovery from "./auth/Recovery"
 import Updatepassword from "./auth/Updatepassword";
 import { AuthStackNavigator } from "./navigation/StackNavigator";
@@ -18,6 +18,8 @@ import { UseUserContext } from "./context/UserContext";
 import Toast from "react-native-toast-message";
 import { LoadingStackNavigator } from "./navigation/StackNavigator";
 import FontProvider from "./context/FontContext";
+import NetInfo from "@react-native-community/netinfo";
+import OfflineNoticeScreen from "./screens/OfflineNotice";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -45,12 +47,33 @@ function AppContent() {
 }
 
 export default function App() {
+  const [isConnected, setIsConnected] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setIsConnected(state.isConnected);
+    });
+
+    // Check initial status
+    NetInfo.fetch().then((state) => {
+      setIsConnected(state.isConnected);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   
   return (
     <UserContextProvider>
       <ProductProvider>
         <FontProvider>
-          <AppContent />
+          {isConnected ? (
+            <AppContent />
+          ) : (
+           <OfflineNoticeScreen/>
+          )}
         </FontProvider>
       </ProductProvider>
     </UserContextProvider>
