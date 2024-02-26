@@ -55,7 +55,7 @@ const LayerTwo = ({ data, loading }) => {
             </View>
           ))
         ) : data.length === 0 ? (
-          <Text>No data available</Text>
+          <Text></Text>
         ) : (
           <Pressable>
             <View className="flex flex-col flex-1 p-1">
