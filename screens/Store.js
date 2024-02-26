@@ -11,6 +11,8 @@ import globalstyels from "../styles/globalstyels";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { ActivityIndicator } from "react-native";
 import { useWindowDimensions } from "react-native";
+import { useCustomFonts } from "../context/FontContext";
+import AppLoading from "expo-app-loading";
 
 
 
@@ -18,6 +20,9 @@ import { useWindowDimensions } from "react-native";
 
 const StoreScreen = () => {
   // const { width, height } = Dimensions.get("screen");
+  
+const { fontsLoaded, fontStyles } = useCustomFonts();
+
   const { height:screenHeight , width:screenWidth} = useWindowDimensions();
   // const windowDimensions = Dimensions.get("window");
   const IMG_WIDTH = screenWidth * 0.75;
@@ -64,6 +69,10 @@ const StoreScreen = () => {
       numColumns={numColumns}
     />
   );
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   
 
   if (loading) {
@@ -75,15 +84,19 @@ const StoreScreen = () => {
   } 
 
   return (
-    <SafeAreaView className="flex-1 bg-white " style={{width:screenWidth}}>
+    <SafeAreaView className="flex-1 bg-white " style={{ width: screenWidth }}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       {allProducts.length === 0 ? (
         <View className="flex flex-1 items-center justify-center">
           <Text>No products have been uploaded yet</Text>
         </View>
       ) : (
-          <View style={{...styles.container, width:screenWidth }}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{width:'100%'}}>
+        <View style={{ ...styles.container, width: screenWidth }}>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            style={{ width: "100%" }}
+          >
             {uniqueCategories.map((category, index) => (
               <Pressable
                 key={index}
@@ -95,6 +108,7 @@ const StoreScreen = () => {
                 }}
               >
                 <Text
+                  style={{ fontFamily: "PublicSans_600SemiBold" }}
                   className={`${
                     selectedCategory === category ? "text-white" : "text-black"
                   }`}
@@ -110,7 +124,7 @@ const StoreScreen = () => {
             renderItem={renderProductCard}
             keyExtractor={(item) => item._id.toString()}
             numColumns={numColumns}
-            columnWrapperStyle={{ ...styles.columnWrapper , width:screenWidth}}
+            columnWrapperStyle={{ ...styles.columnWrapper, width: screenWidth }}
             className="mt-2 pt-2 pl-2 bg-gray-200"
           />
         </View>

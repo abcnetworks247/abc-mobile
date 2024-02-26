@@ -14,6 +14,8 @@ import { UseUserContext } from "../context/UserContext";
 import { UseProductProvider } from "../context/ProductProvider";
 import { useState, useEffect } from "react";
 import { ActivityIndicator, ToastAndroid } from "react-native";
+import { useCustomFonts } from "../context/FontContext";
+import AppLoading from "expo-app-loading";
 
 const ProductCard = ({
   title,
@@ -25,6 +27,8 @@ const ProductCard = ({
   numColumns,
 }) => {
   const { UserData, setIsSignUpVisible } = UseUserContext();
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+  
 
   const {
     handleWishAdd,
@@ -52,9 +56,12 @@ const ProductCard = ({
     });
   };
 
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return (
     <Pressable
-     
       className=" bg-white mb-2 pb-4 shadow-md basis-1/2"
       onPress={handlePress}
     >
@@ -67,17 +74,28 @@ const ProductCard = ({
       </View>
 
       <View className="px-2 mt-2">
-        <Text className="text-gray-800 text-semibold line-clamp-1">
+        <Text
+          style={{ fontFamily: "PublicSans_500Medium" }}
+          className="line-clamp-1"
+        >
           {title}
         </Text>
       </View>
 
       <View className="flex flex-row items-center justify-between px-2">
         <View>
-          <Text className="text-[#00308F] font-bold">${price.toFixed(2)}</Text>
+          <Text
+            style={{ fontFamily: "PublicSans_600SemiBold" }}
+            className="text-[#00308F]"
+          >
+            ${price.toFixed(2)}
+          </Text>
         </View>
         <View>
-          <Text className="text-gray-400 text-xs font-bold line-through">
+          <Text
+            style={{ fontFamily: "PublicSans_300Light", fontSize:12 }}
+            className="line-through"
+          >
             ${price.toFixed(2)}
           </Text>
         </View>
