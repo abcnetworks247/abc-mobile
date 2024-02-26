@@ -34,6 +34,8 @@ import { ActivityIndicator } from "react-native-paper";
 import { loadStripe } from "@stripe/stripe-js";
 import { RefreshControl } from "react-native";
 import { useWindowDimensions } from "react-native";
+import RNPickerSelect from "react-native-picker-select";
+import { Button } from "react-native";
 
 
 export default function Cart() {
@@ -136,59 +138,133 @@ if (authToken && cartProducts && cartProducts.length > 0) {
 
   const grandTotal = totalPrice + shippingFee;
   const [paymentType, setPaymentType] = useState("Stripe");
-   const [spinner, setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(false);
+    const [phone, setPhone] = useState(UserData?.phone);
+    const [shippingAddress, setShippingAddress] = useState(
+      UserData?.shippingaddress
+    );
+    const [city, setCity] = useState("");
+    const [postalcode, setPostalCode] = useState("");
+    const [state, setState] = useState("");
+   const [country, setCountry] = useState("");
+  const [note, setNote] = useState("");
+  
+
+
+   const isSubmitDisabled =
+     phone === "" ||
+     shippingAddress === "" ||
+     city === "" ||
+     postalcode === "" ||
+     state === "" ||
+     country === "";
   
 
   
   const CheckOut = async () => {
-    console.log("Ready to checkout", cartProducts);
-    const AuthtokenString = await AsyncStorage.getItem('authToken')
-    const Authtoken = JSON.parse(AuthtokenString)
-    console.log("my auth", Authtoken)
-    console.log("my payment type", paymentType)
-    if (!Authtoken) {
-      setIsSignUpVisible(false)
-      return;
-    }
-
-    let data = {
+    const formData = {
       product: cartProducts,
+      phone,
+      shippingAddress,
+      city,
+      postalcode,
+      state,
+      country,
+      note,
     };
-
-    if (paymentType === "Stripe") {
     
-      try {
-         setSpinner(true);
-        const session = await axios.post(
-          `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/stripe/create-checkout-session`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${Authtoken}`,
-            },
-            "Content-Type": "application/json",
-          }
-        );
+    console.log("form data before submission", formData)
 
-        if (session.status === 200) {
-          console.log("session", session);
+    console.log("Ready to checkout", cartProducts);
+    
+    if (!isSubmitDisabled) {
+       const AuthtokenString = await AsyncStorage.getItem("authToken");
+       const Authtoken = JSON.parse(AuthtokenString);
+       console.log("my auth", Authtoken);
+       console.log("my payment type", paymentType);
+       if (!Authtoken) {
+         setIsSignUpVisible(false);
+         return;
+       }
 
-            navigation.navigate("Stripeproduct", {
-              stripe_url: session.data.url,
-            });
+     
 
-          setSpinner(false);
+       if (paymentType === "Stripe") {
+         try {
+           setSpinner(true);
+           const session = await axios.post(
+             `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/stripe/create-checkout-session`,
+             formData,
+             {
+               headers: {
+                 Authorization: `Bearer ${Authtoken}`,
+               },
+               "Content-Type": "application/json",
+             }
+           );
 
-        
-        } else {
-          console.log("error");
-        }
-      } catch (error) {
-        console.error("Error in PayWithStripe:", error);
-          setSpinner(false);
-      }
+           if (session.status === 200) {
+             console.log("session", session);
+
+             navigation.navigate("Stripeproduct", {
+               stripe_url: session.data.url,
+             });
+
+             setSpinner(false);
+           } else {
+             console.log("error");
+           }
+         } catch (error) {
+           console.error("Error in PayWithStripe:", error);
+           setSpinner(false);
+         }
+       }
     }
+   
   };
+
+   
+  const styles = StyleSheet.create({
+    container: {
+      padding: 20,
+    },
+    label: {
+      fontSize: 16,
+      marginBottom: 5,
+    },
+    input: {
+      height: 40,
+      borderColor: "gray",
+      borderWidth: 1,
+      marginBottom: 10,
+      paddingHorizontal: 10,
+    },
+  });
+
+  const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+      fontSize: 16,
+      paddingVertical: 12,
+      paddingHorizontal: 10,
+      borderWidth: 1,
+      borderColor: "black",
+      borderRadius: 4,
+      color: "black",
+      paddingRight: 30, // to ensure the text is never behind the icon
+      marginBottom: 10,
+    },
+    inputAndroid: {
+      fontSize: 16,
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      borderWidth: 1,
+      borderColor: "black",
+      borderRadius: 8,
+      color: "black",
+      paddingRight: 30, // to ensure the text is never behind the icon
+      marginBottom: 10,
+    },
+  });
 
    return (
      <SafeAreaView style={globalstyels.droidSafeArea} className="relative">
@@ -224,7 +300,7 @@ if (authToken && cartProducts && cartProducts.length > 0) {
              </Text>
            </View>
          </View>
-         <View style={{ marginTop: 12 }}>
+         <View className="px-4 mt-2 bg-white">
            <Text>Choose a Payment Method</Text>
            <Picker
              selectedValue={paymentType}
@@ -234,16 +310,85 @@ if (authToken && cartProducts && cartProducts.length > 0) {
              <Picker.Item label="Crypto" value="Crypto" />
            </Picker>
          </View>
+
+         {/* form begins */}
+         <View style={styles.container}>
+           <Text style={styles.label}>Phone Number</Text>
+           <TextInput
+             style={styles.input}
+             value={phone}
+             onChangeText={setPhone}
+             keyboardType="phone-pad"
+           />
+
+           <Text style={styles.label}>Shipping Address</Text>
+           <TextInput
+             style={styles.input}
+             value={shippingAddress}
+             onChangeText={setShippingAddress}
+           />
+
+           <Text style={styles.label}>City</Text>
+           <TextInput
+             style={styles.input}
+             value={city}
+             onChangeText={setCity}
+           />
+
+           <Text style={styles.label}>Postal Code</Text>
+           <TextInput
+             style={styles.input}
+             value={postalcode}
+             onChangeText={setPostalCode}
+             keyboardType="numeric"
+           />
+
+           <Text style={styles.label}>State</Text>
+           <TextInput
+             style={styles.input}
+             value={state}
+             onChangeText={setState}
+           />
+
+           <Text style={styles.label}>Country</Text>
+           <RNPickerSelect
+             style={pickerSelectStyles}
+             onValueChange={(value) => setCountry(value)}
+             items={[
+               { label: "USA", value: "USA" },
+               { label: "Canada", value: "Canada" },
+               { label: "UK", value: "UK" },
+               { label: "Australia", value: "Australia" },
+               { label: "Nigeria", value: "Nigeria" },
+               { label: "Ambazonia", value: "Ambazonia" },
+               // Add more countries as needed
+             ]}
+             placeholder={{ label: "Select a country", value: null }}
+           />
+
+           <Text style={styles.label}>Note</Text>
+           <TextInput
+             style={[styles.input, { height: 80 }]} // Increase height for multiline
+             value={note}
+             onChangeText={setNote}
+             multiline={true}
+             numberOfLines={4} // You can adjust this based on your preference
+           />
+
+           <Button title="Submit" />
+         </View>
+         {/* form ends */}
        </ScrollView>
+
+       {/* absolutely positioned element */}
        <View className="absolute bottom-0 right-0 left-0 z-10">
          <View className="flex flex-row items-center justify-between bg-white px-4 py-2 shadow-lg">
-           <Text className="text-lg font-bold ">
-             ${grandTotal.toFixed(2)}
-           </Text>
+           <Text className="text-lg font-bold ">${grandTotal.toFixed(2)}</Text>
            <TouchableOpacity
-             style={{width:width/2}}
+             style={{ width: width / 2, opacity: isSubmitDisabled ? 0.5 : 1 }}
              className="bg-black flex flex-row justify-center items-center h-10 "
              onPress={CheckOut}
+             disabled={isSubmitDisabled}
            >
              <Text className="text-white font-bold">
                {spinner ? (
@@ -257,7 +402,9 @@ if (authToken && cartProducts && cartProducts.length > 0) {
        </View>
      </SafeAreaView>
    );
-}
+  
+  }
+ 
 
  
 }

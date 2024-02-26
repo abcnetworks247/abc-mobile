@@ -54,6 +54,8 @@ const handleSubmit = async () => {
                   className="w-full px-4 d py-2.5 text-base text-gray-900 bg-white font-normal border border-gray-200"
                   data-gramm="false"
                   wt-ignore-input="true"
+                  value={UserData.phone}
+                  readOnly
                 />
               </View>
               <View className="mb-6">
@@ -68,6 +70,7 @@ const handleSubmit = async () => {
                   data-gramm="false"
                   wt-ignore-input="true"
                   value={UserData.fullname}
+                  readOnly
                 />
               </View>
               <View className="mb-6">
@@ -82,6 +85,7 @@ const handleSubmit = async () => {
                   data-gramm="false"
                   wt-ignore-input="true"
                   value={UserData && UserData.shippingaddress}
+                  readOnly
                 />
               </View>
               <View className="mb-6">
@@ -96,10 +100,9 @@ const handleSubmit = async () => {
                   data-gramm="false"
                   wt-ignore-input="true"
                   value={UserData.email}
+                  readOnly
                 />
               </View>
-            
-             
             </View>
           </View>
         </View>

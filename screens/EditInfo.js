@@ -258,6 +258,7 @@ const EditInfo = () => {
                     wt-ignore-input="true"
                     value={formData.email}
                     onChangeText={(text) => handleInputChange("email", text)}
+                    readOnly
                   />
                 </View>
                 <View className="mb-6">
@@ -293,20 +294,18 @@ const EditInfo = () => {
                     </View>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity
-                  onPress={() => handleSubmit()}
-                  type="submit"
-                  className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  <Text className="text-white text-center text-lg">
-                    Save details
-                  </Text>
-                </TouchableOpacity>
               </View>
             </View>
           </View>
         </ScrollView>
       )}
+      <TouchableOpacity
+        onPress={() => handleSubmit()}
+        type="submit"
+        className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        <Text className="text-white text-center text-lg">Save details</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
