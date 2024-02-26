@@ -80,12 +80,12 @@ const TypeDetails = () => {
         >
           {/* trending news */}
           <View className=" ">
-            <Text
+            {/* <Text
               style={{ fontFamily: "PublicSans_700Bold", fontSize: 16 }}
               className="py-1 h-fit "
             >
               {name}
-            </Text>
+            </Text> */}
             <TouchableOpacity onPress={handlePress}>
               <View className=" ">
                 {posts &&

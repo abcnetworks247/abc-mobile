@@ -9,6 +9,8 @@ import Login from "../auth/Login";
 import { Ionicons } from "@expo/vector-icons";
 import { UseProductProvider } from "../context/ProductProvider";
 import { useIsFocused } from "@react-navigation/native";
+import { useCustomFonts } from "../context/FontContext";
+import AppLoading from "expo-app-loading";
 
 import {
   Home,
@@ -73,15 +75,22 @@ const screenOptionStyle = {
   headerBackTitle: "Back",
 };
 
+// store stack
 function StoreStackNavigator() {
-const { wishlist } = UseProductProvider();
-    
+  const { wishlist } = UseProductProvider();
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+ 
 
   const navigation = useNavigation();
 
   const handleDrawerOpen = () => {
     navigation.openDrawer();
   };
+
+   if (!fontsLoaded) {
+     return <AppLoading />;
+   }
+    
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -97,7 +106,11 @@ const { wishlist } = UseProductProvider();
               <Ionicons name="menu-sharp" size={30} color={"white"} />
             </Pressable>
           ),
-          headerTintColor:"white",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
+          headerTintColor: "white",
 
           headerRight: () => (
             <View className="flex flex-row items-center gap-4">
@@ -105,7 +118,9 @@ const { wishlist } = UseProductProvider();
                 <Ionicons name="heart-sharp" size={30} color={"white"} />
                 {wishlist && wishlist.length > 0 && (
                   <View className="absolute flex flex-row items-center justify-center  h-5 w-5 rounded-full bg-red-500 left-[-7px] top-[-2px]">
-                    <Text className="text-white text-sm m-0 p-0">{wishlist.length}</Text>
+                    <Text className="text-white text-sm m-0 p-0">
+                      {wishlist.length}
+                    </Text>
                   </View>
                 )}
               </View>
@@ -142,9 +157,15 @@ const { wishlist } = UseProductProvider();
     </Stack.Navigator>
   );
 }
+
+// wish stack
 const WishStackNavigator = () => {
   const { wishlist } = UseProductProvider();
-  const navigation=useNavigation()
+  const navigation = useNavigation()
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -159,9 +180,12 @@ const WishStackNavigator = () => {
               <HamburgerIcon />
             </Pressable>
           ),
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
           headerTintColor: "white",
           headerTitle: "Wishlist",
-       
 
           headerRight: () => (
             <View className="flex flex-row items-center gap-4 mr-2">
@@ -190,16 +214,278 @@ const WishStackNavigator = () => {
   );
 }
 
+// news stack
 const NewStackNavigator = () => {
+  const { fontsLoaded, fontStyles } = useCustomFonts();
   const { UserData, setIsSignUpVisible } = UseUserContext();
   const navigation = useNavigation();
+
+    if (!fontsLoaded) {
+      return <AppLoading />;
+    }
+
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="News"
         component={News}
         options={{
-          title: "News",
+          title: "News Category",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <HamburgerIcon />
+            </Pressable>
+          ),
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
+
+          headerRight: () => (
+            <View className="mr-3">
+              {UserData ? (
+                <TouchableOpacity>
+                  <Image
+                    source={{
+                      uri: `${UserData.userdp}`,
+                    }}
+                    className="w-10 h-10  rounded-full border-2 border-[#f5f5f5]"
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => setIsSignUpVisible(true)}
+                  activeOpacity={0.5}
+                  className=" p-1 rounded"
+                >
+                  <Text className="px-[2px] text-base font-semibold text-white text-md">
+                    Login / signup
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          ),
+          headerTintColor: "white",
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#2c3e50",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="TypeDetails"
+        component={TypeDetails}
+        options={({ route }) => ({
+          headerTitle: route.params.name || "TypeDetails", // Set the header title dynamically
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#2c3e50",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_700Bold_Italic",
+            fontSize: 20,
+          },
+        })}
+      />
+      <Stack.Screen
+        name="NewsDetails"
+        component={NewsDetails}
+        options={{
+          headerTitle: "Details",
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#2c3e50",
+          },
+          headerTintColor: "white",
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+
+// cart stack
+
+const CartStackNavigator = () => {
+   const { fontsLoaded, fontStyles } = useCustomFonts();
+  const isFocused = useIsFocused();
+  
+const { cartProducts } = UseProductProvider();
+  const navigation = useNavigation()
+
+   if (!fontsLoaded) {
+     return <AppLoading />;
+   }
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          headerLeft: () => (
+            <Pressable onPress={() => navigation.goBack()}>
+              <ChevronLeftIcon />
+            </Pressable>
+          ),
+          title: "Cart",
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
+
+          headerRight: () => (
+            <Pressable style={{ marginRight: 50 }}>
+              <Text className="text-white">
+                {cartProducts && cartProducts.length} items
+              </Text>
+            </Pressable>
+          ),
+
+          headerStyle: {
+            backgroundColor: "#2c3e50",
+          },
+          tabBarVisible: !isFocused, // Hide the tab bar when screen is focused
+          tabBarStyle: { display: isFocused ? "none" : "flex" }, // Hide the tab bar when screen is focused
+        }}
+      />
+      <Stack.Screen
+        name="Stripeproduct"
+        component={Stripeproduct}
+        options={{
+          title: "Stripe",
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+
+//profile stack
+const ProfileStackNavigator = () => {
+  const navigation = useNavigation();
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        tabBarHideOnKeyboard: true,
+      }}
+    >
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title: "Profile",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <HamburgerIcon />
+            </Pressable>
+          ),
+          headerTintColor: "white",
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#2c3e50",
+          },
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={Editprofile}
+        options={{
+          headerTitle: "Profile Information",
+          headerRight: () => (
+            <TouchableOpacity
+              className="mr-2"
+              onPress={() => navigation.navigate("EditInfo")}
+            >
+              <MaterialCommunityIcons name="account-edit" size={30} />
+            </TouchableOpacity>
+          ),
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="EditInfo"
+        component={EditInfo}
+        options={{
+          headerTitle: "Edit Information",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Changepassword"
+        component={Changepassword}
+        options={{
+          headerTitle: "Reset password",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Closeaccount"
+        component={Closeaccount}
+        options={{
+          headerTitle: "Close account",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
+        }}
+      />
+      <Stack.Screen name="Orders" component={Orders} />
+      <Stack.Screen name="Paymentsuccess" component={Paymentsuccess} />
+    </Stack.Navigator>
+  );
+};
+
+// home stack
+const HomeStackNavigator = () => {
+  const { UserData, setIsSignUpVisible } = UseUserContext();
+  const navigation = useNavigation();
+  
+const { fontsLoaded, fontStyles } = useCustomFonts();
+if (!fontsLoaded) {
+  return <AppLoading />;
+}
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          title: "Feed",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
           headerLeft: () => (
             <Pressable
               onPress={() => navigation.openDrawer()}
@@ -243,19 +529,6 @@ const NewStackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="TypeDetails"
-        component={TypeDetails}
-        options={{
-          headerTitle: "",
-          headerStyle: {
-            shadowColor: "#000",
-            elevation: 25,
-            backgroundColor: "#2c3e50",
-          },
-          headerTintColor: "white",
-        }}
-      />
-      <Stack.Screen
         name="NewsDetails"
         component={NewsDetails}
         options={{
@@ -266,185 +539,13 @@ const NewStackNavigator = () => {
             backgroundColor: "#2c3e50",
           },
           headerTintColor: "white",
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
 
-const CartStackNavigator = () => {
-  const isFocused = useIsFocused();
-  
-const { cartProducts } = UseProductProvider();
-  const navigation = useNavigation()
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Cart"
-        component={Cart}
-        options={{
-          headerLeft: () => (
-            <Pressable onPress={() => navigation.goBack()}>
-              <ChevronLeftIcon />
-            </Pressable>
-          ),
-          title: "Cart",
-          headerTintColor: "white",
-
-          headerRight: () => (
-            <Pressable style={{ marginRight: 50 }}>
-              <Text className="text-white">
-                {cartProducts && cartProducts.length} items 
-              </Text>
-            </Pressable>
-          ),
-
-          headerStyle: {
-            backgroundColor: "#2c3e50",
-          },
-          tabBarVisible: !isFocused, // Hide the tab bar when screen is focused
-          tabBarStyle: { display: isFocused ? "none" : "flex" }, // Hide the tab bar when screen is focused
-        }}
-      />
-      <Stack.Screen
-        name="Stripeproduct"
-        component={Stripeproduct}
-        options={{
-          title: "Stripe",
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-
-
-const ProfileStackNavigator = () => {
-  const navigation = useNavigation();
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        tabBarHideOnKeyboard: true,
-      }}
-    >
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          title: "Profile",
-          headerLeft: () => (
-            <Pressable
-              onPress={() => navigation.openDrawer()}
-              style={{ marginLeft: 10 }}
-            >
-              <HamburgerIcon />
-            </Pressable>
-          ),
-          headerTintColor: "white",
-
-          headerStyle: {
-            shadowColor: "#000",
-            elevation: 25,
-            backgroundColor: "#2c3e50",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
           },
         }}
       />
-      <Stack.Screen
-        name="EditProfile"
-        component={Editprofile}
-        options={{
-          headerTitle: "Profile Information",
-          headerRight: () => (
-            <TouchableOpacity
-              className="mr-2"
-              onPress={() => navigation.navigate("EditInfo")}
-            >
-              <MaterialCommunityIcons name="account-edit" size={30} />
-            </TouchableOpacity>
-          ),
-        }}
-      />
-      <Stack.Screen
-        name="EditInfo"
-        component={EditInfo}
-        options={{
-          headerTitle: "Edit Information",
-        }}
-      />
-      <Stack.Screen
-        name="Changepassword"
-        component={Changepassword}
-        options={{
-          headerTitle: "Reset password",
-        }}
-      />
-      <Stack.Screen
-        name="Closeaccount"
-        component={Closeaccount}
-        options={{
-          headerTitle: "Close account",
-        }}
-      />
-      <Stack.Screen name="Orders" component={Orders} />
-      <Stack.Screen name="Paymentsuccess" component={Paymentsuccess} />
-    </Stack.Navigator>
-  );
-};
-
-// home stack
-const HomeStackNavigator = () => {
-  const { UserData, setIsSignUpVisible } = UseUserContext();
-  const navigation = useNavigation();
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={Home}
-        options={{
-          title: "Home",
-          headerLeft: () => (
-            <Pressable
-              onPress={() => navigation.openDrawer()}
-              style={{ marginLeft: 10 }}
-            >
-              <HamburgerIcon />
-            </Pressable>
-          ),
-
-          headerRight: () => (
-              <View className="mr-3">
-                {UserData ? (
-                  <TouchableOpacity>
-                    <Image
-                      source={{
-                        uri: `${UserData.userdp}`,
-                      }}
-                      className="w-10 h-10  rounded-full border-2 border-[#f5f5f5]"
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => setIsSignUpVisible(true)}
-                    activeOpacity={0.5}
-                    className=" p-1 rounded"
-                  >
-                    <Text className="px-[2px] text-base font-semibold text-white text-md">
-                      Login / signup
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </View>
-          ),
-          headerTintColor: "white",
-
-          headerStyle: {
-            shadowColor: "#000",
-            elevation: 25,
-            backgroundColor: "#2c3e50",
-          },
-        }}
-      />
-      <Stack.Screen name="NewsDetails" component={NewsDetails} />
 
       <Stack.Screen name="News" component={News} />
     </Stack.Navigator>
@@ -499,7 +600,11 @@ const AuthStackNavigator = () => {
 };
 
 const MembershipStackNavigator = () => {
-  const navigation=useNavigation()
+  const navigation = useNavigation()
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -508,6 +613,10 @@ const MembershipStackNavigator = () => {
         options={{
           title: "Membership",
           headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
 
           headerLeft: () => (
             <Pressable
@@ -530,6 +639,10 @@ const MembershipStackNavigator = () => {
         component={Stripesub}
         options={{
           headerTitle: "Stripe",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
         }}
       />
 
@@ -538,13 +651,24 @@ const MembershipStackNavigator = () => {
         component={Modalscreen}
         options={{
           headerTitle: "Details",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
         }}
       />
     </Stack.Navigator>
   );
 };
+
+// contact
 const ContactStackNavigator = () => {
-  const navigation=useNavigation()
+  const navigation = useNavigation()
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+  
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -552,7 +676,11 @@ const ContactStackNavigator = () => {
         component={Contact}
         options={{
           title: "contact",
-          headerTintColor:"white",
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
           headerLeft: () => (
             <Pressable
               onPress={() => navigation.openDrawer()}
@@ -561,7 +689,6 @@ const ContactStackNavigator = () => {
               <HamburgerIcon />
             </Pressable>
           ),
-          
 
           headerStyle: {
             shadowColor: "#000",
@@ -573,6 +700,8 @@ const ContactStackNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+// about
 const AboutStackNavigator = () => {
   const navigation=useNavigation()
   return (
@@ -602,6 +731,8 @@ const AboutStackNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+// loading
 const LoadingStackNavigator = () => {
   
   return (
@@ -613,8 +744,15 @@ const LoadingStackNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+// Donation
 const DonateStackNavigator = () => {
-  const navigation=useNavigation()
+  const navigation = useNavigation()
+  
+const { fontsLoaded, fontStyles } = useCustomFonts();
+if (!fontsLoaded) {
+  return <AppLoading />;
+}
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -630,6 +768,10 @@ const DonateStackNavigator = () => {
             </Pressable>
           ),
           headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
           headerStyle: {
             shadowColor: "#000",
             elevation: 25,
