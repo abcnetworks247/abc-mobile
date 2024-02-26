@@ -112,7 +112,7 @@ const TypeDetails = () => {
                             <Text
                               style={{
                                 fontFamily: "PublicSans_600SemiBold",
-                                fontSize: 14,
+                                fontSize: 16,
                               }}
                               className="flex-1 py-2 capitalize"
                             >

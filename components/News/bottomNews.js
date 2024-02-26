@@ -71,6 +71,10 @@ const BotNews = ({ data, loading }) => {
       return null;
   }
 
+  
+
+    
+
    if (!fontsLoaded) {
      return <AppLoading />;
    }
@@ -126,9 +130,13 @@ const BotNews = ({ data, loading }) => {
                           </Text>
                           <Text
                             className="flex-1 py-2 capitalize"
-                            style={{ fontFamily: "PublicSans_600SemiBold" }}
+                            style={{
+                              fontFamily: "PublicSans_600SemiBold",
+                              fontSize: 16,
+                            }}
                           >
                             {item.title}
+                            
                           </Text>
                           <View className="flex flex-wrap justify-between pt-3 text-xs ">
                             {/* <Text className="w-full">{item.shortdescription}</Text> */}

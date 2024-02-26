@@ -47,7 +47,7 @@ const LayerOne = ({ data, loading }) => {
         ))
       ) : (
         <>
-          <Text style={{ fontFamily: "PublicSans_600SemiBold" }}>
+          <Text style={{ fontFamily: "PublicSans_600SemiBold", fontSize: 16 }}>
             Here are the world {data[0].type} News you don't want to miss..{" "}
           </Text>
           <ScrollView

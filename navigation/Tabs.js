@@ -24,17 +24,26 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useWindowDimensions } from "react-native";
 import { StyleSheet } from "react-native";
-
+import { useCustomFonts } from "../context/FontContext";
+import AppLoading from "expo-app-loading";
 
 
 const Tab = createMaterialBottomTabNavigator();
 
 
 const Tabs = () => {
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+ 
+      
   const { width, height } = useWindowDimensions();
+  
   const isPortrait = height > width;
   const { cartProducts } = UseProductProvider()
-  const{UserData, setIsSignUpVisible} =UseUserContext()
+  const { UserData, setIsSignUpVisible } = UseUserContext()
+  
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
  
   return (
     <Tab.Navigator
@@ -73,6 +82,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarLabel: "Store",
+        
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="storefront-outline"
@@ -80,6 +90,8 @@ const Tabs = () => {
               color={color}
             />
           ),
+
+        
         }}
       />
       <Tab.Screen

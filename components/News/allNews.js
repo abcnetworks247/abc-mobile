@@ -41,6 +41,20 @@ const HomeNews = () => {
 
   const colors = ["#00876c", "#f44336", "#ff9800", "#2196f3", "#9c27b0"];
 
+  const capitalizeWithAcronym = (str) => {
+    return str
+      .split(" ") // Split the string into words
+      .map((word) => {
+        // Check if the word is an acronym (all capital letters)
+        if (word === word.toUpperCase()) {
+          return word; // Maintain the acronym as is
+        }
+        // Capitalize the word except for the acronym
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(" "); // Join the words back together
+  };
+
   //fetch data from news api
   const fetchPosts = async () => {
     try {
@@ -124,8 +138,11 @@ const HomeNews = () => {
                           {item.category}
                         </Text>
                         <Text
-                          className="flex-1 py-2 capitalize  "
-                          style={{ fontFamily: "PublicSans_600SemiBold" }}
+                          className="flex-1 py-2 capitalize"
+                          style={{
+                            fontFamily: "PublicSans_600SemiBold",
+                            fontSize: 16,
+                          }}
                         >
                           {item.title}
                         </Text>

@@ -34,6 +34,21 @@ const LayerThree = ({ data, loading }) => {
     });
   };
 
+  
+  const capitalizeWithAcronym = (str) => {
+    return str
+      .split(" ") // Split the string into words
+      .map((word) => {
+        // Check if the word is an acronym (all capital letters)
+        if (word === word.toUpperCase()) {
+          return word; // Maintain the acronym as is
+        }
+        // Capitalize the word except for the acronym
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(" "); // Join the words back together
+  };
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
@@ -63,7 +78,7 @@ const LayerThree = ({ data, loading }) => {
               <View className="border-b-gray-300 border-b mt-3 mb-3" />
               <Text
                 className="flex-1 py-2 capitalize"
-                style={{ fontFamily: "PublicSans_600SemiBold" }}
+                style={{ fontFamily: "PublicSans_600SemiBold", fontSize: 16 }}
               >
                 {data[0].title}
               </Text>
@@ -95,7 +110,10 @@ const LayerThree = ({ data, loading }) => {
                   >
                     <Text
                       className="w-2/3 capitalize"
-                      style={{ fontFamily: "PublicSans_600SemiBold" }}
+                      style={{
+                        fontFamily: "PublicSans_600SemiBold",
+                        fontSize: 16,
+                      }}
                     >
                       {item.title}
                     </Text>

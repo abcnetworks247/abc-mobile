@@ -62,7 +62,7 @@ const LayerTwo = ({ data, loading }) => {
               <View className="border-b-gray-300 border-b mt-3 mb-3" />
               <Text
                 className="flex-1 py-2 capitalize"
-                style={{ fontFamily: "PublicSans_600SemiBold" }}
+                style={{ fontFamily: "PublicSans_600SemiBold", fontSize: 16 }}
               >
                 {data[0].title}
               </Text>
@@ -95,7 +95,10 @@ const LayerTwo = ({ data, loading }) => {
                     >
                       <Text
                         className="w-2/3 capitalize"
-                        style={{ fontFamily: "PublicSans_600SemiBold" }}
+                        style={{
+                          fontFamily: "PublicSans_600SemiBold",
+                          fontSize: 16,
+                        }}
                       >
                         {item.title}
                       </Text>

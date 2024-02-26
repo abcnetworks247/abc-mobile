@@ -19,6 +19,20 @@ import AppLoading from "expo-app-loading";
 const LayerFour = ({ data, loading }) => {
   const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
+
+  const capitalizeWithAcronym = (str) => {
+    return str
+      .split(" ") // Split the string into words
+      .map((word) => {
+        // Check if the word is an acronym (all capital letters)
+        if (word === word.toUpperCase()) {
+          return word; // Maintain the acronym as is
+        }
+        // Capitalize the word except for the acronym
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(" "); // Join the words back together
+  };
   const handlePress = (item) => () => {
     navigation.navigate("NewsDetails", {
       id: item._id,
@@ -61,7 +75,7 @@ const LayerFour = ({ data, loading }) => {
               <View className="border-b-gray-300 border-b mt-3 mb-3" />
               <Text
                 style={{ fontFamily: "PublicSans_600SemiBold" }}
-                className="flex-1 py-2 capitalize "
+                className="flex-1 py-2 capitalize"
               >
                 {data[0].title}
               </Text>
@@ -93,8 +107,11 @@ const LayerFour = ({ data, loading }) => {
                       className="flex-row flex justify-between gap-2 w-fit p-1 "
                     >
                       <Text
-                        className="w-2/3"
-                        style={{ fontFamily: "PublicSans_600SemiBold" }}
+                        className="w-2/3 capitalize"
+                        style={{
+                          fontFamily: "PublicSans_600SemiBold",
+                          fontSize: 16,
+                        }}
                       >
                         {item.title}
                       </Text>
