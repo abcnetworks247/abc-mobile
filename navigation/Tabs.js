@@ -59,7 +59,9 @@ const Tabs = () => {
         component={HomeStackNavigator}
         options={{
           headerShown: false,
-          tabBarLabel: "Home",
+          tabBarLabel: (
+            <Text style={{ fontFamily: "PublicSans_500Medium" }}>Home</Text>
+          ),
           tabBarIcon: ({ color }) => (
             <AntDesign name="home" size={24} color={color} />
           ),
@@ -70,7 +72,9 @@ const Tabs = () => {
         component={NewStackNavigator}
         options={{
           headerShown: false,
-          tabBarLabel: "News",
+          tabBarLabel: (
+            <Text style={{ fontFamily: "PublicSans_500Medium" }}>News</Text>
+          ),
           tabBarIcon: ({ color }) => (
             <Ionicons name="newspaper-outline" size={24} color={color} />
           ),
@@ -81,8 +85,9 @@ const Tabs = () => {
         component={StoreStackNavigator}
         options={{
           headerShown: false,
-          tabBarLabel: "Store",
-        
+          tabBarLabel: (
+            <Text style={{ fontFamily: "PublicSans_500Medium" }}>Store</Text>
+          ),
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="storefront-outline"
@@ -90,8 +95,6 @@ const Tabs = () => {
               color={color}
             />
           ),
-
-        
         }}
       />
       <Tab.Screen
@@ -99,7 +102,9 @@ const Tabs = () => {
         component={CartStackNavigator}
         options={{
           headerShown: false,
-          tabBarLabel: "Cart",
+          tabBarLabel: (
+            <Text style={{ fontFamily: "PublicSans_500Medium" }}>Cart</Text>
+          ),
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="cart-outline"
@@ -116,7 +121,9 @@ const Tabs = () => {
         component={ProfileStackNavigator}
         options={({ route }) => ({
           headerShown: false,
-          tabBarLabel: "Profile",
+          tabBarLabel: (
+            <Text style={{ fontFamily: "PublicSans_500Medium" }}>Profile</Text>
+          ),
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="person-outline" size={24} color={color} />
           ),

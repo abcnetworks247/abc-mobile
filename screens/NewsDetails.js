@@ -17,6 +17,17 @@ const NewsDetails = () => {
   const route = useRoute();
   //get data from params
   const { id, category, type, image, title, desc } = route.params;
+  console.log("my description", desc)
+
+    const tagsStyles = {
+      p: {
+        fontFamily: "PublicSans_400Regular",
+        color: "#506172",
+        fontSize: 16,
+        lineHeight: 30,
+        marginBottom: 15,
+      },
+    };
 
   
   const [refreshing, setRefreshing] = React.useState(false);
@@ -67,11 +78,18 @@ const NewsDetails = () => {
                 >
                   {category}
                 </Text>
-
-                <HTML source={{ html: desc }} contentWidth={width} />
-                <View className="flex flex-wrap justify-between pt-3 text-lg ">
-                  <Text>June 1, 2020</Text>
-                  <Text>2.1K views</Text>
+                <HTML
+                  source={{ html: desc }}
+                  contentWidth={width}
+                  tagsStyles={tagsStyles}
+                />
+                <View className="flex flex-wrap justify-between pt-3 ">
+                  <Text style={{ fontFamily: "PublicSans_500Medium" }}>
+                    June 1, 2020
+                  </Text>
+                  <Text style={{ fontFamily: "PublicSans_500Medium" }}>
+                    2.1K views
+                  </Text>
                 </View>
               </View>
             </View>

@@ -66,7 +66,7 @@ export default function NewsType() {
                 {result.map((item, index) => (
                   <View key={index}>
                     <TouchableOpacity
-                      className="flex flex-col items-center justify-center border border-blue-200 p-4 space-y-2 bg-white rounded-lg "
+                      className="flex flex-row items-center border border-blue-200 p-4 space-y-2 bg-white rounded-lg "
                       onPress={() =>
                         navigation.navigate("TypeDetails", {
                           id: item._id,
@@ -75,7 +75,7 @@ export default function NewsType() {
                       }
                     >
                       <Text
-                        className="text-center text-gray-700 "
+                        className="text-gray-700 "
                         style={{ fontFamily: "PublicSans_600SemiBold", fontSize:16 }}
                       >
                         {item.name}

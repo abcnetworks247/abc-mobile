@@ -130,7 +130,7 @@ export default function Profile() {
           />
 
           <View className="flex flex-col">
-            <Text style={{ fontFamily: "PublicSans_700Bold" }}>
+            <Text style={{ fontFamily: "PublicSans_700Bold" }} className="capitalize">
               {UserData && UserData.fullname}
             </Text>
             <Text style={{ fontFamily: "PublicSans_300Light" }}>

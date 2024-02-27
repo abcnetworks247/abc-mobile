@@ -11,9 +11,13 @@ import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import Api from '../utils/Api';
 import { Link } from 'expo-router';
+import { useCustomFonts } from '../context/FontContext';
+import AppLoading from 'expo-app-loading';
 
 
 const CustomDrawer = (props) => {
+    const { fontsLoaded, fontStyles } = useCustomFonts();
+ 
 
  const [type, setType] = useState([]);
  const [focus, setFocus]=useState('1')
@@ -41,6 +45,10 @@ const CustomDrawer = (props) => {
     fetchData();
   }, []);
 
+    if (!fontsLoaded) {
+      return <AppLoading />;
+    }
+
     return (
       <View style={{ flex: 1 }}>
         <ImageBackground source={require("../assets/abcbackground.jpg")}>
@@ -58,18 +66,15 @@ const CustomDrawer = (props) => {
           contentContainerStyle={{ backgroundColor: "#2c3e50" }}
         >
           <View style={{ paddingTop: 10, backgroundColor: "white" }}>
-            <DrawerItemList {...props} />
-
-
             <DrawerItem
-              // icon={({ color, size, focused }) => (
-              //   <Entypo name="news" size={22} color={color} />
-              // )}
+        
               label={({ focused, color }) => (
                 <View className="flex flex-row items-center justify-between">
                   <View className="flex flex-row items-center gap-2">
                     <Entypo name="news" size={22} color={color} />
-                    <Text style={{ color }}>News</Text>
+                    <Text style={{ color, fontFamily: "PublicSans_500Medium" }}>
+                      News
+                    </Text>
                   </View>
                   {nestedDrawerItem ? (
                     <Entypo name="chevron-down" size={22} color={color} />
@@ -94,13 +99,19 @@ const CustomDrawer = (props) => {
                   label={({ focused, color }) => <Text>{item.name}</Text>}
                 />
               ))}
+            <DrawerItemList {...props} />
           </View>
         </DrawerContentScrollView>
-        <View style={{ padding: 10, borderTopWidth: 1 }}>
+        <View className="p-4 border border-gray-200 ">
           <TouchableOpacity style={{ paddingVertical: 10 }}>
             <View className="flex flex-row items-center">
               <Ionicons name="exit-outline" size={22} />
-              <Text className="ml-2">log out</Text>
+              <Text
+                className="ml-2"
+                style={{ fontFamily: "PublicSans_500Medium" }}
+              >
+                log out
+              </Text>
             </View>
           </TouchableOpacity>
         </View>

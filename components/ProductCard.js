@@ -16,6 +16,8 @@ import { useState, useEffect } from "react";
 import { ActivityIndicator, ToastAndroid } from "react-native";
 import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
+import { useWindowDimensions } from "react-native";
+
 
 const ProductCard = ({
   title,
@@ -28,7 +30,7 @@ const ProductCard = ({
 }) => {
   const { UserData, setIsSignUpVisible } = UseUserContext();
   const { fontsLoaded, fontStyles } = useCustomFonts();
-  
+  const {width}= useWindowDimensions()
 
   const {
     handleWishAdd,
@@ -62,15 +64,50 @@ const ProductCard = ({
 
   return (
     <Pressable
-      className=" bg-white mb-2 pb-4 shadow-md basis-1/2"
+      style={{width:width/2 - 16}}
+      className="bg-white mb-4 pb-4 shadow-md relative mr-4 rounded-md"
       onPress={handlePress}
     >
-      <View className="relative">
+      <View className="relative" style={{width:'100%'}}>
         <Image
-          className="h-[150px]"
+          className="h-[150px] w-full"
           resizeMode="contain"
           source={{ uri: thumbnail }}
+          
         />
+
+        <View className="absolute flex flex-col gap-4 top-4 right-2">
+          <View style={styles.socialBarSection}>
+            <TouchableOpacity
+              className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
+              onPress={() =>
+                UserData
+                  ? handleWishAdd(productId, UserData._id)
+                  : setIsSignUpVisible(true)
+              }
+            >
+              <Ionicons name="heart-outline" size={23} color={"#737373"} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.socialBarSection}>
+            <TouchableOpacity
+              className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
+              onPress={
+                UserData
+                  ? () => {
+                      setAddedProduct(productId);
+                    }
+                  : () => setIsSignUpVisible(true)
+              }
+            >
+              {handleCartLoading && productId === addedProduct ? (
+                <ActivityIndicator size="small" color="blue" />
+              ) : (
+                <Ionicons name="cart" size={23} color={"#737373"} />
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
 
       <View className="px-2 mt-2">
@@ -82,7 +119,7 @@ const ProductCard = ({
         </Text>
       </View>
 
-      <View className="flex flex-row items-center justify-between px-2">
+      <View className="flex flex-row items-center justify-between px-2 w-full">
         <View>
           <Text
             style={{ fontFamily: "PublicSans_600SemiBold" }}
@@ -93,44 +130,11 @@ const ProductCard = ({
         </View>
         <View>
           <Text
-            style={{ fontFamily: "PublicSans_300Light", fontSize:12 }}
+            style={{ fontFamily: "PublicSans_300Light", fontSize: 12 }}
             className="line-through"
           >
             ${price.toFixed(2)}
           </Text>
-        </View>
-      </View>
-
-      <View className="absolute flex flex-col gap-4 top-4 right-2">
-        <View style={styles.socialBarSection}>
-          <TouchableOpacity
-            className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
-            onPress={() =>
-              UserData
-                ? handleWishAdd(productId, UserData._id)
-                : setIsSignUpVisible(true)
-            }
-          >
-            <Ionicons name="heart-outline" size={23} color={"#737373"} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.socialBarSection}>
-          <TouchableOpacity
-            className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
-            onPress={
-              UserData
-                ? () => {
-                    setAddedProduct(productId);
-                  }
-                : () => setIsSignUpVisible(true)
-            }
-          >
-            {handleCartLoading && productId === addedProduct ? (
-              <ActivityIndicator size="small" color="blue" />
-            ) : (
-              <Ionicons name="cart" size={23} color={"#737373"} />
-            )}
-          </TouchableOpacity>
         </View>
       </View>
     </Pressable>

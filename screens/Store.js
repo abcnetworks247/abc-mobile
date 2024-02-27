@@ -84,14 +84,17 @@ const { fontsLoaded, fontStyles } = useCustomFonts();
   } 
 
   return (
-    <SafeAreaView className="flex-1 bg-white " style={{ width: screenWidth }}>
+    <SafeAreaView
+      className="flex-1 bg-gray-200 "
+      style={{ width: screenWidth }}
+    >
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       {allProducts.length === 0 ? (
         <View className="flex flex-1 items-center justify-center">
           <Text>No products have been uploaded yet</Text>
         </View>
       ) : (
-        <View style={{ ...styles.container, width: screenWidth }}>
+        <View className="pt-2 pb-2 bg-white" style={{ width: screenWidth }}>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -118,35 +121,20 @@ const { fontsLoaded, fontStyles } = useCustomFonts();
               </Pressable>
             ))}
           </ScrollView>
-
-          <FlatList
-            data={filteredProducts}
-            renderItem={renderProductCard}
-            keyExtractor={(item) => item._id.toString()}
-            numColumns={numColumns}
-            columnWrapperStyle={{ ...styles.columnWrapper, width: screenWidth }}
-            className="mt-2 pt-2 pl-2 bg-gray-200"
-          />
         </View>
       )}
+      <FlatList
+        data={filteredProducts}
+        renderItem={renderProductCard}
+        keyExtractor={(item) => item._id.toString()}
+        numColumns={2}
+        columnWrapperStyle={{ width: screenWidth }}
+        className=" pt-2 pl-2  bg-gray-200"
+      />
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 6,
-  
-  },
 
-  columnWrapper: {
-    gap: 6,
-    padding: 1,
-  
-  },
-
-
-
-});
 
 export default StoreScreen;

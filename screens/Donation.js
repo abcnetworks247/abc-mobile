@@ -17,16 +17,21 @@ import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native";
 import { loadStripe } from "@stripe/stripe-js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useCustomFonts } from "../context/FontContext";
+import AppLoading from "expo-app-loading";
+import CheckBox from "@react-native-community/checkbox";
 
 
 
 const Donation = () => {
   const { UserData, setIsSignUpVisible } = UseUserContext()
+  const { fontsLoaded, fontStyles } = useCustomFonts();
   const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
   const navigation=useNavigation()
   const [paymentType, setPaymentType] = useState("Stripe");
  const [spinner, setSpinner] = useState(false);
   const [amount, setAmount] = useState(1);
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
 
   const handleAdd = () => {
@@ -43,6 +48,9 @@ const Donation = () => {
     console.log('stripe promise', stripe)
     console.log("my payment type in function", paymentType)
     console.log("my amount in function", amount)
+
+    if(!toggleCheckBox) return
+
     const AuthtokenString = await AsyncStorage.getItem('authToken')
     const Authtoken = JSON.parse(AuthtokenString);
 
@@ -102,10 +110,14 @@ const Donation = () => {
     
   };
 
+    if (!fontsLoaded) {
+      return <AppLoading />;
+    }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView className="px-2 ">
-        <View >
+        <View>
           <Image
             source={{
               uri: "https://res.cloudinary.com/db2b7vgg4/image/upload/v1707751594/UserDP/plgw3iwrk1zwvtsa3keq.jpg",
@@ -119,7 +131,14 @@ const Donation = () => {
           />
         </View>
         <View>
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>Summary</Text>
+          <Text
+            style={{
+              fontSize: 18,
+              fontFamily: "PublicSans_600SemiBold",
+            }}
+          >
+            Summary
+          </Text>
           <View
             style={{
               padding: 16,
@@ -129,25 +148,36 @@ const Donation = () => {
             }}
           >
             <View className="flex flex-row items-center justify-between">
-              <Text className="">Donate</Text>
+              <Text
+                style={{
+                  fontFamily: "PublicSans_500Medium",
+                }}
+              >
+                Donate
+              </Text>
 
               <View className="flex flex-row items-center h-8">
                 <Pressable
                   onPress={handleRemove}
                   className="bg-blue-600  font-bold h-full w-6 mr-2 flex flex-row items-center justify-center "
                 >
-                  <Text className="text-white font-bold">-</Text>
+                  <Text
+                    className="text-white"
+                    style={{ fontFamily: "PublicSans_700Bold" }}
+                  >
+                    -
+                  </Text>
                 </Pressable>
 
                 <TextInput
                   value={amount.toString()}
-                  onChangeText={(value)=>setAmount(value)}
+                  onChangeText={(value) => setAmount(value)}
                   keyboardType="numeric"
                   style={{
                     borderWidth: 1,
                     borderColor: "#CCC",
                     padding: 8,
-                    height:'100%',
+                    height: "100%",
                     width: 100,
                   }}
                 />
@@ -156,7 +186,12 @@ const Donation = () => {
                   onPress={handleAdd}
                   className="bg-blue-600 font-bold h-full w-6 ml-2 flex flex-row items-center justify-center"
                 >
-                  <Text className="text-white font-bold">+</Text>
+                  <Text
+                    className="text-white"
+                    style={{ fontFamily: "PublicSans_700Bold" }}
+                  >
+                    +
+                  </Text>
                 </Pressable>
               </View>
             </View>
@@ -180,8 +215,12 @@ const Donation = () => {
                 marginTop: 12,
               }}
             >
-              <Text>Amount in (USD)</Text>
-              <Text>${amount}</Text>
+              <Text style={{ fontFamily: "PublicSans_500Medium" }}>
+                Amount in (USD)
+              </Text>
+              <Text style={{ fontFamily: "PublicSans_400Regular" }}>
+                ${amount}
+              </Text>
             </View>
             <View
               style={{
@@ -190,8 +229,14 @@ const Donation = () => {
                 marginTop: 12,
               }}
             >
-              {/* <CheckBox value={true} /> */}
-              <Text style={{ marginLeft: 8 }}>
+              {/* <CheckBox
+                disabled={false}
+                value={toggleCheckBox}
+                onValueChange={(newValue) => setToggleCheckBox(newValue)}
+              /> */}
+              <Text
+                style={{ marginLeft: 8, fontFamily: "PublicSans_400Regular" }}
+              >
                 I agree to the terms and conditions.
               </Text>
             </View>
@@ -203,19 +248,23 @@ const Donation = () => {
                 alignItems: "center",
                 marginTop: 12,
               }}
-              onPress={()=>handleSubmit()}
+              onPress={() => handleSubmit()}
             >
               <Text style={{ color: "#FFF" }}>
                 {spinner ? (
-                  'loading...'
+                  <ActivityIndicator size="small" color="black" />
                 ) : (
-                   `Donate $${amount}`
+                  `Donate $${amount}`
                 )}
               </Text>
             </TouchableOpacity>
             <View style={{ marginTop: 12 }}>
               <Text
-                style={{ color: "#007BFF", textDecorationLine: "underline" }}
+                style={{
+                  color: "#007BFF",
+                  textDecorationLine: "underline",
+                  fontFamily: "PublicSans_400Regular",
+                }}
               >
                 Thank you!
               </Text>
