@@ -35,7 +35,7 @@ import AppLoading from "expo-app-loading";
 export default function Profile() {
    const { fontsLoaded, fontStyles } = useCustomFonts();
 
-  const { setIsSignUpVisible, UserData, getUserData } = UseUserContext();
+  const { setIsSignUpVisible, UserData, getUserData, setUserData }=UseUserContext();
   const { cartProducts } = UseProductProvider();
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
@@ -65,8 +65,12 @@ export default function Profile() {
       setLoading(true)
       await AsyncStorage.removeItem('authToken')
       const storedToken = await AsyncStorage.getItem("authToken")
+      console.log("my stored token", storedToken)
       if (!storedToken) {
-      getUserData()
+        navigation.navigate('Home')
+        setUserData(null)
+      } else {
+        console.log("thank you")
       }
     } catch (error) {
        console.error("Error checking authToken in async storage", error)

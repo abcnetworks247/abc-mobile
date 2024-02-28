@@ -35,9 +35,8 @@ export const UserContextProvider = ({ children }) => {
       const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
       console.log("my stored token", storedToken);
 
-      if (!storedToken) {
-        setIsSignUpVisible(true);
-      }
+      if (!storedToken) return
+    
 
       if (storedToken && storedToken !== "undefined" && storedToken !== "") {
         setAuthToken(storedToken); // Set authToken in the context
@@ -130,11 +129,12 @@ export const UserContextProvider = ({ children }) => {
       value={{
         handleLogout,
         UserData,
-        isSignUpVisible,
+        isSignUpVisible, 
         setIsSignUpVisible,
         authToken,
         getUserData,
-        genLoading
+        genLoading,
+        setUserData
       }}
     >
       {

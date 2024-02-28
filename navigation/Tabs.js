@@ -26,6 +26,7 @@ import { useWindowDimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
+import TabButton from "../components/TabButton";
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -116,19 +117,24 @@ const Tabs = () => {
         }}
       />
 
-      <Tab.Screen
-        name="Profiletab"
-        component={ProfileStackNavigator}
-        options={({ route }) => ({
-          headerShown: false,
-          tabBarLabel: (
-            <Text style={{ fontFamily: "PublicSans_500Medium" }}>Profile</Text>
-          ),
-          tabBarIcon: ({ color }) => (
-            <MaterialIcons name="person-outline" size={24} color={color} />
-          ),
-        })}
-      />
+      {UserData &&
+        <Tab.Screen
+          name="Profiletab"
+          component={ProfileStackNavigator}
+          options={({ route }) => ({
+            headerShown: false,
+            tabBarLabel: (
+      
+              <Text style={{ fontFamily: "PublicSans_500Medium" }}>
+                Profile
+              </Text>
+            ),
+            tabBarIcon: ({ color }) => (
+              <MaterialIcons name="person-outline" size={24} color={color} />
+            ),
+          })}
+        />
+      }
     </Tab.Navigator>
   );
 };

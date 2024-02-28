@@ -27,12 +27,26 @@ import { useWindowDimensions } from "react-native";
 
 
 const ProductDetails = () => {
+ 
   const route = useRoute();
  const {width, height}= useWindowDimensions()
-  const { title, price, description, thumbnail, productId } = route.params;
+  const { title, price, description, thumbnail, productId, images } = route.params;
   const { authToken, setIsSignUpVisible, UserData } = UseUserContext();
   const { handleWishAdd, handleAddToCart, handleCartLoading } =
     UseProductProvider();
+  
+  const [selectedImage, setSelectedImage] = useState(thumbnail);
+   
+ 
+
+   const gallery = [
+     thumbnail,
+    ...images
+  ];
+
+   const handleThumbnailClick = (index) => {
+     setSelectedImage(gallery[index]);
+   };
 
   // function notifyMessage(msg: string) {
   //   if (Platform.OS === "android") {
@@ -56,16 +70,71 @@ const ProductDetails = () => {
     <SafeAreaView style={{ flex: 1, width: width }}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView style={{ ...styles.container, width: width }}>
-        <View style={{ width: width , }} >
-          <View className={`mt-10 mb-40  `}>
-            <View style={{width:width}} className="flex flex-row items-center justify-center">
+        <View style={{ width: width }}>
+          <View className={`mb-20  `}>
+            {/* images begin */}
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {/* Large Image */}
+              <Image
+                source={{ uri: selectedImage }}
+                style={{
+                  width: width,
+                  height: 300,
+                  resizeMode: "cover",
+                  marginBottom: 10,
+                }}
+              />
+
+              {/* Thumbnails */}
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {gallery.map((image, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleThumbnailClick(index)}
+                    style={{
+                      marginHorizontal: 5,
+                    }}
+                  >
+                    <Image
+                      source={{ uri: image }}
+                      style={{
+                        width: 50,
+                        height: 50,
+                        resizeMode: "cover",
+                        borderRadius: 5,
+                      }}
+                    />
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+
+            {/* images end */}
+
+            {/* <View style={{width:width}} className="flex flex-row items-center justify-center">
               <Image
                 style={{ ...styles.image, width: width/2}}
                 source={{ uri: thumbnail }}
                 className="rounded-md"
               />
-            </View>
-            <View className="flex flex-row items-center justify-between w-full px-4 mt-10 mb-4" style={{width:width}}> 
+            </View> */}
+
+            <View
+              className="flex flex-row items-center justify-between w-full px-4 mt-10 mb-4"
+              style={{ width: width }}
+            >
               <View className="flex flex-row items-center gap-2">
                 <TouchableOpacity
                   onPress={
@@ -111,7 +180,7 @@ const ProductDetails = () => {
                 </Text>
               </View>
             </View>
-            <View style={{...styles.info, width:width }}>
+            <View style={{ ...styles.info, width: width }}>
               <Text style={styles.name}>{title}</Text>
 
               <HTML source={{ html: description }} contentWidth={width} />
@@ -126,7 +195,6 @@ const ProductDetails = () => {
 const styles = {
   container: {
     backgroundColor: "#fff",
-  
   },
   image: {
     aspectRatio: 1,
@@ -149,6 +217,7 @@ const styles = {
     color: "#333",
     lineHeight: 24,
   },
+
 };
 
 export default ProductDetails;

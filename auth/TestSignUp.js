@@ -11,11 +11,14 @@ import Api from '../utils/Api';
 import { Ionicons } from "@expo/vector-icons";
 import { Alert } from 'react-native';
 import { ToastAndroid } from 'react-native';
+import { useCustomFonts } from "../context/FontContext";
+import AppLoading from "expo-app-loading";
 
 
 
 
 const TestSignUp = () => {
+   const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation()
   const { setIsSignInVisible, setIsSignUpVisible } = UseProductProvider();
   const [universalError, setUniversalError] = useState("");
@@ -150,10 +153,16 @@ const TestSignUp = () => {
       <View className="gap-6 w-full">
         <View className="flex items-center justify-center ">
           <Image source={Logo} className="w-40 h-20" resizeMode="cover" />
-          <Text className="text-3xl font-extrabold text-blue-900 mb-2 text-center">
+          <Text
+            style={{ fontFamily: "PublicSans_600SemiBold", fontSize: 20 }}
+            className="text-blue-900 mb-2 text-center"
+          >
             Register
           </Text>
-          <Text className="text-[14px] text-gray-500">
+          <Text
+            className="text-center"
+            style={{ fontFamily: "PublicSans_500Medium", fontSize: 16 }}
+          >
             Hey enter your details to create your account
           </Text>
         </View>
@@ -161,8 +170,9 @@ const TestSignUp = () => {
         <View className="gap-2">
           <View className="flex ">
             <TextInput
+              style={{ fontFamily: "PublicSans_400Regular", fontSize: 16 }}
               placeholder="Enter your name"
-              className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white"
+              className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none  focus:bg-white"
               value={signUpFormData.fullname}
               onChangeText={(value) => {
                 handleInputChange("fullname", value);
@@ -170,15 +180,19 @@ const TestSignUp = () => {
               id="fullname"
             />
             {errorMessages.fullname && (
-              <Text className="text-red-500 my-1 text-[13px]">
+              <Text
+                style={{ fontFamily: "PublicSans_500Medium", fontSize: 12 }}
+                className="text-red-500 my-1"
+              >
                 {errorMessages.fullname}
               </Text>
             )}
           </View>
           <View>
             <TextInput
+              style={{ fontFamily: "PublicSans_400Regular", fontSize: 16 }}
               placeholder="Enter your email"
-              className="w-auto px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none  focus:bg-white "
+              className="w-auto px-5 py-3 rounded-lg  bg-gray-100 border border-gray-200 placeholder-gray-500  focus:outline-none  focus:bg-white "
               keyboardType="email-address"
               value={signUpFormData.email}
               onChangeText={(value) => {
@@ -186,7 +200,10 @@ const TestSignUp = () => {
               }}
             />
             {errorMessages.email && (
-              <Text className="text-red-500 my-1 text-[13px]">
+              <Text
+                style={{ fontFamily: "PublicSans_500Medium", fontSize: 12 }}
+                className="text-red-500 my-1"
+              >
                 {errorMessages.email}
               </Text>
             )}
@@ -195,9 +212,10 @@ const TestSignUp = () => {
           <View>
             <View className="flex flex-row items-center justify-between border border-gray-200 rounded-lg">
               <TextInput
+                style={{ fontFamily: "PublicSans_400Regular", fontSize: 16 }}
                 placeholder="Enter password"
                 secureTextEntry={!passwordVisible}
-                className="px-4 d py-2.5 text-base text-gray-900 font-normal bg-gray-100 focus:bg-white flex-grow rounded-l-lg"
+                className="px-4 d py-2.5 text-gray-900  bg-gray-100 focus:bg-white flex-grow rounded-l-lg"
                 value={signUpFormData.password}
                 onChangeText={(value) => {
                   handleInputChange("password", value);
@@ -216,7 +234,10 @@ const TestSignUp = () => {
             </View>
 
             {errorMessages.password && (
-              <Text className="text-red-500 my-1 text-[13px]">
+              <Text
+                style={{ fontFamily: "PublicSans_500Medium", fontSize: 12 }}
+                className="text-red-500 my-1"
+              >
                 {errorMessages.password}
               </Text>
             )}
@@ -225,8 +246,9 @@ const TestSignUp = () => {
         <View>
           <TouchableOpacity
             title=""
-            className={` items-center justify-center tracking-wide font-semibold ${!allFieldsValid ? "bg-blue-600/30" : "bg-blue-900"
-              }  text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none`}
+            className={` items-center justify-center tracking-wide font-semibold ${
+              !allFieldsValid ? "bg-blue-600/30" : "bg-blue-900"
+            }  text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out  focus:shadow-outline focus:outline-none`}
             onPress={() => handleSubmit()}
             disabled={!allFieldsValid}
           >
@@ -246,19 +268,32 @@ const TestSignUp = () => {
                 <Circle cx="8.5" cy="7" r="4" />
                 <Path d="M20 8v6M23 11h-6" />
               </Svg>
-              <Text className="text-white text-center">Sign Up</Text>
+              <Text
+                style={{ fontFamily: "PublicSans_600SemiBold" }}
+                className="text-white text-center"
+              >
+                Sign Up
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
         <View className="flex flex-row items-center justify-between">
-          <Text className="text-center text-gray-500">
+          <Text
+            style={{ fontFamily: "PublicSans_500Medium_Italic" }}
+            className="text-center text-gray-500"
+          >
             Already have an account?{" "}
           </Text>
           <Pressable
             className="text-center text-gray-500"
             onPress={() => navigation.navigate("Login")}
           >
-            <Text className="text-blue-900 font-semibold">Login</Text>
+            <Text
+              style={{ fontFamily: "PublicSans_600SemiBold" }}
+              className="text-blue-900 font-semibold"
+            >
+              Login
+            </Text>
           </Pressable>
         </View>
       </View>

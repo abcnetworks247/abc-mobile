@@ -27,6 +27,7 @@ const ProductCard = ({
   productId,
   screenWidth,
   numColumns,
+  images
 }) => {
   const { UserData, setIsSignUpVisible } = UseUserContext();
   const { fontsLoaded, fontStyles } = useCustomFonts();
@@ -55,6 +56,7 @@ const ProductCard = ({
       thumbnail,
       price,
       productId,
+      images
     });
   };
 

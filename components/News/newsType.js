@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import globalstyels from "../../styles/globalstyels";
 import { useCustomFonts } from "../../context/FontContext";
 import AppLoading from "expo-app-loading";
+import { StyleSheet } from "react-native";
 
 export default function NewsType() {
     const { fontsLoaded, fontStyles } = useCustomFonts();
@@ -41,6 +42,34 @@ export default function NewsType() {
     fetchPosts();
   }, []);
 
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+      padding: 16,
+    },
+    item: {
+      width: "48%",
+      marginBottom: 16,
+      padding: 8,
+      backgroundColor: "#fff",
+      borderRadius: 8,
+      shadowColor: "#000",
+      shadowOpacity: 0.2,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      elevation: 2,
+    },
+    skeleton: {
+      backgroundColor: "#f0f0f0",
+      height: 12,
+      marginBottom: 8,
+      borderRadius: 4,
+    },
+  });
   
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -50,10 +79,14 @@ export default function NewsType() {
       <ScrollView>
         <View className="px-4">
           {loading ? (
-            <View className="justify-center h-[80vh] tems-center ">
-              <View className="h-[40vh] bg-gray-500 rounded-t-lg ">
-                <Image className="object-cover w-full h-full" source={img} />
-              </View>
+            <View style={styles.container}>
+              {[1, 2, 3, 4, 5, 6].map((index) => (
+                <View key={index} style={styles.item}>
+                  <View style={styles.skeleton}></View>
+                  <View style={[styles.skeleton, { width: "80%" }]}></View>
+                  <View style={[styles.skeleton, { width: "60%" }]}></View>
+                </View>
+              ))}
             </View>
           ) : !result ? (
             <Text>Empty</Text>
@@ -76,7 +109,10 @@ export default function NewsType() {
                     >
                       <Text
                         className="text-gray-700 "
-                        style={{ fontFamily: "PublicSans_600SemiBold", fontSize:16 }}
+                        style={{
+                          fontFamily: "PublicSans_600SemiBold",
+                          fontSize: 16,
+                        }}
                       >
                         {item.name}
                       </Text>

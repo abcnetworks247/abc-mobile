@@ -31,7 +31,7 @@ const { fontsLoaded, fontStyles } = useCustomFonts();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categoryLoading, setCategoryLoading] = useState(false)
   // const [filteredProducts,setFilteredProducts]=useState(null)
-
+console.log("my products, allProduct")
    const [numColumns, setNumColumns] = useState(2);
 
    useEffect(() => {
@@ -67,6 +67,7 @@ const { fontsLoaded, fontStyles } = useCustomFonts();
       productId={item._id}
       screenWidth={screenWidth}
       numColumns={numColumns}
+      images={item.images}
     />
   );
 

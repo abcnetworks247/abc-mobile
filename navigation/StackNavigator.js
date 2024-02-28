@@ -11,6 +11,8 @@ import { UseProductProvider } from "../context/ProductProvider";
 import { useIsFocused } from "@react-navigation/native";
 import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
+import * as Animatable from 'react-native-animatable'; // Import Animatable library
+
 
 import {
   Home,
@@ -65,6 +67,71 @@ import { UseUserContext } from "../context/UserContext";
 
 
 const Stack = createStackNavigator();
+
+
+const getCommon = (Stack) => {
+  const { UserData, setIsSignUpVisible } = UseUserContext();
+  const navigation = useNavigation();
+
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+    return [
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          title: "Feed",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <HamburgerIcon />
+            </Pressable>
+          ),
+
+          headerRight: () => (
+            <View className="mr-3">
+              {UserData ? (
+                <TouchableOpacity>
+                  <Image
+                    source={{
+                      uri: `${UserData.userdp}`,
+                    }}
+                    className="w-10 h-10  rounded-full border-2 border-[#f5f5f5]"
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => setIsSignUpVisible(true)}
+                  activeOpacity={0.5}
+                  className=" p-1 rounded"
+                >
+                  <Text className="px-[2px] text-base font-semibold text-white text-md">
+                    Login / signup
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          ),
+          headerTintColor: "white",
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#2c3e50",
+          },
+        }}
+      />,
+     
+    ];
+};
 
 
 const screenOptionStyle = {
@@ -373,6 +440,8 @@ const { cartProducts } = UseProductProvider();
 const ProfileStackNavigator = () => {
   const navigation = useNavigation();
   const { fontsLoaded, fontStyles } = useCustomFonts();
+
+  const common = getCommon(Stack);
   if (!fontsLoaded) {
     return <AppLoading />;
   }
@@ -418,7 +487,13 @@ const ProfileStackNavigator = () => {
               className="mr-2"
               onPress={() => navigation.navigate("EditInfo")}
             >
-              <MaterialCommunityIcons name="account-edit" size={30} />
+              <Animatable.View
+                animation="pulse"
+                easing="ease-out"
+                iterationCount="infinite"
+              >
+                <MaterialCommunityIcons name="account-edit" size={30} />
+              </Animatable.View>
             </TouchableOpacity>
           ),
           headerTitleStyle: {
@@ -449,6 +524,7 @@ const ProfileStackNavigator = () => {
           },
         }}
       />
+      {common}
       <Stack.Screen
         name="Closeaccount"
         component={Closeaccount}

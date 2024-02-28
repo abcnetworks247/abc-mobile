@@ -26,7 +26,7 @@ const Closeaccount = () => {
 
   const {showToast}= UseProductProvider()
   const navigation=useNavigation()
-    const {authToken } = UseUserContext();
+    const {authToken , setUserData} = UseUserContext();
   const [formData, setFormData] = useState({
     email: "", 
     password: "",
@@ -68,7 +68,9 @@ const Closeaccount = () => {
        25,
        50
      );
-     navigation.navigate('home')
+     navigation.navigate('Home')
+     setUserData(null);
+
    };
 
   
