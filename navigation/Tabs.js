@@ -113,7 +113,7 @@ const Tabs = () => {
               color={color}
             />
           ),
-          tabBarBadge: cartProducts && cartProducts.length,
+          tabBarBadge: !cartProducts || cartProducts=='undefined' ? '': cartProducts.length,
         }}
       />
 

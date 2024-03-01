@@ -12,6 +12,8 @@ import { useIsFocused } from "@react-navigation/native";
 import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
 import * as Animatable from 'react-native-animatable'; // Import Animatable library
+import DonationModal from "../components/Transaction/DonationModal";
+
 
 
 import {
@@ -42,6 +44,7 @@ import {
   Paymentsuccess,
   Modalscreen,
   Stripesub,
+  Transaction,
 } from "../screens";
 
 import { IconButton } from "react-native-paper";
@@ -183,13 +186,14 @@ function StoreStackNavigator() {
             <View className="flex flex-row items-center gap-4">
               <View className="relative">
                 <Ionicons name="heart-sharp" size={30} color={"white"} />
-                {wishlist && wishlist.length > 0 && (
+                {!wishlist || wishlist === 'undefined' ?''
+                 : 
                   <View className="absolute flex flex-row items-center justify-center  h-5 w-5 rounded-full bg-red-500 left-[-7px] top-[-2px]">
                     <Text className="text-white text-sm m-0 p-0">
                       {wishlist.length}
                     </Text>
                   </View>
-                )}
+                }
               </View>
               <Pressable
                 onPress={() => navigation.navigate("Searchpage")}
@@ -524,6 +528,17 @@ const ProfileStackNavigator = () => {
           },
         }}
       />
+      <Stack.Screen
+        name="History"
+        component={Transaction}
+        options={{
+          headerTitle: "Transaction History",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
+        }}
+      />
       {common}
       <Stack.Screen
         name="Closeaccount"
@@ -536,6 +551,10 @@ const ProfileStackNavigator = () => {
           },
         }}
       />
+      <Stack.Group screenOptions={{ presentation: "modal", headerShown:false }}>
+        <Stack.Screen name="DonationModal" component={DonationModal} />
+      </Stack.Group>
+      
       <Stack.Screen name="Orders" component={Orders} />
       <Stack.Screen name="Paymentsuccess" component={Paymentsuccess} />
     </Stack.Navigator>

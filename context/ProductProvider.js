@@ -16,7 +16,6 @@ const ProductProvider = ({ children }) => {
   console.log("User Data in product provider", UserData)
 
   const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
-
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
@@ -26,6 +25,7 @@ const ProductProvider = ({ children }) => {
   const [handleCartLoading, setHandleCartLoading] = useState(false);
   const [addToCartActive, setAddToCartActive] = useState(false);
   const [removeFromCartActive, setRemoveFromCartActive] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
  const messages = {
      add: "item added to cart",
      remove:"item removed from cart"
@@ -45,8 +45,7 @@ const ProductProvider = ({ children }) => {
 
   // add to cart socket
   const handleAddToCart = (productId, userId) => {
-    setHandleCartLoading(true)
-    console.log("state of loading before emit", handleCartLoading)
+     console.log("state of loading before emit", handleCartLoading)
     const cartdata = {
       productId: productId,
       userId: userId,
@@ -54,30 +53,37 @@ const ProductProvider = ({ children }) => {
 
     socket.emit("cartadd", cartdata);
      console.log("state of loadind after emit", handleCartLoading) 
-    };
+  };
 
 
 
   useEffect(() => {
       
     socket.on("cart", (cartItems) => {
-        setHandleCartLoading(true);
-        setCartProducts(cartItems);
-        setHandleCartLoading(false);
-        console.log("state of loading in socket", handleCartLoading)
-        socket.disconnect()
+        //  setHandleCartLoading(true);
+         setCartProducts(cartItems);
+         setSelectedProductId(null);
+        //  setHandleCartLoading(false);
+         console.log("state of loading in socket", handleCartLoading)
+        // socket.disconnect()
  
          showToast(messages.add);
         
          
-   });
+    });
+    
+    //  return () => {
+    //    if (socket) {
+    //      socket.disconnect();
+    //    }
+    //  };
   }, [socket]);
 
 
 
   // remove item from cart
   const handleRemoveFromCart = (productId, userId) => {
-    setHandleCartLoading(true);
+    // setHandleCartLoading(true);
     console.log("hitting remove from cart", productId, userId);
     console.log(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
     const cartdata = {
@@ -201,6 +207,8 @@ const ProductProvider = ({ children }) => {
         setAddToCartActive,
         setRemoveFromCartActive,
         showToast,
+        selectedProductId,
+        setSelectedProductId,
       }}
     >
       {children}

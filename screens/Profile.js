@@ -30,6 +30,7 @@ import { Alert } from "react-native";
 import { ActivityIndicator } from "react-native";
 import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
+import { AntDesign } from "@expo/vector-icons";
 
 
 export default function Profile() {
@@ -134,7 +135,10 @@ export default function Profile() {
           />
 
           <View className="flex flex-col">
-            <Text style={{ fontFamily: "PublicSans_700Bold" }} className="capitalize">
+            <Text
+              style={{ fontFamily: "PublicSans_700Bold" }}
+              className="capitalize"
+            >
               {UserData && UserData.fullname}
             </Text>
             <Text style={{ fontFamily: "PublicSans_300Light" }}>
@@ -210,6 +214,7 @@ export default function Profile() {
 
         {/* general settins container */}
         <View className="mx-4 mt-2">
+          {/* Edit profile */}
           <TouchableOpacity
             className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
             onPress={() => navigation.navigate("EditProfile")}
@@ -225,6 +230,25 @@ export default function Profile() {
             </View>
             <AngleIcon />
           </TouchableOpacity>
+
+          {/* Transaction history*/}
+          <TouchableOpacity
+            className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
+            onPress={() => navigation.navigate("History")}
+          >
+            <View className="flex flex-row items-center">
+              <AntDesign size={24} name="creditcard" color="#737373" />
+              <Text
+                className="mx-2"
+                style={{ fontFamily: "PublicSans_500Medium" }}
+              >
+                Transaction History
+              </Text>
+            </View>
+            <AngleIcon />
+          </TouchableOpacity>
+
+          {/* change password */}
           <TouchableOpacity
             className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
             onPress={() => navigation.navigate("Changepassword")}
@@ -241,6 +265,7 @@ export default function Profile() {
             <AngleIcon />
           </TouchableOpacity>
 
+          {/* close accoutn */}
           <TouchableOpacity
             className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
             onPress={() => navigation.navigate("Closeaccount")}
@@ -257,6 +282,7 @@ export default function Profile() {
             <AngleIcon />
           </TouchableOpacity>
 
+          {/* log out */}
           <TouchableOpacity
             className="flex flex-row items-center justify-between pb-4 border-b border-b-gray-200 mt-2"
             onPress={() => confirmLogout()}

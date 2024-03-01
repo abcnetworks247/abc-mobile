@@ -5,7 +5,7 @@ import { UseProductProvider } from '../../context/ProductProvider';
 import { UseUserContext } from '../../context/UserContext';
 import Toast from 'react-native-toast-message';
 import { ActivityIndicator, ToastAndroid } from "react-native";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCustomFonts } from '../../context/FontContext';
 import AppLoading from "expo-app-loading";
 
@@ -16,23 +16,33 @@ const {
   handleCartDecrease,
   handleAddToCart,
   handleCartLoading,
+  selectedProductId,
+  setSelectedProductId,
 } = UseProductProvider();
   const { UserData } = UseUserContext();
-  const [deletedId, setDeletedId] = useState(null);
-  const [incrementId, setIncrementId] = useState(null)
-  
+ 
+ 
   const calculateSubtotal = () => {
     return product.quantity * product.product.price;
   };
 
   const MAX_NAME_LENGTH = 25;  
-
+  const operations = {
+    increment: 'increment',
+    decrement: 'decrement',
+    delete: 'delete'
+  }
 
   
-  function handleId() {
-    setDeletedId(product._id)
-    console.log("my deleted of", deletedId)
-  }
+  useEffect(() => {
+    if (selectedProductId ) {
+      handleRemoveFromCart(product.product._id, UserData._id);
+    }
+  }, [selectedProductId]);
+  
+ 
+  
+ 
   
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -54,11 +64,10 @@ const {
         <TouchableOpacity
           className="absolute top-0 right-0  px-2 py-2 z-10"
           onPress={() => {
-            handleId();
-            handleRemoveFromCart(product.product._id, UserData._id);
+            setSelectedProductId(product._id);
           }}
         >
-          {handleCartLoading && deletedId === product._id ? (
+          {handleCartLoading && selectedProductId === product._id ? (
             <ActivityIndicator size="small" color="blue" />
           ) : (
             <BinIcon size="24px" />
@@ -104,14 +113,14 @@ const {
 
             {/* buttons */}
             <View className="flex flex-row items-center justify-evenly gap-2">
-              {handleCartLoading && incrementId === product._id ? (
+              {handleCartLoading && selectedProductId === product._id ? (
                 <ActivityIndicator size="small" color="red" />
               ) : (
                 <>
                   <TouchableOpacity
                     className="flex flex-row items-center justify-center p-2 border border-gray-200"
                     onPress={() => {
-                      setIncrementId(product._id);
+                      setSelectedProductId(product._id);
                       handleCartDecrease(product.product._id, UserData._id);
                     }}
                   >
@@ -126,7 +135,7 @@ const {
                   <TouchableOpacity
                     className="flex flex-row items-center justify-center p-2 border border-gray-200"
                     onPress={() => {
-                      setIncrementId(product._id);
+                      setSelectedProductId(product._id);
                       handleAddToCart(product.product._id, UserData._id);
                     }}
                   >

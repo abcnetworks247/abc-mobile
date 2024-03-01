@@ -24,6 +24,7 @@ import Stripeproduct from "./Stripeproduct";
 import Paymentsuccess from "./Paymentsuccess";
 import Modalscreen from "./Modalscreen";
 import Stripesub from "./Stripesub";
+import Transaction from "./Transaction";
 export {
   Home,
   Store,
@@ -51,4 +52,5 @@ export {
   Paymentsuccess,
   Modalscreen,
   Stripesub,
+  Transaction,
 };

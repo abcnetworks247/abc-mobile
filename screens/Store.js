@@ -30,6 +30,9 @@ const { fontsLoaded, fontStyles } = useCustomFonts();
   const { allProducts, loading } = UseProductProvider()
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categoryLoading, setCategoryLoading] = useState(false)
+
+
+  if(allProducts=='undefined') return
   // const [filteredProducts,setFilteredProducts]=useState(null)
 console.log("my products, allProduct")
    const [numColumns, setNumColumns] = useState(2);
@@ -85,17 +88,15 @@ console.log("my products, allProduct")
   } 
 
   return (
-    <SafeAreaView
-      className="flex-1 bg-gray-200 "
-      style={{ width: screenWidth }}
-    >
+    <SafeAreaView className="flex-1 bg-gray-200 ">
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
+
       {allProducts.length === 0 ? (
         <View className="flex flex-1 items-center justify-center">
           <Text>No products have been uploaded yet</Text>
         </View>
       ) : (
-        <View className="pt-2 pb-2 bg-white" style={{ width: screenWidth }}>
+        <View className="pt-2 pb-2 bg-white" >
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -124,14 +125,34 @@ console.log("my products, allProduct")
           </ScrollView>
         </View>
       )}
-      <FlatList
+      <ScrollView className="mt-2 bg-blue-400" contentContainerStyle={{width:screenWidth}}>
+        <View
+         className="flex flex-row flex-1 flex-wrap " style={{maxWidth:screenWidth}}
+        >
+          {filteredProducts.map((item, index) => (
+            <ProductCard
+              title={item.title}
+              description={item.description}
+              thumbnail={item.thumbnail}
+              price={item.price}
+              productId={item._id}
+              screenWidth={screenWidth}
+              numColumns={numColumns}
+              images={item.images}
+              index={index}
+            />
+          ))}
+        </View>
+      </ScrollView>
+
+      {/* <FlatList
         data={filteredProducts}
         renderItem={renderProductCard}
         keyExtractor={(item) => item._id.toString()}
         numColumns={2}
         columnWrapperStyle={{ width: screenWidth }}
-        className=" pt-2 pl-2  bg-gray-200"
-      />
+        className=" bg-gray-200"
+      /> */}
     </SafeAreaView>
   );
 };

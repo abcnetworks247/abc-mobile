@@ -49,7 +49,7 @@ const Donation = () => {
     console.log("my payment type in function", paymentType)
     console.log("my amount in function", amount)
 
-    if(!toggleCheckBox) return
+
 
     const AuthtokenString = await AsyncStorage.getItem('authToken')
     const Authtoken = JSON.parse(AuthtokenString);

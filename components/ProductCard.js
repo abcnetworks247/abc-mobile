@@ -27,7 +27,8 @@ const ProductCard = ({
   productId,
   screenWidth,
   numColumns,
-  images
+  images,
+  index,
 }) => {
   const { UserData, setIsSignUpVisible } = UseUserContext();
   const { fontsLoaded, fontStyles } = useCustomFonts();
@@ -38,16 +39,17 @@ const ProductCard = ({
     handleAddToCart,
     handleCartLoading,
     setAddToCartActive,
+    selectedProductId,
+    setSelectedProductId,
   } = UseProductProvider();
   const navigation = useNavigation();
-  const [addedProduct, setAddedProduct] = useState(null);
+  
 
   useEffect(() => {
-    if (addedProduct) {
-      console.log("my added product", addedProduct);
+    if (selectedProductId) {
       handleAddToCart(productId, UserData._id);
     }
-  }, [addedProduct, productId]);
+  }, [selectedProductId]);
 
   const handlePress = () => {
     navigation.navigate("Details", {
@@ -60,83 +62,105 @@ const ProductCard = ({
     });
   };
 
+function checkIndexIsEven (n) {
+    return n % 2 == 0;
+}
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
 
   return (
     <Pressable
-      style={{width:width/2 - 16}}
-      className="bg-white mb-4 pb-4 shadow-md relative mr-4 rounded-md"
+      key={index}
+      style={{
+        marginRight: !checkIndexIsEven(index) ? 0 : 4,
+        marginLeft: checkIndexIsEven(index)? 5 : 0,
+        marginBottom:4,
+        width: "48%",
+   
+
+    
+        // width: "calc(100% - 8px)",
+      }}
+      className="bg-white pb-4 shadow-md relative rounded-md  product-card"
       onPress={handlePress}
     >
-      <View className="relative" style={{width:'100%'}}>
-        <Image
-          className="h-[150px] w-full"
-          resizeMode="contain"
-          source={{ uri: thumbnail }}
-          
-        />
+      <View
+        style={
+          {
+            // backgroundColor: "red",
+            // width: "calc(100% - 8px)",
+          }
+        }
+      >
+        <View className="relative">
+          <Image
+            className="h-[150px] w-full"
+            resizeMode="contain"
+            source={{ uri: thumbnail }}
+          />
 
-        <View className="absolute flex flex-col gap-4 top-4 right-2">
-          <View style={styles.socialBarSection}>
-            <TouchableOpacity
-              className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
-              onPress={() =>
-                UserData
-                  ? handleWishAdd(productId, UserData._id)
-                  : setIsSignUpVisible(true)
-              }
-            >
-              <Ionicons name="heart-outline" size={23} color={"#737373"} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.socialBarSection}>
-            <TouchableOpacity
-              className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
-              onPress={
-                UserData
-                  ? () => {
-                      setAddedProduct(productId);
-                    }
-                  : () => setIsSignUpVisible(true)
-              }
-            >
-              {handleCartLoading && productId === addedProduct ? (
-                <ActivityIndicator size="small" color="blue" />
-              ) : (
-                <Ionicons name="cart" size={23} color={"#737373"} />
-              )}
-            </TouchableOpacity>
+          <View className="absolute flex flex-col gap-4 top-4 right-2">
+            <View style={styles.socialBarSection}>
+              <TouchableOpacity
+                className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
+                onPress={() =>
+                  UserData
+                    ? handleWishAdd(productId, UserData._id)
+                    : setIsSignUpVisible(true)
+                }
+              >
+                <Ionicons name="heart-outline" size={23} color={"#737373"} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.socialBarSection}>
+              <TouchableOpacity
+                className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
+                onPress={
+                  UserData
+                    ? () => {
+                        setSelectedProductId(productId);
+                      }
+                    : () => setIsSignUpVisible(true)
+                }
+              >
+                {handleCartLoading && selectedProductId == productId ? (
+                  <ActivityIndicator size="small" color="blue" />
+                ) : (
+                  <Ionicons name="cart" size={23} color={"#737373"} />
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
 
-      <View className="px-2 mt-2">
-        <Text
-          style={{ fontFamily: "PublicSans_500Medium" }}
-          className="line-clamp-1"
-        >
-          {title}
-        </Text>
-      </View>
-
-      <View className="flex flex-row items-center justify-between px-2 w-full">
-        <View>
+        <View className="px-2 mt-2">
           <Text
-            style={{ fontFamily: "PublicSans_600SemiBold" }}
-            className="text-[#00308F]"
+            style={{ fontFamily: "PublicSans_500Medium" }}
+            className="line-clamp-1"
           >
-            ${price.toFixed(2)}
+            {title}
           </Text>
         </View>
-        <View>
-          <Text
-            style={{ fontFamily: "PublicSans_300Light", fontSize: 12 }}
-            className="line-through"
-          >
-            ${price.toFixed(2)}
-          </Text>
+
+        <View className="flex flex-row items-center justify-between px-2 ">
+          <View>
+            <Text
+              style={{ fontFamily: "PublicSans_600SemiBold" }}
+              className="text-[#00308F]"
+            >
+              ${price.toFixed(2)}
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{ fontFamily: "PublicSans_300Light", fontSize: 12 }}
+              className="line-through"
+            >
+              ${price.toFixed(2)}
+            </Text>
+          </View>
         </View>
       </View>
     </Pressable>
