@@ -85,9 +85,9 @@ const ProductDetails = () => {
                 source={{ uri: selectedImage }}
                 style={{
                   width: width,
-                  height: 300,
                   resizeMode: "cover",
                   marginBottom: 10,
+                  aspectRatio:1,
                 }}
               />
 
