@@ -5,7 +5,11 @@ import { Dimensions, Pressable, View, Text, ScrollView, TouchableOpacity } from 
 import Svg, { Rect, Path, Defs, ClipPath } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
+import { useCustomFonts } from "../context/FontContext";
 const Membership = () => {
+  
+ const { fontsLoaded, fontStyles } = useCustomFonts();
+ 
   const navigation=useNavigation() 
   const { width, height } = Dimensions.get("window");
 
@@ -89,14 +93,20 @@ const Membership = () => {
  const YearlyPlan = () => {
    setPlanType("yearly");
    
- };
+  };
+   if (!fontsLoaded) {
+     return <AppLoading />;
+   }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <View className="px-2" style={{ width: width }}>
-          <View className="flex flex-row items-center justify-center">
-            <Text className="mt-2 ">
+          <View className="flex flex-row items-center justify-center mb-2">
+            <Text
+              className="mt-2 text-center "
+              style={{ fontFamily: "PublicSans_500Medium" }}
+            >
               Your Prime membership now also includes 24*7 hours Customer
               Support, fast delivery on eligible items, exclusive access to
               deals & more.
@@ -111,7 +121,10 @@ const Membership = () => {
                   plantype === "monthly" ? "bg-blue-600" : "bg-gray-200"
                 } basis-1/2 h-8 flex flex-row items-center justify-center rounded-l-lg`}
               >
-                <Text className={`${plantype === "monthly" && "text-white"}`}>
+                <Text
+                  className={`${plantype === "monthly" && "text-white"}`}
+                  style={{ fontFamily: "PublicSans_500Medium" }}
+                >
                   {" "}
                   Monthly
                 </Text>
@@ -123,7 +136,10 @@ const Membership = () => {
                 } basis-1/2 h-8 flex flex-row items-center justify-center rounded-r-lg`}
                 onPress={YearlyPlan}
               >
-                <Text className={`${plantype === "yearly" && "text-white"}`}>
+                <Text
+                  className={`${plantype === "yearly" && "text-white"}`}
+                  style={{ fontFamily: "PublicSans_500Medium" }}
+                >
                   {" "}
                   Yearly
                 </Text>
@@ -166,13 +182,22 @@ const Membership = () => {
                           </Defs>
                         </Svg>
                         <View className="flex flex-col items-center">
-                          <Text className="text-sm font-medium text-white uppercase">
+                          <Text
+                            className="m text-white uppercase"
+                            style={{ fontFamily: "PublicSans_600SemiBold" }}
+                          >
                             {plan.name}
                           </Text>
-                          <Text className="text-base font-medium text-white  lg:text-xl">
+                          <Text
+                            className="text-base text-white"
+                            style={{ fontFamily: "PublicSans_400Regular" }}
+                          >
                             {`${plan.price}/${plan.type}`}
                           </Text>
-                          <Text className="mt-8 text-sm font-medium text-gray-300">
+                          <Text
+                            className="mt-8 text-gray-300"
+                            style={{ fontFamily: "PublicSans_400Regular" }}
+                          >
                             {plan.description}
                           </Text>
                         </View>
@@ -189,14 +214,25 @@ const Membership = () => {
                         }}
                       >
                         <View className="flex flex-row items-center justify-center">
-                          <Text className="text-white">Subscribe Now</Text>
+                          <Text
+                            style={{ fontFamily: "PublicSans_400Regular" }}
+                            className="text-white"
+                          >
+                            Subscribe Now
+                          </Text>
                         </View>
                       </TouchableOpacity>
                     </View>
                   </View>
                   <View className="px-8">
                     <View>
-                      <Text className="mt-4 text-lg font-medium text-black uppercase lg:mt-8">
+                      <Text
+                        style={{
+                          fontFamily: "PublicSans_700Boldr",
+                          fontSize: 20,
+                        }}
+                        className="mt-4  text-black uppercase lg:mt-8"
+                      >
                         Features
                       </Text>
                       <View
@@ -219,7 +255,12 @@ const Membership = () => {
                               <Path d="M3 12a9 9 0 1018 0 9 9 0 10-18 0" />
                               <Path d="M9 12l2 2 4-4" />
                             </Svg>
-                            <Text className="text-black">{feature}</Text>
+                            <Text
+                              style={{ fontFamily: "PublicSans_500Medium" }}
+                              className="text-black"
+                            >
+                              {feature}
+                            </Text>
                           </View>
                         ))}
                       </View>
