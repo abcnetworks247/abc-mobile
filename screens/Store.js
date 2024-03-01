@@ -125,7 +125,7 @@ console.log("my products, allProduct")
           </ScrollView>
         </View>
       )}
-      <ScrollView className="mt-2 bg-blue-400" contentContainerStyle={{width:screenWidth}}>
+      <ScrollView className="mt-2" contentContainerStyle={{width:screenWidth}}>
         <View
          className="flex flex-row flex-1 flex-wrap " style={{maxWidth:screenWidth}}
         >
