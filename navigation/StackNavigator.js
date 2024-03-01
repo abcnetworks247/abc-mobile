@@ -186,14 +186,15 @@ function StoreStackNavigator() {
             <View className="flex flex-row items-center gap-4">
               <View className="relative">
                 <Ionicons name="heart-sharp" size={30} color={"white"} />
-                {!wishlist || wishlist === 'undefined' ?''
-                 : 
+                {!wishlist || wishlist === "undefined" ? (
+                  ""
+                ) : (
                   <View className="absolute flex flex-row items-center justify-center  h-5 w-5 rounded-full bg-red-500 left-[-7px] top-[-2px]">
                     <Text className="text-white text-sm m-0 p-0">
                       {wishlist.length}
                     </Text>
                   </View>
-                }
+                )}
               </View>
               <Pressable
                 onPress={() => navigation.navigate("Searchpage")}
@@ -210,7 +211,18 @@ function StoreStackNavigator() {
           },
         }}
       />
-      <Stack.Screen name="Details" component={ProductDetails} />
+      <Stack.Screen
+        name="Details"
+        component={ProductDetails}
+        options={{
+          headerTitle: "Product Details",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontFamily: "PublicSans_600SemiBold",
+            fontSize: 20,
+          },
+        }}
+      />
       <Stack.Screen
         name="Searchpage"
         component={Searchpage}
