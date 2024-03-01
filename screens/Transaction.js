@@ -13,6 +13,30 @@ const Transaction = () => {
   const { fontsLoaded, fontStyles } = useCustomFonts();
   const donationhistory = UserData.donationhistory
   const orderhistory = UserData.orderhistory
+  const subscriptionhistory = UserData.subscriptionhistory
+
+
+  const trac = [
+    {
+      __v: 0,
+      _id: "65e1b4a0ea690af41ccbfcc8",
+      amount: 10,
+      country: "NG",
+      currency: "usd",
+      email: "mijanigoni@gmail.com",
+      hosted_invoice_url:
+        "https://invoice.stripe.com/i/acct_1OSkAALEvvTkpvAd/test_YWNjdF8xT1NrQUFMRXZ2VGtwdkFkLF9QZW5OMkJsTDVKaHJkU2VwSW13cVVsUjlQTDZBUkRPLDk5ODMxNDU20200xye1uNnk?s=ap",
+      name: "Mijan",
+      plan_id: "price_1OpTl5LEvvTkpvAdLjUluyjp",
+      plan_type: "month",
+      quantity: 1,
+      subscription_id: "sub_1OpTmTLEvvTkpvAdN87lCym2",
+      subscription_name: "1 × General - Copper Donor (at $10.00 / month)",
+      subscription_period_end: "2024-04-01T10:57:33.000Z",
+      subscription_period_start: "2024-03-01T10:57:33.000Z",
+      subscription_status: "active",
+    },
+  ];
   
 
   const renderContent = () => {
@@ -20,6 +44,7 @@ const Transaction = () => {
       case "Donation":
         return donationhistory.map((donate,index) => (
           <DonationCard
+            key={index}
             data={{
               email: donate.email,
               name: donate.name,
@@ -35,27 +60,27 @@ const Transaction = () => {
           />
         ));
       case "Subscription":
-        return (
+        return subscriptionhistory.map((subscription, index) => (
           <SubscriptionCard
+            key={index}
             data={{
-              email: "example@example.com",
-              name: "John Doe",
-              stripe_customer_id: "stripe_customer_id_here",
-              amount: 9.99,
-              currency: "USD",
-              country: "USA",
-              subscription_period_start: "2024-03-01",
-              subscription_period_end: "2025-03-01",
-              subscription_id: "subscription_id_here",
-              plan_id: "plan_id_here",
-              plan_type: "Monthly",
-              quantity: 1,
-              subscription_status: "Active",
-              hosted_invoice_url: "https://example.com/invoice",
-              subscription_name: "Subscription Name Here",
+              amount: subscription.amount,
+              country: subscription.country,
+              currency: subscription.currency,
+              email: subscription.email,
+              hosted_invoice_url: subscription.hosted_invoice_url,
+              name: subscription.name,
+              plan_id: subscription.plan_id,
+              plan_type: subscription.plan_type,
+              quantity: subscription.quantity,
+              subscription_id: subscription.subscription_id,
+              subscription_name: subscription.subscription_name,
+              subscription_period_end: subscription.subscription_period_end,
+              subscription_period_start: subscription.subscription_period_start,
+              subscription_status: subscription.subscription_status,
             }}
           />
-        );
+        ));
       case "Order":
         return <OrderCard data="Demo Order Data" />;
       default:

@@ -29,18 +29,23 @@ const DonationCard = ({ data }) => {
   const [expanded, setExpanded] = useState(false);
 const MAX_NAME_LENGTH = 15;
   const toggleExpand = () => {
-    setExpanded(!expanded);
+    setExpanded((prev)=>!prev);
   };
+
+
 
   return (
     <Card style={styles.card}>
       <Card.Content>
-        <View style={styles.infoContainer}>
-          <Text style={styles.label}>Transaction ID:</Text>
-          <Text style={styles.value}>
-            {`${transaction_Id.substring(0, MAX_NAME_LENGTH)}...`}
-          </Text>
-        </View>
+        {!expanded && (
+          <View style={styles.infoContainer}>
+            <Text style={styles.label}>Transaction ID:</Text>
+            <Text style={styles.value}>
+              {`${transaction_Id.substring(0, MAX_NAME_LENGTH)}...`}
+            </Text>
+          </View>
+        )}
+
         <View style={styles.infoContainer}>
           <Text style={styles.label}>Amount Donated:</Text>
           <Text style={styles.value}>${amount}</Text>
@@ -49,26 +54,57 @@ const MAX_NAME_LENGTH = 15;
           <Text style={styles.label}>Donation Date:</Text>
           <Text style={styles.value}>{donation_Date}</Text>
         </View>
-        <Button
-          onPress={() =>
-            navigation.navigate("DonationModal", {
-              email,
-              name,
-              amount,
-              currency,
-              donation_Date,
-              donation_Time,
-              payment_status,
-              payment_method_types,
-              hosted_invoice_url,
-              transaction_Id,
-            })
-          }
-          mode="contained"
-          style={styles.viewMoreButton}
-        >
-          View More
-        </Button>
+        {!expanded && (
+          <Button
+            onPress={() => toggleExpand()}
+            mode="contained"
+            style={styles.viewMoreButton}
+          >
+            View More
+          </Button>
+        )}
+
+        {expanded && (
+          <>
+            <View style={styles.infoContainer}>
+              <Text style={styles.label}>Email:</Text>
+              <Text style={styles.value}>{email}</Text>
+            </View>
+            <View style={styles.infoContainer}>
+              <Text style={styles.label}>Name:</Text>
+              <Text style={styles.value}>{name}</Text>
+            </View>
+           
+            <View style={styles.infoContainer}>
+              <Text style={styles.label}>Currency:</Text>
+              <Text style={styles.value}>{currency}</Text>
+            </View>
+            <View style={styles.infoContainer}>
+              <Text style={styles.label}>Donation Time:</Text>
+              <Text style={styles.value}>{donation_Time}</Text>
+            </View>
+            <View style={styles.infoContainer}>
+              <Text style={styles.label}>Payment Status:</Text>
+              <Text style={styles.value}>{payment_status}</Text>
+            </View>
+            <View style={styles.infoContainer}>
+              <Text style={styles.label}>Payment Method Types:</Text>
+              <Text style={styles.value}>{payment_method_types}</Text>
+            </View>
+            <View>
+              <Text style={styles.label}>Transaction ID:</Text>
+              <Text style={styles.value}>{transaction_Id}</Text>
+            </View>
+
+            <Button
+              onPress={() => toggleExpand()}
+              mode="contained"
+              style={styles.viewMoreButton}
+            >
+              View Less
+            </Button>
+          </>
+        )}
       </Card.Content>
     </Card>
   );
@@ -105,5 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#007bff", // Blue color
   },
 });
+
+
 
 export default DonationCard;

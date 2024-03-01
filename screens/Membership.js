@@ -228,7 +228,7 @@ const Membership = () => {
                     <View>
                       <Text
                         style={{
-                          fontFamily: "PublicSans_700Boldr",
+                          fontFamily: "PublicSans_700Bold",
                           fontSize: 20,
                         }}
                         className="mt-4  text-black uppercase lg:mt-8"

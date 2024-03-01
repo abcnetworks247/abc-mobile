@@ -8,24 +8,28 @@ import {
   Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Card, Button } from "react-native-paper";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useCustomFonts } from "../../context/FontContext";
+
 
 const SubscriptionCard = ({ data }) => {
   const {
-    email,
-    name,
-    stripe_customer_id,
     amount,
-    currency,
     country,
-    subscription_period_start,
-    subscription_period_end,
-    subscription_id,
+    currency,
+    email,
+    hosted_invoice_url,
+    name,
     plan_id,
     plan_type,
     quantity,
-    subscription_status,
-    hosted_invoice_url,
+    subscription_id,
     subscription_name,
+    subscription_period_end,
+    subscription_period_start,
+    subscription_status,
   } = data;
 
   const openInvoice = () => {
@@ -34,94 +38,110 @@ const SubscriptionCard = ({ data }) => {
     }
   };
 
+  const [visible, setVisible] = useState(false)
+
+  const seeMoreOrLess = () => {
+    setVisible(prev =>!prev)
+  }
+  
+
+
   return (
-    <Pressable style={styles.container}>
-      <Text style={styles.title}>Subscription Information</Text>
-      <View style={styles.row}>
-        <Ionicons name="person-circle-outline" size={24} color="black" />
-        <Text style={styles.label}>{name}</Text>
-      </View>
-      <View style={styles.row}>
-        <Ionicons name="mail-outline" size={24} color="black" />
-        <Text style={styles.label}>{email}</Text>
-      </View>
-      <View style={styles.row}>
-        <Ionicons name="cash-outline" size={24} color="black" />
-        <Text style={styles.label}>
-          {amount} {currency}
-        </Text>
-      </View>
-      <View style={styles.row}>
-        <Ionicons name="calendar-outline" size={24} color="black" />
-        <Text style={styles.label}>
-          {subscription_period_start} - {subscription_period_end}
-        </Text>
-      </View>
-      <View style={styles.row}>
-        <Ionicons name="location-outline" size={24} color="black" />
-        <Text style={styles.label}>{country}</Text>
-      </View>
-      <View style={styles.row}>
-        <Ionicons name="cash-outline" size={24} color="black" />
-        <Text style={styles.label}>Subscription ID: {subscription_id}</Text>
-      </View>
-      <View style={styles.row}>
-        <Ionicons name="cash-outline" size={24} color="black" />
-        <Text style={styles.label}>Plan ID: {plan_id}</Text>
-      </View>
-      <View style={styles.row}>
-        <Ionicons name="cash-outline" size={24} color="black" />
-        <Text style={styles.label}>Plan Type: {plan_type}</Text>
-      </View>
-      <View style={styles.row}>
-        <Ionicons name="cash-outline" size={24} color="black" />
-        <Text style={styles.label}>Quantity: {quantity}</Text>
-      </View>
-      <View style={styles.row}>
-        <Ionicons name="flag-outline" size={24} color="black" />
-        <Text style={styles.label}>Status: {subscription_status}</Text>
-      </View>
-      <View style={styles.row}>
-        <Ionicons name="receipt-outline" size={24} color="black" />
-        <Text style={styles.label}>Subscription Name: {subscription_name}</Text>
-      </View>
-      {hosted_invoice_url && (
-        <View style={styles.row}>
-          <TouchableOpacity onPress={openInvoice}>
-            <Text style={styles.invoiceLink}>View Invoice</Text>
-          </TouchableOpacity>
+    <Card style={styles.card}>
+     
+        <View style={styles.infoContainer}>
+          <Text className="text-center text-md  font-bold">${subscription_name}</Text>
         </View>
-      )}
-    </Pressable>
+        <View style={styles.infoContainer}>
+          <Text style={styles.label}> Name:</Text>
+          <Text style={styles.value}>{name}</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.label}>Plan type:</Text>
+          <Text style={styles.value}>{plan_type}</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.label}>Amount:</Text>
+          <Text
+            style={styles.value}
+          >{`${amount} ${currency.toUpperCase()}`}</Text>
+        </View>
+        {!visible && (
+          <Button
+            mode="contained"
+            style={styles.viewMoreButton}
+            onPress={() => seeMoreOrLess()}
+          >
+            See More
+          </Button>
+        )}
+
+        {visible && (
+          <>
+            <View style={styles.infoContainer}>
+              <Text style={styles.label}>Email:</Text>
+              <Text style={styles.value}>{email}</Text>
+            </View>
+            <View >
+              <Text style={styles.label}> Subscription id:</Text>
+              <Text style={styles.value}>{subscription_id}</Text>
+            </View>
+
+            <View style={styles.infoContainer}>
+              <Text style={styles.label}>Starts on:</Text>
+              <Text style={styles.value}>{subscription_period_start}</Text>
+            </View>
+            <View style={styles.infoContainer}>
+              <Text style={styles.label}>Ends on:</Text>
+              <Text style={styles.value}>{subscription_period_end}</Text>
+            </View>
+            <View style={styles.infoContainer}>
+              <Text style={styles.label}>Status:</Text>
+              <Text style={styles.value}>{subscription_status}</Text>
+            </View>
+            <Button
+              mode="contained"
+              style={styles.viewMoreButton}
+              onPress={() => seeMoreOrLess()}
+            >
+              See less
+            </Button>
+          </>
+        )}
+     
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    padding: 16,
-    margin: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#ccc",
+  card: {
+    marginHorizontal: 5,
+    padding: 15,
+    borderRadius: 5,
+    elevation: 3, // for Android
+    shadowColor: "#000", // for iOS
+    shadowOffset: { width: 0, height: 2 }, // for iOS
+    shadowOpacity: 0.25, // for iOS
+    shadowRadius: 3.84, // for iOS
+    backgroundColor: "#fff",
   },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  row: {
+  infoContainer: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
+    gap:10,
+    marginBottom: 10,
   },
   label: {
     fontSize: 16,
-    marginLeft: 8,
+    color: "#333",
+    fontWeight: "bold",
   },
-  invoiceLink: {
-    color: "blue",
-    textDecorationLine: "underline",
+  value: {
+    fontSize: 16,
+    color: "#555",
+  },
+  viewMoreButton: {
+    marginTop: 15,
+    backgroundColor: "#007bff", // Blue color
   },
 });
 
