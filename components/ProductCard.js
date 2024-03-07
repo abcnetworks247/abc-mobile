@@ -37,19 +37,11 @@ const ProductCard = ({
   const {
     handleWishAdd,
     handleAddToCart,
-    handleCartLoading,
-    setAddToCartActive,
-    selectedProductId,
-    setSelectedProductId,
+    loadingProducts,
   } = UseProductProvider();
   const navigation = useNavigation();
   
 
-  useEffect(() => {
-    if (selectedProductId) {
-      handleAddToCart(productId, UserData._id);
-    }
-  }, [selectedProductId]);
 
   const handlePress = () => {
     navigation.navigate("Details", {
@@ -75,16 +67,14 @@ function checkIndexIsEven (n) {
       key={index}
       style={{
         marginRight: !checkIndexIsEven(index) ? 0 : 4,
-        marginLeft: checkIndexIsEven(index)? 5 : 0,
-        marginBottom:4,
+        marginLeft: checkIndexIsEven(index) ? 5 : 0,
+        marginBottom: 4,
         width: "48%",
-   
 
-    
         // width: "calc(100% - 8px)",
       }}
       className="bg-white pb-4 shadow-md relative rounded-md  product-card"
-      onPress={handlePress}
+      onPress={() => handlePress()}
     >
       <View
         style={
@@ -116,16 +106,15 @@ function checkIndexIsEven (n) {
             </View>
             <View style={styles.socialBarSection}>
               <TouchableOpacity
+                disabled={loadingProducts[productId]}
                 className="flex flex-row items-center justify-center bg-gray-200 p-2 rounded-lg"
                 onPress={
                   UserData
-                    ? () => {
-                        setSelectedProductId(productId);
-                      }
+                    ? () => handleAddToCart(productId, UserData._id)
                     : () => setIsSignUpVisible(true)
                 }
               >
-                {handleCartLoading && selectedProductId == productId ? (
+                {loadingProducts[productId] ? (
                   <ActivityIndicator size="small" color="blue" />
                 ) : (
                   <Ionicons name="cart" size={23} color={"#737373"} />

@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flexDirection: "row",
-    gap:10,
+    gap: 10,
     marginBottom: 10,
   },
   label: {
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   viewMoreButton: {
     marginTop: 15,
-    backgroundColor: "#007bff", // Blue color
+    backgroundColor: "#00308F", // Blue color
   },
 });
 

@@ -13,15 +13,28 @@ import Api from '../utils/Api';
 import { Link } from 'expo-router';
 import { useCustomFonts } from '../context/FontContext';
 import AppLoading from 'expo-app-loading';
+import { Alert } from 'react-native';
+import { ActivityIndicator } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { UseUserContext } from '../context/UserContext';
 
 
 const CustomDrawer = (props) => {
-    const { fontsLoaded, fontStyles } = useCustomFonts();
+  const {
+    setIsSignUpVisible,
+    UserData,
+    getUserData,
+    setUserData,
+    setCartProducts,
+  } = UseUserContext();
+   const { fontsLoaded, fontStyles } = useCustomFonts();
  
 
  const [type, setType] = useState([]);
  const [focus, setFocus]=useState('1')
   const [nestedDrawerItem, setNestedDrawerItem] = useState(false)
+  const [loading, setLoading] = useState(false);
+
   
   const toggleDrawerItem = () => {
     setNestedDrawerItem(prev=>!prev)
@@ -45,6 +58,45 @@ const CustomDrawer = (props) => {
     fetchData();
   }, []);
 
+
+const handleLogout = async () => {
+  try {
+    setLoading(true);
+    await AsyncStorage.removeItem("authToken");
+    const storedToken = await AsyncStorage.getItem("authToken");
+    console.log("my stored token", storedToken);
+    if (!storedToken) {
+      props.navigation.navigate("Home");
+      setUserData(null);
+      
+    } else {
+      console.log("thank you");
+    }
+  } catch (error) {
+    console.error("Error checking authToken in async storage", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+  const confirmLogout = () =>
+    Alert.alert(
+      "Logging out",
+      "You are about to log out",
+
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => handleLogout() },
+      ]
+    );
+  
+  
+
+
     if (!fontsLoaded) {
       return <AppLoading />;
     }
@@ -67,7 +119,6 @@ const CustomDrawer = (props) => {
         >
           <View style={{ paddingTop: 10, backgroundColor: "white" }}>
             <DrawerItem
-        
               label={({ focused, color }) => (
                 <View className="flex flex-row items-center justify-between">
                   <View className="flex flex-row items-center gap-2">
@@ -103,9 +154,17 @@ const CustomDrawer = (props) => {
           </View>
         </DrawerContentScrollView>
         <View className="p-4 border border-gray-200 ">
-          <TouchableOpacity style={{ paddingVertical: 10 }}>
+          <TouchableOpacity
+            style={{ paddingVertical: 10 }}
+            onPress={() => confirmLogout()}
+          >
             <View className="flex flex-row items-center">
-              <Ionicons name="exit-outline" size={22} />
+              {loading ? (
+                <ActivityIndicator size="small" color="#727272" />
+              ) : (
+                <Ionicons name="exit-outline" size={22} />
+              )}
+
               <Text
                 className="ml-2"
                 style={{ fontFamily: "PublicSans_500Medium" }}

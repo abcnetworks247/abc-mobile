@@ -118,7 +118,7 @@ const Membership = () => {
                 id="submit-button"
                 onPress={MonthlyPlan}
                 className={`${
-                  plantype === "monthly" ? "bg-blue-600" : "bg-gray-200"
+                  plantype === "monthly" ? "bg-[#00308F]" : "bg-gray-200"
                 } basis-1/2 h-8 flex flex-row items-center justify-center rounded-l-lg`}
               >
                 <Text
@@ -132,7 +132,7 @@ const Membership = () => {
               <Pressable
                 id="submit-button"
                 className={`${
-                  plantype === "yearly" ? "bg-blue-600" : "bg-gray-200"
+                  plantype === "yearly" ? "bg-[#00308F]" : "bg-gray-200"
                 } basis-1/2 h-8 flex flex-row items-center justify-center rounded-r-lg`}
                 onPress={YearlyPlan}
               >
@@ -206,7 +206,7 @@ const Membership = () => {
 
                     <View className="flex mt-6">
                       <TouchableOpacity
-                        className="w-full px-8 py-1.5 text-white bg-blue-600 rounded-md"
+                        className="w-full px-8 py-1.5 text-white bg-[#00308F] rounded-md"
                         for="modal-3"
                         onPress={() => {
                           // Navigate to modal with plan details

@@ -1,30 +1,71 @@
-import React from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
-import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Animated } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
-const Loadingscreen = () => {
-  return (
-    <View style={styles.container}>
-      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#111827" />
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicator size="large" color="#ffffff" />
-      </View>
-    </View>
-  );
+const LoadingScreen = () => {
+  const [animation] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    const increaseDots = Animated.timing(animation, {
+      toValue: 4,
+      duration: 1000,
+      useNativeDriver: false,
+    });
+
+    const decreaseDots = Animated.timing(animation, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: false,
+    });
+
+    const sequence = Animated.sequence([increaseDots, decreaseDots]);
+    const loop = Animated.loop(sequence);
+
+    loop.start();
+
+    return () => {
+      loop.stop();
+    };
+  }, []);
+
+  const dots = [];
+  for (let i = 0; i < 4; i++) {
+    dots.push(
+      <Animated.View
+        key={i}
+        style={[
+          styles.dot,
+          {
+            opacity: animation.interpolate({
+              inputRange: [0, 1, 2, 3, 4],
+              outputRange: [0, 1, 1, 1, 0],
+            }),
+          },
+        ]}
+      >
+        <FontAwesome name="circle" style={styles.dotIcon} />
+      </Animated.View>
+    );
+  }
+
+  return <View style={styles.container}>{dots}</View>;
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#111827", // Blue background color
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#ffffff",
+    height: "100%",
   },
-  spinnerContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background for spinner
-    borderRadius: 10,
-    padding: 20,
+  dot: {
+    marginHorizontal: 5,
+  },
+  dotIcon: {
+    fontSize: 20,
+    color: "#007bff",
   },
 });
 
-export default Loadingscreen;
+export default LoadingScreen;

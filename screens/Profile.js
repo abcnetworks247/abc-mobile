@@ -36,7 +36,13 @@ import { AntDesign } from "@expo/vector-icons";
 export default function Profile() {
    const { fontsLoaded, fontStyles } = useCustomFonts();
 
-  const { setIsSignUpVisible, UserData, getUserData, setUserData }=UseUserContext();
+  const {
+    setIsSignUpVisible,
+    UserData,
+    getUserData,
+    setUserData,
+    setCartProducts,
+  } = UseUserContext();
   const { cartProducts } = UseProductProvider();
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
@@ -70,6 +76,8 @@ export default function Profile() {
       if (!storedToken) {
         navigation.navigate('Home')
         setUserData(null)
+    
+
       } else {
         console.log("thank you")
       }

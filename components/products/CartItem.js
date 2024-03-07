@@ -15,9 +15,7 @@ const {
   handleRemoveFromCart,
   handleCartDecrease,
   handleAddToCart,
-  handleCartLoading,
-  selectedProductId,
-  setSelectedProductId,
+  loadingProducts,
 } = UseProductProvider();
   const { UserData } = UseUserContext();
  
@@ -34,11 +32,6 @@ const {
   }
 
   
-  useEffect(() => {
-    if (selectedProductId ) {
-      handleRemoveFromCart(product.product._id, UserData._id);
-    }
-  }, [selectedProductId]);
   
  
   
@@ -54,24 +47,33 @@ const {
     <View className="bg-white p-2 mb-2 ">
       <View className="flex flex-row items-center gap-2 relative w-full">
         {/* image here */}
-        <View className="w-[80px]">
+        <View className="w-[80px] relative">
           <Image
             source={{ uri: product.product.thumbnail }}
             style={{ width: "100%", aspectRatio: 1 }}
           />
+          {loadingProducts[product.product._id] && (
+            <View
+              className="absolute top-0 left-0 right-0 bottom-0"
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ActivityIndicator size="large" color="white" />
+            </View>
+          )}
         </View>
 
         <TouchableOpacity
+          disabled={loadingProducts[product.product._id]}
           className="absolute top-0 right-0  px-2 py-2 z-10"
           onPress={() => {
-            setSelectedProductId(product._id);
+            handleRemoveFromCart(product.product._id, UserData._id);
           }}
         >
-          {handleCartLoading && selectedProductId === product._id ? (
-            <ActivityIndicator size="small" color="blue" />
-          ) : (
-            <BinIcon size="24px" />
-          )}
+          <BinIcon size="24px" />
         </TouchableOpacity>
 
         <View className="flex flex-col flex-grow ">
@@ -113,36 +115,29 @@ const {
 
             {/* buttons */}
             <View className="flex flex-row items-center justify-evenly gap-2">
-              {handleCartLoading && selectedProductId === product._id ? (
-                <ActivityIndicator size="small" color="red" />
-              ) : (
-                <>
-                  <TouchableOpacity
-                    className="flex flex-row items-center justify-center p-2 border border-gray-200"
-                    onPress={() => {
-                      setSelectedProductId(product._id);
-                      handleCartDecrease(product.product._id, UserData._id);
-                    }}
-                  >
-                    <MinusIcon />
-                  </TouchableOpacity>
-                  <View className>
-                    <Text style={{ fontFamily: "PublicSans_700Bold" }}>
-                      {product.quantity}
-                    </Text>
-                  </View>
+              <TouchableOpacity
+                className="flex flex-row items-center justify-center p-2 border border-gray-200"
+                onPress={() => {
+                  handleCartDecrease(product.product._id, UserData._id);
+                }}
+              >
+                <MinusIcon />
+              </TouchableOpacity>
+              <View className>
+                <Text style={{ fontFamily: "PublicSans_700Bold" }}>
+                  {product.quantity}
+                </Text>
+              </View>
 
-                  <TouchableOpacity
-                    className="flex flex-row items-center justify-center p-2 border border-gray-200"
-                    onPress={() => {
-                      setSelectedProductId(product._id);
-                      handleAddToCart(product.product._id, UserData._id);
-                    }}
-                  >
-                    <PlusIcon />
-                  </TouchableOpacity>
-                </>
-              )}
+              <TouchableOpacity
+                disabled={loadingProducts[product.product._id]}
+                className="flex flex-row items-center justify-center p-2 border border-gray-200"
+                onPress={() => {
+                  handleAddToCart(product.product._id, UserData._id);
+                }}
+              >
+                <PlusIcon />
+              </TouchableOpacity>
             </View>
           </View>
         </View>

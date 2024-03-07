@@ -16,6 +16,7 @@ import {
   ContactStackNavigator,
   AboutStackNavigator,
   DonateStackNavigator,
+  LiveStackNavigator
 } from "./StackNavigator";
 
 import { AuthStackNavigatior } from "./StackNavigator";
@@ -63,6 +64,18 @@ export default function DrawerNavigator() {
           component={Tabs}
           options={{
             drawerLabel: "Home",
+            drawerLabelStyle: { fontFamily: "PublicSans_500Medium" },
+            drawerInactiveTintColor: "black",
+            drawerIcon: ({ color }) => (
+              <Foundation name="home" size={22} color={color} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="LiveStack"
+          component={LiveStackNavigator}
+          options={{
+            drawerLabel: "Live",
             drawerLabelStyle: { fontFamily: "PublicSans_500Medium" },
             drawerInactiveTintColor: "black",
             drawerIcon: ({ color }) => (

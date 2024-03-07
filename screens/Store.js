@@ -30,12 +30,12 @@ const { fontsLoaded, fontStyles } = useCustomFonts();
   const { allProducts, loading } = UseProductProvider()
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categoryLoading, setCategoryLoading] = useState(false)
+  const [numColumns, setNumColumns] = useState(2);
 
-
-  if(allProducts=='undefined') return
+  if(allProducts =='undefined') return
   // const [filteredProducts,setFilteredProducts]=useState(null)
 console.log("my products, allProduct")
-   const [numColumns, setNumColumns] = useState(2);
+ 
 
    useEffect(() => {
      const isPortrait = screenWidth < 500; 
@@ -131,6 +131,7 @@ console.log("my products, allProduct")
         >
           {filteredProducts.map((item, index) => (
             <ProductCard
+              key={item._id}
               title={item.title}
               description={item.description}
               thumbnail={item.thumbnail}

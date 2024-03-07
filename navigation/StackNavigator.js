@@ -13,6 +13,7 @@ import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
 import * as Animatable from 'react-native-animatable'; // Import Animatable library
 import DonationModal from "../components/Transaction/DonationModal";
+import Live from "../screens/Live";
 
 
 
@@ -80,10 +81,9 @@ const getCommon = (Stack) => {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-    return [
-      <Stack.Screen
-        name="Home"
-        component={Home}
+    return <Stack.Screen
+         name="Home"
+         component={Home}
         options={{
           title: "Feed",
           headerTitleStyle: {
@@ -131,9 +131,9 @@ const getCommon = (Stack) => {
             backgroundColor: "#2c3e50",
           },
         }}
-      />,
+      />
      
-    ];
+  
 };
 
 
@@ -427,9 +427,13 @@ const { cartProducts } = UseProductProvider();
 
           headerRight: () => (
             <Pressable style={{ marginRight: 50 }}>
-              <Text className="text-white">
-                {cartProducts && cartProducts.length} items
-              </Text>
+              {cartProducts !=='undefined' &&
+                cartProducts &&
+                cartProducts.length > 0 && (
+                  <Text className="text-white">
+                    {cartProducts.length} items
+                  </Text>
+                )}
             </Pressable>
           ),
 
@@ -551,7 +555,7 @@ const ProfileStackNavigator = () => {
           },
         }}
       />
-      {common}
+     {common}
       <Stack.Screen
         name="Closeaccount"
         component={Closeaccount}
@@ -563,10 +567,12 @@ const ProfileStackNavigator = () => {
           },
         }}
       />
-      <Stack.Group screenOptions={{ presentation: "modal", headerShown:false }}>
+      <Stack.Group
+        screenOptions={{ presentation: "modal", headerShown: false }}
+      >
         <Stack.Screen name="DonationModal" component={DonationModal} />
       </Stack.Group>
-      
+
       <Stack.Screen name="Orders" component={Orders} />
       <Stack.Screen name="Paymentsuccess" component={Paymentsuccess} />
     </Stack.Navigator>
@@ -839,6 +845,37 @@ const AboutStackNavigator = () => {
   );
 };
 
+// live
+const LiveStackNavigator = () => {
+  const navigation=useNavigation()
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Live"
+        component={Live}
+        options={{
+          title: "Live",
+          headerTintColor:"white",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.openDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <HamburgerIcon />
+            </Pressable>
+          ),
+
+          headerStyle: {
+            shadowColor: "#000",
+            elevation: 25,
+            backgroundColor: "#2c3e50",
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 // loading
 const LoadingStackNavigator = () => {
   
@@ -893,6 +930,7 @@ if (!fontsLoaded) {
 
 
 export {
+  LiveStackNavigator,
   StoreStackNavigator,
   NewStackNavigator,
   ProfileStackNavigator,

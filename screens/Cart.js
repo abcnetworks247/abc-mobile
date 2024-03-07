@@ -42,29 +42,52 @@ import { useCustomFonts } from "../context/FontContext";
 
 export default function Cart() {
   const { fontsLoaded, fontStyles } = useCustomFonts();
+  const [refreshing, setRefreshing] = React.useState(false);
+  const { width } = useWindowDimensions();
+  const { cartProducts } = UseProductProvider();
+  const navigation = useNavigation();
+  const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
+  const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+
+  const [paymentType, setPaymentType] = useState("Stripe");
+  const [spinner, setSpinner] = useState(false);
+  const [phone, setPhone] = useState(UserData?.phone);
+  const [shippingAddress, setShippingAddress] = useState(
+     UserData?.shippingaddress
+   );
+   const [city, setCity] = useState("");
+   const [postalcode, setPostalCode] = useState("");
+   const [state, setState] = useState("");
+   const [country, setCountry] = useState("");
+   const [note, setNote] = useState("");
+  const shippingFee = 5;
   
+  console.log("my cart product",cartProducts)
+  
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      console.log("current user data", UserData);
+    }, 2000);
+  }, []);
+  
+
+
 
   if (!fontsLoaded) {
     return <AppLoading />;
   }
 
 
-  const {width}=useWindowDimensions()
-  const { cartProducts,  } = UseProductProvider(); 
- const navigation = useNavigation();
-const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
-  const shippingFee = 5;
-  
 
-  const [refreshing, setRefreshing] = React.useState(false);
 
-   const onRefresh = React.useCallback(() => {
-     setRefreshing(true);
-     setTimeout(() => {
-       setRefreshing(false);
-        console.log("current user data", UserData)
-     }, 2000);
-   }, []);
+  if (cartProducts === 'undefined') {
+     return
+  }
+
+   
   
   if (!UserData) {
    const handleLoginPress = () => {
@@ -137,7 +160,7 @@ const { authToken, UserData, setIsSignUpVisible } = UseUserContext();
 
 
   
-const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+
 if (authToken && cartProducts && cartProducts.length > 0) {
   const totalPrice = cartProducts.reduce(
     (accumulator, product) =>
@@ -147,18 +170,7 @@ if (authToken && cartProducts && cartProducts.length > 0) {
   console.log(totalPrice);
 
   const grandTotal = totalPrice + shippingFee;
-  const [paymentType, setPaymentType] = useState("Stripe");
-  const [spinner, setSpinner] = useState(false);
-    const [phone, setPhone] = useState(UserData?.phone);
-    const [shippingAddress, setShippingAddress] = useState(
-      UserData?.shippingaddress
-    );
-    const [city, setCity] = useState("");
-    const [postalcode, setPostalCode] = useState("");
-    const [state, setState] = useState("");
-   const [country, setCountry] = useState("");
-  const [note, setNote] = useState("");
-  
+ 
 
 
    const isSubmitDisabled =
@@ -182,6 +194,13 @@ if (authToken && cartProducts && cartProducts.length > 0) {
       country,
       note,
     };
+    
+    try {
+      await AsyncStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+      console.log("Cart products saved to AsyncStorage:", cartProducts);
+    } catch (error) {
+      console.error("Error saving cart products to AsyncStorage:", error);
+    }
     
     console.log("form data before submission", formData)
 

@@ -95,11 +95,11 @@ const Transaction = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View className="flex flex-row justify-around mb-[16px] bg-white">
+      <View className="flex flex-row justify-around mb-[8px] bg-white">
         <TouchableOpacity
           onPress={() => setActiveTab("Donation")}
           className={`p-4 ${
-            activeTab === "Donation" ? "border-b-2 border-blue-700" : ""
+            activeTab === "Donation" ? "border-b-2 border-[#00308F]" : ""
           }`}
         >
           <Text
@@ -116,7 +116,7 @@ const Transaction = () => {
         <TouchableOpacity
           onPress={() => setActiveTab("Subscription")}
           className={`p-4 ${
-            activeTab === "Subscription" ? "border-b-2 border-blue-700" : ""
+            activeTab === "Subscription" ? "border-b-2 border-[#00308F]" : ""
           }`}
         >
           <Text
@@ -133,7 +133,7 @@ const Transaction = () => {
         <TouchableOpacity
           onPress={() => setActiveTab("Order")}
           className={`p-4 ${
-            activeTab === "Order" ? "border-b-2 border-blue-700" : ""
+            activeTab === "Order" ? "border-b-2 border-[#00308F]" : ""
           }`}
         >
           <Text
@@ -144,7 +144,7 @@ const Transaction = () => {
                   : "PublicSans_400Regular",
             }}
           >
-            Order
+            Purchase
           </Text>
         </TouchableOpacity>
       </View>

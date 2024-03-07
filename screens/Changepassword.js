@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   Text,
@@ -6,253 +6,310 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Alert,
+  ActivityIndicator,
+  ToastAndroid,
+  StyleSheet,
 } from "react-native";
-import { Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { UseUserContext } from "../context/UserContext";
 import { useNavigation } from "@react-navigation/native";
-import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRef } from "react";
-import { ToastAndroid } from "react-native";
 
 const Closeaccount = () => {
+  const inputRefs = {
+    oldPassword: useRef(null),
+    newPassword: useRef(null),
+    confirmNewPassword: useRef(null),
+  };
 
-    const inputRefs = {
-      oldPassword: useRef(null),
-      newPassword: useRef(null),
-      confirmNewPassword: useRef(null),
-    };
-  
   const navigation = useNavigation();
   const { getUserData } = UseUserContext();
+
   const [formData, setFormData] = useState({
     oldPassword: "",
     newPassword: "",
     confirmNewPassword: "",
   });
 
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [inputName, setInputNames] = useState({
-    oldPassword:"oldPassword",
-    newPassword:"newPassword",
-    confirmNewPassword : "confirmNewPassword"
+  const [passwordVisible, setPasswordVisible] = useState({
+    oldPassword: false,
+    newPassword: false,
+    confirmNewPassword: false,
   });
 
-  const togglePasswordVisibility = (fieldName) => {
-    if (inputName[fieldName]=== fieldName) {
-        setPasswordVisible((prev) => !prev);
-    }
-   
-    
-  };
+  const [loading, setLoading] = useState(false);
+
+  const [errorMessages, setErrorMessages] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
 
   const handleInputChange = (name, value) => {
-    
     setFormData({ ...formData, [name]: value });
+
+    // Reset error message when user starts typing
+    setErrorMessages({ ...errorMessages, [name]: "" });
   };
 
-   const createSubmitAlert = () =>
-     Alert.alert("Password Reset", "You are about to reset your password.", [
-       {
-         text: "Cancel",
-         onPress: () => console.log("Cancel Pressed"),
-         style: "cancel",
-       },
-       { text: "OK", onPress: () => handleSubmit() },
-     ]);
-  
-   const passwordSuccess = (message) => {
-     ToastAndroid.showWithGravityAndOffset(
-       message,
-       ToastAndroid.LONG,
-       ToastAndroid.TOP,
-       25,
-       50
-     );
-   };
+  const togglePasswordVisibility = (fieldName) => {
+    setPasswordVisible((prev) => ({
+      ...prev,
+      [fieldName]: !prev[fieldName],
+    }));
+  };
 
-  
-
-const handleSubmit = async () => {
-
-
-  try {
-    setLoading(true);
-  
-    const authTokenString = await AsyncStorage.getItem("authToken");
-    const authToken = JSON.parse(authTokenString)
-
-   
-
-    console.log("my authToken", authToken)
-    console.log("my string", authToken)
-    const response = await fetch(
-      `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account/activeUserUpdatePassword`,
-
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      }
+  const passwordSuccess = (message) => {
+    ToastAndroid.showWithGravityAndOffset(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.TOP,
+      25,
+      50
     );
+  };
 
-    const responseData = await response.json()
-    console.log("my response data", responseData)
-    console.log("my status", response.status)
+  const handleSubmit = async () => {
+    setLoading(true);
 
-    if (response.status === 500) {
-      Alert.alert(responseData.error)
+    // Check if passwords match
+    if (formData.newPassword !== formData.confirmNewPassword) {
+      setErrorMessages({
+        ...errorMessages,
+        confirmNewPassword: "Passwords do not match",
+      });
+      setLoading(false);
+      return;
     }
 
-    if (response.status == 200) {
-      //  await getUserData();
-    console.log("password updated succesffulu")
-      passwordSuccess(responseData.message);
-      navigation.goBack()
+    // Validate password using regex
+    if (!passwordRegex.test(formData.newPassword)) {
+      setErrorMessages({
+        ...errorMessages,
+        newPassword:
+          "Password must be 6-20 characters and include at least one numeric digit, one uppercase, and one lowercase letter",
+      });
+      setLoading(false);
+      return;
     }
 
+    try {
+      const authTokenString = await AsyncStorage.getItem("authToken");
+      const authToken = JSON.parse(authTokenString);
 
-  
-      
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account/activeUserUpdatePassword`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-    setLoading(false);
+      const responseData = await response.json();
 
-  } catch (error) {
-     console.error("Error updating password:", error);
-    setLoading(false);
-   
-  }
-};
+      if (response.status === 500) {
+        Alert.alert(responseData.error);
+      }
 
-
+      if (response.status == 200) {
+        passwordSuccess(responseData.message);
+        navigation.goBack();
+      }
+    } catch (error) {
+      console.error("Error updating password:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView>
-        <View>
-          <View className="px-4 w-full">
-            <View className="mt-6">
-              <View className="mb-6">
-                <Text className="block mb-2 text-sm font-medium dark:text-gray-400">
-                  Old password
-                </Text>
-                <View className="flex flex-row items-center justify-between bg-white  border border-gray-200">
-                  <TextInput
-                    ref={inputRefs.oldPassword}
-                    name="oldPassword"
-                    secureTextEntry={!passwordVisible}
-                    placeholder="Type your password"
-                    value={formData.oldPassword}
-                    className="px-4 d py-2.5 text-base text-gray-900 font-normal "
-                    data-gramm="false"
-                    wt-ignore-input="true"
-                    onChangeText={(text) =>
-                      handleInputChange("oldPassword", text)
-                    }
-                  />
-                  <TouchableOpacity
-                    onPress={() => togglePasswordVisibility("oldPassword")}
-                    className="mr-2"
-                  >
-                    {passwordVisible ? (
-                      <Ionicons name="eye-off-sharp" size={23} />
-                    ) : (
-                      <Ionicons name="eye-sharp" size={23} />
-                    )}
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View className="mb-6">
-                <Text className="block mb-2 text-sm font-medium dark:text-gray-400">
-                  New Password
-                </Text>
-                <View className="flex flex-row items-center justify-between bg-white  border border-gray-200">
-                  <TextInput
-                    ref={inputRefs.newPassword}
-                    name="newPassword"
-                    secureTextEntry={!passwordVisible}
-                    placeholder="Type your password"
-                    value={formData.newPassword}
-                    className="px-4 d py-2.5 text-base text-gray-900 font-normal "
-                    data-gramm="false"
-                    wt-ignore-input="true"
-                    onChangeText={(text) =>
-                      handleInputChange("newPassword", text)
-                    }
-                  />
-                  <TouchableOpacity
-                    onPress={() => togglePasswordVisibility("newPassword")}
-                    className="mr-2"
-                  >
-                    {passwordVisible ? (
-                      <Ionicons name="eye-off-sharp" size={23} />
-                    ) : (
-                      <Ionicons name="eye-sharp" size={23} />
-                    )}
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View className="mb-6">
-                <Text className="block mb-2 text-sm font-medium dark:text-gray-400">
-                  Confirm Password
-                </Text>
-                <View className="flex flex-row items-center justify-between bg-white  border border-gray-200">
-                  <TextInput
-                    ref={inputRefs.confirmNewPassword}
-                    name="confirmNewPassword"
-                    secureTextEntry={!passwordVisible}
-                    placeholder="Type your password"
-                    value={formData.confirmNewPassword}
-                    className="px-4 d py-2.5 text-base text-gray-900 font-normal "
-                    data-gramm="false"
-                    wt-ignore-input="true"
-                    onChangeText={(text) =>
-                      handleInputChange("confirmNewPassword", text)
-                    }
-                  />
-                  <TouchableOpacity
-                    onPress={() => togglePasswordVisibility(3, "newPassword")}
-                    className="mr-2"
-                  >
-                    {passwordVisible ? (
-                      <Ionicons name="eye-off-sharp" size={23} />
-                    ) : (
-                      <Ionicons name="eye-sharp" size={23} />
-                    )}
-                  </TouchableOpacity>
-                </View>
-              </View>
-
+        <View style={styles.formContainer}>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Old password</Text>
+            <View
+              style={[
+                styles.inputField,
+                errorMessages.oldPassword && styles.errorInput,
+              ]}
+            >
+              <TextInput
+                ref={inputRefs.oldPassword}
+                name="oldPassword"
+                secureTextEntry={!passwordVisible.oldPassword}
+                placeholder="Type your password"
+                value={formData.oldPassword}
+                style={styles.inputText}
+                onChangeText={(text) => handleInputChange("oldPassword", text)}
+              />
               <TouchableOpacity
-                onPress={createSubmitAlert}
-                className="text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                onPress={() => togglePasswordVisibility("oldPassword")}
+                style={styles.togglePasswordButton}
               >
-                {loading ? (
-                  // Show loading indicator while loading
-                  <ActivityIndicator size="small" color="white" />
+                {passwordVisible.oldPassword ? (
+                  <Ionicons name="eye-off-sharp" size={23} />
                 ) : (
-                  // Show "Proceed" text when not loading
-                  <Text className="text-white text-center text-lg">
-                    Change password
-                  </Text>
+                  <Ionicons name="eye-sharp" size={23} />
                 )}
               </TouchableOpacity>
             </View>
+            {errorMessages.oldPassword ? (
+              <Text style={styles.errorMessage}>
+                {errorMessages.oldPassword}
+              </Text>
+            ) : null}
           </View>
+
+          {/* Similar setup for New Password and Confirm Password fields */}
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>New Password</Text>
+            <View
+              style={[
+                styles.inputField,
+                errorMessages.newPassword && styles.errorInput,
+              ]}
+            >
+              <TextInput
+                ref={inputRefs.newPassword}
+                name="newPassword"
+                secureTextEntry={!passwordVisible.newPassword}
+                placeholder="Type your password"
+                value={formData.newPassword}
+                style={styles.inputText}
+                onChangeText={(text) => handleInputChange("newPassword", text)}
+              />
+              <TouchableOpacity
+                onPress={() => togglePasswordVisibility("newPassword")}
+                style={styles.togglePasswordButton}
+              >
+                {passwordVisible.newPassword ? (
+                  <Ionicons name="eye-off-sharp" size={23} />
+                ) : (
+                  <Ionicons name="eye-sharp" size={23} />
+                )}
+              </TouchableOpacity>
+            </View>
+            {errorMessages.newPassword ? (
+              <Text style={styles.errorMessage}>
+                {errorMessages.newPassword}
+              </Text>
+            ) : null}
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Confirm Password</Text>
+            <View
+              style={[
+                styles.inputField,
+                errorMessages.confirmNewPassword && styles.errorInput,
+              ]}
+            >
+              <TextInput
+                ref={inputRefs.confirmNewPassword}
+                name="confirmNewPassword"
+                secureTextEntry={!passwordVisible.confirmNewPassword}
+                placeholder="Type your password"
+                value={formData.confirmNewPassword}
+                style={styles.inputText}
+                onChangeText={(text) =>
+                  handleInputChange("confirmNewPassword", text)
+                }
+              />
+              <TouchableOpacity
+                onPress={() => togglePasswordVisibility("confirmNewPassword")}
+                style={styles.togglePasswordButton}
+              >
+                {passwordVisible.confirmNewPassword ? (
+                  <Ionicons name="eye-off-sharp" size={23} />
+                ) : (
+                  <Ionicons name="eye-sharp" size={23} />
+                )}
+              </TouchableOpacity>
+            </View>
+            {errorMessages.confirmNewPassword ? (
+              <Text style={styles.errorMessage}>
+                {errorMessages.confirmNewPassword}
+              </Text>
+            ) : null}
+          </View>
+
+          <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>
+            {loading ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              <Text style={styles.submitButtonText}>Change password</Text>
+            )}
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  formContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  inputGroup: {
+    marginBottom: 20,
+  },
+  label: {
+    marginBottom: 5,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  inputField: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+  },
+  inputText: {
+    flex: 1,
+    height: 40,
+    paddingHorizontal: 10,
+  },
+  togglePasswordButton: {
+    padding: 10,
+  },
+  errorMessage: {
+    color: "red",
+    fontSize: 12,
+    marginTop: 5,
+  },
+  submitButton: {
+    backgroundColor: "black",
+    paddingVertical: 15,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  submitButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  errorInput: {
+    borderColor: "red",
+  },
+});
 
 export default Closeaccount;

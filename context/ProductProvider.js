@@ -1,175 +1,32 @@
-import React from "react";
-import { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { createContext } from "react";
 import { UseUserContext } from "./UserContext";
 import { io } from "socket.io-client";
-import { FlatListComponent, ToastAndroid } from "react-native";
+import { ToastAndroid } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const ProductContext = createContext();
 
 const ProductProvider = ({ children }) => {
   const { UserData, authToken, getUserData } = UseUserContext();
 
-  console.log("User Data in product provider", UserData)
-
   const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
-  const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [cartProducts, setCartProducts] = useState(null);
   const [wishlist, setWishlist] = useState([]);
-  const [handleCartLoading, setHandleCartLoading] = useState(false);
-  const [addToCartActive, setAddToCartActive] = useState(false);
-  const [removeFromCartActive, setRemoveFromCartActive] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
- const messages = {
-     add: "item added to cart",
-     remove:"item removed from cart"
- }
-  
-  
-  const showToast = (message) => {
-    ToastAndroid.showWithGravityAndOffset(
-      message,
-      ToastAndroid.LONG,
-      ToastAndroid.TOP,
-      25,
-      50
-    );
-  }; 
+  const [loadingProducts, setLoadingProducts] = useState({});
+  const [message, setMessage] = useState("");
 
-
-  // add to cart socket
-  const handleAddToCart = (productId, userId) => {
-     console.log("state of loading before emit", handleCartLoading)
-    const cartdata = {
-      productId: productId,
-      userId: userId,
-    };
-
-    socket.emit("cartadd", cartdata);
-     console.log("state of loadind after emit", handleCartLoading) 
-  };
-
-
-
-  useEffect(() => {
-      
-    socket.on("cart", (cartItems) => {
-        //  setHandleCartLoading(true);
-         setCartProducts(cartItems);
-         setSelectedProductId(null);
-        //  setHandleCartLoading(false);
-         console.log("state of loading in socket", handleCartLoading)
-        // socket.disconnect()
- 
-         showToast(messages.add);
-        
-         
-    });
-    
-    //  return () => {
-    //    if (socket) {
-    //      socket.disconnect();
-    //    }
-    //  };
-  }, [socket]);
-
-
-
-  // remove item from cart
-  const handleRemoveFromCart = (productId, userId) => {
-    // setHandleCartLoading(true);
-    console.log("hitting remove from cart", productId, userId);
-    console.log(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
-    const cartdata = {
-      productId: productId,
-      userId: userId,
-    };
-
-    socket.emit("cartremove", cartdata);
-  };
-
-  // minus cart quantity
-  const handleCartDecrease = (productId, userId) => {
-      setHandleCartLoading(true);
-    console.log("decreasing cart Item", productId, userId);
-    const cartdata = {
-      productId: productId,
-      userId: userId,
-    };
-
-    socket.emit("cartminus", cartdata);
-  };
-
-  // get the cart products back from the server
-
-  useEffect(() => {
-    if (UserData && UserData.cart) {
-      setCartProducts(UserData.cart);
-    }
-  }, [UserData && UserData]);
-
- 
-  useEffect(() => {
-   
-    const fetchWishlistFromServer = async () => {
-      try {
-        const authToken = JSON.parse(await AsyncStorage.getItem('authToken'))
-        
-        if (!UserData) {
-          return
-        }
-       
-        // Map through the wishlist IDs and fetch product details
-        const productsPromises = UserData.wishlist.map(async (productId) => {
-          const productResponse = await axios.get(
-            `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
-          );
-          return productResponse.data; // Adjust to your server's response structure
-        });
-
-        const products = await Promise.all(productsPromises);
-
-        setWishlist(products);
-      } catch (error) {
-        console.error("Error fetching wishlist from the server:", error);
-      }
-    };
-
-    // Fetch wishlist from the server when the component mounts
-    fetchWishlistFromServer();
-  }, [UserData]);
-
-
-  // emit signals to add to wish list
-  const handleWishAdd = (productId, userId) => {
-    const wishdata = {
-      productId: productId,
-      userId: userId,
-    };
-    socket.emit("wishadd", wishdata);
-  };
-
-  //reevie the response from the server
-  socket.on("wishlist", (userwishlist) => {
-    // Update the local state with the updated
-    console.log(userwishlist);
-    setWishlist(userwishlist);
-    console.log("returning wishlist", wishlist);
-  });
-
-  const handleAddToWishlist = (product) => {
-    addToWishlist(product);
-  };
-
+  console.log("UserData", UserData)
+  // fetch products
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products`
         );
@@ -188,6 +45,217 @@ const ProductProvider = ({ children }) => {
     fetchData();
   }, []);
 
+  //fetch wishlist only if there is userData
+  useEffect(() => {
+    const fetchWishlistFromServer = async () => {
+      try {
+        const authToken = JSON.parse(await AsyncStorage.getItem("authToken"));
+
+        if (!UserData) {
+          return;
+        }
+
+        // Map through the wishlist IDs and fetch product details
+        const productsPromises = UserData.wishlist.map(async (productId) => {
+          const productResponse = await axios.get(
+            `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
+          );
+          return productResponse.data; // Adjust to your server's response structure
+        });
+
+        const products = await Promise.all(productsPromises);
+
+        setWishlist(products);
+      } catch (error) {
+        console.error("Error fetching wishlist from the server:", error);
+      }
+    };
+
+    // Fetch wishlist from the server when the component mounts
+    if (UserData) {
+      fetchWishlistFromServer();
+    }
+  }, [UserData]);
+
+  // get the cart products back from the server
+  useEffect(() => {
+    if (UserData && UserData.cart) {
+      setCartProducts(UserData.cart);
+    }
+  }, [UserData]);
+
+  // show toast message
+  const showToast = (message) => {
+    ToastAndroid.showWithGravityAndOffset(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.TOP,
+      25,
+      50
+    );
+  };
+
+
+  const handleAddToCart = (productId, userId) => {
+    setLoadingProducts((prevLoading) => ({
+      ...prevLoading,
+      [productId]: true,
+    }));
+
+    const existingCartItem = cartProducts.find(
+      (item) => item.product._id === productId
+    );
+
+    if (existingCartItem) {
+      // If the product is already in cart, increment quantity by 1
+      const updatedCart = cartProducts.map((item) => {
+        if (item.product._id === productId) {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      });
+
+      setCartProducts(updatedCart);
+    } else {
+      // If the product is not in cart, add it with quantity 1
+      const productToAdd = allProducts.find(
+        (product) => product._id === productId
+      );
+      if (productToAdd) {
+        const newCartItem = {
+          _id: productToAdd._id,
+          product: productToAdd,
+          quantity: 1,
+        };
+        setCartProducts([...cartProducts, newCartItem]);
+      }
+    }
+
+      setLoadingProducts({});
+      showToast("Product added To cart");
+
+    // Emit a signal to notify the server about the cart update
+    const cartdata = {
+      productId: productId,
+      userId: userId,
+    };
+
+    socket.emit("cartadd", cartdata);
+  };
+
+
+  // add to cart socket
+  // const handleAddToCart = (productId, userId) => {
+  //   setLoadingProducts((prevLoading) => ({
+  //     ...prevLoading,
+  //     [productId]: true,
+  //   }));
+
+  //   const cartdata = {
+  //     productId: productId,
+  //     userId: userId,
+  //   };
+
+  //   socket.emit("cartadd", cartdata);
+  // };
+
+  // remove item from cart
+  const handleRemoveFromCart = (productId, userId) => {
+    console.log("my cart Products", cartProducts)
+    setLoadingProducts((prevLoading) => ({
+      ...prevLoading,
+      [productId]: true,
+    }));
+
+    const cartdata = {
+      productId: productId,
+      userId: userId,
+    };
+
+    socket.emit("cartremove", cartdata);
+
+    const updatedCart = cartProducts.filter(
+      (item) => item.product._id !== productId
+    );
+    setCartProducts(updatedCart);
+
+     setLoadingProducts({});
+    showToast("Item removed from cart");
+  };
+
+  // minus cart quantity
+  const handleCartDecrease = (productId, userId) => {
+    setLoadingProducts((prevLoading) => ({
+      ...prevLoading,
+      [productId]: true,
+    }));
+
+     const updatedCart = cartProducts.map((item) => {
+       if (item.product._id === productId) {
+         // If quantity is already 1, don't decrement further
+         if (item.quantity === 1) {
+           return item;
+         }
+         return {
+           ...item,
+           quantity: item.quantity - 1,
+         };
+       }
+       return item;
+     });
+
+    setCartProducts(updatedCart);
+     setLoadingProducts({});
+     showToast("Item decremented");
+
+    const cartdata = {
+      productId: productId,
+      userId: userId,
+    };
+
+    socket.emit("cartminus", cartdata);
+  };
+
+  const handleAddToWishlist = (product) => {
+    addToWishlist(product);
+  };
+
+  // emit signals to add to wish list
+  const handleWishAdd = (productId, userId) => {
+    console.log("my wish list", wishlist)
+    const wishdata = {
+      productId: productId,
+      userId: userId,
+    };
+    socket.emit("wishadd", wishdata);
+  };
+
+  socket.on("wishlist", (userwishlist) => {
+    setWishlist(userwishlist);
+    console.log("returning wishlist", wishlist);
+  });
+
+  useEffect(() => {
+    console.log(
+      `socket listening when there is a change in socket : ${socket}`
+    );
+    socket.on("cart", (cartItems) => {
+      
+      setCartProducts(cartItems);
+  
+    
+    });
+
+     console.log("cart Items insside socket", cartProducts);
+
+    // return () => {
+    //   socket.disconnect();
+    // };
+  }, [socket]);
+
   return (
     <ProductContext.Provider
       value={{
@@ -196,19 +264,14 @@ const ProductProvider = ({ children }) => {
         handleAddToCart,
         handleRemoveFromCart,
         handleCartDecrease,
-
         handleAddToWishlist,
         wishlist,
         handleWishAdd,
         setSearchResults,
         setLoading,
         loading,
-        handleCartLoading,
-        setAddToCartActive,
-        setRemoveFromCartActive,
         showToast,
-        selectedProductId,
-        setSelectedProductId,
+        loadingProducts,
       }}
     >
       {children}

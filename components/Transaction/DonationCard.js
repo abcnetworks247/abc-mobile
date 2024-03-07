@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25, // for iOS
     shadowRadius: 3.84, // for iOS
     backgroundColor: "#fff",
+    marginTop: 10,
   },
   infoContainer: {
     flexDirection: "row",
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
   viewMoreButton: {
     marginTop: 15,
-    backgroundColor: "#007bff", // Blue color
+    backgroundColor: "#00308F", // Blue color
   },
 });
 
