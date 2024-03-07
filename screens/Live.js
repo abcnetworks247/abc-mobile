@@ -1,21 +1,65 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
-import { Video } from "expo-av";
-import { useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ScreenOrientation from "expo-screen-orientation";
-
-const videos = [
-  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+import VideoPlayer from "../components/VideoPlayer";
+const channels = [
+  {
+    name: "ABC AMBA TV, English Live",
+    description: "News in English",
+    url: "https://iframe.viewmedia.tv?channel=158",
+    id: 1,
+  },
+  {
+    name: "ABC AMBA TV, Portuguese Live",
+    description: "Notícias em Português",
+    url: "https://iframe.viewmedia.tv?channel=158",
+    id: 2,
+  },
+  {
+    name: "ABC AMBA TV, French Live",
+    description: "Actualités en français",
+    url: "https://iframe.viewmedia.tv?channel=158",
+    id: 3,
+  },
+  {
+    name: "ABC AMBA TV, Pidgin English Live",
+    description: "News in Pidgin English",
+    url: "https://iframe.viewmedia.tv?channel=158",
+    id: 4,
+  },
 ];
 
 const Live = () => {
-  const videoRefs = videos.map(() => useRef(null));
-  const [status, setStatus] = useState({});
+  const rotateToLandscape = async () => {
+    await ScreenOrientation.lockAsync(
+      ScreenOrientation.OrientationLock.LANDSCAPE_LEFT
+    );
+  };
 
+  const rotateToPortrait = async () => {
+    await ScreenOrientation.lockAsync(
+      ScreenOrientation.OrientationLock.PORTRAIT
+    );
+  };
 
+  useEffect(() => {
+    const orientationChangeHandler = (orientation) => {
+      if (orientation === "LANDSCAPE") {
+        rotateToLandscape();
+      } else {
+        rotateToPortrait();
+      }
+    };
+
+    ScreenOrientation.addOrientationChangeListener(orientationChangeHandler);
+
+    return () => {
+      ScreenOrientation.removeOrientationChangeListener(
+        orientationChangeHandler
+      );
+    };
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -23,18 +67,8 @@ const Live = () => {
         contentContainerStyle={styles.scrollViewContent}
         style={styles.scrollView}
       >
-        {videos.map((video, index) => (
-          <View key={index} style={styles.videoContainer}>
-            <Video
-              ref={videoRefs[index]}
-              source={{ uri: video }}
-              useNativeControls
-              resizeMode="contain"
-              isLooping
-              onPlaybackStatusUpdate={setStatus}
-              style={styles.video}
-            />
-          </View>
+        {channels.map((channel, index) => (
+          <VideoPlayer key={index} video={channel} />
         ))}
       </ScrollView>
     </SafeAreaView>
@@ -48,13 +82,6 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     paddingHorizontal: 10,
     paddingVertical: 20,
-  },
-  videoContainer: {
-    marginBottom: 20,
-  },
-  video: {
-    width: "100%",
-    aspectRatio: 16 / 9,
   },
 });
 
