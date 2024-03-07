@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Video } from "expo-av";
 import { useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as ScreenOrientation from "expo-screen-orientation";
 
 const videos = [
   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
@@ -13,6 +14,8 @@ const videos = [
 const Live = () => {
   const videoRefs = videos.map(() => useRef(null));
   const [status, setStatus] = useState({});
+
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 20,
   },
   videoContainer: {
     marginBottom: 20,
