@@ -79,7 +79,7 @@ export default function DrawerNavigator() {
             drawerLabelStyle: { fontFamily: "PublicSans_500Medium" },
             drawerInactiveTintColor: "black",
             drawerIcon: ({ color }) => (
-              <Foundation name="home" size={22} color={color} />
+              <MaterialIcons name="live-tv" size={22} color={color} />
             ),
           }}
         />

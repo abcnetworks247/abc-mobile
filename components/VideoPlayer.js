@@ -13,23 +13,23 @@ const VideoPlayer = ({ video }) => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = React.useRef(null);
 
-  useEffect(() => {
-    const playVideo = async () => {
-      try {
-        await videoRef.current.playAsync();
-        setIsVideoPlaying(true);
-      } catch (error) {
-        console.error("Error playing video", error);
-      }
-    };
+  // useEffect(() => {
+  //   const playVideo = async () => {
+  //     try {
+  //       await videoRef.current.playAsync();
+  //       setIsVideoPlaying(true);
+  //     } catch (error) {
+  //       console.error("Error playing video", error);
+  //     }
+  //   };
 
-    playVideo();
+  //   playVideo();
 
-    return () => {
-      setIsVideoPlaying(false);
-      videoRef.current.unloadAsync();
-    };
-  }, [video]);
+  //   return () => {
+  //     setIsVideoPlaying(false);
+  //     videoRef.current.unloadAsync();
+  //   };
+  // }, [video]);
 
   const renderVideoPlayer = () => {
     if (video.url.includes("iframe")) {
@@ -55,27 +55,24 @@ const VideoPlayer = ({ video }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.videoName}>{video.name}</Text>
-      <Text style={styles.videoDescription}>{video.description}</Text>
-       {renderVideoPlayer()}
+    <View
+      className="w-[100%] mb-[20px] bg-white flex-1"
+    >
+      <View className="px-2 py-2">
+        <Text style={styles.videoName}>{video.name}</Text>
+        <Text style={styles.videoDescription}>{video.description}</Text>
+      </View>
+
+      {renderVideoPlayer()}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginBottom: 20,
-    width: "100%",
-    backgroundColor: "white",
-    padding: 10,
-    borderRadius: 10,
-    flex: 1,
-  },
+
   video: {
     flex: 1,
     width: "100%",
-    heigth: 500,
     aspectRatio: 16 / 9,
   },
   videoName: {
