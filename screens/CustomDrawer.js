@@ -118,7 +118,7 @@ const handleLogout = async () => {
           contentContainerStyle={{ backgroundColor: "#2c3e50" }}
         >
           <View style={{ paddingTop: 10, backgroundColor: "white" }}>
-            <DrawerItem
+            {/* <DrawerItem
               label={({ focused, color }) => (
                 <View className="flex flex-row items-center justify-between">
                   <View className="flex flex-row items-center gap-2">
@@ -149,7 +149,7 @@ const handleLogout = async () => {
                   )}
                   label={({ focused, color }) => <Text>{item.name}</Text>}
                 />
-              ))}
+              ))} */}
             <DrawerItemList {...props} />
           </View>
         </DrawerContentScrollView>

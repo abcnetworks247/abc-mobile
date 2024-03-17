@@ -3,48 +3,109 @@ import {
   StyleSheet,
   Text,
   SafeAreaView,
+  View,
+  Pressable,
+  TextInput,
+  FlatList,
   ActivityIndicator,
+  TouchableOpacity
 } from "react-native";
-import List from "../components/search/List";
-import SearchBar from "../components/search/Searchbar";
-import { UseProductProvider } from "../context/ProductProvider";
-import { useLayoutEffect } from "react";
+import { TrendIcon, DiagonalArrowcon } from "../components/svgs/Icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import axios from 'axios'
 
 const Searchpage = () => {
-  const navigation=useNavigation()
-    const {allProducts} = UseProductProvider()
-  const [searchPhrase, setSearchPhrase] = useState("");
- 
+  const [query, setQuery] = useState("");
+  const [searchedProduct, setSearchedProduct] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
+  const MAX_NAME_LENGTH = 35;
+    
+console.log("my searched Products", searchedProduct)
 
-  
-   useLayoutEffect(() => {
-     // Hide the bottom navigation when navigating to Searchpage
-     navigation.setOptions({
-       tabBarVisible: false,
-     });
+ const fetchProducts = async (searchQuery) => {
+   try {
+     setLoading(true)
+     const response = await axios.get(
+       `https://abc-server-nazd.onrender.com/api/v1/admin/commerce/search?query=${searchQuery}`
+     );
 
-     // Cleanup function to show the bottom navigation when leaving Searchpage
-     return () => {
-       navigation.setOptions({
-         tabBarVisible: true,
-       });
-     };
-   }, [navigation]);
+     if (response.status === 200) {
+       const searchData = response.data;
+       setSearchedProduct(searchData);
+       setLoading(false)
+     } else {
+       console.error("Error fetching search results");
+     }
+   } catch (error) {
+     console.error("Error:", error);
+   }
+ };
+   useEffect(() => {
+     if (query !== "") {
+       fetchProducts(query);
+     }
+   }, [query]);
 
 
   return (
     <SafeAreaView style={styles.root}>
-      <SearchBar
-        searchPhrase={searchPhrase}
-        setSearchPhrase={setSearchPhrase}
-      />
+      {/* Search bar */}
+      <View style={styles.searchBar}>
+        {/* Back arrow */}
+        <Pressable onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={23} />
+        </Pressable>
 
-      {searchPhrase && (
-        <List
-          searchPhrase={searchPhrase}
-          data={allProducts}
-         
+        {/* Search bar */}
+        <TextInput
+          placeholder="Search..."
+          style={styles.input}
+          value={query}
+          onChangeText={(text) => setQuery(text)}
+        />
+      </View>
+
+      {/* Product list */}
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <FlatList
+          data={searchedProduct}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              className="px-2 py-1  border-b border-gray-300 bg-white"
+              onPress={() =>
+                navigation.navigate("Details", {
+                  title: item.title,
+                  description: item.description,
+                  thumbnail: item.thumbnail,
+                  price: item.price,
+                  productId: item._id,
+                  images: item.images,
+                })
+              }
+            >
+              <View className="flex flex-row items-center justify-between">
+                <View className="flex flex-row items-center ">
+                  <TrendIcon />
+                  <Text
+                    className="font-bold ml-2"
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {item.title.length > MAX_NAME_LENGTH
+                      ? `${item.title.substring(0, MAX_NAME_LENGTH)}...`
+                      : item.title}
+                  </Text>
+                </View>
+
+                <DiagonalArrowcon />
+              </View>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item._id}
         />
       )}
     </SafeAreaView>
@@ -55,14 +116,24 @@ export default Searchpage;
 
 const styles = StyleSheet.create({
   root: {
-    justifyContent: "center",
-    alignItems: "center",
+    flex: 1,
+    backgroundColor: "#fff",
   },
-  title: {
-    width: "100%",
-    marginTop: 20,
-    fontSize: 25,
-    fontWeight: "bold",
-    marginLeft: "10%",
+  searchBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  input: {
+    flex: 1,
+    marginLeft: 10,
+    fontSize: 16,
+  },
+  item: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
 });

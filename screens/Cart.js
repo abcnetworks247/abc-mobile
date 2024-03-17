@@ -59,7 +59,8 @@ export default function Cart() {
    const [postalcode, setPostalCode] = useState("");
    const [state, setState] = useState("");
    const [country, setCountry] = useState("");
-   const [note, setNote] = useState("");
+  const [note, setNote] = useState("");
+  const [coupon, setCoupon]=useState("")
   const shippingFee = 5;
   
   console.log("my cart product",cartProducts)
@@ -184,6 +185,8 @@ if (authToken && cartProducts && cartProducts.length > 0) {
 
   
   const CheckOut = async () => {
+
+    
     const formData = {
       product: cartProducts,
       phone,
@@ -192,7 +195,9 @@ if (authToken && cartProducts && cartProducts.length > 0) {
       postalcode,
       state,
       country,
-      note,
+      note: note ==="" ? "note": note,
+      coupon,
+      paytype: "Buy",
     };
     
     try {
@@ -216,13 +221,12 @@ if (authToken && cartProducts && cartProducts.length > 0) {
          return;
        }
 
-     
 
        if (paymentType === "Stripe") {
          try {
            setSpinner(true);
            const session = await axios.post(
-             `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/stripe/create-checkout-session`,
+             `${process.env.EXPO_PUBLIC_SERVER_URL}admin/pay/stripe/create-checkout-session`,
              formData,
              {
                headers: {
@@ -264,7 +268,7 @@ if (authToken && cartProducts && cartProducts.length > 0) {
     input: {
       height: 40,
       borderColor: "gray",
-      borderWidth: 1,
+      borderWidth: 1, 
       marginBottom: 10,
       paddingHorizontal: 10,
     },
@@ -356,6 +360,22 @@ if (authToken && cartProducts && cartProducts.length > 0) {
            <Text
              style={{ ...styles.label, fontFamily: "PublicSans_500Medium" }}
            >
+             Coupon
+           </Text>
+           <View className="flex flex-row items-center h-[40px] ">
+             <TextInput
+               className="h-full px-2 bg-white flex-grow border"
+               value={coupon}
+               onChangeText={setCoupon}
+             />
+             <Pressable className="bg-black h-full flex flex-row items-center justify-center">
+               <Text className="text-white">Apply Couopon</Text>
+             </Pressable>
+           </View>
+
+           <Text
+             style={{ ...styles.label, fontFamily: "PublicSans_500Medium" }}
+           >
              Phone Number
            </Text>
            <TextInput
@@ -428,7 +448,7 @@ if (authToken && cartProducts && cartProducts.length > 0) {
              value={note}
              onChangeText={setNote}
              multiline={true}
-             numberOfLines={4} // You can adjust this based on your preference
+             numberOfLines={4} 
            />
 
            <Button title="Submit" />

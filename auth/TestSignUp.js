@@ -86,7 +86,12 @@ const TestSignUp = () => {
     if (name === "email") {
       signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
     } else if (name === "password") {
-      signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
+      signUpValidate(
+        name,
+        PASSWORD_REGEX,
+        value,
+        "Password must be 6-20 characters and include at least one numeric digit, one uppercase, and one lowercase letter"
+      );
     } else if (id === "fullname") {
       signUpValidate(name, NAME_REGEX, value, "Invalid name");
     }

@@ -62,8 +62,9 @@ const Donation = () => {
      }
   
   let data = {
-    name: "Donation",
-    amount: amount, 
+      name: "Donation",
+      amount: amount,
+      note: "ABCDonatiom",
     };
     
     console.log(data)

@@ -16,27 +16,27 @@ const Transaction = () => {
   const subscriptionhistory = UserData.subscriptionhistory
 
 
-  const trac = [
-    {
-      __v: 0,
-      _id: "65e1b4a0ea690af41ccbfcc8",
-      amount: 10,
-      country: "NG",
-      currency: "usd",
-      email: "mijanigoni@gmail.com",
-      hosted_invoice_url:
-        "https://invoice.stripe.com/i/acct_1OSkAALEvvTkpvAd/test_YWNjdF8xT1NrQUFMRXZ2VGtwdkFkLF9QZW5OMkJsTDVKaHJkU2VwSW13cVVsUjlQTDZBUkRPLDk5ODMxNDU20200xye1uNnk?s=ap",
-      name: "Mijan",
-      plan_id: "price_1OpTl5LEvvTkpvAdLjUluyjp",
-      plan_type: "month",
-      quantity: 1,
-      subscription_id: "sub_1OpTmTLEvvTkpvAdN87lCym2",
-      subscription_name: "1 × General - Copper Donor (at $10.00 / month)",
-      subscription_period_end: "2024-04-01T10:57:33.000Z",
-      subscription_period_start: "2024-03-01T10:57:33.000Z",
-      subscription_status: "active",
-    },
-  ];
+  // const trac = [
+  //   {
+  //     __v: 0,
+  //     _id: "65e1b4a0ea690af41ccbfcc8",
+  //     amount: 10,
+  //     country: "NG",
+  //     currency: "usd",
+  //     email: "mijanigoni@gmail.com",
+  //     hosted_invoice_url:
+  //       "https://invoice.stripe.com/i/acct_1OSkAALEvvTkpvAd/test_YWNjdF8xT1NrQUFMRXZ2VGtwdkFkLF9QZW5OMkJsTDVKaHJkU2VwSW13cVVsUjlQTDZBUkRPLDk5ODMxNDU20200xye1uNnk?s=ap",
+  //     name: "Mijan",
+  //     plan_id: "price_1OpTl5LEvvTkpvAdLjUluyjp",
+  //     plan_type: "month",
+  //     quantity: 1,
+  //     subscription_id: "sub_1OpTmTLEvvTkpvAdN87lCym2",
+  //     subscription_name: "1 × General - Copper Donor (at $10.00 / month)",
+  //     subscription_period_end: "2024-04-01T10:57:33.000Z",
+  //     subscription_period_start: "2024-03-01T10:57:33.000Z",
+  //     subscription_status: "active",
+  //   },
+  // ];
   
 
   const renderContent = () => {
@@ -81,8 +81,8 @@ const Transaction = () => {
             }}
           />
         ));
-      case "Order":
-        return <OrderCard data="Demo Order Data" />;
+      case "Purchase":
+        return <OrderCard orderhistory={orderhistory}/>;
       default:
         return null;
     }
@@ -131,7 +131,7 @@ const Transaction = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setActiveTab("Order")}
+          onPress={() => setActiveTab("Purchase")}
           className={`p-4 ${
             activeTab === "Order" ? "border-b-2 border-[#00308F]" : ""
           }`}
@@ -139,7 +139,7 @@ const Transaction = () => {
           <Text
             style={{
               fontFamily:
-                activeTab === "Order"
+                activeTab === "Purchase"
                   ? "PublicSans_600SemiBold"
                   : "PublicSans_400Regular",
             }}

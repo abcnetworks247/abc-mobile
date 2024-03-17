@@ -7,14 +7,14 @@ import { useIsFocused } from "@react-navigation/native";
 const SearchBar = ({  searchPhrase, setSearchPhrase }) => {
   const navigation= useNavigation()
   const searchInputRef = useRef(null);
-   const isFocused = useIsFocused();
+ const [query, setQuery]=useState('')
 
-   useEffect(() => {
-     // Autofocus the search input when the component mounts
-     if (searchInputRef.current && isFocused) {
-       searchInputRef.current.focus();
-     }
-   }, [isFocused]);
+  //  useEffect(() => {
+  //    // Autofocus the search input when the component mounts
+  //    if (searchInputRef.current && isFocused) {
+  //      searchInputRef.current.focus();
+  //    }
+  //  }, [isFocused]);
   return (
     <View
       style={{
@@ -44,8 +44,8 @@ const SearchBar = ({  searchPhrase, setSearchPhrase }) => {
           marginLeft: 10,
           fontSize: 16,
         }}
-        value={searchPhrase}
-        onChangeText={setSearchPhrase}
+        value={query}
+        onChangeText={setQuery}
       />
     </View>
   );

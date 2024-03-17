@@ -16,7 +16,8 @@ import { ToastAndroid } from "react-native";
 import axios from "axios";
 import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
-
+import { Link } from "expo-router";
+   
 const Login = () => {
   const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
@@ -82,7 +83,12 @@ const Login = () => {
     if (name === "email") {
       signUpValidate(name, EMAIL_REGEX, value, "Invalid email format");
     } else if (name === "password") {
-      signUpValidate(name, PASSWORD_REGEX, value, "Password is too weak");
+      signUpValidate(
+        name,
+        PASSWORD_REGEX,
+        value,
+        "Password must be 6-20 characters and include at least one numeric digit, one uppercase, and one lowercase letter"
+      );
     }
   };
 
@@ -303,23 +309,33 @@ const Login = () => {
           </TouchableOpacity>
         </View>
         <View className="flex flex-row items-center justify-between">
-          <Text
-            style={{ fontFamily: "PublicSans_500Medium_Italic" }}
-            className="text-center text-gray-500"
-          >
-            New?
-          </Text>
-          <Pressable
-            className="text-center text-gray-500"
-            onPress={() => navigation.navigate("TestSignUp")}
-          >
+          <View className="flex flex-row items-center gap-2">
             <Text
-              style={{ fontFamily: "PublicSans_600SemiBold" }}
-              className="text-blue-900 font-semibold"
+              style={{ fontFamily: "PublicSans_500Medium_Italic" }}
+              className="text-center text-gray-500"
             >
-              Register
+              New?
             </Text>
-          </Pressable>
+            <Pressable
+              className="text-center text-gray-500"
+              onPress={() => navigation.navigate("TestSignUp")}
+            >
+              <Text
+                style={{ fontFamily: "PublicSans_600SemiBold" }}
+                className="text-blue-900 font-semibold"
+              >
+                Register
+              </Text>
+            </Pressable>
+          </View>
+          <Link href="https://abcstudio-nine.vercel.app/recovery">
+            <Text
+              className="text-blue-900"
+              style={{ fontFamily: "PublicSans_500Medium", fontSize: 12 }}
+            >
+              Forgot password
+            </Text>
+          </Link>
         </View>
       </View>
     </View>

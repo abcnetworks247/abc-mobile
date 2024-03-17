@@ -17,72 +17,76 @@ const Membership = () => {
  const [spinner, setSpinner] = useState(false);
   const [plantype, setPlanType] = useState("monthly");
  
-  
+   const Plans = [
+     {
+       name: "General - Copper Donor",
+       id: "1",
+       level: "coper",
+       range1: plantype === "monthly" ? 10 : 120,
+       range2: plantype === "monthly" ? 50 : 600,
+       price: plantype === "monthly" ? "10 - $50" : "120 - $600",
+       description: "Basic plan with live video access and more.",
+       type: plantype === "monthly" ? "month" : "year",
+       features: ["Live Video"],
+     },
+     {
+       name: "Prime - Silver Donor",
+       id: "2",
+       level: "silver",
+       range1: plantype === "monthly" ? 55 : 660,
+       range2: plantype === "monthly" ? 100 : 1200,
+       price: plantype === "monthly" ? "55 - $100" : "660 - $1200",
+       description: "Enhanced plan with discounts and live video.",
+       type: plantype === "monthly" ? "month" : "year",
+       features: ["Special Discount", "Live Video"],
+     },
+     {
+       name: "Patrons 1 - Gold Donor",
+       id: "3",
+       level: "gold",
+       range1: plantype === "monthly" ? 105 : 1260,
+       range2: plantype === "monthly" ? 200 : 2400,
+       price: plantype === "monthly" ? "105 - $200" : "1260 - $2400",
+       description:
+         "Premium plan with discounts, live video, and free shipping.",
+       type: plantype === "monthly" ? "month" : "year",
+       features: ["Special Discount", "Live Video", "Free Shipping"],
+     },
+     {
+       name: "Patron 2 - Diamond Donor",
+       id: "4",
+       level: "diamond",
+       range1: plantype === "monthly" ? 500 : 6000,
+       range2: plantype === "monthly" ? 1000 : 12000,
+       price: plantype === "monthly" ? "$500" : "$6000",
+       description: "Exclusive plan with discounts, free shipping, and more.",
+       type: plantype === "monthly" ? "month" : "year",
+       features: [
+         "Special Discount",
+         "Live Video",
+         "Free Shipping / Fast Delivery",
+         "Free ABCTV App Download",
+       ],
+     },
+     {
+       name: "Patron 3 - Titanium Donor",
+       id: "5",
+       level: "titanium",
+       range1: plantype === "monthly" ? 1000 : 12000,
+       range2: plantype === "monthly" ? 500000 : 6000000,
+       price: plantype === "monthly" ? "$1000" : "$12000",
+       description: "Elite plan with discounts, live video, and premium perks.",
+       type: plantype === "monthly" ? "month" : "year",
+       features: [
+         "Special Discount",
+         "Live Discount",
+         "Free ABCTV App Download",
+         "Free ABCTV Gadgets",
+         "Free Shipping / Free Delivery",
+       ],
+     },
+   ];
 
-
- const Plans = [
-   {
-     name: "General - Copper Donor",
-     id: "1",
-     range1: plantype === "monthly" ? 10 : 120,
-     range2: plantype === "monthly" ? 50 : 600,
-     price: plantype === "monthly" ? "10 - $50" : "120 - $600",
-     description: "Basic plan with live video access and more.",
-     type: plantype === "monthly" ? "month" : "year",
-     features: ["Live Video"],
-   },
-   {
-     name: "Prime - Silver Donor",
-     id: "2",
-     range1: plantype === "monthly" ? 55 : 660,
-     range2: plantype === "monthly" ? 100 : 1200,
-     price: plantype === "monthly" ? "55 - $100" : "660 - $1200",
-     description: "Enhanced plan with discounts and live video.",
-     type: plantype === "monthly" ? "month" : "year",
-     features: ["Special Discount", "Live Video"],
-   },
-   {
-     name: "Patrons 1 - Gold Donor",
-     id: "3",
-     range1: plantype === "monthly" ? 105 : 1260,
-     range2: plantype === "monthly" ? 200 : 2400,
-     price: plantype === "monthly" ? "105 - $200" : "1260 - $2400",
-     description: "Premium plan with discounts, live video, and free shipping.",
-     type: plantype === "monthly" ? "month" : "year",
-     features: ["Special Discount", "Live Video", "Free Shipping"],
-   },
-   {
-     name: "Patron 2 - Diamond Donor",
-     id: "4",
-     range1: plantype === "monthly" ? 500 : 6000,
-     range2: plantype === "monthly" ? 1000 : 12000,
-     price: plantype === "monthly" ? "$500" : "$6000",
-     description: "Exclusive plan with discounts, free shipping, and more.",
-     type: plantype === "monthly" ? "month" : "year",
-     features: [
-       "Special Discount",
-       "Live Video",
-       "Free Shipping / Fast Delivery",
-       "Free ABCTV App Download",
-     ],
-   },
-   {
-     name: "Patron 3 - Titanium Donor",
-     id: "5",
-     range1: plantype === "monthly" ? 1000 : 12000,
-     range2: plantype === "monthly" ? 500000 : 6000000,
-     price: plantype === "monthly" ? "$1000" : "$12000",
-     description: "Elite plan with discounts, live video, and premium perks.",
-     type: plantype === "monthly" ? "month" : "year",
-     features: [
-       "Special Discount",
-       "Live Discount",
-       "Free ABCTV App Download",
-       "Free ABCTV Gadgets",
-       "Free Shipping / Free Delivery",
-     ],
-   },
- ];
 
 
  const MonthlyPlan = () => {

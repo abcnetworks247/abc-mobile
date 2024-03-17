@@ -31,7 +31,7 @@ const Item = ({ title, description , id, thumbnail}) => {
 };
 
 // the filter
-const List = ({ searchPhrase, data }) => {
+const List = ({ query, data }) => {
 
   const renderItem = ({ item }) => {
     if (

@@ -20,6 +20,7 @@ const ProductProvider = ({ children }) => {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [loadingProducts, setLoadingProducts] = useState({});
   const [message, setMessage] = useState("");
+  const [products, setProducts] = useState([]);
 
   console.log("UserData", UserData)
   // fetch products
@@ -121,7 +122,7 @@ const ProductProvider = ({ children }) => {
       setCartProducts(updatedCart);
     } else {
       // If the product is not in cart, add it with quantity 1
-      const productToAdd = allProducts.find(
+      const productToAdd = products.find(
         (product) => product._id === productId
       );
       if (productToAdd) {
@@ -272,6 +273,8 @@ const ProductProvider = ({ children }) => {
         loading,
         showToast,
         loadingProducts,
+        products,
+        setProducts
       }}
     >
       {children}
