@@ -9,7 +9,7 @@ import {
   Linking,
   Pressable,
 } from "react-native";
-import React from "react";
+import React from "react"
 import { useNavigation } from "@react-navigation/native";
 import { useCustomFonts } from "../../context/FontContext";
 import AppLoading from "expo-app-loading";
@@ -18,8 +18,8 @@ import AppLoading from "expo-app-loading";
 
 
 
-const LayerTwo = ({ data, loading }) => {
-   const { fontsLoaded, fontStyles } = useCustomFonts();
+const PresidentialOffice = ({ data, loading }) => {
+  const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
   const handlePress = (item) => () => {
     navigation.navigate("NewsDetails", {
@@ -32,11 +32,11 @@ const LayerTwo = ({ data, loading }) => {
     });
   };
 
-    if (!fontsLoaded) {
-      return <AppLoading />;
-    }
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
-    <View>
+    <View >
       <View className="flex flex-col ">
         {loading ? (
           Array.from({ length: 1 }).map((_, index) => (
@@ -58,7 +58,7 @@ const LayerTwo = ({ data, loading }) => {
           <Text></Text>
         ) : (
           <Pressable>
-            <View className="flex flex-col flex-1 p-1">
+            <View className="flex flex-col flex-1 p-1 ">
               <View className="border-b-gray-300 border-b mt-3 mb-3" />
               <Text
                 className="flex-1 py-2 capitalize"
@@ -66,7 +66,7 @@ const LayerTwo = ({ data, loading }) => {
               >
                 {data[0].title}
               </Text>
-              <TouchableOpacity
+              <Pressable
                 activeOpacity={0.5}
                 onPress={handlePress(data[0])}
                 className="flex-row flex justify-between gap-2 w-fit p-1 "
@@ -75,10 +75,9 @@ const LayerTwo = ({ data, loading }) => {
                   alt=""
                   className="object-cover w-full h-52 object-top rounded-t border"
                   source={{ uri: data[0].blogimage }}
-                  resizeMode="cover"
                   resizeMethod="resize"
                 />
-              </TouchableOpacity>
+              </Pressable>
             </View>
             <View className="border-b-gray-300 border-b mt-2 mb-2" />
             {data &&
@@ -88,7 +87,7 @@ const LayerTwo = ({ data, loading }) => {
                   key={item._id}
                 >
                   <View className="">
-                    <TouchableOpacity
+                    <Pressable
                       activeOpacity={0.5}
                       onPress={handlePress(item)}
                       className="flex-row flex justify-between gap-2 w-fit p-1 "
@@ -106,10 +105,9 @@ const LayerTwo = ({ data, loading }) => {
                         alt=""
                         className="object-cover w-24 h-20 object-top rounded"
                         source={{ uri: item.blogimage }}
-                        resizeMode="cover"
                         resizeMethod="resize"
                       />
-                    </TouchableOpacity>
+                    </Pressable>
                   </View>
                 </View>
               ))}
@@ -120,4 +118,4 @@ const LayerTwo = ({ data, loading }) => {
   );
 };
 
-export default LayerTwo;
+export default PresidentialOffice;

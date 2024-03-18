@@ -16,8 +16,7 @@ import { useCustomFonts } from "../../context/FontContext";
 import AppLoading from "expo-app-loading";
 
 
-const LayerOne = ({ data, loading }) => {
-
+const AfricanNews = ({ data, loading }) => {
   const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
   const handlePress = (item) => () => {
@@ -30,7 +29,7 @@ const LayerOne = ({ data, loading }) => {
       desc: item.longdescription,
     });
   };
-  
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
@@ -47,7 +46,10 @@ const LayerOne = ({ data, loading }) => {
         ))
       ) : (
         <>
-          <Text style={{ fontFamily: "PublicSans_600SemiBold", fontSize: 16 }}>
+          <Text
+            style={{ fontFamily: "PublicSans_600SemiBold", fontSize: 16 }}
+            className="mb-3 mt-5"
+          >
             Here are the world {data[0].type} News you don't want to miss..{" "}
           </Text>
           <ScrollView
@@ -56,21 +58,16 @@ const LayerOne = ({ data, loading }) => {
             className="mt-2"
           >
             <View className=" flex flex-row gap-2">
-              {data.slice(0, 5).map((item, index) => (
+              {data.slice(0, 10).map((item, index) => (
                 <View className="flex rounded w-28 h-24" key={index}>
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    onPress={handlePress(item)}
-                    className="w-full"
-                  >
+                  <Pressable onPress={handlePress(item)} className="w-full">
                     <Image
                       alt=""
                       className="object-cover w-full h-full object-top rounded"
                       source={{ uri: item.blogimage }}
-                      resizeMode="cover"
                       resizeMethod="resize"
                     />
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               ))}
             </View>
@@ -81,4 +78,4 @@ const LayerOne = ({ data, loading }) => {
   );
 };
 
-export default LayerOne;
+export default AfricanNews;

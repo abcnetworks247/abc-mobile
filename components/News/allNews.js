@@ -110,27 +110,27 @@ const HomeNews = () => {
 
           <View className=" mb-5">
             <Text
-              className="py-1 "
+              className="py-1 mb-3 "
               style={{ fontFamily: "PublicSans_700Bold", fontSize: 20 }}
             >
-              Popular News
+              Breaking News
             </Text>
             {!breakingNews ? (
               <Text>No news yet</Text>
             ) : (
               breakingNews.map((item, index) => (
-                <TouchableOpacity activeOpacity={0.5} key={index}>
-                  <View className="flex flex-col " key={index}>
+                <View activeOpacity={0.5} key={index}>
+                  <View className="flex flex-col ">
                     <Pressable onPress={handlePress(item)}>
                       <Image
                         alt=""
-                        className="object-cover w-full h-52 object-top rounded-t"
+                        className="object-cover w-full h-52 rounded-md"
                         source={{ uri: item.blogimage }}
-                        resizeMode="contain"
+
                         resizeMethod="resize"
                       />
 
-                      <View className="flex flex-col flex-1 p-1">
+                      <View className="flex flex-col p-1">
                         <Text
                           style={{ fontFamily: "PublicSans_400Regular" }}
                           className="w-fit hover:underline text-blue-600"
@@ -138,7 +138,7 @@ const HomeNews = () => {
                           {item.category}
                         </Text>
                         <Text
-                          className="flex-1 py-2 capitalize"
+                          className="py-2 capitalize"
                           style={{
                             fontFamily: "PublicSans_600SemiBold",
                             fontSize: 16,
@@ -153,7 +153,7 @@ const HomeNews = () => {
                       </View>
                     </Pressable>
                   </View>
-                </TouchableOpacity>
+                </View>
               ))
             )}
           </View>

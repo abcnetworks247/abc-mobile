@@ -51,7 +51,7 @@ const OrderCard = ({orderhistory}) => {
           </View>
           {!isVisible[order._id] && (
             <Pressable
-              className="px-2 bg-[#00308F] mb-2"
+              className="px-2 bg-[#00308F] mb-2 rounded-full"
               onPress={() => viewMoreorLess(order._id)}
             >
               <Text className="text-white text-center py-2">View more</Text>
@@ -66,6 +66,7 @@ const OrderCard = ({orderhistory}) => {
                     <Image
                       source={{ uri: product.product.thumbnail }}
                       style={{ width: "100%", aspectRatio: 1 }}
+                      className="rounded-md"
                     />
                   </View>
                   <View className="flex flex-col basis-2/3">
@@ -85,7 +86,7 @@ const OrderCard = ({orderhistory}) => {
 
           {isVisible[order._id] && (
             <Pressable
-              className="px-2 bg-[#00308F] mb-2"
+              className="px-2 bg-[#00308F] mb-2 rounded-full"
               onPress={() => viewMoreorLess(order._id)}
             >
               <Text className="text-white text-center py-2">View Less</Text>

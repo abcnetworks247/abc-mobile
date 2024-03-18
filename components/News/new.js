@@ -5,7 +5,6 @@ import {
   StatusBar,
   RefreshControl,
   TouchableHighlight,
-  TouchableOpacity,
   Linking,
   Pressable,
 } from "react-native";
@@ -13,15 +12,18 @@ import React from "react";
 import { ScrollView, SafeAreaView } from "react-native";
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
-// import {  TouchableOpacity } from "react-native-gesture-handler";
+// import {  Pressable } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import globalstyels from "../../styles/globalstyels";
-import LayerOne from "./layerOne";
-import LayerTwo from "./layerTwo";
-import LayerThree from "./layerThree";
-import LayerFour from "./layerFour";
-import BotNews from "./bottomNews";
+import Archiveanalysis from "./Archiveanalysis";
+import WorldNews from "./WorldNews";
+import SportNews from "./SportNews";
+import InterimGovernment from "./InterimGovernment";
+import AfricanNews from "./AfricanNews";
+import PresidentialOffice from "./PresidentialOffice";
+
 const New = () => {
+  
   const [posts, setPosts] = useState(null);
   const [africaNews, setAfricaNews] = useState(null);
   const [pressReleases, setPressReleases] = useState(null);
@@ -36,9 +38,9 @@ const New = () => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(true)
   const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
-  // console.log("trending", trending, "higlight", highlight, "topNees", topNews, popular,)
-  
-console.log("office of the president", officeOfThePresident);
+
+    
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
@@ -91,7 +93,7 @@ console.log("office of the president", officeOfThePresident);
       <StatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <SafeAreaView style={globalstyels.droidSafeArea}>
         <ScrollView
-          className="my-2 space-y-8`"
+          className="space-y-8`"
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -105,12 +107,25 @@ console.log("office of the president", officeOfThePresident);
         >
           {/* trending news */}
           <View className="w-full">
-            {africaNews && <LayerOne data={africaNews} loading={loading} />}
-            {officeOfThePresident && <LayerTwo data={officeOfThePresident} loading={loading} />}
-            {interimGovernmentUpdates && <LayerThree data={interimGovernmentUpdates} loading={loading} />}
-            {sportsNews && <BotNews data={sportsNews} loading={loading} />}
-            {pressReleases && <LayerFour data={pressReleases} loading={loading} />}
-            {worldNews && <LayerFour data={worldNews} loading={loading} />}
+            {africaNews && <AfricanNews data={africaNews} loading={loading} />}
+            {officeOfThePresident && (
+              <PresidentialOffice data={officeOfThePresident} loading={loading} />
+            )}
+            {interimGovernmentUpdates && (
+              <InterimGovernment
+                data={interimGovernmentUpdates}
+                loading={loading}
+              />
+            )}
+            {sportsNews && <SportNews data={sportsNews} loading={loading} />}
+            {/* {pressReleases && (
+              <LayerFour data={pressReleases} loading={loading} />
+            )} */}
+            {/* {worldNews && <LayerFour data={worldNews} loading={loading} />} */}
+            {archivesAndAnalysis && (
+              <Archiveanalysis data={archivesAndAnalysis} loading={loading} />
+            )}
+            {worldNews && <WorldNews data={worldNews} loading={loading} />}
           </View>
         </ScrollView>
       </SafeAreaView>

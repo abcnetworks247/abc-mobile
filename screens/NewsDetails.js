@@ -17,7 +17,7 @@ const NewsDetails = () => {
   const route = useRoute();
   //get data from params
   const { id, category, type, image, title, desc } = route.params;
-  console.log("my description", desc)
+
 
     const tagsStyles = {
       p: {
@@ -53,7 +53,7 @@ const NewsDetails = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View className="container p-3 space-y-8">
+        <View className="container p-3">
           <View className="space-y-2 text-center">
             <Text
               className="capitalize"
@@ -62,36 +62,34 @@ const NewsDetails = () => {
               {title}
             </Text>
           </View>
-          <View className="grid grid-cols-1 gap-y-8">
-            <View className="flex flex-col ">
-              <Image
-                alt=""
-                className="object-cover object-top w-full rounded-t h-52"
-                source={{ uri: image }}
-                resizeMode="contain"
-                resizeMethod="resize"
+          
+          <View className="mt-3">
+            <Image
+              alt=""
+              className="object-cover object-top w-full rounded-md h-52 mb-3"
+              source={{ uri: image }}
+              resizeMethod="resize"
+            />
+            <View className="flex flex-col flex-1 p-1">
+              <Text
+                style={{ fontFamily: "PublicSans_400Regular" }}
+                className=" text-blue-600  tracki hover:underline mb-2"
+              >
+                {category}
+              </Text>
+              <HTML
+                source={{ html: desc }}
+                contentWidth={width}
+                tagsStyles={tagsStyles}
               />
-              <View className="flex flex-col flex-1 p-1">
-                <Text
-                  style={{ fontFamily: "PublicSans_400Regular" }}
-                  className=" text-blue-600  tracki hover:underline mb-2"
-                >
-                  {category}
+              {/* <View className="flex flex-wrap justify-between pt-3 ">
+                <Text style={{ fontFamily: "PublicSans_500Medium" }}>
+                  June 1, 2020
                 </Text>
-                <HTML
-                  source={{ html: desc }}
-                  contentWidth={width}
-                  tagsStyles={tagsStyles}
-                />
-                <View className="flex flex-wrap justify-between pt-3 ">
-                  <Text style={{ fontFamily: "PublicSans_500Medium" }}>
-                    June 1, 2020
-                  </Text>
-                  <Text style={{ fontFamily: "PublicSans_500Medium" }}>
-                    2.1K views
-                  </Text>
-                </View>
-              </View>
+                <Text style={{ fontFamily: "PublicSans_500Medium" }}>
+                  2.1K views
+                </Text>
+              </View> */}
             </View>
           </View>
         </View>

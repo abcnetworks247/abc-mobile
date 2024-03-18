@@ -5,20 +5,33 @@ import {
   StatusBar,
   RefreshControl,
   TouchableHighlight,
-  TouchableOpacity,
   Linking,
   Pressable,
 } from "react-native";
 import React from "react";
+import { ScrollView, SafeAreaView } from "react-native";
+import axios from "axios";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
-import Typography from "../Typography";
+import globalstyels from "../../styles/globalstyels";
+
+import { useFocusEffect } from "@react-navigation/native";
 import { useCustomFonts } from "../../context/FontContext";
 import AppLoading from "expo-app-loading";
 
-
-const LayerFour = ({ data, loading }) => {
+const InterimGovernment = ({ data, loading }) => {
   const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
+  const handlePress = (item) => () => {
+    navigation.navigate("NewsDetails", {
+      id: item._id,
+      title: item.title,
+      category: item.category,
+      image: item.blogimage,
+      type: item.type,
+      desc: item.longdescription,
+    });
+  };
 
   const capitalizeWithAcronym = (str) => {
     return str
@@ -33,20 +46,10 @@ const LayerFour = ({ data, loading }) => {
       })
       .join(" "); // Join the words back together
   };
-  const handlePress = (item) => () => {
-    navigation.navigate("NewsDetails", {
-      id: item._id,
-      title: item.title,
-      category: item.category,
-      image: item.blogimage,
-      type: item.type,
-      desc: item.longdescription,
-    });
-  };
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-
 
   return (
     <View>
@@ -67,19 +70,17 @@ const LayerFour = ({ data, loading }) => {
               </View>
             </View>
           ))
-        ) : data.length === 0 ? (
-          <Text></Text>
         ) : (
           <Pressable>
             <View className="flex flex-col flex-1 p-1">
               <View className="border-b-gray-300 border-b mt-3 mb-3" />
               <Text
-                style={{ fontFamily: "PublicSans_600SemiBold" }}
                 className="flex-1 py-2 capitalize"
+                style={{ fontFamily: "PublicSans_600SemiBold", fontSize: 16 }}
               >
                 {data[0].title}
               </Text>
-              <TouchableOpacity
+              <Pressable
                 activeOpacity={0.5}
                 onPress={handlePress(data[0])}
                 className="flex-row flex justify-between gap-2 w-fit p-1 "
@@ -88,44 +89,41 @@ const LayerFour = ({ data, loading }) => {
                   alt=""
                   className="object-cover w-full h-52 object-top rounded-t border"
                   source={{ uri: data[0].blogimage }}
-                  resizeMode="cover"
                   resizeMethod="resize"
                 />
-              </TouchableOpacity>
+              </Pressable>
             </View>
             <View className="border-b-gray-300 border-b mt-2 mb-2" />
-            {data &&
-              data.slice(1, 6).map((item) => (
-                <View
-                  className="flex flex-col flex-1  w-full  rounded gap-y-[0px]"
-                  key={item._id}
-                >
-                  <View className="">
-                    <TouchableOpacity
-                      activeOpacity={0.5}
-                      onPress={handlePress(item)}
-                      className="flex-row flex justify-between gap-2 w-fit p-1 "
+            {data.slice(1, 6).map((item) => (
+              <View
+                className="flex flex-col flex-1  w-full  rounded gap-y-[0px]"
+                key={item._id}
+              >
+                <View className="">
+                  <Pressable
+                    activeOpacity={0.5}
+                    onPress={handlePress(item)}
+                    className="flex-row flex justify-between gap-2 w-fit p-1 "
+                  >
+                    <Text
+                      className="w-2/3 capitalize"
+                      style={{
+                        fontFamily: "PublicSans_600SemiBold",
+                        fontSize: 16,
+                      }}
                     >
-                      <Text
-                        className="w-2/3 capitalize"
-                        style={{
-                          fontFamily: "PublicSans_600SemiBold",
-                          fontSize: 16,
-                        }}
-                      >
-                        {item.title}
-                      </Text>
-                      <Image
-                        alt=""
-                        className="object-cover w-24 h-20 object-top rounded-t border"
-                        source={{ uri: item.blogimage }}
-                        resizeMode="cover"
-                        resizeMethod="resize"
-                      />
-                    </TouchableOpacity>
-                  </View>
+                      {item.title}
+                    </Text>
+                    <Image
+                      alt=""
+                      className="object-cover w-24 h-20 object-top rounded-t border"
+                      source={{ uri: item.blogimage }}
+                      resizeMethod="resize"
+                    />
+                  </Pressable>
                 </View>
-              ))}
+              </View>
+            ))}
           </Pressable>
         )}
       </View>
@@ -133,4 +131,4 @@ const LayerFour = ({ data, loading }) => {
   );
 };
 
-export default LayerFour;
+export default InterimGovernment;

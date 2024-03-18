@@ -45,16 +45,13 @@ const Donation = () => {
   };
 
   const handleSubmit = async () => {
-    console.log('stripe promise', stripe)
-    console.log("my payment type in function", paymentType)
-    console.log("my amount in function", amount)
-
+  
 
 
     const AuthtokenString = await AsyncStorage.getItem('authToken')
     const Authtoken = JSON.parse(AuthtokenString);
 
-    console.log("check authToken", Authtoken)
+   
     
    if (!Authtoken) {
       setIsSignUpVisible(false);
@@ -67,7 +64,7 @@ const Donation = () => {
       note: "ABCDonatiom",
     };
     
-    console.log(data)
+ 
 
 
 
@@ -87,7 +84,7 @@ const Donation = () => {
 
       if (session.status === 200) {
        
-        console.log(session.data.url)
+        
     
         // const result = await stripe.redirectToCheckout({
         //   sessionId: session.data.url,

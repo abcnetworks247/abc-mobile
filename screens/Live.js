@@ -35,12 +35,12 @@ const Live = () => {
   
 
   const currentScreen = ScreenOrientation.getOrientationAsync();
-  console.log('my current screeen', currentScreen)
+  
 
   const myCurrentScreenLock =
     ScreenOrientation.getPlatformOrientationLockAsync();
   
-  console.log("my cureent screen lock", myCurrentScreenLock)
+
 
   const rotateToLandscape = async () => {
     await ScreenOrientation.lockAsync(

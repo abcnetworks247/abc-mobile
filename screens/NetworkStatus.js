@@ -8,15 +8,13 @@ const NetworkStatus = () => {
   useEffect(() => {
     // Subscribe to network state changes
     const unsubscribe = NetInfo.addEventListener((state) => {
-      console.log("Connection type", state.type);
-      console.log("Is connected?", state.isConnected);
+     
       setIsConnected(state.isConnected);
     });
 
     // Fetch initial network status
     NetInfo.fetch().then((state) => {
-      console.log("Connection type", state.type);
-      console.log("Is connected?", state.isConnected);
+     
       setIsConnected(state.isConnected);
     });
 

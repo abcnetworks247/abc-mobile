@@ -5,7 +5,6 @@ import {
   StatusBar,
   RefreshControl,
   TouchableHighlight,
-  TouchableOpacity,
   Linking,
   Pressable,
 } from "react-native";
@@ -19,9 +18,9 @@ import globalstyels from "../../styles/globalstyels";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCustomFonts } from "../../context/FontContext";
 import AppLoading from "expo-app-loading";
-const LayerThree = ({ data, loading }) => {
-  
-   const { fontsLoaded, fontStyles } = useCustomFonts();
+
+const WorldNews = ({ data, loading }) => {
+  const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
   const handlePress = (item) => () => {
     navigation.navigate("NewsDetails", {
@@ -34,7 +33,6 @@ const LayerThree = ({ data, loading }) => {
     });
   };
 
-  
   const capitalizeWithAcronym = (str) => {
     return str
       .split(" ") // Split the string into words
@@ -82,7 +80,7 @@ const LayerThree = ({ data, loading }) => {
               >
                 {data[0].title}
               </Text>
-              <TouchableOpacity
+              <Pressable
                 activeOpacity={0.5}
                 onPress={handlePress(data[0])}
                 className="flex-row flex justify-between gap-2 w-fit p-1 "
@@ -91,10 +89,9 @@ const LayerThree = ({ data, loading }) => {
                   alt=""
                   className="object-cover w-full h-52 object-top rounded-t border"
                   source={{ uri: data[0].blogimage }}
-                  resizeMode="cover"
                   resizeMethod="resize"
                 />
-              </TouchableOpacity>
+              </Pressable>
             </View>
             <View className="border-b-gray-300 border-b mt-2 mb-2" />
             {data.slice(1, 6).map((item) => (
@@ -103,7 +100,7 @@ const LayerThree = ({ data, loading }) => {
                 key={item._id}
               >
                 <View className="">
-                  <TouchableOpacity
+                  <Pressable
                     activeOpacity={0.5}
                     onPress={handlePress(item)}
                     className="flex-row flex justify-between gap-2 w-fit p-1 "
@@ -121,10 +118,9 @@ const LayerThree = ({ data, loading }) => {
                       alt=""
                       className="object-cover w-24 h-20 object-top rounded-t border"
                       source={{ uri: item.blogimage }}
-                      resizeMode="cover"
                       resizeMethod="resize"
                     />
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               </View>
             ))}
@@ -135,4 +131,4 @@ const LayerThree = ({ data, loading }) => {
   );
 };
 
-export default LayerThree;
+export default WorldNews;

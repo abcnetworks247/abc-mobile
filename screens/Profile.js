@@ -72,7 +72,7 @@ export default function Profile() {
       setLoading(true)
       await AsyncStorage.removeItem('authToken')
       const storedToken = await AsyncStorage.getItem("authToken")
-      console.log("my stored token", storedToken)
+  
       if (!storedToken) {
         navigation.navigate('Home')
         setUserData(null)
@@ -92,28 +92,8 @@ export default function Profile() {
   
   
 
-  // const checkAuthTokenInAsyncStorage = async () => {
-  //   try {
-  //     // Retrieve the authToken from AsyncStorage
-  //     const authToken = await AsyncStorage.getItem("authToken");
-  //     const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
-  //     console.log("stored token that has been parse", storedToken)
-
-  //     // Check if authToken exists in AsyncStorage
-  //     if (authToken) {
-  //       console.log("Auth token found in AsyncStorage:", authToken);
-  //       // Do something if authToken is found
-  //     } else {
-  //       console.log("Auth token not found in AsyncStorage");
-  //       // Do something if authToken is not found
-  //     }
-  //   } catch (error) {
-  //     console.error("Error checking authToken in AsyncStorage:", error);
-  //   }
-  // };
-
   const checkCart = () => {
-    console.log("my cart product", cartProducts)
+  
   }
 
   if (!fontsLoaded) {

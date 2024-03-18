@@ -22,7 +22,7 @@ const ProductProvider = ({ children }) => {
   const [message, setMessage] = useState("");
   const [products, setProducts] = useState([]);
 
-  console.log("UserData", UserData)
+
   // fetch products
   useEffect(() => {
     const fetchData = async () => {
@@ -165,7 +165,7 @@ const ProductProvider = ({ children }) => {
 
   // remove item from cart
   const handleRemoveFromCart = (productId, userId) => {
-    console.log("my cart Products", cartProducts)
+   
     setLoadingProducts((prevLoading) => ({
       ...prevLoading,
       [productId]: true,
@@ -226,7 +226,7 @@ const ProductProvider = ({ children }) => {
 
   // emit signals to add to wish list
   const handleWishAdd = (productId, userId) => {
-    console.log("my wish list", wishlist)
+   
     const wishdata = {
       productId: productId,
       userId: userId,
@@ -236,13 +236,11 @@ const ProductProvider = ({ children }) => {
 
   socket.on("wishlist", (userwishlist) => {
     setWishlist(userwishlist);
-    console.log("returning wishlist", wishlist);
+    
   });
 
   useEffect(() => {
-    console.log(
-      `socket listening when there is a change in socket : ${socket}`
-    );
+    
     socket.on("cart", (cartItems) => {
       
       setCartProducts(cartItems);
@@ -250,7 +248,7 @@ const ProductProvider = ({ children }) => {
     
     });
 
-     console.log("cart Items insside socket", cartProducts);
+     
 
     // return () => {
     //   socket.disconnect();

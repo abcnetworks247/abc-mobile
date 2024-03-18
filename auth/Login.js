@@ -17,15 +17,14 @@ import axios from "axios";
 import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
 import { Link } from "expo-router";
-   
+
 const Login = () => {
   const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
-  const { setIsSignInVisible, setIsSignUpVisible, UserData, getUserData } = UseUserContext();
+  const { setIsSignInVisible, setIsSignUpVisible, UserData, getUserData } =
+    UseUserContext();
   const [universalError, setUniversalError] = useState("");
 
-
-  
   const showToast = (message) => {
     ToastAndroid.showWithGravityAndOffset(
       message,
@@ -98,64 +97,11 @@ const Login = () => {
     (field) => !errorMessages[field]
   );
 
-  // const handleSubmit = async () => {
-  //   try {
-  //     // perform an asynchronous request to sign in the user
-  //     console.log(signUpFormData, "signin data");
-  //     const response = await fetch(
-  //       `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           email: signUpFormData.email,
-  //           password: signUpFormData.password,
-  //         }),
-  //       }
-  //     );
-
-  //    console.log("my response", response);
-  //    const responseData = await response.json()
-    
-
-  //    if (response.status === 200) {
-    
-  //       // Store authToken in AsyncStorage
-  //       await AsyncStorage.setItem(
-  //         "authToken",
-  //         JSON.stringify(responseData.authToken)
-  //       );
-         
-  //       if (!UserData) {
-  //         // UserData not available, alert the user
-  //         Alert.alert("Poor internet connection", "Please try again later.");
-  //         return;
-  //       }
-  //         Alert.alert(responseData.message);
-  //         setIsSignUpVisible(false);
-      
-       
-  //    } else {
-        
-  //       // If the response status is not okay, handle the error
-     
-  //       console.error("error signing into acccount:", responseData.message);
-  //       Alert.alert("Error signing in account", responseData.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("error signing in:", error.message);
-  //     Alert.alert("Unable to signin:", error.message);
-  //     //  Alert.alert( "Error signing in account", "An unexpected error occurred.");
-  //   }
-  // };
+  
+ 
 
   const handleSubmit = async () => {
     try {
-      console.log(signUpFormData, "signin data");
-
-
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
         {
@@ -167,37 +113,33 @@ const Login = () => {
             email: signUpFormData.email,
             password: signUpFormData.password,
           }),
-         
         }
       );
 
-
-      console.log("my response", response);
+      "my response", response;
 
       const responseData = await response.json();
-      console.log("my response data", responseData)
-      console.log("my status", response.status)
+      "my response data", responseData;
+      "my status", response.status;
       if (response.status == 200) {
         await AsyncStorage.setItem(
           "authToken",
           JSON.stringify(responseData.authToken)
         );
-         getUserData()
-         showToast(responseData.message);
-         setIsSignUpVisible(false);
+        getUserData();
+        showToast(responseData.message);
+        setIsSignUpVisible(false);
       } else {
-        showToast(responseData.error);
+        showToast(responseData.error)
       }
     } catch (error) {
-        console.log(error)
+      error;
     }
   };
 
-    if (!fontsLoaded) {
-      return <AppLoading />;
+  if (!fontsLoaded) {
+    return <AppLoading />;
   }
-  
-
 
   return (
     <View className="flex items-center justify-center m-auto w-full px-6 bg-[#F2F2F2]">

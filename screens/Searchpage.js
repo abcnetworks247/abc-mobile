@@ -22,7 +22,7 @@ const Searchpage = () => {
   const navigation = useNavigation();
   const MAX_NAME_LENGTH = 35;
     
-console.log("my searched Products", searchedProduct)
+
 
  const fetchProducts = async (searchQuery) => {
    try {

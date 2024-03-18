@@ -38,9 +38,7 @@ const { fontsLoaded, fontStyles } = useCustomFonts();
  const [currentPage, setCurrentPage] = useState(1);
 
 const numberOfSkeletons = 5;
-//   if(allProducts =='undefined') return
-//   // const [filteredProducts,setFilteredProducts]=useState(null)
-// console.log("my products, allProduct")
+
  
 
    useEffect(() => {
@@ -113,7 +111,7 @@ const numberOfSkeletons = 5;
     HandleFetch();
   },[]);
   
-  console.log("all categories", categories)
+
 
 
    const fetchProducts = async (page, perPage) => {

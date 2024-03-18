@@ -97,11 +97,11 @@ const Login = () => {
   );
 
   const handleSubmit = async () => {
-    // console.log(logInFormData);
+   
     setIsValidData(allFieldsValid);
 
     try {
-      console.log(logInFormData);
+      
       // const res = await Api.post(
       //   "client/auth/signin",
       //   {
@@ -123,13 +123,12 @@ const Login = () => {
         config
       );
 
-      console.log("my current status", response.status);
-      console.log("my cureent statusText", statusText);
+   
 
       if (response.statusText === "OK") {
         const { authToken } = response.data;
         const token = authToken;
-        console.log("my token", authToken);
+       
         // const token = authToken;
         await AsyncStorage.setItem("authToken", JSON.stringify(token));
         setIsSignUpVisible(false);
@@ -138,20 +137,8 @@ const Login = () => {
         console.error("Error signing in:");
       }
     } catch (error) {
-      if (error.response) {
-        console.log("my data", error.response.data);
-        console.log("my status", error.response.status);
-        console.log("my headers", error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.log("my request error", error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
-      }
-      console.log("my congig", error.config);
+     console.log(error)
+    
     }
   };
   return (

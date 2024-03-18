@@ -21,64 +21,56 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ToastAndroid } from "react-native";
 
 const Closeaccount = () => {
+  const inputRef = useRef(null);
 
-   const inputRef = useRef(null)
-
-  const {showToast}= UseProductProvider()
-  const navigation=useNavigation()
-    const {authToken , setUserData} = UseUserContext();
+  const { showToast } = UseProductProvider();
+  const navigation = useNavigation();
+  const { authToken, setUserData } = UseUserContext();
   const [formData, setFormData] = useState({
-    email: "", 
+    email: "",
     password: "",
-   });
+  });
 
   const [passwordVisible, setPasswordVisible] = useState(false);
-    const [loading, setLoading] = useState(false);
-  
+  const [loading, setLoading] = useState(false);
+
   const togglePasswordVisibility = () => {
     setPasswordVisible((prevVisible) => !prevVisible);
   };
 
-  
   const handleInputChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  
-
-   const confirmDeletion = () =>
-     Alert.alert(
-       "Are you sure you want to delete your account?",
-       "Deleting your account is permanent and irreversible. You will lose access to all your data, including saved preferences and purchase history.",
-       [
-         {
-           text: "Cancel",
-           onPress: () => console.log("Cancel Pressed"),
-           style: "cancel",
-         },
-         { text: "OK", onPress: () => handleSubmit() },
-       ]
+  const confirmDeletion = () =>
+    Alert.alert(
+      "Are you sure you want to delete your account?",
+      "Deleting your account is permanent and irreversible. You will lose access to all your data, including saved preferences and purchase history.",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => handleSubmit() },
+      ]
     );
-  
-   const deleteSuccess = (message) => {
-     ToastAndroid.showWithGravityAndOffset(
-       message,
-       ToastAndroid.LONG,
-       ToastAndroid.TOP,
-       25,
-       50
-     );
-     navigation.navigate('Home')
-     setUserData(null);
 
-   };
-
-  
-  
+  const deleteSuccess = (message) => {
+    ToastAndroid.showWithGravityAndOffset(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.TOP,
+      25,
+      50
+    );
+    navigation.navigate("Home");
+    setUserData(null);
+  };
 
   const handleSubmit = async () => {
-    const authTokenString = await AsyncStorage.getItem('authToken')
-    const authToken= JSON.parse(authTokenString)
+    const authTokenString = await AsyncStorage.getItem("authToken");
+    const authToken = JSON.parse(authTokenString);
     const config = {
       data: {
         email: formData.email,
@@ -88,32 +80,26 @@ const Closeaccount = () => {
         Authorization: `Bearer ${authToken}`,
         "Content-Type": "application/json",
       },
-      
     };
     try {
-      console.log(config.data)
+      config.data;
       setLoading(true);
-      
-      const response= await axios.delete(
-         `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
-           config
+
+      const response = await axios.delete(
+        `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
+        config
       );
 
       if (response.status == 200) {
-        await AsyncStorage.removeItem('authToken')
+        await AsyncStorage.removeItem("authToken");
         deleteSuccess("Your account has been deleted successfully");
       }
-     
-      
+
       setLoading(false);
-   
-      
-      
     } catch (error) {
-       setLoading(false);
+      setLoading(false);
       // console.error("Error deleting account:", error.response.data);
-        deleteSuccess(error.response.data.error);
-      
+      deleteSuccess(error.response.data.error);
     }
   };
 

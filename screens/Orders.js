@@ -56,7 +56,7 @@ export default function Orders() {
                 <View className="flex flex-row items-center justify-between py-2 border-b-2 border-b-gray-100">
                   <Text>Delivery Status</Text>
 
-                  <Text className={`px-3 py-1 rounded-full text-white ${order.delivery_Status === 'completed' ?
+                  <Text className={`px-3 py-1 rounded-full text-center text-white ${order.delivery_Status === 'completed' ?
                     'bg-green-500' : order.delivery_Status === 'inprogress' ? 'bg-amber-500' :
                       order.delivery_Status === 'failed' ? 'bg-red-500':'bg-orange-500'} `}>
                      {order.delivery_Status}
@@ -72,7 +72,7 @@ export default function Orders() {
               </View>
               {!isVisible[order._id] && (
                 <Pressable
-                  className="px-2 bg-[#00308F] mb-2"
+                  className="px-2 bg-[#00308F] mb-2 rounded-full"
                   onPress={() => viewMoreorLess(order._id)}
                 >
                   <Text className="text-white text-center py-2">View more</Text>
@@ -83,10 +83,11 @@ export default function Orders() {
                 order.cart.map((product, index) => (
                   <View key={index} className="bg-white p-2 mb-4">
                     <View className="flex flex-row items-center justify-between">
-                      <View style={{ width: width / 5 }}>
+                      <View style={{ width: width / 5 }} className="rounded-md">
                         <Image
                           source={{ uri: product.product.thumbnail }}
                           style={{ width: "100%", aspectRatio: 1 }}
+                          className="rounded-md"
                         />
                       </View>
                       <View className="flex flex-col basis-2/3">
@@ -106,7 +107,7 @@ export default function Orders() {
 
               {isVisible[order._id] && (
                 <Pressable
-                  className="px-2 bg-[#00308F] mb-2"
+                  className="px-2 bg-[#00308F] mb-2 rounded-full"
                   onPress={() => viewMoreorLess(order._id)}
                 >
                   <Text className="text-white text-center py-2">View Less</Text>

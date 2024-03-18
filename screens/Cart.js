@@ -62,15 +62,13 @@ export default function Cart() {
   const [note, setNote] = useState("");
   const [coupon, setCoupon]=useState("")
   const shippingFee = 5;
-  
-  console.log("my cart product",cartProducts)
-  
+
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
-      console.log("current user data", UserData);
+   
     }, 2000);
   }, []);
   
@@ -168,7 +166,7 @@ if (authToken && cartProducts && cartProducts.length > 0) {
       accumulator + product.quantity * product.product.price,
     0
   );
-  console.log(totalPrice);
+
 
   const grandTotal = totalPrice + shippingFee;
  
@@ -202,20 +200,17 @@ if (authToken && cartProducts && cartProducts.length > 0) {
     
     try {
       await AsyncStorage.setItem("cartProducts", JSON.stringify(cartProducts));
-      console.log("Cart products saved to AsyncStorage:", cartProducts);
+
     } catch (error) {
       console.error("Error saving cart products to AsyncStorage:", error);
     }
     
-    console.log("form data before submission", formData)
-
-    console.log("Ready to checkout", cartProducts);
+    
     
     if (!isSubmitDisabled) {
        const AuthtokenString = await AsyncStorage.getItem("authToken");
        const Authtoken = JSON.parse(AuthtokenString);
-       console.log("my auth", Authtoken);
-       console.log("my payment type", paymentType);
+    
        if (!Authtoken) {
          setIsSignUpVisible(false);
          return;
@@ -237,7 +232,7 @@ if (authToken && cartProducts && cartProducts.length > 0) {
            );
 
            if (session.status === 200) {
-             console.log("session", session);
+           
 
              navigation.navigate("Stripeproduct", {
                stripe_url: session.data.url,

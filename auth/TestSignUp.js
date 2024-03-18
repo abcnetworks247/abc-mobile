@@ -108,7 +108,6 @@ const TestSignUp = () => {
   const handleSubmit = async () => {
      
 
-    console.log("sign up data", signUpFormData);
     setIsValidData(allFieldsValid);
 
     if (!allFieldsValid) {
@@ -121,18 +120,17 @@ const TestSignUp = () => {
       
     try {
       // perform an asyncronous request to sigin in the user
-      console.log(signUpFormData, "response data");
+     
       const response = await Api.post("client/auth/signup", {
         fullname: signUpFormData.fullname,
         email: signUpFormData.email,
         password: signUpFormData.password
       });
-      console.log("my response", response)
+    
 
       const { data, message } = response.data;
          
-      console.log("mydata", data)
-      console.log("my message", message)
+   
 
        showToast("Signup successful!");
 

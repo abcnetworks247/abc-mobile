@@ -33,7 +33,7 @@ const Modalscreen = () => {
   const [paymentType, setPaymentType] = useState("Stripe");
    const [modalVisible, setModalVisible] = useState(null);
       
-  // console.log("stripe key", process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+ 
 
  const [value, setValue] = useState(plan.range1);
 
@@ -80,7 +80,7 @@ const Modalscreen = () => {
      
        
   
-      console.log("hit subscribe")
+ 
        
          const AuthtokenString = await AsyncStorage.getItem('authToken')
          const Authtoken = JSON.parse(AuthtokenString);
@@ -91,7 +91,7 @@ const Modalscreen = () => {
          type: plan.type,
        };
 
-       console.log("my update", update)
+       
 
        
 
@@ -138,7 +138,7 @@ const Modalscreen = () => {
 
              setSpinner(false);
            } else {
-             console.log("res3", response);
+           
              console.error(`Unexpected response status: ${response.status}`);
              setSpinner(false);
            }

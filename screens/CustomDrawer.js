@@ -46,7 +46,6 @@ const CustomDrawer = (props) => {
       const response = await Api.get("admin/category/news/type");
 
       if (response.status === 200) {
-        console.log("data2", response.data.data);
         setType(response.data.data);
       }
     } catch (error) {
@@ -64,7 +63,7 @@ const handleLogout = async () => {
     setLoading(true);
     await AsyncStorage.removeItem("authToken");
     const storedToken = await AsyncStorage.getItem("authToken");
-    console.log("my stored token", storedToken);
+   
     if (!storedToken) {
       props.navigation.navigate("Home");
       setUserData(null);

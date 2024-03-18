@@ -17,7 +17,7 @@ export const UserContextProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(null);
   
 
-  // console.log("user data", UserData);
+
 
   // loading state for user incoming data
 
@@ -30,18 +30,17 @@ export const UserContextProvider = ({ children }) => {
     }
   
     try {
-      console.log("my user data", UserData)
-      console.log("authToken iniially", authToken);
+    
+      
       const storedToken = JSON.parse(await AsyncStorage.getItem("authToken"));
-      console.log("my stored token", storedToken);
+    
 
       if (!storedToken) return
     
 
       if (storedToken && storedToken !== "undefined" && storedToken !== "") {
         setAuthToken(storedToken); // Set authToken in the context
-        console.log("authToken", authToken);
-        console.log("authToken finally", storedToken);
+       
         const response = await fetch(
           `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
           {
@@ -55,11 +54,11 @@ export const UserContextProvider = ({ children }) => {
 
         const dataValue = await response.json();
 
-        console.log("my data value", dataValue);
+       
 
         if (response.status === 200) {
           setUserData(dataValue.olduser);
-          console.log("User data if status is ok", UserData);
+        
          }
       }
     } catch (error) {
@@ -115,7 +114,7 @@ export const UserContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // console.log("blog context", blogData && blogData);
+   
     getBlog();
   }, []);
 

@@ -28,7 +28,7 @@ const EditInfo = () => {
     const navigation = useNavigation()
     const [loading, setLoading] = useState(false)
     const [progress, setProgress] = useState(null)
-    console.log("UserData dp", UserData.userdp);
+   
     
      const [submitForm, setSubmitForm] = useState(new FormData());
     
@@ -56,9 +56,7 @@ const EditInfo = () => {
        aspect: [4, 3],
        quality: 1,
      });
-       console.log("result of picture", result)
-
-          console.log("image result", result)
+       
        if (result && result.assets && result.assets.length > 0 && !result.cancelled) {
            setSelectedPhoto(result.assets[0].uri)
            // Append the selected image to the submitForm
@@ -68,7 +66,7 @@ const EditInfo = () => {
                type: "image/jpg",
            })
        };
-        console.log("my form data", formData);
+    
  
  
    } catch (error) {
@@ -116,14 +114,12 @@ const EditInfo = () => {
          ...prevData,
          [name]: value,
        }));
-     
-   console.log("my form data", formData)
-     console.log(authToken)
+ 
      };
     
     
   const handleSubmit = async () => {
-    console.log(formData, "hit");
+  
 
     try {
       setLoading(true)
@@ -137,7 +133,7 @@ const EditInfo = () => {
        submitForm.append("phone", formData.phone);
        submitForm.append("shippingaddress", formData.shippingaddress);
          
-        console.log("submitForm", submitForm);
+        
     
         // if (formData.userdp) {
         //   submitForm.append("userdp", {
@@ -162,7 +158,7 @@ const EditInfo = () => {
       // Check the response status
       if (response.status === 200) {
         await getUserData();
-        console.log("Updated UserData:", UserData);
+       
         if (UserData) {
           setLoading(false);
           navigation.navigate("Profile");
@@ -171,7 +167,7 @@ const EditInfo = () => {
          
         
 
-        console.log("use profle updated successfully");
+       
       } else {
         console.error("Failed to update user profile.");
       }
