@@ -49,6 +49,7 @@ export default function DrawerNavigator() {
     <>
       <Drawer.Navigator
         screenOptions={{
+          gestureEnabled:false,
           drawerStyle: {
             backgroundColor: "white",
           },
@@ -56,6 +57,7 @@ export default function DrawerNavigator() {
           drawerActiveBackgroundColor: "#2c3e50",
           drawerActiveTintColor: "white",
           headerShown: false,
+          
         }}
         drawerContent={(props) => <CustomDrawer {...props} />}
       >

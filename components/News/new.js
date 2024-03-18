@@ -106,7 +106,7 @@ const New = () => {
         >
           {/* trending news */}
           <View className="w-full">
-            {africaNews && africaNews.length !==0 && (
+            {africaNews && africaNews.length !== 0 && (
               <ScrollComp
                 data={africaNews}
                 loading={loading}
@@ -134,7 +134,7 @@ const New = () => {
               <BlockComp
                 data={sportsNews}
                 loading={loading}
-                titleHeader="Popular News"
+                titleHeader="Sports"
               />
             )}
             {archivesAndAnalysis && archivesAndAnalysis.length !== 0 && (
@@ -152,6 +152,35 @@ const New = () => {
                   World News
                 </Text>
                 <BlockAndFlex data={worldNews} loading={loading} />
+              </View>
+            )}
+            {socioCultural && socioCultural.length !== 0 && (
+              <View>
+                <Text
+                  style={{ fontFamily: "PublicSans_700Bold", fontSize: 20 }}
+                >
+                  Sociocultural
+                </Text>
+                <BlockAndFlex data={socioCultural} loading={loading} />
+              </View>
+            )}
+
+            {businessNews && businessNews.length !== 0 && (
+              <BlockComp
+                data={businessNews}
+                loading={loading}
+                titleHeader="Business News"
+              />
+            )}
+
+            {pressReleases && pressReleases.length !== 0 && (
+              <View>
+                <Text
+                  style={{ fontFamily: "PublicSans_700Bold", fontSize: 20 }}
+                >
+                  Press Release
+                </Text>
+                <BlockAndFlex data={pressReleases} loading={loading} />
               </View>
             )}
           </View>
