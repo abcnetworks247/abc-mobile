@@ -10,6 +10,7 @@ import {
   Pressable,
   Button,
   SafeAreaView,
+  StyleSheet,
 } from "react-native";
 import React from "react";
 import { ScrollView } from "react-native";
@@ -21,9 +22,11 @@ import globalstyels from "../styles/globalstyels";
 import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import { useWindowDimensions } from "react-native";
 
 const TypeDetails = () => {
-   const { fontsLoaded, fontStyles } = useCustomFonts();
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+  const {width}=useWindowDimensions()
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
@@ -69,6 +72,16 @@ const TypeDetails = () => {
     return <Text>Loading...</Text>;
   }
 
+   const styles = StyleSheet.create({
+     container: {
+       maxHeight: 40, // 2 lines x 20 (lineHeight)
+       overflow: "hidden",
+     },
+     text: {
+       lineHeight: 20, // Default line height, adjust as needed
+     },
+   });
+
   return (
     <>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
@@ -90,18 +103,17 @@ const TypeDetails = () => {
               <View className=" ">
                 {posts &&
                   posts.map((item, index) => (
-                    <TouchableHighlight key={index}>
+                    <TouchableHighlight key={index} className="mb-6">
                       <View className="flex flex-col " key={index}>
                         <Pressable onPress={handlePress(item)}>
                           <Image
                             alt=""
-                            className="object-cover w-full h-52 object-top rounded-t"
+                            className="object-cover w-full h-52 object-top rounded-md"
                             source={{ uri: item.blogimage }}
-                            resizeMode="contain"
                             resizeMethod="resize"
                           />
 
-                          <View className="flex flex-col flex-1 p-1">
+                          <View className="flex flex-col p-1">
                             <Text
                               style={{ fontFamily: "PublicSans_400Regular" }}
                               className="w-fit hover:underline text-blue-600"
@@ -109,15 +121,24 @@ const TypeDetails = () => {
                               {item.category}
                             </Text>
 
-                            <Text
-                              style={{
-                                fontFamily: "PublicSans_600SemiBold",
-                                fontSize: 16,
-                              }}
-                              className="flex-1 py-2 capitalize"
-                            >
-                              {item.title}
-                            </Text>
+                            <View style={styles.container}>
+                              <Text
+                                className="capitalize"
+                                style={[
+                                  styles.text,
+                                  {
+                                    fontFamily: "PublicSans_600SemiBold",
+                                    fontSize: 16,
+                                    lineHeight: 20, // Adjust line height as needed
+                                  },
+                              
+                                ]}
+                                numberOfLines={2}
+                                ellipsizeMode="tail"
+                              >
+                                {item.title}
+                              </Text>
+                            </View>
                           </View>
                         </Pressable>
                       </View>
@@ -130,6 +151,8 @@ const TypeDetails = () => {
       </SafeAreaView>
     </>
   );
+
+ 
 };
 
 export default TypeDetails;
