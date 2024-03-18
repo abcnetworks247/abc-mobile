@@ -18,7 +18,8 @@ import {
   globalstyels;
 import Api from "../../utils/Api";
   import { useCustomFonts } from "../../context/FontContext";
-  import AppLoading from "expo-app-loading";
+import AppLoading from "expo-app-loading";
+  
 
 const BlockComp = ({ data, loading, titleHeader }) => {
   const { fontsLoaded, fontStyles } = useCustomFonts();
