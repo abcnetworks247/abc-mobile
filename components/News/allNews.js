@@ -19,6 +19,7 @@ globalstyels;
 import Api from "../../utils/Api";
 import { useCustomFonts } from "../../context/FontContext";
 import AppLoading from "expo-app-loading";
+import BlockComp from "./BlockComp";
 
 
 const HomeNews = () => {
@@ -126,7 +127,6 @@ const HomeNews = () => {
                         alt=""
                         className="object-cover w-full h-52 rounded-md"
                         source={{ uri: item.blogimage }}
-
                         resizeMethod="resize"
                       />
 

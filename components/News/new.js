@@ -15,12 +15,9 @@ import { useEffect, useState, useCallback } from "react";
 // import {  Pressable } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import globalstyels from "../../styles/globalstyels";
-import Archiveanalysis from "./Archiveanalysis";
-import WorldNews from "./WorldNews";
-import SportNews from "./SportNews";
-import InterimGovernment from "./InterimGovernment";
-import AfricanNews from "./AfricanNews";
-import PresidentialOffice from "./PresidentialOffice";
+import ScrollComp from "./ScrollComp";
+import BlockComp from "./BlockComp";
+import BlockAndFlex from "./BlockAndFlex";
 
 const New = () => {
   
@@ -38,6 +35,8 @@ const New = () => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(true)
   const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
+
+ 
 
     
 
@@ -107,25 +106,54 @@ const New = () => {
         >
           {/* trending news */}
           <View className="w-full">
-            {africaNews && <AfricanNews data={africaNews} loading={loading} />}
-            {officeOfThePresident && (
-              <PresidentialOffice data={officeOfThePresident} loading={loading} />
-            )}
-            {interimGovernmentUpdates && (
-              <InterimGovernment
-                data={interimGovernmentUpdates}
+            {africaNews && africaNews.length !==0 && (
+              <ScrollComp
+                data={africaNews}
                 loading={loading}
+                titleHeader="Here are the World Africa News Update you do not want to miss"
               />
             )}
-            {sportsNews && <SportNews data={sportsNews} loading={loading} />}
-            {/* {pressReleases && (
-              <LayerFour data={pressReleases} loading={loading} />
-            )} */}
-            {/* {worldNews && <LayerFour data={worldNews} loading={loading} />} */}
-            {archivesAndAnalysis && (
-              <Archiveanalysis data={archivesAndAnalysis} loading={loading} />
+            {officeOfThePresident && officeOfThePresident.length !== 0 && (
+              <BlockAndFlex data={officeOfThePresident} loading={loading} />
             )}
-            {worldNews && <WorldNews data={worldNews} loading={loading} />}
+            {interimGovernmentUpdates &&
+              interimGovernmentUpdates.length !== 0 && (
+                <View className="mt-4">
+                  <Text
+                    style={{ fontFamily: "PublicSans_700Bold", fontSize: 20 }}
+                  >
+                    Interim Government News
+                  </Text>
+                  <BlockAndFlex
+                    data={interimGovernmentUpdates}
+                    loading={loading}
+                  />
+                </View>
+              )}
+            {sportsNews && sportsNews.length !== 0 && (
+              <BlockComp
+                data={sportsNews}
+                loading={loading}
+                titleHeader="Popular News"
+              />
+            )}
+            {archivesAndAnalysis && archivesAndAnalysis.length !== 0 && (
+              <BlockComp
+                data={archivesAndAnalysis}
+                loading={loading}
+                titleHeader="Abc Archive Analysis"
+              />
+            )}
+            {worldNews && worldNews.length !== 0 && (
+              <View>
+                <Text
+                  style={{ fontFamily: "PublicSans_700Bold", fontSize: 20 }}
+                >
+                  World News
+                </Text>
+                <BlockAndFlex data={worldNews} loading={loading} />
+              </View>
+            )}
           </View>
         </ScrollView>
       </SafeAreaView>

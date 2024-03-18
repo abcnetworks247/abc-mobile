@@ -20,7 +20,7 @@ import Api from "../../utils/Api";
   import { useCustomFonts } from "../../context/FontContext";
   import AppLoading from "expo-app-loading";
 
-const SportNews = ({ data, loading }) => {
+const BlockComp = ({ data, loading, titleHeader }) => {
   const { fontsLoaded, fontStyles } = useCustomFonts();
   // const [socioCultural, setSocioCultural] = useState([]);
   // const [archivesAndAnalysis, setArchivesAndAnalysis] = useState([]);
@@ -70,48 +70,45 @@ const SportNews = ({ data, loading }) => {
           {/* popular news */}
 
           <View className=" mb-5">
-            <Text className="py-1 text-xl font-bold mb-3 ">Popular News</Text>
-            {!data ? (
-              <Text>No news yet</Text>
-            ) : (
-              data &&
-              data.map((item, index) => (
-                <TouchableOpacity activeOpacity={0.5} key={index}>
-                  <View className="flex flex-col  " key={index}>
-                    <Pressable onPress={handlePress(item)}>
-                      <Image
-                        alt=""
-                        className="object-cover w-full h-52 rounded-md"
-                        source={{ uri: item.blogimage }}
-                        resizeMethod="resize"
-                      />
+        <Text className="py-1 text-xl font-bold mb-3 ">{titleHeader}</Text>
+        {
+          data && data.map((item, index) => (
+            <TouchableOpacity activeOpacity={0.5} key={index}>
+              <View className="flex flex-col  " key={index}>
+                <Pressable onPress={handlePress(item)}>
+                  <Image
+                    alt=""
+                    className="object-cover w-full h-52 rounded-md"
+                    source={{ uri: item.blogimage }}
+                    resizeMethod="resize"
+                  />
 
-                      <View className="flex flex-col p-1">
-                        <Text
-                          className="w-fit hover:underline text-blue-600"
-                          style={{ fontFamily: "PublicSans_400Regular" }}
-                        >
-                          {item.category}
-                        </Text>
-                        <Text
-                          className="py-2 capitalize"
-                          style={{
-                            fontFamily: "PublicSans_600SemiBold",
-                            fontSize: 16,
-                          }}
-                        >
-                          {item.title}
-                        </Text>
-                        <View className="flex flex-wrap justify-between pt-3 text-xs ">
-                          {/* <Text className="w-full">{item.shortdescription}</Text> */}
-                          {/* <Text className="w-full">{item.longdescription}</Text> */}
-                        </View>
-                      </View>
-                    </Pressable>
+                  <View className="flex flex-col p-1">
+                    <Text
+                      className="w-fit hover:underline text-blue-600"
+                      style={{ fontFamily: "PublicSans_400Regular" }}
+                    >
+                      {item.category}
+                    </Text>
+                    <Text
+                      className="py-2 capitalize"
+                      style={{
+                        fontFamily: "PublicSans_600SemiBold",
+                        fontSize: 16,
+                      }}
+                    >
+                      {item.title}
+                    </Text>
+                    <View className="flex flex-wrap justify-between pt-3 text-xs ">
+                      {/* <Text className="w-full">{item.shortdescription}</Text> */}
+                      {/* <Text className="w-full">{item.longdescription}</Text> */}
+                    </View>
                   </View>
-                </TouchableOpacity>
-              ))
-            )}
+                </Pressable>
+              </View>
+            </TouchableOpacity>
+          ))
+        }
           </View>
         </View>
       
@@ -119,5 +116,5 @@ const SportNews = ({ data, loading }) => {
   );
 };
   
-  export default SportNews;
+  export default BlockComp;
   

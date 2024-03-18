@@ -16,7 +16,7 @@ import { useCustomFonts } from "../../context/FontContext";
 import AppLoading from "expo-app-loading";
 
 
-const AfricanNews = ({ data, loading }) => {
+const ScrollComp = ({ data, loading, titleHeader }) => {
   const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
   const handlePress = (item) => () => {
@@ -47,10 +47,10 @@ const AfricanNews = ({ data, loading }) => {
       ) : (
         <>
           <Text
-            style={{ fontFamily: "PublicSans_600SemiBold", fontSize: 16 }}
+            style={{ fontFamily: "PublicSans_700Bold", fontSize: 16 }}
             className="mb-3 mt-5"
           >
-            Here are the world {data[0].type} News you don't want to miss..{" "}
+            {titleHeader}
           </Text>
           <ScrollView
             horizontal
@@ -78,4 +78,4 @@ const AfricanNews = ({ data, loading }) => {
   );
 };
 
-export default AfricanNews;
+export default ScrollComp;

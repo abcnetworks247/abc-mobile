@@ -4,21 +4,22 @@ import {
   Image,
   StatusBar,
   RefreshControl,
-  Touchabledata,
-  TouchableOpacity,
+  TouchableHighlight,
   Linking,
   Pressable,
 } from "react-native";
-import React from "react"
+import React from "react";
+import { ScrollView, SafeAreaView } from "react-native";
+import axios from "axios";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
+import globalstyels from "../../styles/globalstyels";
+
+import { useFocusEffect } from "@react-navigation/native";
 import { useCustomFonts } from "../../context/FontContext";
 import AppLoading from "expo-app-loading";
 
-
-
-
-
-const PresidentialOffice = ({ data, loading }) => {
+const BlockAndFlex = ({ data, loading }) => {
   const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
   const handlePress = (item) => () => {
@@ -32,9 +33,24 @@ const PresidentialOffice = ({ data, loading }) => {
     });
   };
 
+  const capitalizeWithAcronym = (str) => {
+    return str
+      .split(" ") // Split the string into words
+      .map((word) => {
+        // Check if the word is an acronym (all capital letters)
+        if (word === word.toUpperCase()) {
+          return word; // Maintain the acronym as is
+        }
+        // Capitalize the word except for the acronym
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(" "); // Join the words back together
+  };
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
   return (
     <View >
       <View className="flex flex-col ">
@@ -54,12 +70,10 @@ const PresidentialOffice = ({ data, loading }) => {
               </View>
             </View>
           ))
-        ) : data.length === 0 ? (
-          <Text></Text>
         ) : (
           <Pressable>
-            <View className="flex flex-col flex-1 p-1 ">
-              <View className="border-b-gray-300 border-b mt-3 mb-3" />
+            <View className="flex flex-col flex-1 p-1">
+              <View className="border-b-gray-300 border-b mt-1 mb-3" />
               <Text
                 className="flex-1 py-2 capitalize"
                 style={{ fontFamily: "PublicSans_600SemiBold", fontSize: 16 }}
@@ -73,44 +87,43 @@ const PresidentialOffice = ({ data, loading }) => {
               >
                 <Image
                   alt=""
-                  className="object-cover w-full h-52 object-top rounded-t border"
+                  className="object-cover w-full h-52 object-top rounded-md border"
                   source={{ uri: data[0].blogimage }}
                   resizeMethod="resize"
                 />
               </Pressable>
             </View>
             <View className="border-b-gray-300 border-b mt-2 mb-2" />
-            {data &&
-              data.slice(1, 6).map((item) => (
-                <View
-                  className="flex flex-col flex-1  w-full  rounded gap-y-[0px]"
-                  key={item._id}
-                >
-                  <View className="">
-                    <Pressable
-                      activeOpacity={0.5}
-                      onPress={handlePress(item)}
-                      className="flex-row flex justify-between gap-2 w-fit p-1 "
+            {data.slice(1).map((item) => (
+              <View
+                className="flex flex-col flex-1  w-full  rounded gap-y-[0px]"
+                key={item._id}
+              >
+                <View className="">
+                  <Pressable
+                    activeOpacity={0.5}
+                    onPress={handlePress(item)}
+                    className="flex-row flex justify-between gap-2 w-fit p-1 "
+                  >
+                    <Text
+                      className="w-2/3 capitalize"
+                      style={{
+                        fontFamily:"PublicSans_600SemiBold",
+                        fontSize: 16,
+                      }}
                     >
-                      <Text
-                        className="w-2/3 capitalize"
-                        style={{
-                          fontFamily: "PublicSans_600SemiBold",
-                          fontSize: 16,
-                        }}
-                      >
-                        {item.title}
-                      </Text>
-                      <Image
-                        alt=""
-                        className="object-cover w-24 h-20 object-top rounded"
-                        source={{ uri: item.blogimage }}
-                        resizeMethod="resize"
-                      />
-                    </Pressable>
-                  </View>
+                      {item.title}
+                    </Text>
+                    <Image
+                      alt=""
+                      className="object-cover w-24 h-20 object-top rounded-md border"
+                      source={{ uri: item.blogimage }}
+                      resizeMethod="resize"
+                    />
+                  </Pressable>
                 </View>
-              ))}
+              </View>
+            ))}
           </Pressable>
         )}
       </View>
@@ -118,4 +131,4 @@ const PresidentialOffice = ({ data, loading }) => {
   );
 };
 
-export default PresidentialOffice;
+export default BlockAndFlex;
