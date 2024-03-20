@@ -223,10 +223,7 @@ const numberOfSkeletons = 5;
           </ScrollView>
         </View>
       )}
-      <ScrollView
-        className=""
-      
-      >
+      <ScrollView className="">
         <View
           className="flex flex-row flex-1 flex-wrap justify-around"
           style={{ maxWidth: screenWidth }}
@@ -253,22 +250,30 @@ const numberOfSkeletons = 5;
           )}
         </View>
         <View className="flex flex-row justify-center mt-4 mb-2">
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-          <Pressable
-            key={pageNum}
-            className={`px-4 py-2 mx-1 rounded-full ${
-              currentPage === pageNum
-                ? "bg-blue-500 text-white"
-                : "bg-gray-300 text-gray-800"
-            }`}
-            onPress={() => handlePageClick(pageNum)}
-          >
-            <Text>{pageNum}</Text>
-          </Pressable>
-        ))}
-      </View>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+            (pageNum) => (
+              <Pressable
+                key={pageNum}
+                className={`px-4 py-2 mx-1 rounded-full backdrop-blur-lg ${
+                  currentPage === pageNum
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-300 text-gray-800"
+                }`}
+                onPress={() => handlePageClick(pageNum)}
+              >
+                <Text
+                  className={`${
+                    currentPage === pageNum ? "text-white" : "text-gray-800"
+                  }`}
+                >
+                  {pageNum}
+                </Text>
+              </Pressable>
+            )
+          )}
+        </View>
       </ScrollView>
-      
+
       {/* <FlatList
         data={filteredProducts}
         renderItem={renderProductCard}

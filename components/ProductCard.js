@@ -55,7 +55,7 @@ const ProductCard = ({
   };
 
 function checkIndexIsEven (n) {
-    return n % 2 == 0;
+    return n % 2 !== 0;
 }
 
   if (!fontsLoaded) {
@@ -66,20 +66,18 @@ function checkIndexIsEven (n) {
     <Pressable
       key={index}
       style={{
-      
         width: "48%",
-
-    
+       
       }}
-      className="pb-4 shadow-md relative rounded-md product-card bg-white mt-2 "
+      className={`pb-4 shadow-md relative rounded-md product-card bg-white mt-2  `}
       onPress={() => handlePress()}
     >
-      <View
-        className="w-full"
-      >
+      <View className="w-full">
         <View className="relative w-full">
           <Image
-            className={`${width > 500 ? 'h-[300px]':`h-[150px]`} w-full rounded-t-md`}
+            className={`${
+              width > 500 ? "h-[300px]" : `h-[150px]`
+            } w-full rounded-t-md`}
             resizeMode="cover"
             source={{ uri: thumbnail }}
           />
