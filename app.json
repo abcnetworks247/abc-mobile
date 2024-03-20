@@ -15,12 +15,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }, 
+      "supportsTablet": true,
+      "bundleIdentifier": "com.abcnetworks24.app"
+    },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#0040B8"
-      }
+      },
+      "package": "com.abcnetworks24.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,6 +35,14 @@
           "initialOrientation": "DEFAULT"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "008b165a-3233-4bdf-a3b4-410fd4d65906"
+      }
+    }
   }
 }
