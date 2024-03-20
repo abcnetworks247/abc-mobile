@@ -199,7 +199,7 @@ const numberOfSkeletons = 5;
             {uniqueCategories.map((category, index) => (
               <Pressable
                 key={index}
-                className={`px-2 py-2 h-10  mx-1 flex flex-row items-center justify-center w-32
+                className={`px-2 py-2 h-10  mx-1 flex flex-row items-center justify-center w-32 rounded-md
             ${selectedCategory === category ? "bg-black" : "bg-gray-200"} `}
                 onPress={() => {
                   setSelectedCategory(category);

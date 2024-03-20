@@ -85,12 +85,12 @@ const TypeDetails = () => {
     <SafeAreaView className="flex-1">
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView className="px-2" showsVerticalScrollIndicator={false}>
-          <View className={`bg-blue-400 flex flex-row flex-wrap justify-evenly mt-4 pt-2 `}>
+          <View className={`flex flex-row flex-wrap justify-evenly mt-4 pt-2 `}>
               {posts &&
                 posts.map((item, index) => (
                   <View
                     key={index}
-                    className="mb-6 bg-red-500"
+                    className="mb-6 "
                     style={{
                       width: width > 500 ? "48%" : "100%",
                     }}
