@@ -18,8 +18,9 @@ import globalstyels from "../../styles/globalstyels";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCustomFonts } from "../../context/FontContext";
 import AppLoading from "expo-app-loading";
-
+import { useWindowDimensions } from "react-native";
 const BlockAndFlex = ({ data, loading }) => {
+  const {width}= useWindowDimensions()
   const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
   const handlePress = (item) => () => {
@@ -52,7 +53,7 @@ const BlockAndFlex = ({ data, loading }) => {
   }
 
   return (
-    <View >
+    <View>
       <View className="flex flex-col ">
         {loading ? (
           Array.from({ length: 1 }).map((_, index) => (
@@ -76,7 +77,10 @@ const BlockAndFlex = ({ data, loading }) => {
               <View className="border-b-gray-300 border-b mt-1 mb-3" />
               <Text
                 className="flex-1 py-2 capitalize"
-                style={{ fontFamily: "PublicSans_600SemiBold", fontSize: 16 }}
+                style={{
+                  fontFamily: "PublicSans_600SemiBold",
+                  fontSize: width > 500 ? 20 : 16,
+                }}
               >
                 {data[0].title}
               </Text>
@@ -87,7 +91,9 @@ const BlockAndFlex = ({ data, loading }) => {
               >
                 <Image
                   alt=""
-                  className="object-cover w-full h-52 object-top rounded-md border"
+                  className={`object-cover w-full ${
+                    width > 500 ? "h-[400px]" : "h-52"
+                  }  rounded-md border`}
                   source={{ uri: data[0].blogimage }}
                   resizeMethod="resize"
                 />
@@ -108,15 +114,19 @@ const BlockAndFlex = ({ data, loading }) => {
                     <Text
                       className="w-2/3 capitalize"
                       style={{
-                        fontFamily:"PublicSans_600SemiBold",
-                        fontSize: 16,
+                        fontFamily: "PublicSans_600SemiBold",
+                        fontSize: width > 500 ? 20 : 16,
                       }}
                     >
                       {item.title}
                     </Text>
                     <Image
                       alt=""
-                      className="object-cover w-24 h-20 object-top rounded-md border"
+                      className={`object-cover ${
+                        width > 500 ? "w-[200px]" : "w-24"
+                      } ${
+                        width > 500 ? "h-[150px]" : "h-20"
+                      }  object-top rounded-md border`}
                       source={{ uri: item.blogimage }}
                       resizeMethod="resize"
                     />

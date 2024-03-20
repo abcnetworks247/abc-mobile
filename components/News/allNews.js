@@ -5,32 +5,23 @@ import {
   Image,
   StatusBar,
   RefreshControl,
-  TouchableHighlight,
-  TouchableOpacity,
-  Linking,
   Pressable,
 } from "react-native";
 import { ScrollView, SafeAreaView } from "react-native";
-import axios from "axios";
-import { useEffect, useState, useCallback } from "react";
-import { useNavigation } from "@react-navigation/native";
-import globalstyels from "../../styles/globalstyels";
-globalstyels;
 import Api from "../../utils/Api";
 import { useCustomFonts } from "../../context/FontContext";
 import AppLoading from "expo-app-loading";
+import { useWindowDimensions } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import globalstyels from "../../styles/globalstyels";
 import BlockComp from "./BlockComp";
 
-
 const HomeNews = () => {
-  const { fontsLoaded, fontStyles } = useCustomFonts();
- 
-  const [socioCultural, setSocioCultural] = useState([]);
-  const [archivesAndAnalysis, setArchivesAndAnalysis] = useState([]);
-  const [breakingNews, setBreakingNews] = useState([]);
-  const [sportsNews, setSportsNews] = useState([]);  const [loading, setLoading] = useState(true);
- 
+  const { width } = useWindowDimensions();
+  const { fontsLoaded } = useCustomFonts();
 
+  const [breakingNews, setBreakingNews] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -40,39 +31,18 @@ const HomeNews = () => {
     }, 2000);
   }, []);
 
-  const colors = ["#00876c", "#f44336", "#ff9800", "#2196f3", "#9c27b0"];
-
-  const capitalizeWithAcronym = (str) => {
-    return str
-      .split(" ") // Split the string into words
-      .map((word) => {
-        // Check if the word is an acronym (all capital letters)
-        if (word === word.toUpperCase()) {
-          return word; // Maintain the acronym as is
-        }
-        // Capitalize the word except for the acronym
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-      })
-      .join(" "); // Join the words back together
-  };
-
-  //fetch data from news api
   const fetchPosts = async () => {
     try {
       const res = await Api.get(`admin/blog`);
       const data = res.data;
-      setSocioCultural(data[3]["Socio Cultural"]);
-      setArchivesAndAnalysis(data[4]["Archives & Analysis"]);
       setBreakingNews(data[5]["Breaking News"]);
-      setSportsNews(data[6]["Sports"]);
-
       setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchPosts();
   }, []);
 
@@ -87,9 +57,11 @@ const HomeNews = () => {
       desc: item.longdescription,
     });
   };
-  if (loading === true) {
+
+  if (loading) {
     return null;
   }
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
@@ -99,63 +71,69 @@ const HomeNews = () => {
       <StatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <SafeAreaView style={globalstyels.droidSafeArea}>
         <ScrollView
-          className="my-2 space-y-8`"
+          style={{ paddingHorizontal: 12 }}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           showsVerticalScrollIndicator={false}
         >
-          {/* trending news */}
-
-          {/* popular news */}
-
-          <View className=" mb-5">
+          <View style={{ marginBottom: 20 }}>
             <Text
-              className="py-1 mb-3 "
-              style={{ fontFamily: "PublicSans_700Bold", fontSize: 20 }}
+              style={{
+                fontFamily: "PublicSans_700Bold",
+                fontSize:width > 500 ? 25: 20,
+                marginBottom: 10,
+              }}
             >
               Breaking News
             </Text>
-            {!breakingNews ? (
-              <Text>No news yet</Text>
-            ) : (
-              breakingNews.map((item, index) => (
-                <View activeOpacity={0.5} key={index}>
-                  <View className="flex flex-col ">
-                    <Pressable onPress={handlePress(item)}>
-                      <Image
-                        alt=""
-                        className="object-cover w-full h-52 rounded-md"
-                        source={{ uri: item.blogimage }}
-                        resizeMethod="resize"
-                      />
-
-                      <View className="flex flex-col p-1">
-                        <Text
-                          style={{ fontFamily: "PublicSans_400Regular" }}
-                          className="w-fit hover:underline text-blue-600"
-                        >
-                          {item.category}
-                        </Text>
-                        <Text
-                          className="py-2 capitalize"
-                          style={{
-                            fontFamily: "PublicSans_600SemiBold",
-                            fontSize: 16,
-                          }}
-                        >
-                          {item.title}
-                        </Text>
-                        <View className="flex flex-wrap justify-between pt-3 text-xs ">
-                          {/* <Text className="w-full">{item.shortdescription}</Text> */}
-                          {/* <Text className="w-full">{item.longdescription}</Text> */}
-                        </View>
-                      </View>
-                    </Pressable>
-                  </View>
-                </View>
-              ))
-            )}
+            <View
+              style={{
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "space-between",
+              }}
+            >
+              {breakingNews.map((item, index) => (
+                <Pressable
+                  key={index}
+                  style={{
+                    width: width > 500 ? "48%" : "100%",
+                    marginBottom: 16,
+                  }}
+                  onPress={handlePress(item)}
+                >
+                  <Image
+                    style={{
+                      width: "100%",
+                      height: 208,
+                      borderRadius: 8,
+                      marginBottom: 8,
+                    }}
+                    source={{ uri: item.blogimage }}
+                    resizeMode="cover"
+                  />
+                  <Text
+                    style={{
+                      fontFamily: "PublicSans_400Regular",
+                      color: "#555",
+                      marginBottom: 4,
+                    }}
+                  >
+                    {item.category}
+                  </Text>
+                  <Text
+                    className="capitalize"
+                    style={{
+                      fontFamily: "PublicSans_600SemiBold",
+                      fontSize: width > 500 ? 20 : 16,
+                    }}
+                  >
+                    {item.title}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>

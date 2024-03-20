@@ -16,7 +16,6 @@ import React from "react";
 import { ScrollView } from "react-native";
 import axios from "axios";
 import { useEffect, useState } from "react";
-// import {  TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import globalstyels from "../styles/globalstyels";
 import { useCustomFonts } from "../context/FontContext";
@@ -83,73 +82,59 @@ const TypeDetails = () => {
    });
 
   return (
-    <>
+    <SafeAreaView className="flex-1">
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
-      <SafeAreaView style={globalstyels.droidSafeArea}>
-        <ScrollView
-          className="my-2 space-y-8 mx-3"
-          // remove scrollbar
-          showsVerticalScrollIndicator={false}
-        >
-          {/* trending news */}
-          <View className=" ">
-            {/* <Text
-              style={{ fontFamily: "PublicSans_700Bold", fontSize: 16 }}
-              className="py-1 h-fit "
-            >
-              {name}
-            </Text> */}
-            <TouchableOpacity onPress={handlePress}>
-              <View className=" ">
-                {posts &&
-                  posts.map((item, index) => (
-                    <TouchableHighlight key={index} className="mb-6">
-                      <View className="flex flex-col " key={index}>
-                        <Pressable onPress={handlePress(item)}>
-                          <Image
-                            alt=""
-                            className="object-cover w-full h-52 object-top rounded-md"
-                            source={{ uri: item.blogimage }}
-                            resizeMethod="resize"
-                          />
+      <ScrollView className="px-2" showsVerticalScrollIndicator={false}>
+          <View className={`bg-blue-400 flex flex-row flex-wrap justify-evenly mt-4 pt-2 `}>
+              {posts &&
+                posts.map((item, index) => (
+                  <View
+                    key={index}
+                    className="mb-6 bg-red-500"
+                    style={{
+                      width: width > 500 ? "48%" : "100%",
+                    }}
+                  >
+                    <Pressable onPress={handlePress(item)}>
+                      <Image
+                        alt=""
+                        className="object-cover w-full  h-52  rounded-md"
+                        source={{ uri: item.blogimage }}
+                        resizeMethod="resize"
+                      />
 
-                          <View className="flex flex-col p-1">
-                            <Text
-                              style={{ fontFamily: "PublicSans_400Regular" }}
-                              className="w-fit hover:underline text-blue-600"
-                            >
-                              {item.category}
-                            </Text>
+                      <View className="flex flex-col p-1">
+                        <Text
+                          style={{ fontFamily: "PublicSans_400Regular" }}
+                          className="w-fit hover:underline text-blue-600"
+                        >
+                          {item.category}
+                        </Text>
 
-                            <View style={styles.container}>
-                              <Text
-                                className="capitalize"
-                                style={[
-                                  styles.text,
-                                  {
-                                    fontFamily: "PublicSans_600SemiBold",
-                                    fontSize: 16,
-                                    lineHeight: 20, // Adjust line height as needed
-                                  },
-                              
-                                ]}
-                                numberOfLines={2}
-                                ellipsizeMode="tail"
-                              >
-                                {item.title}
-                              </Text>
-                            </View>
-                          </View>
-                        </Pressable>
+                        <View>
+                          <Text
+                            className="capitalize"
+                            style={[
+                              styles.text,
+                              {
+                                fontFamily: "PublicSans_600SemiBold",
+                                fontSize: 16,
+                                lineHeight: 20, // Adjust line height as needed
+                              },
+                            ]}
+                            numberOfLines={2}
+                            ellipsizeMode="tail"
+                          >
+                            {item.title}
+                          </Text>
+                        </View>
                       </View>
-                    </TouchableHighlight>
-                  ))}
-              </View>
-            </TouchableOpacity>
+                    </Pressable>
+                  </View>
+                ))}
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+       </ScrollView>
+    </SafeAreaView>
   );
 
  

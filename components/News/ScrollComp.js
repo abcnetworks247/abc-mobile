@@ -14,9 +14,11 @@ import { ScrollView, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useCustomFonts } from "../../context/FontContext";
 import AppLoading from "expo-app-loading";
+import { useWindowDimensions } from "react-native";
 
 
 const ScrollComp = ({ data, loading, titleHeader }) => {
+  const {width, height}=useWindowDimensions()
   const { fontsLoaded, fontStyles } = useCustomFonts();
   const navigation = useNavigation();
   const handlePress = (item) => () => {
@@ -47,7 +49,7 @@ const ScrollComp = ({ data, loading, titleHeader }) => {
       ) : (
         <>
           <Text
-            style={{ fontFamily: "PublicSans_700Bold", fontSize: 16 }}
+            style={{ fontFamily: "PublicSans_700Bold", fontSize: width > 500 ? 25 :20 }}
             className="mb-3 mt-5"
           >
             {titleHeader}
@@ -59,11 +61,11 @@ const ScrollComp = ({ data, loading, titleHeader }) => {
           >
             <View className=" flex flex-row gap-2">
               {data.slice(0, 10).map((item, index) => (
-                <View className="flex rounded w-28 h-24" key={index}>
+                <View style={{width : width > 500 ? width /3: 112 ,height : width>500 ? width /3 : 96}}  className={`flex rounded h-24`} key={index}>
                   <Pressable onPress={handlePress(item)} className="w-full">
                     <Image
                       alt=""
-                      className="object-cover w-full h-full object-top rounded"
+                      className="object-cover w-full h-full rounded-md"
                       source={{ uri: item.blogimage }}
                       resizeMethod="resize"
                     />

@@ -66,28 +66,21 @@ function checkIndexIsEven (n) {
     <Pressable
       key={index}
       style={{
-        marginRight: !checkIndexIsEven(index) ? 0 : 4,
-        marginLeft: checkIndexIsEven(index) ? 5 : 0,
-        marginBottom: 4,
+      
         width: "48%",
 
-        // width: "calc(100% - 8px)",
+    
       }}
-      className="bg-white pb-4 shadow-md relative rounded-md  product-card"
+      className="pb-4 shadow-md relative rounded-md product-card bg-white mt-2 "
       onPress={() => handlePress()}
     >
       <View
-        style={
-          {
-            // backgroundColor: "red",
-            // width: "calc(100% - 8px)",
-          }
-        }
+        className="w-full"
       >
-        <View className="relative">
+        <View className="relative w-full">
           <Image
-            className="h-[150px] w-full"
-            resizeMode="contain"
+            className={`${width > 500 ? 'h-[300px]':`h-[150px]`} w-full rounded-t-md`}
+            resizeMode="cover"
             source={{ uri: thumbnail }}
           />
 

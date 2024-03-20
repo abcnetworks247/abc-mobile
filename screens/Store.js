@@ -224,11 +224,11 @@ const numberOfSkeletons = 5;
         </View>
       )}
       <ScrollView
-        className="mt-2"
-        contentContainerStyle={{ width: screenWidth }}
+        className=""
+      
       >
         <View
-          className="flex flex-row flex-1 flex-wrap "
+          className="flex flex-row flex-1 flex-wrap justify-around"
           style={{ maxWidth: screenWidth }}
         >
           {products.length == 0 ? (

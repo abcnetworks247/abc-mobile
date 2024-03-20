@@ -18,9 +18,10 @@ import globalstyels from "../../styles/globalstyels";
 import ScrollComp from "./ScrollComp";
 import BlockComp from "./BlockComp";
 import BlockAndFlex from "./BlockAndFlex";
+import { useWindowDimensions } from "react-native";
 
 const New = () => {
-  
+  const {width}= useWindowDimensions()
   const [posts, setPosts] = useState(null);
   const [africaNews, setAfricaNews] = useState(null);
   const [pressReleases, setPressReleases] = useState(null);
@@ -120,7 +121,10 @@ const New = () => {
               interimGovernmentUpdates.length !== 0 && (
                 <View className="mt-4">
                   <Text
-                    style={{ fontFamily: "PublicSans_700Bold", fontSize: 20 }}
+                    style={{
+                      fontFamily: "PublicSans_700Bold",
+                      fontSize: width > 500 ? 25 : 20,
+                    }}
                   >
                     Interim Government News
                   </Text>
@@ -131,11 +135,13 @@ const New = () => {
                 </View>
               )}
             {sportsNews && sportsNews.length !== 0 && (
-              <BlockComp
-                data={sportsNews}
-                loading={loading}
-                titleHeader="Sports"
-              />
+              <View>
+                <BlockComp
+                  data={sportsNews}
+                  loading={loading}
+                  titleHeader="Sports"
+                />
+              </View>
             )}
             {archivesAndAnalysis && archivesAndAnalysis.length !== 0 && (
               <BlockComp
@@ -147,7 +153,10 @@ const New = () => {
             {worldNews && worldNews.length !== 0 && (
               <View>
                 <Text
-                  style={{ fontFamily: "PublicSans_700Bold", fontSize: 20 }}
+                  style={{
+                    fontFamily: "PublicSans_700Bold",
+                    fontSize: width > 500 ? 25 : 20,
+                  }}
                 >
                   World News
                 </Text>
@@ -157,7 +166,10 @@ const New = () => {
             {socioCultural && socioCultural.length !== 0 && (
               <View>
                 <Text
-                  style={{ fontFamily: "PublicSans_700Bold", fontSize: 20 }}
+                  style={{
+                    fontFamily: "PublicSans_700Bold",
+                    fontSize: width > 500 ? 25 : 20,
+                  }}
                 >
                   Sociocultural
                 </Text>
@@ -176,7 +188,10 @@ const New = () => {
             {pressReleases && pressReleases.length !== 0 && (
               <View>
                 <Text
-                  style={{ fontFamily: "PublicSans_700Bold", fontSize: 20 }}
+                  style={{
+                    fontFamily: "PublicSans_700Bold",
+                    fontSize: width > 500 ? 25 : 20,
+                  }}
                 >
                   Press Release
                 </Text>

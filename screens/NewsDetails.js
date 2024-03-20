@@ -48,12 +48,12 @@ const NewsDetails = () => {
     <SafeAreaView style={globalstyels.droidSafeArea}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#2c3e50" />
       <ScrollView
-        className="py-2"
+        className="py-2 px-4"
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View className="container p-3">
+        <View className="">
           <View className="space-y-2 text-center">
             <Text
               className="capitalize"
@@ -66,7 +66,7 @@ const NewsDetails = () => {
           <View className="mt-3">
             <Image
               alt=""
-              className="object-cover object-top w-full rounded-md h-52 mb-3"
+              className={`object-contain w-full rounded-md ${width > 500 ? 'h-[500px]':'h-52'} mb-3`}
               source={{ uri: image }}
               resizeMethod="resize"
             />
