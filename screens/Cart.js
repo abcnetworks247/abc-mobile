@@ -139,7 +139,7 @@ export default function Cart() {
               Why not explore our latest products and discover something you
               love
             </Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               className="flex items-center justify-center p-2 bg-[#2c3e50] shadow-md rounded-sm "
               onPress={() =>
                 navigation.dispatch(
@@ -150,7 +150,7 @@ export default function Cart() {
               }
             >
               <Text className="text-white">Explore now</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </SafeAreaView>
@@ -257,10 +257,11 @@ if (authToken && cartProducts && cartProducts.length > 0) {
       padding: 20,
     },
     label: {
-      fontSize: 16,
+      fontSize:width > 500 ? 20 :16,
       marginBottom: 5,
     },
     input: {
+      fontSize:width > 500 ? 20 :16,
       height: 40,
       borderColor: "gray",
       borderWidth: 1, 
@@ -271,7 +272,7 @@ if (authToken && cartProducts && cartProducts.length > 0) {
 
   const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
-      fontSize: 16,
+      fontSize:width > 500 ? 20 :16,
       paddingVertical: 12,
       paddingHorizontal: 10,
       borderWidth: 1,
@@ -282,7 +283,7 @@ if (authToken && cartProducts && cartProducts.length > 0) {
       marginBottom: 10,
     },
     inputAndroid: {
-      fontSize: 16,
+    fontSize:width > 500 ? 20 :16,
       paddingHorizontal: 10,
       paddingVertical: 8,
       borderWidth: 1,
@@ -312,25 +313,55 @@ if (authToken && cartProducts && cartProducts.length > 0) {
          </View>
          <View className="bg-white px-2">
            <View className="flex flex-row py-4 justify-between">
-             <Text style={{ fontFamily: "PublicSans_400Regular" }}>
+             <Text
+               style={{
+                 fontFamily: "PublicSans_400Regular",
+                 fontSize: width > 500 ? 20 : 16,
+               }}
+             >
                Subtotal
              </Text>
-             <Text style={{ fontFamily: "PublicSans_600SemiBold" }}>
+             <Text
+               style={{
+                 fontFamily: "PublicSans_600SemiBold",
+                 fontSize: width > 500 ? 20 : 16,
+               }}
+             >
                ${totalPrice.toFixed(2)}
              </Text>
            </View>
            <View className="flex flex-row justify-between py-2">
-             <Text style={{ fontFamily: "PublicSans_400Regular" }}>
+             <Text
+               style={{
+                 fontFamily: "PublicSans_400Regular",
+                 fontSize: width > 500 ? 20 : 16,
+               }}
+             >
                Shipping
              </Text>
-             <Text style={{ fontFamily: "PublicSans_600SemiBold" }}>
+             <Text
+               style={{
+                 fontFamily: "PublicSans_600SemiBold",
+                 fontSize: width > 500 ? 20 : 16,
+               }}
+             >
                ${shippingFee}
              </Text>
            </View>
            <View className="flex flex-row py-2  border-t border-t-gray-100 justify-between ">
-             <Text style={{ fontFamily: "PublicSans_400Regular" }}>Total</Text>
              <Text
-               style={{ fontFamily: "PublicSans_600SemiBold" }}
+               style={{
+                 fontFamily: "PublicSans_400Regular",
+                 fontSize: width > 500 ? 20 : 16,
+               }}
+             >
+               Total
+             </Text>
+             <Text
+               style={{
+                 fontFamily: "PublicSans_600SemiBold",
+                 fontSize: width > 500 ? 20 : 16,
+               }}
                className="text-[#00308F]"
              >
                ${grandTotal.toFixed(2)}
@@ -338,10 +369,16 @@ if (authToken && cartProducts && cartProducts.length > 0) {
            </View>
          </View>
          <View className="px-4 mt-2 bg-white">
-           <Text style={{ fontFamily: "PublicSans_500Medium" }}>
+           <Text
+             style={{
+               fontFamily: "PublicSans_500Medium",
+               fontSize: width > 500 ? 20 : 16,
+             }}
+           >
              Choose a Payment Method
            </Text>
            <Picker
+             style={{ fontSize: width > 500 ? 20 : 16 }}
              selectedValue={paymentType}
              onValueChange={(itemValue, itemIndex) => setPaymentType(itemValue)}
            >
@@ -353,7 +390,11 @@ if (authToken && cartProducts && cartProducts.length > 0) {
          {/* form begins */}
          <View style={styles.container}>
            <Text
-             style={{ ...styles.label, fontFamily: "PublicSans_500Medium" }}
+             style={{
+               ...styles.label,
+               fontFamily: "PublicSans_500Medium",
+               fontSize: width > 500 ? 20 : 16,
+             }}
            >
              Coupon
            </Text>
@@ -364,7 +405,12 @@ if (authToken && cartProducts && cartProducts.length > 0) {
                onChangeText={setCoupon}
              />
              <Pressable className="bg-black h-full flex flex-row items-center justify-center">
-               <Text className="text-white">Apply Couopon</Text>
+               <Text
+                 className="text-white"
+                 style={{ fontSize: width > 500 ? 20 : 16 }}
+               >
+                 Apply Couopon
+               </Text>
              </Pressable>
            </View>
 
@@ -381,7 +427,11 @@ if (authToken && cartProducts && cartProducts.length > 0) {
            />
 
            <Text
-             style={{ ...styles.label, fontFamily: "PublicSans_500Medium" }}
+             style={{
+               ...styles.label,
+               fontFamily: "PublicSans_500Medium",
+               fontSize: width > 500 ? 20 : 16,
+             }}
            >
              Shipping Address
            </Text>
@@ -392,7 +442,11 @@ if (authToken && cartProducts && cartProducts.length > 0) {
            />
 
            <Text
-             style={{ ...styles.label, fontFamily: "PublicSans_500Medium" }}
+             style={{
+               ...styles.label,
+               fontFamily: "PublicSans_500Medium",
+               fontSize: width > 500 ? 20 : 16,
+             }}
            >
              City
            </Text>
@@ -403,7 +457,11 @@ if (authToken && cartProducts && cartProducts.length > 0) {
            />
 
            <Text
-             style={{ ...styles.label, fontFamily: "PublicSans_500Medium" }}
+             style={{
+               ...styles.label,
+               fontFamily: "PublicSans_500Medium",
+               fontSize: width > 500 ? 20 : 16,
+             }}
            >
              Postal Code
            </Text>
@@ -443,7 +501,7 @@ if (authToken && cartProducts && cartProducts.length > 0) {
              value={note}
              onChangeText={setNote}
              multiline={true}
-             numberOfLines={4} 
+             numberOfLines={4}
            />
 
            <Button title="Submit" />
@@ -463,7 +521,10 @@ if (authToken && cartProducts && cartProducts.length > 0) {
              onPress={CheckOut}
              disabled={isSubmitDisabled}
            >
-             <Text className="text-white font-bold">
+             <Text
+               className="text-white font-bold"
+               style={{ fontSize: width > 500 ? 20 : 16 }}
+             >
                {spinner ? (
                  <ActivityIndicator size="small" color="white" />
                ) : (

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useWindowDimensions } from 'react-native';
 
 
 import Svg, { G, Path, Circle, Rect ,Defs, ClipPath} from "react-native-svg";
@@ -387,14 +388,14 @@ export const MenuIcon= () => {
     </Svg>
   );
 };
-export const PlusIcon= () => {
+export const PlusIcon = () => {
+  const {width }= useWindowDimensions()
   return (
     <Svg
-      width="10px"
-      height="10px"
+      width={`${width > 500 ? "20px" : "10px"}`}
+      height={`${width > 500 ? "20px" : "10px"}`}
       viewBox="0 -0.5 21 21"
       xmlns="http://www.w3.org/2000/svg"
-    
     >
       <Path
         transform="translate(-379 -240) translate(56 160)"
@@ -407,15 +408,15 @@ export const PlusIcon= () => {
     </Svg>
   );
 };
-export const MinusIcon= () => {
+export const MinusIcon = () => {
+   const { width } = useWindowDimensions();
   return (
     <Svg
-      width="10px"
-      height="10px"
+      width={`${width > 500 ? "20px" : "10px"}`}
+      height={`${width > 500 ? "20px" : "10px"}`}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      
     >
       <Path
         d="M2 12a1 1 0 011-1h18a1 1 0 110 2H3a1 1 0 01-1-1z"

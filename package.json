@@ -29,6 +29,7 @@
     "axios": "^1.6.5",
     "dotenv": "^16.4.1",
     "expo": "~49.0.15",
+    "expo-app-loading": "^2.1.1",
     "expo-av": "~13.4.1",
     "expo-checkbox": "~2.4.0",
     "expo-constants": "~14.4.2",
