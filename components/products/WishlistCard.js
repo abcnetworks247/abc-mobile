@@ -13,6 +13,7 @@ import { BinIcon } from "../svgs/Icons";
 import { RemoveWishIcon } from "../svgs/Icons";
 import { UseProductProvider } from "../../context/ProductProvider";
 import { UseUserContext } from "../../context/UserContext";
+import { useWindowDimensions } from "react-native";
 
 const WishlistCard = ({ title, description, thumbnail, price ,productId}) => {
   const navigation = useNavigation();
@@ -30,13 +31,13 @@ const {handleWishAdd} = UseProductProvider();
   };
   return (
     <Pressable
-      className="relative basis-1/2 bg-white mb-2 pb-4 shadow-md"
+      className="relative w-[48%] rounded-md bg-white mt-2 pb-4 shadow-md"
       onPress={handlePress}
     >
       <View>
         <Image
-          className="h-[150px]"
-          resizeMode="contain"
+          className="h-[150px] rounded-t-md"
+          resizeMode="cover"
           source={{ uri: thumbnail }}
         />
       </View>

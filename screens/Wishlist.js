@@ -112,7 +112,9 @@ const styles = StyleSheet.create({
   },
 
   columnWrapper: {
-    gap: 6,
+    display:'flex',
+    flexDirection: 'row',
+    justifyContent:'space-around',
     padding: 4,
   },
 

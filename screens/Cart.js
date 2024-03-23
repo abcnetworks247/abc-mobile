@@ -139,7 +139,7 @@ export default function Cart() {
               Why not explore our latest products and discover something you
               love
             </Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               className="flex items-center justify-center p-2 bg-[#2c3e50] shadow-md rounded-sm "
               onPress={() =>
                 navigation.dispatch(
@@ -150,7 +150,7 @@ export default function Cart() {
               }
             >
               <Text className="text-white">Explore now</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </SafeAreaView>
