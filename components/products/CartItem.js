@@ -8,7 +8,7 @@ import { ActivityIndicator, ToastAndroid } from "react-native";
 import { useState, useEffect } from 'react';
 import { useCustomFonts } from '../../context/FontContext';
 import AppLoading from "expo-app-loading";
-
+import { useWindowDimensions } from 'react-native';
 const CartItem = ({ product }) => {
 const { fontsLoaded, fontStyles } = useCustomFonts();
 const {
@@ -18,6 +18,7 @@ const {
   loadingProducts,
 } = UseProductProvider();
   const { UserData } = UseUserContext();
+  const {width}= useWindowDimensions()
  
  
   const calculateSubtotal = () => {
@@ -47,10 +48,16 @@ const {
     <View className="bg-white p-2 mb-2 ">
       <View className="flex flex-row items-center gap-2 relative w-full">
         {/* image here */}
-        <View className="w-[80px] relative">
+        <View
+          style={{
+            width: width > 500 ? 150 : 80,
+          }}
+          className=" relative rounded-md"
+        >
           <Image
             source={{ uri: product.product.thumbnail }}
             style={{ width: "100%", aspectRatio: 1 }}
+            className="rounded-md"
           />
           {loadingProducts[product.product._id] && (
             <View
@@ -73,14 +80,17 @@ const {
             handleRemoveFromCart(product.product._id, UserData._id);
           }}
         >
-          <BinIcon size="24px" />
+          <BinIcon size={`${width > 500 ? "30px" : "24px"}`} />
         </TouchableOpacity>
 
         <View className="flex flex-col flex-grow ">
           <View className=" flex-grow-0">
             <View className="flex flex-co py-1 ">
               <Text
-                style={{ fontFamily: "PublicSans_700Bold" }}
+                style={{
+                  fontFamily: "PublicSans_700Bold",
+                  fontSize: width > 500 ? 20 : 16,
+                }}
                 className=""
                 numberOfLines={1}
                 ellipsizeMode="tail"
@@ -90,7 +100,12 @@ const {
                   : product.product.title}
               </Text>
 
-              <Text style={{ fontFamily: "PublicSans_300Light" }}>
+              <Text
+                style={{
+                  fontFamily: "PublicSans_300Light",
+                  fontSize: width > 500 ? 20 : 16,
+                }}
+              >
                 {product.product.category}
               </Text>
             </View>
@@ -100,13 +115,19 @@ const {
             {/* price */}
             <View className="flex flex-row gap-1 items-center">
               <Text
-                style={{ fontFamily: "PublicSans_700Bold" }}
+                style={{
+                  fontFamily: "PublicSans_700Bold",
+                  fontSize: width > 500 ? 20 : 16,
+                }}
                 className="text-[#00308F]"
               >
                 ${calculateSubtotal()}
               </Text>
               <Text
-                style={{ fontFamily: "PublicSans_300Light" }}
+                style={{
+                  fontFamily: "PublicSans_300Light",
+                  fontSize: width > 500 ? 20 : 16,
+                }}
                 className="line-through"
               >
                 $170
@@ -124,7 +145,12 @@ const {
                 <MinusIcon />
               </TouchableOpacity>
               <View className>
-                <Text style={{ fontFamily: "PublicSans_700Bold" }}>
+                <Text
+                  style={{
+                    fontFamily: "PublicSans_700Bold",
+                    fontSize: width > 500 ? 20 : 16,
+                  }}
+                >
                   {product.quantity}
                 </Text>
               </View>
