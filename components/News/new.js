@@ -57,14 +57,14 @@ const New = () => {
       const res = await axios.get(`${baseURL}admin/blog`);
       const data = res.data;
       setAfricaNews(data[0]["Africa News Update"]);
-      setPressReleases(data[1]["Dr. Martin Mungwa - Press Releases"]);
+      setPressReleases(data[1]["Secretary of State for Communications"]);
       setOfficeOfThePresident(data[2]["Office of the President"]);
       setSocioCultural(data[3]["Socio Cultural"]);
       setArchivesAndAnalysis(data[4]["Archives & Analysis"]);
       setBreakingNews(data[5]["Breaking News"]);
       setSportsNews(data[6]["Sports"]);
       setWorldNews(data[7]["World News"]);
-      setInterimGovernmentUpdates(data[8]["Interim Government Updates"]);
+      setInterimGovernmentUpdates(data[8]["Government Updates"]);
       setBusinessNews(data[9]["Business"]);
       setLoading(false);
     } catch (err) {
