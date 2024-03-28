@@ -66,6 +66,7 @@ const numberOfSkeletons = 5;
      }
    
       const getProductsByCategory = async () => {
+        
         try {
            setCategoryLoading(true);
           const response = await axios.get(
