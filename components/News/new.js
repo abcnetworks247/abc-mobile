@@ -126,7 +126,7 @@ const New = () => {
                       fontSize: width > 500 ? 25 : 20,
                     }}
                   >
-                    Interim Government News
+                    Government Updates
                   </Text>
                   <BlockAndFlex
                     data={interimGovernmentUpdates}
