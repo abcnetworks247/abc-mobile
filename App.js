@@ -9,7 +9,12 @@ import DrawerNavigator from "./navigation/DrawerNavigator";
 import { UseProductProvider } from "./context/ProductProvider";
 import TestSignUp from "./auth/TestSignUp";
 import Login from "./auth/Login";
-import { useState, useEffect } from "react" 
+import React, { useCallback, useEffect, useState } from "react";
+
+import Entypo from "@expo/vector-icons/Entypo";
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
+
 import Recovery from "./auth/Recovery"
 
 import Updatepassword from "./auth/Updatepassword";
@@ -26,23 +31,67 @@ NativeWindStyleSheet.setOutput({
   default: "native",
 });
 
+
+SplashScreen.preventAutoHideAsync();
 function AppContent() {
+  const [appIsReady, setAppIsReady] = useState(false);
   const { isSignUpVisible, genLoading, UserData } = UseUserContext();
   
 
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Keep the splash screen visible while we fetch resources
+        await SplashScreen.preventAutoHideAsync();
+
+        // Load any resources or data that we need prior to rendering the app
+        await Font.loadAsync({
+          // Load your custom fonts here
+        });
+
+        // Artificially delay for two seconds to simulate a slow loading experience.
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        // Everything is loaded, let's hide the splash screen
+        setAppIsReady(true);
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This will hide the splash screen
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
   return (
     <>
+      <View
+        
+     
+        onLayout={onLayoutRootView}
+      >
+    
+      </View>
       <NavigationContainer>
-        {isSignUpVisible   ? 
+        {isSignUpVisible ? (
           <AuthStackNavigator />
-        :
-          genLoading?
-           <LoadingStackNavigator/>
-            :
-           <DrawerNavigator />
-        }
+        ) : genLoading ? (
+          <LoadingStackNavigator />
+        ) : (
+          <DrawerNavigator />
+        )}
       </NavigationContainer>
-      
     </>
   );
 }
