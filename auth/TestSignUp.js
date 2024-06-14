@@ -107,7 +107,13 @@ const TestSignUp = () => {
 
   const handleSubmit = async () => {
      
+    const data = {
+      fullname: signUpFormData.fullname,
+      email: signUpFormData.email,
+      password: signUpFormData.password,
+    };
 
+    console.log(data)
     setIsValidData(allFieldsValid);
 
     if (!allFieldsValid) {

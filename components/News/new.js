@@ -21,7 +21,7 @@ import BlockAndFlex from "./BlockAndFlex";
 import { useWindowDimensions } from "react-native";
 
 const New = () => {
-  const {width}= useWindowDimensions()
+  const { width } = useWindowDimensions();
   const [posts, setPosts] = useState(null);
   const [africaNews, setAfricaNews] = useState(null);
   const [pressReleases, setPressReleases] = useState(null);
@@ -31,15 +31,12 @@ const New = () => {
   const [breakingNews, setBreakingNews] = useState(null);
   const [sportsNews, setSportsNews] = useState(null);
   const [worldNews, setWorldNews] = useState(null);
-  const [interimGovernmentUpdates, setInterimGovernmentUpdates] = useState(null);
+  const [interimGovernmentUpdates, setInterimGovernmentUpdates] =
+    useState(null);
   const [businessNews, setBusinessNews] = useState(null);
   const [refreshing, setRefreshing] = React.useState(false);
-  const [loading, setLoading] = useState(true)
-  const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
-
- 
-
-    
+  const [loading, setLoading] = useState(true);
+  const baseURL = "https://abc-server-nazd.onrender.com/api/v1/";
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -53,7 +50,7 @@ const New = () => {
   //fetch data from api
   const fetchPosts = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const res = await axios.get(`${baseURL}admin/blog`);
       const data = res.data;
       setAfricaNews(data[0]["Africa News Update"]);
@@ -75,7 +72,6 @@ const New = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
-
 
   const navigation = useNavigation();
   const handlePress = (item) => () => {

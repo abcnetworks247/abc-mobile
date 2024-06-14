@@ -19,11 +19,11 @@ import AppLoading from "expo-app-loading";
 import { StyleSheet } from "react-native";
 
 export default function NewsType() {
-    const { fontsLoaded, fontStyles } = useCustomFonts();
+  const { fontsLoaded, fontStyles } = useCustomFonts();
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const baseUrl = process.env.EXPO_PUBLIC_SERVER_URL;
+  const baseUrl = "https://abc-server-nazd.onrender.com/api/v1/";
   const navigation = useNavigation();
 
   //fetch data from api
@@ -70,7 +70,7 @@ export default function NewsType() {
       borderRadius: 4,
     },
   });
-  
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }

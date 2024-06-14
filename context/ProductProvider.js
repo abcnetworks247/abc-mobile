@@ -29,7 +29,7 @@ const ProductProvider = ({ children }) => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products`
+          `https://abc-server-nazd.onrender.com/api/v1/admin/commerce/products`
         );
         if (response.status !== 200) {
           throw new Error("Failed to fetch products");
@@ -59,7 +59,7 @@ const ProductProvider = ({ children }) => {
         // Map through the wishlist IDs and fetch product details
         const productsPromises = UserData.wishlist.map(async (productId) => {
           const productResponse = await axios.get(
-            `${process.env.EXPO_PUBLIC_SERVER_URL}admin/commerce/products/${productId}`
+            `https://abc-server-nazd.onrender.com/api/v1/admin/commerce/products/${productId}`
           );
           return productResponse.data; // Adjust to your server's response structure
         });
