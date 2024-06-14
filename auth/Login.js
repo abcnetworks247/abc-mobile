@@ -97,13 +97,10 @@ const Login = () => {
     (field) => !errorMessages[field]
   );
 
-  
- 
-
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
+        `https://abc-server-nazd.onrender.com/api/v1/client/auth/signin`,
         {
           method: "POST",
           headers: {
@@ -130,7 +127,7 @@ const Login = () => {
         showToast(responseData.message);
         setIsSignUpVisible(false);
       } else {
-        showToast(responseData.error)
+        showToast(responseData.error);
       }
     } catch (error) {
       error;
