@@ -22,130 +22,111 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native";
 
-
 const EditInfo = () => {
-    const { UserData, authToken, getUserData } = UseUserContext();
-    const navigation = useNavigation()
-    const [loading, setLoading] = useState(false)
-    const [progress, setProgress] = useState(null)
-   
-    
-     const [submitForm, setSubmitForm] = useState(new FormData());
-    
-   const [formData, setFormData] = useState({
-     fullname: UserData.fullname || "",
-     email: UserData.email || "",
-     phone: UserData.phone || "",
-     shippingaddress: UserData.shippingaddress || "",
-     userdp: UserData.userdp
-       ? UserData.userdp
-       : null,
-   });
-    
-     
-    
-       
-    
- const [selectedPhoto, setSelectedPhoto] = useState(null);
-    
- const SelectImagePicker = async () => {
-   try {
-       result = await ImagePicker.launchImageLibraryAsync({
-       mediaTypes: ImagePicker.MediaTypeOptions.All,
-       allowsEditing: true,
-       aspect: [4, 3],
-       quality: 1,
-     });
-       
-       if (result && result.assets && result.assets.length > 0 && !result.cancelled) {
-           setSelectedPhoto(result.assets[0].uri)
-           // Append the selected image to the submitForm
-           submitForm.append("userphoto", {
-               uri: result.assets[0].uri,
-               name: "userphoto.jpg",
-               type: "image/jpg",
-           })
-       };
-    
- 
- 
-   } catch (error) {
-     console.error("Error picking image:", error);
-   }
-};
+  const { UserData, authToken, getUserData } = UseUserContext();
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(null);
 
-    const renderProfileImage = () => {
-      if (selectedPhoto) {
-        // If a photo is selected, render the selected image
-        return (
-          <Image
-            source={{ uri: selectedPhoto }}
-            className=" relative object-cover rounded-md h-[90px] w-[100px]"
-          />
-        );
-      } else if (formData.userdp) {
-        // If no new photo is selected but there's an existing user photo, render it
-        return (
-          <Image
-            source={{ uri: formData.userdp }}
-            className=" relative object-cover rounded-md h-[90px] w-[100px]"
-          />
-        );
-      } else {
-        // If no new photo is selected and no existing user photo, render the default image
-        return (
-          <Image
-            source={{
-              uri: "https://i.pinimg.com/originals/a6/f3/c5/a6f3c55ace829310723adcb7a468869b.png",
-            }}
-            className=" relative object-cover rounded-md h-[90px] w-[100px]"
-          />
-        );
-       
-      }
-    };
-    
+  const [submitForm, setSubmitForm] = useState(new FormData());
 
+  const [formData, setFormData] = useState({
+    fullname: UserData.fullname || "",
+    email: UserData.email || "",
+    phone: UserData.phone || "",
+    shippingaddress: UserData.shippingaddress || "",
+    userdp: UserData.userdp ? UserData.userdp : null,
+  });
 
- 
- 
-  const handleInputChange = (name, value) => {
-       setFormData((prevData) => ({
-         ...prevData,
-         [name]: value,
-       }));
- 
-     };
-    
-    
-  const handleSubmit = async () => {
-  
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
 
+  const SelectImagePicker = async () => {
     try {
-      setLoading(true)
-   
+      result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (
+        result &&
+        result.assets &&
+        result.assets.length > 0 &&
+        !result.cancelled
+      ) {
+        setSelectedPhoto(result.assets[0].uri);
+        // Append the selected image to the submitForm
+        submitForm.append("userphoto", {
+          uri: result.assets[0].uri,
+          name: "userphoto.jpg",
+          type: "image/jpg",
+        });
+      }
+    } catch (error) {
+      console.error("Error picking image:", error);
+    }
+  };
+
+  const renderProfileImage = () => {
+    if (selectedPhoto) {
+      // If a photo is selected, render the selected image
+      return (
+        <Image
+          source={{ uri: selectedPhoto }}
+          className=" relative object-cover rounded-md h-[90px] w-[100px]"
+        />
+      );
+    } else if (formData.userdp) {
+      // If no new photo is selected but there's an existing user photo, render it
+      return (
+        <Image
+          source={{ uri: formData.userdp }}
+          className=" relative object-cover rounded-md h-[90px] w-[100px]"
+        />
+      );
+    } else {
+      // If no new photo is selected and no existing user photo, render the default image
+      return (
+        <Image
+          source={{
+            uri: "https://i.pinimg.com/originals/a6/f3/c5/a6f3c55ace829310723adcb7a468869b.png",
+          }}
+          className=" relative object-cover rounded-md h-[90px] w-[100px]"
+        />
+      );
+    }
+  };
+
+  const handleInputChange = (name, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+
       // Create a new FormData instance
-     
 
+      submitForm.append("fullname", formData.fullname);
+      submitForm.append("email", formData.email);
+      submitForm.append("phone", formData.phone);
+      submitForm.append("shippingaddress", formData.shippingaddress);
 
-       submitForm.append("fullname", formData.fullname);
-       submitForm.append("email", formData.email);
-       submitForm.append("phone", formData.phone);
-       submitForm.append("shippingaddress", formData.shippingaddress);
-         
-        
-    
-        // if (formData.userdp) {
-        //   submitForm.append("userdp", {
-        //     uri:result.assets[0].uri,
-        //     name: "userphoto.jpg",
-        //     type: "image/jpg",
-        //   });
-        // }
+      // if (formData.userdp) {
+      //   submitForm.append("userdp", {
+      //     uri:result.assets[0].uri,
+      //     name: "userphoto.jpg",
+      //     type: "image/jpg",
+      //   });
+      // }
 
       // Make a PATCH request
       const response = await axios.patch(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
+        `https://abc-server-nazd.onrender.com/api/v1/client/auth/account`,
         submitForm,
         {
           headers: {
@@ -158,16 +139,11 @@ const EditInfo = () => {
       // Check the response status
       if (response.status === 200) {
         await getUserData();
-       
+
         if (UserData) {
           setLoading(false);
           navigation.navigate("Profile");
         }
-        
-         
-        
-
-       
       } else {
         console.error("Failed to update user profile.");
       }
@@ -175,8 +151,6 @@ const EditInfo = () => {
       console.error("Error updating user profile:", error);
     }
   };
-    
-    
 
   return (
     <SafeAreaView style={globalstyels.droidSafeArea} className="relative">

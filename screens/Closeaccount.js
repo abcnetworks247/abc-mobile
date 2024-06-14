@@ -86,7 +86,7 @@ const Closeaccount = () => {
       setLoading(true);
 
       const response = await axios.delete(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
+        `https://abc-server-nazd.onrender.com/api/v1/client/auth/account`,
         config
       );
 

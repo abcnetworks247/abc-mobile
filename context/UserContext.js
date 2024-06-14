@@ -42,7 +42,7 @@ export const UserContextProvider = ({ children }) => {
         setAuthToken(storedToken); // Set authToken in the context
        
         const response = await fetch(
-          `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account`,
+          `https://abc-server-nazd.onrender.com/api/v1/client/auth/account`,
           {
             method: "GET",
             headers: {

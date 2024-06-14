@@ -97,11 +97,9 @@ const Login = () => {
   );
 
   const handleSubmit = async () => {
-   
     setIsValidData(allFieldsValid);
 
     try {
-      
       // const res = await Api.post(
       //   "client/auth/signin",
       //   {
@@ -118,17 +116,15 @@ const Login = () => {
         },
       };
       const response = await axios.post(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/signin`,
+        `https://abc-server-nazd.onrender.com/api/v1/client/auth/signin`,
         logInFormData,
         config
       );
 
-   
-
       if (response.statusText === "OK") {
         const { authToken } = response.data;
         const token = authToken;
-       
+
         // const token = authToken;
         await AsyncStorage.setItem("authToken", JSON.stringify(token));
         setIsSignUpVisible(false);
@@ -137,8 +133,7 @@ const Login = () => {
         console.error("Error signing in:");
       }
     } catch (error) {
-     console.log(error)
-    
+      console.log(error);
     }
   };
   return (

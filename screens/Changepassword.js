@@ -103,7 +103,7 @@ const Closeaccount = () => {
       const authToken = JSON.parse(authTokenString);
 
       const response = await fetch(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}client/auth/account/activeUserUpdatePassword`,
+        `https://abc-server-nazd.onrender.com/api/v1/client/auth/account/activeUserUpdatePassword`,
         {
           method: "PATCH",
           headers: {
