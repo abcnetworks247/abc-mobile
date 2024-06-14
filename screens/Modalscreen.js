@@ -251,7 +251,7 @@ const Modalscreen = () => {
                   // onValueChange={setSelection}
                   /> */}
                   <Text className="ml-2 text-xs text-gray-500">
-                    I agree to the terms and conditions.
+                    I agree to the Terms of use.
                   </Text>
                 </View>
                 <View className="flex flex-col px-8 pt-4">
