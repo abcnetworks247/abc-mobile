@@ -1,6 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet, Dimensions, Image, ScrollView, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Dimensions,
+  Image,
+  ScrollView,
+  Pressable,
+} from "react-native";
 import ProductCard from "../components/ProductCard";
 import axios from "axios";
 import { UseProductProvider } from "../context/ProductProvider";
@@ -15,40 +24,35 @@ import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 
-
-
-
 const StoreScreen = () => {
   // const { width, height } = Dimensions.get("screen");
-  
-const { fontsLoaded, fontStyles } = useCustomFonts();
 
-  const { height:screenHeight , width:screenWidth} = useWindowDimensions();
+  const { fontsLoaded, fontStyles } = useCustomFonts();
+
+  const { height: screenHeight, width: screenWidth } = useWindowDimensions();
   // const windowDimensions = Dimensions.get("window");
   const IMG_WIDTH = screenWidth * 0.75;
   const IMG_HEIGHT = IMG_WIDTH / 5;
-  const { products, setProducts} = UseProductProvider()
+  const { products, setProducts } = UseProductProvider();
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [categoryLoading, setCategoryLoading] = useState(false)
+  const [categoryLoading, setCategoryLoading] = useState(false);
   const [numColumns, setNumColumns] = useState(2);
-  const [loading, setLoading] = useState(false)
-  const [categories, setCategories] = useState([])
- 
- const [totalPages, setTotalPages] = useState(0);
- const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
 
-const numberOfSkeletons = 5;
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
- 
+  const numberOfSkeletons = 5;
 
-   useEffect(() => {
-     const isPortrait = screenWidth < 500; 
-     setNumColumns(isPortrait ? 2 : 3);
-   }, [screenWidth]);
-
+  useEffect(() => {
+    const isPortrait = screenWidth < 500;
+    setNumColumns(isPortrait ? 2 : 3);
+  }, [screenWidth]);
 
   const uniqueCategories = [
-    "All", ...( categories && categories.map((category) => category.name)),
+    "All",
+    ...(categories && categories.map((category) => category.name)),
   ];
 
   // const filteredProducts = selectedCategory
@@ -58,105 +62,85 @@ const numberOfSkeletons = 5;
   //       : product.category === selectedCategory
   //   )
   //   : products
-  
+
   useEffect(() => {
-    if (selectedCategory == 'All') {
+    if (selectedCategory == "All") {
       fetchProducts(currentPage, 10);
-       return
-     }
-   
-      const getProductsByCategory = async () => {
-        
-        try {
-           setCategoryLoading(true);
-          const response = await axios.get(
-            `https://abc-server-nazd.onrender.com/api/v1/admin/commerce/productcategory?category=${selectedCategory}`
-          );
+      return;
+    }
 
-          if (response.status === 200) {
-            const returnedProducts = response.data;
-            setProducts(returnedProducts);
-            setCategoryLoading(false);
-          } else {
-            console.error("Error fetching search results");
-              setCategoryLoading(false);
-          }
-        } catch (error) {
-          console.error("Error:", error);
-           setCategoryLoading(false);
+    const getProductsByCategory = async () => {
+      try {
+        setCategoryLoading(true);
+        const response = await axios.get(
+          `https://abc-server-nazd.onrender.com/api/v1/admin/commerce/productcategory?category=${selectedCategory}`
+        );
+
+        if (response.status === 200) {
+          const returnedProducts = response.data;
+          setProducts(returnedProducts);
+          setCategoryLoading(false);
+        } else {
+          console.error("Error fetching search results");
+          setCategoryLoading(false);
         }
-      };
-    
-  getProductsByCategory();
+      } catch (error) {
+        console.error("Error:", error);
+        setCategoryLoading(false);
+      }
+    };
 
-  },[selectedCategory])
- 
-  
-  
-  
+    getProductsByCategory();
+  }, [selectedCategory]);
+
   useEffect(() => {
     const HandleFetch = async () => {
       try {
         const response = await axios.get(
-          `${process.env.EXPO_PUBLIC_SERVER_URL}admin/category/product/category`
+          `https://abc-server-nazd.onrender.com/api/v1/admin/category/product/category`
         );
 
         if (response.status === 200) {
           setCategories(response.data.data);
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
 
     HandleFetch();
-  },[]);
-  
+  }, []);
 
+  const fetchProducts = async (page, perPage) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://abc-server-nazd.onrender.com/api/v1/admin/commerce/products?page=${page}&perPage=${perPage}`
+      );
 
+      if (response.status == 200) {
+        const { products, totalPages, page: currentPage } = response.data;
 
-   const fetchProducts = async (page, perPage) => {
-     try {
-       setLoading(true)
-       const response = await axios.get(
-         `https://abc-server-nazd.onrender.com/api/v1/admin/commerce/products?page=${page}&perPage=${perPage}`
-       );
+        setProducts(products);
+        setTotalPages(totalPages);
+        setCurrentPage(currentPage);
+        setLoading(false);
+      } else {
+        console.log("Error fetching product");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-       if (response.status == 200) {
-          const { products, totalPages, page: currentPage } = response.data;
+  useEffect(() => {
+    fetchProducts(currentPage, 10); // Fetch products on mount with initial page and perPage
+  }, []); // Empty dependency array means this effect runs only once on mount
 
-           setProducts(products);
-           setTotalPages(totalPages);
-           setCurrentPage(currentPage);
-           setLoading(false)
-       } else {
-         console.log("Error fetching product")
-       }
-
-      
-     } catch (error) {
-       console.error(error);
-        
-     }
-   };
-
-   useEffect(() => {
-     fetchProducts(currentPage, 10); // Fetch products on mount with initial page and perPage
-   }, []); // Empty dependency array means this effect runs only once on mount
-
-   const handlePageClick = (page) => {
-     setCurrentPage(page);
-     fetchProducts(page, 10); // Fetch products for the selected page
-   };
-
-
-  
-
-
-
-
-
-
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+    fetchProducts(page, 10); // Fetch products for the selected page
+  };
 
   // const renderProductCard = ({ item }) => (
   //   <ProductCard
@@ -174,13 +158,10 @@ const numberOfSkeletons = 5;
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  
 
   if (loading) {
-    return (
-   <LoadingSkeleton numberOfSkeletons={numberOfSkeletons}/>
-    );
-  } 
+    return <LoadingSkeleton numberOfSkeletons={numberOfSkeletons} />;
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-gray-200 ">
@@ -286,7 +267,5 @@ const numberOfSkeletons = 5;
     </SafeAreaView>
   );
 };
-
-
 
 export default StoreScreen;

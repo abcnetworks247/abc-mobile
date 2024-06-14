@@ -8,7 +8,7 @@ import {
   Button,
   TouchableOpacity,
   ScrollView,
-  Pressable
+  Pressable,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { UseUserContext } from "../context/UserContext";
@@ -21,18 +21,15 @@ import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
 import CheckBox from "@react-native-community/checkbox";
 
-
-
 const Donation = () => {
-  const { UserData, setIsSignUpVisible } = UseUserContext()
+  const { UserData, setIsSignUpVisible } = UseUserContext();
   const { fontsLoaded, fontStyles } = useCustomFonts();
   const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
-  const navigation=useNavigation()
+  const navigation = useNavigation();
   const [paymentType, setPaymentType] = useState("Stripe");
- const [spinner, setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(false);
   const [amount, setAmount] = useState(1);
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
-
 
   const handleAdd = () => {
     setAmount((prevAmount) => prevAmount + 1);
@@ -45,72 +42,58 @@ const Donation = () => {
   };
 
   const handleSubmit = async () => {
-  
-
-
-    const AuthtokenString = await AsyncStorage.getItem('authToken')
+    const AuthtokenString = await AsyncStorage.getItem("authToken");
     const Authtoken = JSON.parse(AuthtokenString);
 
-   
-    
-   if (!Authtoken) {
+    if (!Authtoken) {
       setIsSignUpVisible(false);
-       return; 
-     }
-  
-  let data = {
+      return;
+    }
+
+    let data = {
       name: "Donation",
       amount: amount,
       note: "ABCDonatiom",
     };
-    
- 
 
+    if (paymentType === "Stripe") {
+      try {
+        setSpinner(true);
+        const session = await axios.post(
+          `https://abc-server-nazd.onrender.com/api/v1/admin/donation/stripe/create-checkout-session`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${Authtoken}`,
+            },
+            "Content-Type": "application/json",
+          }
+        );
 
+        if (session.status === 200) {
+          // const result = await stripe.redirectToCheckout({
+          //   sessionId: session.data.url,
+          // });
+          navigation.navigate("Stripe", {
+            stripe_url: session.data.url,
+          });
 
-  if (paymentType === "Stripe") {
-    try {
-      setSpinner(true);
-      const session = await axios.post(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}admin/donation/stripe/create-checkout-session`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${Authtoken}`,
-          },
-          "Content-Type": "application/json",
+          setTimeout(() => {
+            setSpinner(false);
+          }, 1500);
+        } else {
+          console.log("error");
         }
-      );
-
-      if (session.status === 200) {
-       
-        
-    
-        // const result = await stripe.redirectToCheckout({
-        //   sessionId: session.data.url,
-        // });
-        navigation.navigate("Stripe", {
-          stripe_url:session.data.url 
-        })
-
-       
-        setTimeout(() => {
-          setSpinner(false);
-        }, 1500);
-      } else {
-        console.log("error");
+      } catch (error) {
+        console.error("Error in PayWithStripe:", error);
+        setSpinner(false);
       }
-    } catch (error) {
-      console.error("Error in PayWithStripe:", error);
-      setSpinner(false)
     }
-  }
-    
   };
 
-    if (!fontsLoaded) {
-      return <AppLoading />;
-    }
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
