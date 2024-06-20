@@ -45,7 +45,7 @@ const {
 
  
   return (
-    <View className="bg-white p-2 mb-2 ">
+    <View className="bg-white p-2 mb-2 py-5 rounded-lg">
       <View className="flex flex-row items-center gap-2 relative w-full">
         {/* image here */}
         <View

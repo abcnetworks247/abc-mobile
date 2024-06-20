@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState , useEffect} from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Dimensions, Pressable, View, Text, ScrollView, TouchableOpacity } from "react-native";
@@ -6,11 +6,14 @@ import Svg, { Rect, Path, Defs, ClipPath } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
 import { useCustomFonts } from "../context/FontContext";
+import { UseUserContext } from "../context/UserContext";
+import Bottomsheet from "../components/bootomsheet/Bottomshete";
 const Membership = () => {
   
  const { fontsLoaded, fontStyles } = useCustomFonts();
  
-  const navigation=useNavigation() 
+  const navigation = useNavigation() 
+  const { UserData, setIsSignUpVisible } = UseUserContext();
   const { width, height } = Dimensions.get("window");
 
 
@@ -87,6 +90,24 @@ const Membership = () => {
      },
    ];
 
+  const [Isloggedin, setIsloggedin] = React.useState(false)
+  
+  const BottomsheetRef = useRef()
+  
+    
+  const handleSubscribe = (plan) => {
+
+    if (!UserData) {
+      
+      BottomsheetRef?.current?.open();
+      } else {
+      navigation.navigate("MyModal", { plan });
+  
+    
+    }
+    
+}
+  
 
 
  const MonthlyPlan = () => {
@@ -214,7 +235,7 @@ const Membership = () => {
                         for="modal-3"
                         onPress={() => {
                           // Navigate to modal with plan details
-                          navigation.navigate("MyModal", { plan });
+                          handleSubscribe(plan);
                         }}
                       >
                         <View className="flex flex-row items-center justify-center">
@@ -275,6 +296,10 @@ const Membership = () => {
             ))}
           </View>
         </View>
+        <Bottomsheet
+          bottomsheetref={BottomsheetRef}
+         
+        />
       </ScrollView>
     </SafeAreaView>
   );
