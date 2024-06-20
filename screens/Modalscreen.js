@@ -144,12 +144,12 @@ const Modalscreen = () => {
   //  };
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-white">
-      <View>
-        <Text className="ml-8 text-sm font-medium">
+    <SafeAreaView className="flex-1 items-center justify-center  w-full">
+      <View className="w-full px-4">
+        <Text className="ml-8 text-sm font-medium  text-center">
           {plan?.name} - {plan?.type} plan
         </Text>
-        <View className="py-6 mt-4 bg-white rounded shadow-lg">
+        <View className="py-6 mt-4 bg-white rounded shadow-lg w-auto">
           <View>
             <View className="px-8">
               <View className="flex flex-row items-center justify-between gap-5">

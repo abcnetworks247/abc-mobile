@@ -52,6 +52,35 @@ export default function Profile() {
   const navigation = useNavigation()
   const insets = useSafeAreaInsets();
 
+
+
+    if (!UserData) {
+      const handleLoginPress = () => {
+        // Navigate to the login screen
+        setIsSignUpVisible(true);
+      };
+      return (
+        <View className="flex flex-1 items-center justify-center">
+          <Text className="mb-[20px] text-md">You are not logged in!</Text>
+          <Text style={{ marginBottom: 20 }}>
+            Please log in to view your wishlist
+          </Text>
+          <TouchableOpacity
+            onPress={handleLoginPress}
+            className
+            style={{
+              backgroundColor: "#007bff",
+              paddingVertical: 10,
+              paddingHorizontal: 20,
+              borderRadius: 5,
+            }}
+          >
+            <Text className="text-white text-[16px]">Log In</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  
   
    const confirmLogout = () =>
      Alert.alert(
@@ -112,24 +141,24 @@ export default function Profile() {
           paddingRight: insets.right,
         }}
       >
-        <View className="flex flex-row gap-2 items-center mx-2 mt-2">
+        <View className="flex flex-row gap-2 items-center mx-2 ">
           <Image
-            className="rounded-full"
+            className="rounded-full object-cover"
             style={{ height: 70, width: 70 }}
             source={{
               uri: `${UserData.userdp}`,
             }}
-            resizeMode="contain"
+    
           />
 
           <View className="flex flex-col">
             <Text
               style={{ fontFamily: "PublicSans_700Bold" }}
-              className="capitalize"
+              className="capitalize text-lg"
             >
               {UserData && UserData.fullname}
             </Text>
-            <Text style={{ fontFamily: "PublicSans_300Light" }}>
+            <Text style={{ fontFamily: "PublicSans_300Light" }} className="text-base font-semibold">
               {UserData && UserData.email}
             </Text>
           </View>
@@ -138,7 +167,7 @@ export default function Profile() {
         <View className="mx-2 mt-4">
           <View className="flex flex-row w-full mb-2 gap-2 ">
             <TouchableOpacity
-              className="bg-white flex-1 flex flex-row items-center px-2 py-2 shadow-md"
+              className="bg-white flex-1 flex flex-row items-center px-2 py-2 shadow-sm rounded-lg"
               onPress={() => navigation.navigate("Orders")}
             >
               <Svg
@@ -165,7 +194,7 @@ export default function Profile() {
                 Orders
               </Text>
             </TouchableOpacity>
-            <Pressable className="bg-white flex-1 flex flex-row items-center px-2  shadow-md ">
+            <Pressable className="bg-white flex-1 flex flex-row items-center px-2  shadow-sm rounded-lg ">
               <Svg
                 width="30px"
                 height="30px"

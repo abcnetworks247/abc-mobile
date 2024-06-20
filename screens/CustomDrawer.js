@@ -108,15 +108,16 @@ const handleLogout = async () => {
             style={{
               height: 200,
               width: 200,
+
             }}
             resizeMode="contain"
           />
         </ImageBackground>
         <DrawerContentScrollView
           {...props}
-          contentContainerStyle={{ backgroundColor: "#2c3e50" }}
+          // contentContainerStyle={{ backgroundColor: "#2c3e50" }}
         >
-          <View style={{ paddingTop: 10, backgroundColor: "white" }}>
+          <View style={{  backgroundColor: "white", marginTop: -3}}>
             {/* <DrawerItem
               label={({ focused, color }) => (
                 <View className="flex flex-row items-center justify-between">
@@ -152,6 +153,10 @@ const handleLogout = async () => {
             <DrawerItemList {...props} />
           </View>
         </DrawerContentScrollView>
+
+        {UserData &&
+        
+        
         <View className="p-4 border border-gray-200 ">
           <TouchableOpacity
             style={{ paddingVertical: 10 }}
@@ -172,7 +177,9 @@ const handleLogout = async () => {
               </Text>
             </View>
           </TouchableOpacity>
-        </View>
+          </View>
+       
+        }
       </View>
     );
 }

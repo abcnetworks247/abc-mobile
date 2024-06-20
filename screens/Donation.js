@@ -20,6 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCustomFonts } from "../context/FontContext";
 import AppLoading from "expo-app-loading";
 import CheckBox from "@react-native-community/checkbox";
+import Bottomsheet from "../components/bootomsheet/Bottomshete";
 
 const Donation = () => {
   const { UserData, setIsSignUpVisible } = UseUserContext();
@@ -30,7 +31,7 @@ const Donation = () => {
   const [spinner, setSpinner] = useState(false);
   const [amount, setAmount] = useState(1);
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
-
+  const bottomsheetref = React.useRef();
   const handleAdd = () => {
     setAmount((prevAmount) => prevAmount + 1);
   };
@@ -42,9 +43,13 @@ const Donation = () => {
   };
 
   const handleSubmit = async () => {
+     if (!UserData) {
+       bottomsheetref?.current?.open();
+     }
     const AuthtokenString = await AsyncStorage.getItem("authToken");
     const Authtoken = JSON.parse(AuthtokenString);
 
+   
     if (!Authtoken) {
       setIsSignUpVisible(false);
       return;
@@ -60,7 +65,7 @@ const Donation = () => {
       try {
         setSpinner(true);
         const session = await axios.post(
-          `https://abc-server-nazd.onrender.com/api/v1/admin/donation/stripe/create-checkout-session`,
+          `https://abc-server-nazd.onrender.com/api/v1/admin/pay/stripe/create-checkout-session`,
           data,
           {
             headers: {
@@ -252,6 +257,7 @@ const Donation = () => {
             </View>
           </View>
         </View>
+        <Bottomsheet bottomsheetref={bottomsheetref} />
       </ScrollView>
     </SafeAreaView>
   );

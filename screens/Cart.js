@@ -60,7 +60,7 @@ export default function Cart() {
   const [country, setCountry] = useState("");
   const [note, setNote] = useState("");
   const [coupon, setCoupon] = useState("");
-  const shippingFee = 5;
+  const shippingFee = 0;
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -227,7 +227,7 @@ export default function Cart() {
       },
       input: {
         fontSize: width > 500 ? 20 : 16,
-        height: 40,
+        height: 60,
         borderColor: "gray",
         borderWidth: 1,
         marginBottom: 10,
@@ -241,8 +241,9 @@ export default function Cart() {
         paddingVertical: 12,
         paddingHorizontal: 10,
         borderWidth: 1,
-        borderColor: "black",
+        borderColor: "#E5E7EB",
         borderRadius: 4,
+
         color: "black",
         paddingRight: 30, // to ensure the text is never behind the icon
         marginBottom: 10,
@@ -276,8 +277,8 @@ export default function Cart() {
               <CartItem key={product._id} product={product} />
             ))}
           </View>
-          <View className="bg-white px-2">
-            <View className="flex flex-row py-4 justify-between">
+          <View className="bg-white px-4">
+            <View className="flex flex-row py-5 justify-between">
               <Text
                 style={{
                   fontFamily: "PublicSans_400Regular",
@@ -295,7 +296,7 @@ export default function Cart() {
                 ${totalPrice.toFixed(2)}
               </Text>
             </View>
-            <View className="flex flex-row justify-between py-2">
+            <View className="flex flex-row justify-between py-5">
               <Text
                 style={{
                   fontFamily: "PublicSans_400Regular",
@@ -313,7 +314,7 @@ export default function Cart() {
                 ${shippingFee}
               </Text>
             </View>
-            <View className="flex flex-row py-2  border-t border-t-gray-100 justify-between ">
+            <View className="flex flex-row py-5  border-t border-t-gray-100 justify-between ">
               <Text
                 style={{
                   fontFamily: "PublicSans_400Regular",
@@ -333,7 +334,7 @@ export default function Cart() {
               </Text>
             </View>
           </View>
-          <View className="px-4 mt-2 bg-white">
+          <View className="px-4 mt-2 py-5 bg-white">
             <Text
               style={{
                 fontFamily: "PublicSans_500Medium",
@@ -355,8 +356,8 @@ export default function Cart() {
           </View>
 
           {/* form begins */}
-          <View style={styles.container}>
-            <Text
+          <View style={styles.container} className="bg-white">
+            <Text    className="mt-3"
               style={{
                 ...styles.label,
                 fontFamily: "PublicSans_500Medium",
@@ -365,15 +366,16 @@ export default function Cart() {
             >
               Coupon
             </Text>
-            <View className="flex flex-row items-center h-[40px] ">
+            <View className="flex flex-row items-center h-[40px] mb-3 ">
               <TextInput
-                className="h-full px-2 bg-white flex-grow border"
+                className="h-full px-2 bg-white flex-grow border rounded-l-[4px] border-gray-200"
                 value={coupon}
+          
                 onChangeText={setCoupon}
               />
-              <Pressable className="bg-black h-full flex flex-row items-center justify-center">
+              <Pressable className="bg-black h-full flex flex-row items-center justify-center rounded-r-[4px]">
                 <Text
-                  className="text-white"
+                  className="text-white px-2 "
                   style={{ fontSize: width > 500 ? 20 : 16 }}
                 >
                   Apply Couopon
@@ -383,17 +385,19 @@ export default function Cart() {
 
             <Text
               style={{ ...styles.label, fontFamily: "PublicSans_500Medium" }}
+              className="mt-3"
             >
               Phone Number
             </Text>
             <TextInput
               style={styles.input}
+              className="rounded  border-gray-200"
               value={phone}
               onChangeText={setPhone}
               keyboardType="phone-pad"
             />
 
-            <Text
+            <Text    className="mt-3"
               style={{
                 ...styles.label,
                 fontFamily: "PublicSans_500Medium",
@@ -405,10 +409,11 @@ export default function Cart() {
             <TextInput
               style={styles.input}
               value={shippingAddress}
+              className="rounded  border-gray-200"
               onChangeText={setShippingAddress}
             />
 
-            <Text
+            <Text    className="mt-3"
               style={{
                 ...styles.label,
                 fontFamily: "PublicSans_500Medium",
@@ -421,9 +426,10 @@ export default function Cart() {
               style={styles.input}
               value={city}
               onChangeText={setCity}
+              className="rounded  border-gray-200"
             />
 
-            <Text
+            <Text    className="mt-3"
               style={{
                 ...styles.label,
                 fontFamily: "PublicSans_500Medium",
@@ -436,12 +442,14 @@ export default function Cart() {
               style={styles.input}
               value={postalcode}
               onChangeText={setPostalCode}
+              className="rounded  border-gray-200"
               keyboardType="numeric"
             />
 
             <Text style={styles.label}>State</Text>
             <TextInput
               style={styles.input}
+              className="rounded  border-gray-200"
               value={state}
               onChangeText={setState}
             />
@@ -449,6 +457,7 @@ export default function Cart() {
             <Text style={styles.label}>Country</Text>
             <RNPickerSelect
               style={pickerSelectStyles}
+           
               onValueChange={(value) => setCountry(value)}
               items={[
                 { label: "USA", value: "USA" },
@@ -462,16 +471,15 @@ export default function Cart() {
               placeholder={{ label: "Select a country", value: null }}
             />
 
-            <Text style={styles.label}>Note</Text>
+            <Text style={styles.label} className="mt-3">Note</Text>
             <TextInput
-              style={[styles.input, { height: 80 }]} // Increase height for multiline
+              style={[styles.input, { height: 80, marginBottom: 50 }]} // Increase height for multiline
               value={note}
+              className="rounded border-gray-200 "
               onChangeText={setNote}
               multiline={true}
               numberOfLines={4}
             />
-
-            <Button title="Submit" />
           </View>
           {/* form ends */}
         </ScrollView>
