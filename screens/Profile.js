@@ -148,7 +148,6 @@ export default function Profile() {
             source={{
               uri: `${UserData.userdp}`,
             }}
-    
           />
 
           <View className="flex flex-col">
@@ -158,8 +157,17 @@ export default function Profile() {
             >
               {UserData && UserData.fullname}
             </Text>
-            <Text style={{ fontFamily: "PublicSans_300Light" }} className="text-base font-semibold">
+            <Text
+              style={{ fontFamily: "PublicSans_300Light" }}
+              className="text-base font-semibold"
+            >
               {UserData && UserData.email}
+            </Text>
+            <Text
+              style={{ fontFamily: "PublicSans_300Light" }}
+              className="text-sm font-semibold"
+            >
+            Plan: {UserData && UserData?.userpackage}
             </Text>
           </View>
         </View>

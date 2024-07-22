@@ -23,6 +23,8 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleURLTypes</key>
+    <key>ITSAppUsesNonExemptEncryption</key>
+<false/>
     <array>
       <dict>
         <key>CFBundleURLSchemes</key>

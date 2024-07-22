@@ -5,13 +5,20 @@ import {
   Dimensions,
   TouchableOpacity,
   Text,
+  Image,
+
 } from "react-native";
 import { Video } from "expo-av";
 import { WebView } from "react-native-webview";
+import { UseUserContext } from "../context/UserContext";
+import { Link } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 
 const VideoPlayer = ({ video }) => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = React.useRef(null);
+  const { UserData } = UseUserContext();
+  const navigation = useNavigation();
 
   // useEffect(() => {
   //   const playVideo = async () => {
@@ -32,23 +39,27 @@ const VideoPlayer = ({ video }) => {
   // }, [video]);
 
   const renderVideoPlayer = () => {
-    if (video.url.includes("iframe")) {
+    if (UserData?.userpackage === "basic") {
       return (
-        <WebView
-          source={{ uri: video.url }}
-          style={styles.video}
-          allowsFullscreenVideo
-        />
+        <View style={styles.imageContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("MembershipStack")}
+          >
+            <Image
+              ref={videoRef}
+              source={video.url}
+              resizeMode="cover"
+              style={styles.image}
+            />
+          </TouchableOpacity>
+        </View>
       );
     } else {
       return (
-        <Video
-          ref={videoRef}
-          source={{ uri: video.url }}
-          useNativeControls
-          resizeMode="contain"
-          isLooping
+      <WebView
+          source={{ uri: video.mainurl }}
           style={styles.video}
+          allowsFullscreenVideo
         />
       );
     }
@@ -69,7 +80,6 @@ const VideoPlayer = ({ video }) => {
 };
 
 const styles = StyleSheet.create({
-
   video: {
     flex: 1,
     width: "100%",
@@ -79,6 +89,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 5,
+  },
+  imageContainer: {
+    width: "100%", // Ensure the container has a defined width
+    aspectRatio: 16 / 9,
+    marginBottom: 8,
+    paddingHorizontal: 5,
+    borderRadius: 10,
+    overflow: "hidden", // Ensure content overflow is handled
+  },
+  image: {
+    width: "100%", // Try setting a specific width or Dimensions.get('window').width
+    height: "100%", // Adjust height as necessary
+    resizeMode: "cover",
   },
   videoDescription: {
     fontSize: 16,

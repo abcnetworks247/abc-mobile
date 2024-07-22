@@ -28,9 +28,7 @@ export default function Home() {
         <Link to={"/Home/signup"}>
           <TouchableOpacity>
             <Text>
-              {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
-              in quibusdam, eligendi error ab soluta velit aliquid quas
-              consectetur cum. */}
+         
             </Text>
           </TouchableOpacity>
         </Link>

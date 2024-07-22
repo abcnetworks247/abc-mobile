@@ -2,7 +2,7 @@
   "expo": {
     "name": "Abc Networks 24",
     "slug": "abc-networks-24",
-    "version": "1.0.1",
+    "version": "1.1.5",
     "orientation": "portrait",
     "icon": "./assets/abcicon.png",
     "userInterfaceStyle": "light",
@@ -19,7 +19,7 @@
       "bundleIdentifier": "com.abcnetworks24.app"
     },
     "android": {
-      "versionCode": 2,
+      "versionCode": 6,
       "adaptiveIcon": {
         "backgroundColor": "#0040B8"
       },
