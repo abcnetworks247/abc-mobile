@@ -39,7 +39,7 @@ const VideoPlayer = ({ video }) => {
   // }, [video]);
 
   const renderVideoPlayer = () => {
-    if (UserData?.userpackage === "basic") {
+    if (UserData?.userpackage === "basic" || UserData === null) {
       return (
         <View style={styles.imageContainer}>
           <TouchableOpacity
